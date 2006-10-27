@@ -2,6 +2,12 @@
 
 <%= start_form_tag(:controller => 'stories', :action => 'create',
   :project_id => @project.id) %>
+  <p><label for="sub_project">Sub-Project:</label>
+    <select id="sub_project" name="sub_project">
+      <option value=""></option>
+      <%= options_from_collection_for_select @project.sub_projects,
+        :id, :name %>
+    </select></p>
   <p><label for="StoryCardTitles">Enter titles of new storycards, one per line:</label>
   <input type="submit" name="submit" value="Create Story Cards" /></p>
   <p><textarea id="StoryCardTitles" name="story_card_titles" rows="40" cols="80"></textarea></p>

@@ -25,6 +25,8 @@ require 'stories_controller'
 class StoriesController; def rescue_action(e) raise e end; end
 
 class StoriesControllerTest < Test::Unit::TestCase
+  fixtures ALL_FIXTURES
+  
   def setup
     @user_one = User.find 2
     @project_one = Project.find 1
@@ -33,6 +35,7 @@ class StoriesControllerTest < Test::Unit::TestCase
     @story_two = Story.find 2
     @story_three = Story.find 3
     @story_six = Story.find 6
+    @sub_project_one = sub_projects( :first )
 
     @controller = StoriesController.new
     @request    = ActionController::TestRequest.new
@@ -91,15 +94,30 @@ class StoriesControllerTest < Test::Unit::TestCase
     assert_equal 'Create new story cards', assigns(:page_title)
   end
 
-  def test_create
-    num = @project_one.stories.backlog.size
+  def test_create_with_sub_project
+    num_a = @project_one.stories.backlog.size
+    num_b = @sub_project_one.stories.size
     post :create, :project_id => @project_one.id,
-      :story_card_titles => "New Story One\nNew Story Two\nNew Story Three"
-    assert_redirected_to :controller => 'stories', :action => 'index', :project_id => @project_one.id
-    assert_equal num + 3, @project_one.stories( true ).backlog.size
+      :story_card_titles => "New Story One\nNew Story Two\nNew Story Three",
+      :sub_project => @sub_project_one.id
+    assert_redirected_to :controller => 'stories', :action => 'index',
+      :project_id => @project_one.id
+    assert_equal num_a + 3, @project_one.stories( true ).backlog.size
+    assert_equal num_b + 3, @sub_project_one.stories( true ).size
     assert_equal "New story cards created.", flash[:status]
   end
 
+  def test_create_without_sub_project
+    num = @project_one.stories.backlog.size
+    post :create, :project_id => @project_one.id,
+      :story_card_titles => "New Story One\nNew Story Two\nNew Story Three",
+      :sub_project => ''
+    assert_redirected_to :controller => 'stories', :action => 'index',
+      :project_id => @project_one.id
+    assert_equal num + 3, @project_one.stories( true ).backlog.size
+    assert_equal "New story cards created.", flash[:status]
+  end
+  
   def test_create_empty
     num = Story.count
     post :create, :project_id => @project_one.id, :story_card_titles => ''
