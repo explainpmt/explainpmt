@@ -17,26 +17,15 @@ class IterationTest < Test::Unit::TestCase
   end
 
   def test_remaining_resources
-    test_total_points
-    @iteration_one.budget = @iteration_one.total_points + 5
     assert_equal 5, @iteration_one.remaining_resources
   end
 
   def test_completed_points
-    test_total_points
-    @iteration_one.stories.create('title' => "Test Completed",
-                                  'status' => Story::Status::Complete,
-                                  'points' => 4)
-    assert_equal 4, @iteration_one.completed_points
+    assert_equal 3, @iteration_one.completed_points
   end
 
   def test_remaining_points
-    test_total_points
-    test_completed_points
-    assert_equal(
-      @iteration_one.total_points - @iteration_one.completed_points,
-      @iteration_one.remaining_points
-    )
+    assert_equal 3, @iteration_one.remaining_points
   end
 
   def test_iteration_id_of_stories_set_to_null_when_iteration_deleted

@@ -3,3 +3,4 @@ first:
   start_date: <%= Date.today %>
   length: 14
   project_id: 1
+  budget: 11
