@@ -16,14 +16,14 @@ class MainControllerTest < Test::Unit::TestCase
   end
   
   def test_dashboard_for_user
-    @request.session[ :current_user_id ] = @user
+    @request.session[ :current_user_id ] = @user.id
     get :dashboard
     assert_response :success
     assert_template 'dashboard'
   end
   
   def test_dashboard_for_admin
-    @request.session[ :current_user_id ] = @admin
+    @request.session[ :current_user_id ] = @admin.id
     get :dashboard
     assert_response :success
     assert_template 'dashboard'

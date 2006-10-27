@@ -16,14 +16,14 @@ class UsersControllerTest < Test::Unit::TestCase
   end
 
   def test_index_for_admin
-    @request.session[ :current_user_id ] = @admin
+    @request.session[ :current_user_id ] = @admin.id
     get :index
     assert_response :success
     assert_template 'list'
   end
 
   def test_index_for_user
-    @request.session[ :current_user_id ] = @user
+    @request.session[ :current_user_id ] = @user.id
     get :index
     assert_response :redirect
     assert_redirected_to :action => 'no_admin'
@@ -32,7 +32,7 @@ class UsersControllerTest < Test::Unit::TestCase
   end
 
   def test_list
-    @request.session[ :current_user_id ] = @admin
+    @request.session[ :current_user_id ] = @admin.id
     get :list
 
     assert_response :success
@@ -42,7 +42,7 @@ class UsersControllerTest < Test::Unit::TestCase
   end
 
   def test_show_to_user
-    @request.session[ :current_user_id ] = @user
+    @request.session[ :current_user_id ] = @user.id
     get :show, :id => 1
     assert_response :redirect
     assert_redirected_to :action => 'no_admin'
@@ -51,7 +51,7 @@ class UsersControllerTest < Test::Unit::TestCase
   end
   
   def test_show_self_user
-    @request.session[ :current_user_id ] = @user
+    @request.session[ :current_user_id ] = @user.id
     get :show, :id => 2
     assert_response :success
     assert_template 'show'
@@ -60,7 +60,7 @@ class UsersControllerTest < Test::Unit::TestCase
   end
 
   def test_show_to_admin
-    @request.session[ :current_user_id ] = @admin
+    @request.session[ :current_user_id ] = @admin.id
     get :show, :id => 1
     assert_response :success
     assert_template 'show'
@@ -69,7 +69,7 @@ class UsersControllerTest < Test::Unit::TestCase
   end
 
   def test_new_using_admin
-    @request.session[ :current_user_id ] = @admin
+    @request.session[ :current_user_id ] = @admin.id
     get :new
     assert_response :success
     assert_template 'new'
@@ -77,7 +77,7 @@ class UsersControllerTest < Test::Unit::TestCase
   end
   
   def test_new_using_user
-    @request.session[ :current_user_id ] = @user
+    @request.session[ :current_user_id ] = @user.id
     get :new
     assert_response :redirect
     assert_redirected_to :action => 'no_admin'
@@ -86,7 +86,7 @@ class UsersControllerTest < Test::Unit::TestCase
   end
 
   def test_create
-    @request.session[ :current_user_id ] = @admin
+    @request.session[ :current_user_id ] = @admin.id
     
     num_users = User.count
 
@@ -99,7 +99,7 @@ class UsersControllerTest < Test::Unit::TestCase
   end
 
   def test_edit_from_user
-    @request.session[ :current_user_id ] = @user
+    @request.session[ :current_user_id ] = @user.id
     get :edit, :id => 1
     assert_response :redirect
     assert_redirected_to :action => 'no_admin'
@@ -108,7 +108,7 @@ class UsersControllerTest < Test::Unit::TestCase
   end
   
   def test_edit_from_admin
-    @request.session[ :current_user_id ] = @admin
+    @request.session[ :current_user_id ] = @admin.id
     get :edit, :id => 1
     assert_response :success
     assert_template 'edit'
@@ -117,7 +117,7 @@ class UsersControllerTest < Test::Unit::TestCase
   end
   
   def test_edit_self_from_user
-    @request.session[ :current_user_id ] = @user
+    @request.session[ :current_user_id ] = @user.id
     get :edit, :id => 2
     assert_response :success
     assert_template 'edit'
@@ -126,14 +126,14 @@ class UsersControllerTest < Test::Unit::TestCase
   end
 
   def test_update
-    @request.session[ :current_user_id ] = @admin
+    @request.session[ :current_user_id ] = @admin.id
     post :update, :id => 1
     assert_response :redirect
     assert_redirected_to :action => 'show', :id => 1
   end
 
   def test_destroy
-    @request.session[ :current_user_id ] = @admin
+    @request.session[ :current_user_id ] = @admin.id
 
     assert_not_nil User.find(3)
 
@@ -147,7 +147,7 @@ class UsersControllerTest < Test::Unit::TestCase
   end
   
   def test_destroy_self_from_user
-    @request.session[ :current_user_id ] = @user
+    @request.session[ :current_user_id ] = @user.id
     assert_not_nil User.find(2)
     post :destroy, :id => 2
     assert_response :redirect
@@ -158,7 +158,7 @@ class UsersControllerTest < Test::Unit::TestCase
   end
 
   def test_destroy_self_from_admin
-    @request.session[ :current_user_id ] = @admin
+    @request.session[ :current_user_id ] = @admin.id
     assert_not_nil User.find(1)
     post :destroy, :id => 1
     assert_response :redirect
@@ -172,7 +172,7 @@ class UsersControllerTest < Test::Unit::TestCase
     # must be logged in and destroy themselves.  This would trigger the branch
     # of any user destroying themselves.  But it is included here for 
     # completeness.
-    @request.session[ :current_user_id ] = @admin
+    @request.session[ :current_user_id ] = @admin.id
     # First remove the first admin of the two
     assert_not_nil User.find(3)
     post :destroy, :id => 3
@@ -202,7 +202,7 @@ class UsersControllerTest < Test::Unit::TestCase
   
   def test_authenticate
     post :authenticate, 'login' => @admin.login, 'password' => @admin.password
-    assert_equal @admin, session[ :current_user_id ]
+    assert_equal @admin.id, session[ :current_user_id ]
     assert_response :redirect
     assert_redirected_to :controller => 'main', :action => 'dashboard'
   end
@@ -217,7 +217,7 @@ class UsersControllerTest < Test::Unit::TestCase
   end
   
   def test_logout
-    @request.session[ :current_user_id ] = @user
+    @request.session[ :current_user_id ] = @user.id
     get :logout
     assert_nil session[ :current_user_id ]
     assert_response :redirect
@@ -226,7 +226,7 @@ class UsersControllerTest < Test::Unit::TestCase
   end
   
   def test_no_admin_error
-    @request.session[ :current_user_id ] = @user
+    @request.session[ :current_user_id ] = @user.id
     get :no_admin
     assert_template 'no_admin'
   end

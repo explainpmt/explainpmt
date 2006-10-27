@@ -1,9 +1,8 @@
 class UsersController < ApplicationController
   before_filter :check_authentication, :except => [:login, :authenticate]
   before_filter :require_admin, :except => [:login, :logout, :authenticate,
-                                            :no_admin]
-  
-  
+    :no_admin]
+
   def index
     list
     render :action => 'list'
@@ -16,7 +15,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
   end
-      
+
   def new
     @user = User.new
   end
@@ -47,7 +46,7 @@ class UsersController < ApplicationController
 
   def destroy
     @user = User.find(@params[:id])
-    if @session[ :current_user_id ] == @user
+    if session[ :current_user_id ] == @user.id
       flash[ :error ] = 'You may not delete your own account'
     else
       if User.count('admin = 1') == 1
@@ -59,16 +58,16 @@ class UsersController < ApplicationController
     end
     redirect_to :action => 'list'
   end
-  
+
   def login
   end
-  
+
   def authenticate
-    if @session[ :current_user_id ] = User.authenticate(@params[ :login ],
-                                                        @params[ :password])
-      if @session[:return_to]
-        redirect_to_path @session[:return_to]
-        @session[:return_to] = nil
+    if self.current_user = User.authenticate(@params[ :login ],
+                                             @params[ :password])
+      if session[:return_to]
+        redirect_to_path session[:return_to]
+        session[:return_to] = nil
       else
         redirect_to :controller => 'main', :action => 'dashboard'
       end
@@ -79,14 +78,14 @@ class UsersController < ApplicationController
   end
 
   def logout
-    @session[ :current_user_id ] = nil
+    self.current_user = nil
     redirect_to :controller => 'users', :action => 'login'
     flash[ :notice ] = 'You have been logged out'    
   end
-  
+
   def no_admin
   end
-  
+
   protected
 
   # Overrides the ApplicationController#require_admin method so that
@@ -94,7 +93,7 @@ class UsersController < ApplicationController
   def require_admin
     case action_name
     when 'edit','update', 'show'
-      super if @params['id'].to_i != @session[:current_user_id].id
+      super unless @params['id'].to_i == self.current_user.id
     else
       super
     end
