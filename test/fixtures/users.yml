@@ -1,0 +1,16 @@
+first:
+  id: 1
+  username: 'admin'
+  password: 'adminpass'
+  email: 'admin@example.com'
+  admin: true
+  first_name: 'Admin'
+  last_name: 'User'
+second:
+  id: 2
+  username: 'user_one'
+  password: 'user_onepassword'
+  email: 'user_one@example.com'
+  first_name: 'User'
+  last_name: 'One'
+  admin: false

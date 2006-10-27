@@ -1,9 +1,10 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class UserTest < Test::Unit::TestCase
+  fixtures :users
+  
   def setup
-    User.destroy_all
-    create_common_fixtures :user_one
+    @user_one = User.find 1
   end
   
   def test_full_name
@@ -45,6 +46,3 @@ class UserTest < Test::Unit::TestCase
     assert_nil @user_one.errors[:password]
   end
 end
-
-
-
