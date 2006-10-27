@@ -59,6 +59,9 @@ class StoriesController < ApplicationController
     modify_risk_status_and_priority_params
     story = Story.new(@params['story'])
     story.project = @project
+    if @params['iteration_id'] && !@params['iteration_id'].empty?
+      story.iteration_id = @params['iteration_id']
+    end
     if story.valid?
       story.save
       flash[:status] = 'The new story card has been saved.'

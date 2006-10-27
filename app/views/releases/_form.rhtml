@@ -1,0 +1,13 @@
+<%= error_messages_for 'release' %>
+
+<!--[form:release]-->
+<p><label for="release_name">Name</label><br/>
+<%= text_field 'release', 'name'  %></p>
+
+<p><label for="release_goal">Goal</label><br/>
+<%= text_area 'release', 'goal'  %></p>
+
+<p><label for="release_release_date">Release Date</label><br/>
+<%= date_select 'release', 'release_date'  %></p>
+<!--[eoform:release]-->
+

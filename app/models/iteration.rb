@@ -36,6 +36,7 @@
 #
 class Iteration < ActiveRecord::Base
   belongs_to :project
+  belongs_to :release
   has_many :stories
 
   validates_inclusion_of :length, :in => 1..99,
@@ -45,6 +46,12 @@ class Iteration < ActiveRecord::Base
                                      '(or blank)'
   validates_presence_of :start_date
 
+  before_save :auto_link_release
+  
+  def auto_link_release
+    self.release = Release.find(:first, :conditions => ["? <= release_date and project_id = ?", stop_date, self.project_id], :order => 'release_date')
+  end
+  
   # The last date of the iteration
   def stop_date
     start_date + length - 1

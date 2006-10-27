@@ -3,39 +3,52 @@
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
 <td id="SmallLeftColumn">
+
+<div class="action">
 <%= popup_link('New Iteration', 'new_iteration',
                'width=400,height=200,scrollbars,resizable',
                :controller => 'iterations', :action => 'new',
                :project_id => @project.id) %>
+</div>
+<div class="action">
+<%= popup_link('New Story Card', 'new_story',
+               'width=600,height=600,scrollbars,resizable',
+               :controller => 'stories', :action => 'new', 
+               :iteration_id => @iteration.id,
+               :project_id => @project.id) %>
+</div>
 
-<ul>
+<hr/>
+
 <% if @project.current_iteration %>
-<li>
+<div class="selection">
 <%= link_to_unless_current('Current Iteration',:controller => 'iterations',
                            :action => 'show',
                            :id => @project.current_iteration.id,
                            :project_id => @project.id) %>
-</li>
+</div>
 <% end %>
+
 <% if @project.next_iteration %>
-<li>
+<div class="selection">
 <%= link_to_unless_current('Next Iteration', :controller => 'iterations',
                            :action => 'show',
                            :id => @project.next_iteration.id,
                            :project_id => @project.id) %>
-</li>
+</div>
 <% end %>
+
 <% if @project.previous_iteration %>
-<li>
+<div class="selection">
 <%= link_to_unless_current('Previous Iteration', :controller => 'iterations',
                            :action => 'show',
                            :id => @project.previous_iteration.id,
                            :project_id => @project.id) %>
-</li>
+</div>
 <% end %>
-</ul>
 
 <% if @project.future_iterations.size > 0 %>
+<div class="options">
 <strong>Upcoming Iterations:</strong>
 <ul>
 <% @project.future_iterations.each do |i| %>
@@ -59,6 +72,7 @@
 </li>
 <% end %>
 </ul>
+</div>
 <% end %>
 </td>
 
@@ -107,7 +121,7 @@
 <% end %>
 </table>
 <% if @iteration.start_date <= Date.today %>
-<table cellspacing="0" cellpadding="3" border="0" style="float: left;">
+<table cellspacing="0" cellpadding="3" border="0" style="float: left; margin-right: 20px;">
 <tr class="odd_row">
 <td><strong>Completed:</strong></td>
 <td align="right"><%= @iteration.completed_points %> points</td>
@@ -125,6 +139,26 @@
 </td>
 </tr>
 <% end %>
+</table>
+<% end %>
+
+<% if release = @iteration.release %>
+<table cellspacing="0" cellpadding="3" border="0" style="float: left;">
+<tr class="odd_row">
+    <td><strong>Release: </strong></td>
+    <td align="right">
+        <%= link_to release.name, :controller => 'releases', :action => 'show', :id => release, :project_id => @project.id %></td>
+</tr>
+<tr class="odd_row">
+    <td><strong>Date: </strong></td>
+    <td align="right"><%= short_date(release.release_date) %></td>
+<tr class="odd_row">
+    <td><strong>Days: </strong></td>
+    <td align="right">
+    <%= distance_of_time_in_words(Time.now,
+                              Time.parse(release.release_date.to_s)) %>
+</td>
+</tr>
 </table>
 <% end %>
 

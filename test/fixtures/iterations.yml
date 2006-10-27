@@ -1,0 +1,6 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+test_iteration:
+  id: 1
+  project_id: 1
+  start_date: 2008-01-01
+  length: 14

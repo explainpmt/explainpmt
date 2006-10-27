@@ -85,8 +85,18 @@ module ApplicationHelper
                                 :action => 'index',
                                 :project_id => @project.id)
         end
+        #xml.li do
+        #  xml << main_menu_link('Planning', :controller => 'planning',
+        #                        :action => 'index',
+        #                        :project_id => @project.id)
+        #end
         xml.li do
           xml << main_menu_link('Iterations', :controller => 'iterations',
+                                :action => 'index',
+                                :project_id => @project.id)
+        end
+        xml.li do
+          xml << main_menu_link('Releases', :controller => 'releases',
                                 :action => 'index',
                                 :project_id => @project.id)
         end

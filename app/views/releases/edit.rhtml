@@ -1,0 +1,9 @@
+<h1>Editing release</h1>
+
+<%= start_form_tag :action => 'update', :id => @release, :project_id => @project.id %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<%= end_form_tag %>
+
+<%= link_to 'Show', :action => 'show', :id => @release, :project_id => @project.id %> |
+<%= link_to 'Back', :action => 'list', :project_id => @project.id %>

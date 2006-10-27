@@ -1,0 +1,7 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+first:
+  id: 1
+  name: Name
+  goal: My Goal
+  release_date: 2008-02-01
+  project_id: 1

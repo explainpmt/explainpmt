@@ -54,6 +54,7 @@ class Project < ActiveRecord::Base
   has_many :stories, :dependent => true
   has_many :backlog, :class_name => 'Story',
            :conditions => "iteration_id IS NULL"
+  has_many :releases
   has_and_belongs_to_many :users, :order => 'last_name ASC, first_name ASC'
   validates_presence_of :name
   validates_uniqueness_of :name
