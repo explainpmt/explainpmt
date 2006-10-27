@@ -16,23 +16,25 @@ th, td {
 #Header {
   margin: 0;
   padding: 0;
-  height: 40px;
-  width: 100%;
-  background-color: #AAAAAA;
+  border-bottom: 1px solid #999999;
 }
 
 #CurrentUserInfo {
-  margin: 5px;
-  padding: 0;
-  float: right;
-  height: 30px;
+  margin: 0;
+  padding: 3px 1em;
   text-align: right;
 }
 
 #Header h1 {
-  margin: 0;
-  padding: 5px;
-  font-size: 30px;
+  margin: 0 1em 0 1em;
+  padding: 0;
+  width: 208px;
+  height: 56px;
+  text-indent: -5000px;
+  overflow: hidden;
+  background-image: url('../images/logo.png');
+  background-position: left top;
+  background-repeat: none;
 }
 
 #MyProjects, #UpcomingMilestones {
@@ -40,12 +42,11 @@ th, td {
   float: right;
   width: 15em;
   margin: 0;
-  padding: 5px;
-  background-color: #CCCCCC;
+  padding: 0;
 }
 
-#MyProjects h2 {
-  text-align: center;
+#MyProjects h2, #UpcomingMilestones h2 {
+  padding: 2px 1em;
 }
 
 #MyProjects li a {

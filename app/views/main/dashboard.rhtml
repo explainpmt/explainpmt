@@ -10,13 +10,13 @@
 <body>
   <div id="Header">
     <div id="CurrentUserInfo">
-      Logged in as: <%= link_to @current_user.name, :controller => 'users',
-                                :action => 'show', :id => @current_user %>
-      (<%= link_to 'log out', :controller => 'users',
-                   :action => 'logout' %>)
+      Welcome back <strong><%= link_to @current_user.name, :controller => 'users',
+        :action => 'show', :id => @current_user %></strong> |
+      <%= link_to 'Edit Profile', :controller => 'users', :action => 'edit',
+        :id => @current_user %> |
+      <%= link_to 'Log Out', :controller => 'users', :action => 'logout' %>
     </div>
-    <h1><span id="AppTitle">eXPlainPMT</span> ::
-      <span id="ViewTitle">Dashboard</span></h1>
+    <h1>eXPlainPMT</h1>
   </div>
 
   <div id="MyProjects">

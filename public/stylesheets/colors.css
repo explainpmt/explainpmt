@@ -1,0 +1,22 @@
+#CurrentUserInfo {
+  color: #FFFFFF;
+  background-color: #009900;
+}
+
+#CurrentUserInfo a, #CurrentUserInfo a:visited,
+#CurrentUserInfo a:hover {
+  color: #FFFFFF;
+}
+
+#Header {
+  border-bottom-color: #009900;
+}
+
+#MyProjects, #UpcomingMilestones {
+  background-color: #CCFFCC;
+}
+
+#MyProjects h2, #UpcomingMilestones h2 {
+  color: #FFFFFF;
+  background-color: #009900;
+}
