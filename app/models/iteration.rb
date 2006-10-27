@@ -36,7 +36,25 @@
 #
 class Iteration < ActiveRecord::Base
   belongs_to :project
-  has_many :stories
+  has_many :stories do
+    # The sum of the points of all Story objects assigned to the iteration
+    def total_points
+      self.inject(0) { |res,s| res + s.points }
+    end
+
+    # The sum of the story points from completed Story objects assigned to the
+    # iteration.
+    def completed_points
+      completed_stories = self.select { |s| s.status.complete? }
+      completed_stories.inject(0) { |res,s| res + s.points }
+    end
+
+    # The sum of the story points from incomplete Story objects assigned to the
+    # iteration
+    def remaining_points
+      total_points - completed_points
+    end
+  end
 
   validates_inclusion_of :length, :in => 1..99,
                          :message => 'must be a number between 1 and 99'
@@ -50,27 +68,9 @@ class Iteration < ActiveRecord::Base
     start_date + length - 1
   end
 
-  # The sum of the points of all Story objects assigned to the iteration
-  def total_points
-    stories.inject(0) { |res,s| res += s.points }
-  end
-
   # The number of unallocated budget points
   def remaining_resources
-    (budget || 0) - total_points
-  end
-
-  # The sum of the story points from completed Story objects assigned to the
-  # iteration.
-  def completed_points
-    completed_stories = stories.select { |s| s.status.complete? }
-    completed_stories.inject(0) { |res,s| res += s.points }
-  end
-
-  # The sum of the story points from incomplete Story objects assigned to the
-  # iteration
-  def remaining_points
-    total_points - completed_points
+    (budget || 0) - stories.total_points
   end
 
   def current?

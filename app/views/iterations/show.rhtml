@@ -98,7 +98,7 @@
 <% if @iteration.stop_date + 1 > Date.today %>
 <tr class="even_row">
 <td><strong>Planned:</strong></td>
-<td align="right"><%= @iteration.total_points %> points</td>
+<td align="right"><%= @iteration.stories.total_points %> points</td>
 </tr>
 <tr class="odd_row">
 <td><strong>Available:</strong></td>
@@ -110,12 +110,12 @@
 <table cellspacing="0" cellpadding="3" border="0" style="float: left;">
 <tr class="odd_row">
 <td><strong>Completed:</strong></td>
-<td align="right"><%= @iteration.completed_points %> points</td>
+<td align="right"><%= @iteration.stories.completed_points %> points</td>
 </tr>
 <% if (@iteration.stop_date + 1) > Date.today %>
 <tr class="even_row">
 <td><strong>Remaining:</strong></td>
-<td align="right"><%= @iteration.remaining_points %> points</td>
+<td align="right"><%= @iteration.stories.remaining_points %> points</td>
 </tr>
 <tr class="odd_row">
 <td><strong>Time Remaining:</strong></td>
