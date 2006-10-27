@@ -1,11 +1,10 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class IterationTest < Test::Unit::TestCase
+  fixtures :iterations, :projects
   def setup
-    Project.destroy_all
-    create_common_fixtures :project_one, :iteration_one
-    @iteration_one.project = @project_one
-    @iteration_one.save
+    @project_one = Project.find 1
+    @iteration_one = Iteration.find 1
   end
   
   def test_stop_date

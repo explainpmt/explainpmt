@@ -1,0 +1,5 @@
+first:
+  id: 1
+  start_date: <%= Date.today %>
+  length: 14
+  project_id: 1
