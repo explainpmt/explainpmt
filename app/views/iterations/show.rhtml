@@ -64,10 +64,8 @@
 <td id="RightColumn">
 <div style="float: right;">
 (
-<%= popup_link('Edit', 'edit_iteration',
-               'width=400,height=200,scrollbars,resizable',
-               :controller => 'iterations', :action => 'edit',
-               :id => @iteration.id, :project_id => @project.id) %>
+<%= link_to 'Edit', :controller => 'iterations', :action => 'edit',
+  :id => @iteration, :project_id => @project %>
 )
 (
 <%= link_to('Delete',

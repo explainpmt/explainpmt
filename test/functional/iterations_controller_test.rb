@@ -161,8 +161,9 @@ class IterationsControllerTest < Test::Unit::TestCase
   def test_update
     post :update, 'id' => 1, 'project_id' => 1,
       'iteration' => { 'length' => '10' }
-    assert_response :success
-    assert_template 'layouts/refresh_parent_close_popup'
+    assert_response :redirect
+    assert_redirected_to :controller => 'iterations', :action => 'show',
+      :project_id => 1, :id => 1
     assert flash[ :status ]
   end
 

@@ -24,7 +24,7 @@
 <input type="submit" name="submit"
 value="<%= @iteration.new_record? ? 'Create' : 'Update' %> Iteration" />
 &nbsp;&nbsp;&nbsp;
-<%= link_to 'Cancel', :controller => 'iterations', :action => 'index', :project_id => @project.id %>
+<a href="javascript:history.back();">Cancel</a>
 </tr>
 </table>
 </fieldset>
