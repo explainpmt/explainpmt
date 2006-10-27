@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ProjectTest < Test::Unit::TestCase
-  fixtures :projects, :stories, :iterations
+  fixtures ALL_FIXTURES
 
   def setup
     @project_one = Project.find 1

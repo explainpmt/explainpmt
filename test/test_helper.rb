@@ -11,6 +11,9 @@ class Test::Unit::TestCase
 
   # Add more helper methods to be used by all tests here...
 
+  ALL_FIXTURES = [ :iterations, :milestones, :projects_users, :projects,
+    :stories, :users ]
+
   private
   def create_common_fixtures(*fixture_names)
     fixture_names.each do |name|

@@ -5,7 +5,7 @@ require 'dashboard_controller'
 class DashboardController; def rescue_action(e) raise e end; end
 
 class DashboardControllerTest < Test::Unit::TestCase
-  fixtures :users, :projects, :projects_users
+  fixtures ALL_FIXTURES
   def setup
     @admin = User.find 1
     @user_one = User.find 2

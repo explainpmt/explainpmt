@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MilestoneTest < Test::Unit::TestCase
-  fixtures :milestones
+  fixtures ALL_FIXTURES
 
   def setup
     @past_milestone1 = Milestone.find 1
