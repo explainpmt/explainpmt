@@ -6,8 +6,7 @@ class AddStoryCardsTable < ActiveRecord::Migration
       t.column :user_id, :integer
       t.column :name, :string
       t.column :points, :integer
-      t.column :status, :string
-      t.column :priority, :integer
+      t.column :status, :integer
       t.column :risk, :integer
       t.column :description, :text
     end

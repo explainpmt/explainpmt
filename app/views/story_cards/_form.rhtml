@@ -7,22 +7,11 @@
 <p><label for="story_card_status">Status</label><br/>
 <%= select('story_card', 'status', StoryCard::Statuses.invert) %></p>
 
-<p><label for="story_card_priority">Priority</label><br/>
-<%= select('story_card', 'priority', StoryCard::Priorities.invert) %></p>
-
 <p><label for="story_card_risk">Risk</label><br/>
 <%= select('story_card', 'risk', StoryCard::Risks.invert) %></p>
 
-<p>
-  <fieldset style="width: 400px">
-    <legend>Estimation (points)</legend>
-<% 1.step(9, 1) do |i| -%>
-    <label>
-      <%= radio_button 'story_card', 'points', i %><%= i %>
-    </label>&nbsp;
-<% end -%>
-  </fieldset>
-</p>
+<p><label for="story_card_points">Points</label><br/>
+<%= text_field 'story_card', 'points', 'size' => 2 %></p>
 
 <p><label for="story_card_description">Description</label><br/>
 <%= text_area 'story_card', 'description', 'rows' => 20 %></p>

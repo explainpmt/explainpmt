@@ -2,16 +2,6 @@
 
 <table>
   <tr>
-    <td><b>Priority:</b></td>
-    <td>
-<% if @story_card.priority != 0 -%>
-      <%=h StoryCard::Priorities[@story_card.priority.to_i] %>
-<% else -%>
-      NA
-<% end %>
-    </td>
-  </tr>
-  <tr>
     <td><b>Risk:</b></td>
     <td>
 <% if @story_card.risk != 0 -%>

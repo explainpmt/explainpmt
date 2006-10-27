@@ -90,6 +90,28 @@ class StoryCardTest < Test::Unit::TestCase
     assert_not_equal story_card_one.scid, story_card_three.scid
   end
   
+  def test_numericality_of_points
+    story_card = StoryCard.new
+    story_card.name = 'New Story Card'
+    story_card.project = @project_one
+    story_card.points = 'Just a string'
+    
+    assert !story_card.save
+    
+    story_card.points = '2 points'
+    assert !story_card.save
+    
+    story_card.points = '2'
+    assert story_card.save
+    
+    story_card.points = 2
+    assert story_card.save
+    
+    # Points is not a required field, so it is valid if nil.
+    story_card.points = ''
+    assert story_card.save
+  end
+  
   def test_default_values_for_new_story_card
     story_card = StoryCard.new
     story_card.name = 'New Story Card'
@@ -97,16 +119,13 @@ class StoryCardTest < Test::Unit::TestCase
     story_card.save
     
     assert_equal 1, story_card.status
-    assert_equal 0, story_card.priority
     assert_equal 0, story_card.risk
     
     story_card.status = 2
-    story_card.priority = 5
     story_card.risk = 3
     story_card.save
     
     assert_equal 2, story_card.status
-    assert_equal 5, story_card.priority
     assert_equal 3, story_card.risk
   end
 end

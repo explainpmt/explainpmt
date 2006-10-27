@@ -63,7 +63,6 @@ class StoryCardsControllerTest < Test::Unit::TestCase
                     :story_card => {
                       'name' => 'New Story Card',
                       'status' => '1',
-                      'priority' => '',
                       'risk' => '',
                       'points' => '',
                       'description' => '' } }

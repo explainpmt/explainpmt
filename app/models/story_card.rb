@@ -3,20 +3,12 @@ class StoryCard < ActiveRecord::Base
   belongs_to :user
   
   Statuses   = { 1 => 'New',
-                 2 => 'Defined',
-                 3 => 'In Progress',
-                 4 => 'Rejected',
-                 5 => 'Blocked',
-                 6 => 'Complete',
-                 7 => 'Accepted',
-                 8 => 'Cancelled' }
-
-  Priorities = { 5 => 'High',
-                 4 => 'Med-High',
-                 3 => 'Medium',
-                 2 => 'Med-Low',
-                 1 => 'Low',
-                 0 => '' }
+                 2 => 'In Progress',
+                 3 => 'Rejected',
+                 4 => 'Blocked',
+                 5 => 'Complete',
+                 6 => 'Accepted',
+                 7 => 'Cancelled' }
   
   Risks      = { 3 => 'High',
                  2 => 'Medium',
@@ -29,13 +21,10 @@ class StoryCard < ActiveRecord::Base
   validates_presence_of :name, :status, :project
   validates_length_of :name, :maximum => 100
   validates_uniqueness_of :scid, :scope => 'project_id'
-  validates_inclusion_of :points, :in => POINT_RANGE, :allow_nil => true,
-    :message => "must be a number between #{POINT_RANGE.first} and " +
-                "#{POINT_RANGE.last}"
+  validates_numericality_of :points, :only_integer => true, :allow_nil => true
 
   def after_initialize
     self.status = 1 unless self.status
-    self.priority = 0 unless self.priority
     self.risk = 0 unless self.risk
   end
   

@@ -5,9 +5,8 @@ story_card_a:
   user_id: 1
   scid: 1
   name: Story Card A
-  status: 3
+  status: 2
   risk: 2
-  priority: 5
   points: 4
   
 story_card_b:
@@ -16,9 +15,8 @@ story_card_b:
   user_id: 2
   scid: 2
   name: Story Card B
-  status: 6
+  status: 5
   risk: 1
-  priority: 4
   points: 3
 
 story_card_c:
@@ -27,9 +25,8 @@ story_card_c:
   user_id: 2
   scid: 1
   name: Story Card C
-  status: 3
+  status: 2
   risk: 3
-  priority: 3
   points: 2
     
 story_card_d:
@@ -38,7 +35,6 @@ story_card_d:
   user_id: 3
   scid: 2
   name: Story Card D
-  status: 3
+  status: 2
   risk: 2
-  priority: 2
   points: 1
