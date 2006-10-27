@@ -290,6 +290,18 @@ table.collection_table th {
   vertical-align: top;
 }
 
+#IterationsMenu h3 {
+  margin-bottom: 5px;
+}
+
+#IterationsMenu ul {
+  margin: 0 0 10px 1em;
+}
+
+#IterationsMenu ul li {
+  margin-bottom: 5px;
+}
+
 #RightColumn {
   padding-left: 10px;
   vertical-align: top;

@@ -3,10 +3,11 @@
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
 <td id="SmallLeftColumn">
-<%= popup_link('New Iteration', 'new_iteration',
-               'width=400,height=200,scrollbars,resizable',
-               :controller => 'iterations', :action => 'new',
-               :project_id => @project.id) %>
+<div id="IterationsMenu">
+	<h3><%= popup_link('New Iteration', 'new_iteration',
+	  'width=400,height=200,scrollbars,resizable',
+    :controller => 'iterations', :action => 'new',
+    :project_id => @project.id) %></h3>
 
 <ul>
 <% if @project.iterations.current %>
@@ -36,7 +37,7 @@
 </ul>
 
 <% if @project.iterations.future.size > 0 %>
-<strong>Upcoming Iterations:</strong>
+<h3>Upcoming Iterations:</h3>
 <ul>
 <% @project.iterations.future.each do |i| %>
 <li>
@@ -49,7 +50,7 @@
 <% end %>
 
 <% if @project.iterations.past.size > 0 %>
-<strong>Completed Iterations:</strong>
+<h3>Completed Iterations:</h3>
 <ul>
 <% @project.iterations.past.each do |i| %>
 <li>
