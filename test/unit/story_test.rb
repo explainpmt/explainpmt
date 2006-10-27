@@ -1,13 +1,12 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class StoryTest < Test::Unit::TestCase
+  fixtures :users, :projects, :iterations
+
   def setup
-    Project.destroy_all
-    User.destroy_all
-    create_common_fixtures :user_one, :project_one, :project_two,
-                           :iteration_one
-    @iteration_one.project = @project_one
-    @iteration_one.save
+    @user_one = User.find 1
+    @project_one = Project.find 1
+    @iteration_one = Iteration.find 1
   end
   
   def test_status_collection
@@ -61,6 +60,7 @@ class StoryTest < Test::Unit::TestCase
   end
 
   def test_scid_increments_properly
+    @project_one.stories.destroy_all
     story1 = @project_one.stories.create('title' => 'Story1')
     story1.save
     assert_equal 1, story1.scid
@@ -74,7 +74,10 @@ class StoryTest < Test::Unit::TestCase
     story4 = @project_one.stories.create('title' => 'Story4')
     story4.save
     assert_equal 4, story4.scid
-    story1 = @project_two.stories.create('title' => 'Story1')
+
+    project_two = Project.find 2
+    project_two.stories.destroy_all
+    story1 = project_two.stories.create('title' => 'Story1')
     story1.save
     assert_equal 1, story1.scid
   end
