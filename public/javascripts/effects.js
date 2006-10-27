@@ -6,6 +6,296 @@
 // 
 // See scriptaculous.js for full license.
 
+Object.debug = function(obj) {
+  var info = [];
+  
+  if(typeof obj in ["string","number"]) {
+    return obj;
+  } else {
+    for(property in obj)
+      if(typeof obj[property]!="function")
+        info.push(property + ' => ' + 
+          (typeof obj[property] == "string" ?
+            '"' + obj[property] + '"' :
+            obj[property]));
+  }
+  
+  return ("'" + obj + "' #" + typeof obj + 
+    ": {" + info.join(", ") + "}");
+}
+
+
+/*--------------------------------------------------------------------------*/
+
+var Builder = {
+  NODEMAP: {
+    AREA: 'map',
+    CAPTION: 'table',
+    COL: 'table',
+    COLGROUP: 'table',
+    LEGEND: 'fieldset',
+    OPTGROUP: 'select',
+    OPTION: 'select',
+    PARAM: 'object',
+    TBODY: 'table',
+    TD: 'table',
+    TFOOT: 'table',
+    TH: 'table',
+    THEAD: 'table',
+    TR: 'table'
+  },
+  // note: For Firefox < 1.5, OPTION and OPTGROUP tags are currently broken,
+  //       due to a Firefox bug
+  node: function(elementName) {
+    elementName = elementName.toUpperCase();
+    
+    // try innerHTML approach
+    var parentTag = this.NODEMAP[elementName] || 'div';
+    var parentElement = document.createElement(parentTag);
+    parentElement.innerHTML = "<" + elementName + "></" + elementName + ">";
+    var element = parentElement.firstChild || null;
+      
+    // see if browser added wrapping tags
+    if(element && (element.tagName != elementName))
+      element = element.getElementsByTagName(elementName)[0];
+    
+    // fallback to createElement approach
+    if(!element) element = document.createElement(elementName);
+    
+    // abort if nothing could be created
+    if(!element) return;
+
+    // attributes (or text)
+    if(arguments[1])
+      if(this._isStringOrNumber(arguments[1]) ||
+        (arguments[1] instanceof Array)) {
+          this._children(element, arguments[1]);
+        } else {
+          var attrs = this._attributes(arguments[1]);
+          if(attrs.length) {
+            parentElement.innerHTML = "<" +elementName + " " +
+              attrs + "></" + elementName + ">";
+            element = parentElement.firstChild || null;
+            // workaround firefox 1.0.X bug
+            if(!element) {
+              element = document.createElement(elementName);
+              for(attr in arguments[1]) 
+                element[attr == 'class' ? 'className' : attr] = arguments[1][attr];
+            }
+            if(element.tagName != elementName)
+              element = parentElement.getElementsByTagName(elementName)[0];
+            }
+        } 
+
+    // text, or array of children
+    if(arguments[2])
+      this._children(element, arguments[2]);
+
+     return element;
+  },
+  _text: function(text) {
+     return document.createTextNode(text);
+  },
+  _attributes: function(attributes) {
+    var attrs = [];
+    for(attribute in attributes)
+      attrs.push((attribute=='className' ? 'class' : attribute) +
+          '="' + attributes[attribute].toString().escapeHTML() + '"');
+    return attrs.join(" ");
+  },
+  _children: function(element, children) {
+    if(typeof children=='object') { // array can hold nodes and text
+      children.flatten().each( function(e) {
+        if(typeof e=='object')
+          element.appendChild(e)
+        else
+          if(Builder._isStringOrNumber(e))
+            element.appendChild(Builder._text(e));
+      });
+    } else
+      if(Builder._isStringOrNumber(children)) 
+         element.appendChild(Builder._text(children));
+  },
+  _isStringOrNumber: function(param) {
+    return(typeof param=='string' || typeof param=='number');
+  }
+}
+
+/* ------------- element ext -------------- */
+
+// converts rgb() and #xxx to #xxxxxx format,
+// returns self (or first argument) if not convertable
+String.prototype.parseColor = function() {
+  color = "#";
+  if(this.slice(0,4) == "rgb(") {
+    var cols = this.slice(4,this.length-1).split(',');
+    var i=0; do { color += parseInt(cols[i]).toColorPart() } while (++i<3);
+  } else {
+    if(this.slice(0,1) == '#') {
+      if(this.length==4) for(var i=1;i<4;i++) color += (this.charAt(i) + this.charAt(i)).toLowerCase();
+      if(this.length==7) color = this.toLowerCase();
+    }
+  }
+  return(color.length==7 ? color : (arguments[0] || this));
+}
+
+Element.collectTextNodesIgnoreClass = function(element, ignoreclass) {
+  var children = $(element).childNodes;
+  var text     = "";
+  var classtest = new RegExp("^([^ ]+ )*" + ignoreclass+ "( [^ ]+)*$","i");
+
+  for (var i = 0; i < children.length; i++) {
+    if(children[i].nodeType==3) {
+      text+=children[i].nodeValue;
+    } else {
+      if((!children[i].className.match(classtest)) && children[i].hasChildNodes())
+        text += Element.collectTextNodesIgnoreClass(children[i], ignoreclass);
+    }
+  }
+
+  return text;
+}
+
+Element.setContentZoom = function(element, percent) {
+  element = $(element);
+  element.style.fontSize = (percent/100) + "em";  
+  if(navigator.appVersion.indexOf('AppleWebKit')>0) window.scrollBy(0,0);
+}
+
+Element.getOpacity = function(element){
+  var opacity;
+  if (opacity = Element.getStyle(element, "opacity"))
+    return parseFloat(opacity);
+  if (opacity = (Element.getStyle(element, "filter") || '').match(/alpha\(opacity=(.*)\)/))
+    if(opacity[1]) return parseFloat(opacity[1]) / 100;
+  return 1.0;
+}
+
+Element.setOpacity = function(element, value){
+  element= $(element);
+  var els = element.style;
+  if (value == 1){
+    els.opacity = '0.999999';
+    if(/MSIE/.test(navigator.userAgent))
+      els.filter = Element.getStyle(element,'filter').replace(/alpha\([^\)]*\)/gi,'');
+  } else {
+    if(value < 0.00001) value = 0;
+    els.opacity = value;
+    if(/MSIE/.test(navigator.userAgent))
+      els.filter = Element.getStyle(element,'filter').replace(/alpha\([^\)]*\)/gi,'') + 
+        "alpha(opacity="+value*100+")";
+  }  
+}
+
+Element.getInlineOpacity = function(element){
+  element= $(element);
+  var op;
+  op = element.style.opacity;
+  if (typeof op != "undefined" && op != "") return op;
+  return "";
+}
+
+Element.setInlineOpacity = function(element, value){
+  element= $(element);
+  var els = element.style;
+  els.opacity = value;
+}
+
+/*--------------------------------------------------------------------------*/
+
+Element.Class = {
+    // Element.toggleClass(element, className) toggles the class being on/off
+    // Element.toggleClass(element, className1, className2) toggles between both classes,
+    //   defaulting to className1 if neither exist
+    toggle: function(element, className) {
+      if(Element.Class.has(element, className)) {
+        Element.Class.remove(element, className);
+        if(arguments.length == 3) Element.Class.add(element, arguments[2]);
+      } else {
+        Element.Class.add(element, className);
+        if(arguments.length == 3) Element.Class.remove(element, arguments[2]);
+      }
+    },
+
+    // gets space-delimited classnames of an element as an array
+    get: function(element) {
+      return $(element).className.split(' ');
+    },
+
+    // functions adapted from original functions by Gavin Kistner
+    remove: function(element) {
+      element = $(element);
+      var removeClasses = arguments;
+      $R(1,arguments.length-1).each( function(index) {
+        element.className = 
+          element.className.split(' ').reject( 
+            function(klass) { return (klass == removeClasses[index]) } ).join(' ');
+      });
+    },
+
+    add: function(element) {
+      element = $(element);
+      for(var i = 1; i < arguments.length; i++) {
+        Element.Class.remove(element, arguments[i]);
+        element.className += (element.className.length > 0 ? ' ' : '') + arguments[i];
+      }
+    },
+
+    // returns true if all given classes exist in said element
+    has: function(element) {
+      element = $(element);
+      if(!element || !element.className) return false;
+      var regEx;
+      for(var i = 1; i < arguments.length; i++) {
+        if((typeof arguments[i] == 'object') && 
+          (arguments[i].constructor == Array)) {
+          for(var j = 0; j < arguments[i].length; j++) {
+            regEx = new RegExp("(^|\\s)" + arguments[i][j] + "(\\s|$)");
+            if(!regEx.test(element.className)) return false;
+          }
+        } else {
+          regEx = new RegExp("(^|\\s)" + arguments[i] + "(\\s|$)");
+          if(!regEx.test(element.className)) return false;
+        }
+      }
+      return true;
+    },
+
+    // expects arrays of strings and/or strings as optional paramters
+    // Element.Class.has_any(element, ['classA','classB','classC'], 'classD')
+    has_any: function(element) {
+      element = $(element);
+      if(!element || !element.className) return false;
+      var regEx;
+      for(var i = 1; i < arguments.length; i++) {
+        if((typeof arguments[i] == 'object') && 
+          (arguments[i].constructor == Array)) {
+          for(var j = 0; j < arguments[i].length; j++) {
+            regEx = new RegExp("(^|\\s)" + arguments[i][j] + "(\\s|$)");
+            if(regEx.test(element.className)) return true;
+          }
+        } else {
+          regEx = new RegExp("(^|\\s)" + arguments[i] + "(\\s|$)");
+          if(regEx.test(element.className)) return true;
+        }
+      }
+      return false;
+    },
+
+    childrenWith: function(element, className) {
+      var children = $(element).getElementsByTagName('*');
+      var elements = new Array();
+
+      for (var i = 0; i < children.length; i++)
+        if (Element.Class.has(children[i], className))
+          elements.push(children[i]);
+
+      return elements;
+    }
+}
+
+/*--------------------------------------------------------------------------*/
+
 var Effect = {
   tagifyText: function(element) {
     var tagifyStyle = "position:relative";
@@ -120,6 +410,7 @@ Effect.Queue = {
 
 Effect.Base = function() {};
 Effect.Base.prototype = {
+  position: null,
   setOptions: function(options) {
     this.options = Object.extend({
       transition: Effect.Transitions.sinoidal,
@@ -169,6 +460,7 @@ Effect.Base.prototype = {
     if(this.options.transition) pos = this.options.transition(pos);
     pos *= (this.options.to-this.options.from);
     pos += this.options.from;
+    this.position = pos;
     this.event('beforeUpdate');
     if(this.update) this.update(pos);
     this.event('afterUpdate');
@@ -207,11 +499,9 @@ Effect.Opacity = Class.create();
 Object.extend(Object.extend(Effect.Opacity.prototype, Effect.Base.prototype), {
   initialize: function(element) {
     this.element = $(element);
-
     // make this work on IE on elements without 'layout'
     if(/MSIE/.test(navigator.userAgent) && (!this.element.hasLayout))
       this.element.style.zoom = 1;
-      
     var options = Object.extend({
       from: Element.getOpacity(this.element) || 0.0,
       to:   1.0
@@ -268,69 +558,65 @@ Object.extend(Object.extend(Effect.Scale.prototype, Effect.Base.prototype), {
     this.start(options);
   },
   setup: function() {
+    var effect = this;
+    
     this.restoreAfterFinish = this.options.restoreAfterFinish || false;
     this.elementPositioning = Element.getStyle(this.element,'position');
-    this.elementStyleTop = this.element.style.top;
-    this.elementStyleLeft = this.element.style.left;
-    this.elementStyleWidth = this.element.style.width;
-    this.elementStyleHeight = this.element.style.height;
-    this.elementStyleFontSize = this.element.style.fontSize;
-    this.originalTop    = this.element.offsetTop;
-    this.originalLeft   = this.element.offsetLeft;
+    
+    effect.originalStyle = {};
+    ['top','left','width','height','fontSize'].each( function(k) {
+      effect.originalStyle[k] = effect.element.style[k];
+    });
+      
+    this.originalTop  = this.element.offsetTop;
+    this.originalLeft = this.element.offsetLeft;
+    
     var fontSize = Element.getStyle(this.element,'font-size') || "100%";
-    if(fontSize.indexOf("em")>0) {
-      this.fontSize      = parseFloat(fontSize);
-      this.fontSizeType  = "em";
-    } else if(fontSize.indexOf("px")>0) {
-      this.fontSize      = parseFloat(fontSize);
-      this.fontSizeType  = "px";
-    } else if(fontSize.indexOf("%")>0) {
-      this.fontSize      = parseFloat(fontSize);
-      this.fontSizeType  = "%";
-    }
+    ['em','px','%'].each( function(fontSizeType) {
+      if(fontSize.indexOf(fontSizeType)>0) {
+        effect.fontSize     = parseFloat(fontSize);
+        effect.fontSizeType = fontSizeType;
+      }
+    });
+    
     this.factor = (this.options.scaleTo - this.options.scaleFrom)/100;
-    if(this.options.scaleMode=='box') {
-      this.originalHeight = this.element.clientHeight;
-      this.originalWidth  = this.element.clientWidth; 
-    } else if(this.options.scaleMode=='contents') {
-      this.originalHeight = this.element.scrollHeight;
-      this.originalWidth  = this.element.scrollWidth;
-    } else {
-      this.originalHeight = this.options.scaleMode.originalHeight;
-      this.originalWidth  = this.options.scaleMode.originalWidth;
-    }
+    
+    this.dims = null;
+    if(this.options.scaleMode=='box')
+      this.dims = [this.element.clientHeight, this.element.clientWidth];
+    if(this.options.scaleMode=='content')
+      this.dims = [this.element.scrollHeight, this.element.scrollWidth];
+    if(!this.dims)
+      this.dims = [this.options.scaleMode.originalHeight,
+                   this.options.scaleMode.originalWidth];
   },
   update: function(position) {
     var currentScale = (this.options.scaleFrom/100.0) + (this.factor * position);
     if(this.options.scaleContent && this.fontSize)
       this.element.style.fontSize = this.fontSize*currentScale + this.fontSizeType;
-    this.setDimensions(
-      this.originalWidth * currentScale, 
-      this.originalHeight * currentScale);
+    this.setDimensions(this.dims[0] * currentScale, this.dims[1] * currentScale);
   },
   finish: function(position) {
     if (this.restoreAfterFinish) {
-      var els = this.element.style;
-      els.top = this.elementStyleTop;
-      els.left = this.elementStyleLeft;
-      els.width = this.elementStyleWidth;
-      els.height = this.elementStyleHeight;
-      els.height = this.elementStyleHeight;
-      els.fontSize = this.elementStyleFontSize;
+      var effect = this;
+      ['top','left','width','height','fontSize'].each( function(k) {
+        effect.element.style[k] = effect.originalStyle[k];
+      });
     }
   },
-  setDimensions: function(width, height) {
-    if(this.options.scaleX) this.element.style.width = width + 'px';
-    if(this.options.scaleY) this.element.style.height = height + 'px';
+  setDimensions: function(height, width) {
+    var els = this.element.style;
+    if(this.options.scaleX) els.width = width + 'px';
+    if(this.options.scaleY) els.height = height + 'px';
     if(this.options.scaleFromCenter) {
-      var topd  = (height - this.originalHeight)/2;
-      var leftd = (width  - this.originalWidth)/2;
+      var topd  = (height - this.dims[0])/2;
+      var leftd = (width  - this.dims[1])/2;
       if(this.elementPositioning == 'absolute') {
-        if(this.options.scaleY) this.element.style.top = this.originalTop-topd + "px";
-        if(this.options.scaleX) this.element.style.left = this.originalLeft-leftd + "px";
+        if(this.options.scaleY) els.top = this.originalTop-topd + "px";
+        if(this.options.scaleX) els.left = this.originalLeft-leftd + "px";
       } else {
-        if(this.options.scaleY) this.element.style.top = -topd + "px";
-        if(this.options.scaleX) this.element.style.left = -leftd + "px";
+        if(this.options.scaleY) els.top = -topd + "px";
+        if(this.options.scaleX) els.left = -leftd + "px";
       }
     }
   }
@@ -364,10 +650,9 @@ Object.extend(Object.extend(Effect.Highlight.prototype, Effect.Base.prototype), 
       parseInt(this.options.endcolor.slice(5),16)-this.colors_base[2]];
   },
   update: function(position) {
-    var colors = [
-      Math.round(this.colors_base[0]+(this.colors_delta[0]*position)),
-      Math.round(this.colors_base[1]+(this.colors_delta[1]*position)),
-      Math.round(this.colors_base[2]+(this.colors_delta[2]*position)) ];
+    var effect = this; var colors = $R(0,2).map( function(i){ 
+      return Math.round(effect.colors_base[i]+(effect.colors_delta[i]*position))
+    });
     this.element.style.backgroundColor = "#" +
       colors[0].toColorPart() + colors[1].toColorPart() + colors[2].toColorPart();
   },
