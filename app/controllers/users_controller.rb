@@ -25,6 +25,7 @@ class UsersController < ApplicationController
   def index
     if @project
       @page_title = "Project Team"
+      @users = @project.users
       render 'users/project'
     else
       @page_title = "System Users"

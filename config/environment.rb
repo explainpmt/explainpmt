@@ -51,3 +51,4 @@ end
 # end
 
 # Include your application configuration below
+require 'array_each_slice'

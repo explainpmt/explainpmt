@@ -64,10 +64,7 @@ table.form_layout td.form_actions {
 }
 
 div.contact_card {
-  float: left;
-  width: 15em;
-  height: 8em;
-  overflow: hidden;
+  width: 20em;
   border: 1px solid;
   margin: 2px;
   padding: 3px;
@@ -76,7 +73,6 @@ div.contact_card {
 
 div.contact_card h3 {
   font-size: 15px;
-  height: 21px;
   margin: 0 0 5px 0;
   padding: 0 17px 0 0;
 }

@@ -17,26 +17,7 @@
       <% end %>
     </td>
     <td id="RightColumn" valign="top">
-      <% @project.users.each do |user| %>
-        <div class="contact_card">
-          <h3<%= user.admin? ? ' class="admin"' : '' %>>
-            <%= user.full_name(User::LastFirst) %>
-          </h3>
-          <dl>
-            <dt>Email:</dt>
-            <dd><a href="mailto:<%= user.email %>"><%= user.email %></a></dd>
-          </dl>
-          <% if is_admin? %>
-            <ul class="action_links">
-              <li>
-                <%= link_to('Remove from Project', :controller => 'projects',
-                            :action => 'remove_user',
-                            :project_id => @project.id, :id => user.id) %>
-              </li>
-            </ul>
-          <% end %>
-        </div>
-      <% end %>
+      <%= render_partial 'contact_cards' %>
     </td>
   </tr>
 </table>

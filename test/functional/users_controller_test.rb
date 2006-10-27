@@ -69,6 +69,7 @@ class UsersControllerTest < Test::Unit::TestCase
     get :index, 'project_id' => @project_one.id
     assert_template 'project'
     assert_equal @project_one, assigns( :project )
+    assert_equal @project_one.users, assigns(:users)
   end
 
   def test_new
