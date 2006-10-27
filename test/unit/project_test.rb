@@ -40,6 +40,24 @@ class ProjectTest < Test::Unit::TestCase
     @milestone_six = Milestone.find 6
     @milestone_seven = Milestone.find 7
   end
+  
+  def test_sub_projects_association
+    assert_equal SubProject.find( :all,
+                                  :conditions => [ 'project_id = ?', 
+                                                   @project_one.id ],
+                                  :order => 'name' ),
+                 @project_one.sub_projects
+  end
+  
+  def test_sub_projects_destroyed_with_project
+    sub_ids = @project_one.sub_projects.map { |s| s.id }
+    @project_one.destroy
+    sub_ids.each do |id|
+      assert_raises( ActiveRecord::RecordNotFound) do
+        SubProject.find( id )
+      end
+    end
+  end
 
   def test_current_iteration_that_starts_today
     assert_equal @iteration_one, @project_one.iterations.current

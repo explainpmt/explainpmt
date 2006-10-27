@@ -38,6 +38,8 @@
 #   validates_length_of :name, :maximum => 100
 #
 class Project < ActiveRecord::Base
+  has_many :sub_projects, :order => 'name', :dependent => true
+  
   has_many :iterations, :order => 'start_date ASC', :dependent => true do
     def past
       self.reverse.select { |i| i.past? }
