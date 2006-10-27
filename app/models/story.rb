@@ -152,9 +152,8 @@ class Story < ActiveRecord::Base
     end
 
     Risks << High = create(1, 'High')
-    Risks << Medium = create(2, 'Medium')
+    Risks << Normal = create(2, 'Normal')
     Risks << Low = create(3, 'Low')
-    Risks << NA = create(4, '')
   end
 
   # When determining the current value for an aggregation, we need to use the
@@ -195,7 +194,7 @@ class Story < ActiveRecord::Base
   def after_initialize
     self.status = Status::New unless self.status
     self.priority = Priority::NA unless self.priority
-    self.risk = Risk::NA unless self.risk
+    self.risk = Risk::Normal unless self.risk
   end
 
   def before_create
@@ -234,7 +233,7 @@ class Story < ActiveRecord::Base
   end
   
   def is_defined?
-    self.priority != Priority::NA and self.risk != Risk::NA and self.points?
+    self.priority != Priority::NA and self.points?
   end
 
   def before_save_reset_status

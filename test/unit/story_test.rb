@@ -30,8 +30,7 @@ class StoryTest < Test::Unit::TestCase
 
   def test_risk_collection
     assert_equal(
-      [ Story::Risk::High, Story::Risk::Medium, Story::Risk::Low,
-        Story::Risk::NA ],
+      [ Story::Risk::High, Story::Risk::Normal, Story::Risk::Low ],
       Story::Risks
     )
   end
@@ -48,7 +47,7 @@ class StoryTest < Test::Unit::TestCase
 
   def test_risk_default_na
     story = Story.new
-    assert_equal Story::Risk::NA, story.risk
+    assert_equal Story::Risk::Normal, story.risk
   end
 
   def test_return_ids_for_aggregations
@@ -56,7 +55,7 @@ class StoryTest < Test::Unit::TestCase
     story.return_ids_for_aggregations
     assert_equal Story::Status::New.order, story.status
     assert_equal Story::Priority::NA.order, story.priority
-    assert_equal Story::Risk::NA.order, story.risk
+    assert_equal Story::Risk::Normal.order, story.risk
   end
 
   def test_scid_increments_properly
@@ -252,11 +251,9 @@ class StoryRiskTest < Test::Unit::TestCase
       when 1
         name = 'High'
       when 2
-        name = 'Medium'
+        name = 'Normal'
       when 3
         name = 'Low'
-      when 4
-        name = ''
       end
       assert_equal name, r.name
     end
@@ -274,9 +271,8 @@ class StoryRiskTest < Test::Unit::TestCase
 
   def test_constants
     assert_equal Story::Risk.new(1), Story::Risk::High
-    assert_equal Story::Risk.new(2), Story::Risk::Medium
+    assert_equal Story::Risk.new(2), Story::Risk::Normal
     assert_equal Story::Risk.new(3), Story::Risk::Low
-    assert_equal Story::Risk.new(4), Story::Risk::NA
   end
 end
 
