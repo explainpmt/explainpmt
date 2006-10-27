@@ -3,6 +3,9 @@
   <thead>
     <tr>
       <th><%= link_to_sort_by( 'ID', 'scid', sort_header_params ) -%></th>
+      <% unless hide_cols.include?( :project ) %>
+        <th><%= link_to_sort_by( 'Project', 'project.name', sort_header_params ) -%></th>
+      <% end %>
       <th><%= link_to_sort_by( 'Sub-Project', 'sub_project.name',
                                sort_header_params ) -%></th>
       <th><%= link_to_sort_by( 'Title', 'title', sort_header_params ) -%></th>
@@ -13,7 +16,10 @@
       <% unless hide_cols.include?( :owner ) %>
         <th><%= link_to_sort_by( 'Owner', 'owner', sort_header_params ) -%></th>
       <% end %>
-      <th colspan="2">&nbsp;</th>
+      <th>&nbsp;</th>
+      <% unless hide_cols.include?( :delete ) %>
+        <th>&nbsp;</th>
+      <% end %>
     </tr>
   </thead>
   <tbody id="StoryList">

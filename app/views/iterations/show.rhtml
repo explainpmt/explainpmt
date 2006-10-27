@@ -164,7 +164,8 @@ sort_header_params = { :controller => 'iterations', :action => 'show',
 %>
 <%= render( :partial => 'stories/story_list_table',
             :locals => { :stories =>  @stories,
-                         :sort_header_params => sort_header_params } ) %>
+                         :sort_header_params => sort_header_params,
+                         :hide_cols => [ :project ] } ) %>
 <%= end_form_tag %>
 <% else %>
 <p>No stories have been assigned to this iteration.</p>

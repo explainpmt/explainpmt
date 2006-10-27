@@ -5,6 +5,10 @@
       value="<%= story.id -%>" id="story_card_check_<%= story.id -%>" />
     <label for="story_card_check_<%= story.id -%>">SC<%= story.scid -%></label>
   </td>
+  <% unless hide_cols.include?( :project ) %>
+    <td><%= link_to( story.project.name, :controller => 'dashboard',
+                     :action => 'index', :project_id => story.project.id ) -%></td>
+  <% end %>
   <td><%= story.sub_project.name if story.sub_project -%></td>
   <td>
     <%= link_to( story.title, :controller => 'stories',
@@ -42,10 +46,12 @@
                  :action => 'edit', :id => story.id,
                  :project_id => story.project.id ) %>
   </td>
-  <td align="right">
-    <%= link_to( 'Delete',
-                 { :controller => 'stories', :action => 'delete',
-                   :id => story.id, :project_id => story.project.id },
-                 :confirm => "Are you sure you want to delete SC#{story.scid}?" ) %>
-  </td>
+  <% unless hide_cols.include?( :delete ) %>
+    <td align="right">
+      <%= link_to( 'Delete',
+                   { :controller => 'stories', :action => 'delete',
+                     :id => story.id, :project_id => story.project.id },
+                   :confirm => "Are you sure you want to delete SC#{story.scid}?" ) %>
+    </td>
+  <% end %>
 </tr>

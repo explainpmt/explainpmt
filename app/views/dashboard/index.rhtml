@@ -8,67 +8,11 @@
 
 <% unless @stories.empty? %>
   <h3>My Stories (all projects):</h3>
-  <%
-  sort_header_params = { :controller => 'dashboard', :action => 'index' }
-  stories_table = CollectionTableHelper::CollectionTable.new(@stories,
-                                      [:project,
-                                       link_to_sort_by('Project',
-                                                       'project.name',
-                                                       sort_header_params)],
-                                      [:sub_project,
-                                       link_to_sort_by('Sub-Project',
-                                                       'sub_project.name',
-                                                       sort_header_params)],
-                                      [:scid,
-                                       link_to_sort_by('ID', 'scid',
-                                                       sort_header_params)],
-                                      [:title,
-                                       link_to_sort_by('Title', 'title',
-                                                       sort_header_params)],
-                                      [:points,
-                                       link_to_sort_by('Points', 'points',
-                                                       sort_header_params)],
-                                      [:priority,
-                                       link_to_sort_by('Priority', 'priority',
-                                                       sort_header_params)],
-                                      [:risk,
-                                       link_to_sort_by('Risk', 'risk',
-                                                       sort_header_params)],
-                                      [:status,
-                                       link_to_sort_by('Status', 'status',
-                                                       sort_header_params)],
-                                      [:edit,''])
-  stories_table.column_align(:points, 'center')
-  stories_table.column_align(:edit, 'right')
-  stories_table.data_row_class = ['odd_row','even_row']
-  stories_table.column_modifier(:project) do |s|
-    link_to(s.project.name, :controller => 'dashboard',
-            :action => 'index', :project_id => s.project.id)
-  end
-  stories_table.column_modifier( :sub_project ) do |s|
-    if s.sub_project.nil?
-      ''
-    else
-      s.sub_project.name
-    end
-  end
-  stories_table.column_modifier(:scid) { |s| "SC#{s.scid}" }
-  stories_table.column_modifier(:title) do |s|
-    link_to(s.title,
-               :controller => 'stories',
-               :action => 'show',
-               :id => s.id,
-               :project_id => s.project.id)
-  end
-  stories_table.column_modifier(:edit) do |s|
-    link_to('Edit',
-               :controller => 'stories',
-               :action => 'edit',
-               :id => s.id,
-               :project_id => s.project.id)
-  end
-  %>
-  <%= stories_table.build_table %>
+  <% sort_header_params = { :controller => 'dashboard', :action => 'index' } %>
+  <%= render( :partial => 'stories/story_list_table',
+              :locals => { :stories => @stories,
+                           :sort_header_params => sort_header_params,
+                           :hide_cols => [ :owner, :delete ] } ) %>
 <% end %>
 </td>
 </tr>

@@ -40,7 +40,7 @@
     <%= render( :partial => 'story_list_table',
                 :locals => { :sort_header_params => sort_header_params,
                              :stories => @stories,
-                             :hide_cols => [ :owner ] } ) %>
+                             :hide_cols => [ :owner, :project ] } ) %>
   <%= end_form_tag %>
 <% else %>
   <p>No stories are in the project backlog.</p>
