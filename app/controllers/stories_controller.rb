@@ -45,6 +45,7 @@ class StoriesController < ApplicationController
   # Displays a form for creating a new story card.
   def new
     @page_title = "Create new story card"
+    @selected_main_menu_link = :none
     if @story = @session[:new_story]
       @session[:new_story] = nil
     else
@@ -57,6 +58,7 @@ class StoriesController < ApplicationController
   # action.
   def create
     @page_title = "Create new story card"
+    @selected_main_menu_link = :none
     modify_risk_status_and_priority_params
     story = Story.new(@params['story'])
     story.project = @project

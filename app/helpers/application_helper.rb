@@ -114,11 +114,14 @@ module ApplicationHelper
   # the ActionView::Helpers::UrlHelper#url_for method. If a block is given, and
   # the block returns an non-false value, the 'current' CSS class will be set on
   # the link. If no block is given, but the controller being linked to is the
-  # same as the current controller, the CSS class will be set to current.
+  # same as the current controller or the controller set in @selected_main_menu_link, 
+  # the CSS class will also be set to current.
   # Otherwise, no CSS class is set.
   def main_menu_link(title, options)
+    selected_controller = @selected_main_menu_link ?
+                          @selected_main_menu_link : controller.controller_name
     if (block_given? and yield) or
-      (!block_given? and controller.controller_name == options[:controller])
+      (!block_given? and selected_controller.to_s == options[:controller].to_s)
       
       html_options = { 'class' => 'current' }
     else
