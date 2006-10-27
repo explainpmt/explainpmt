@@ -207,6 +207,19 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_response :error
     assert_template '_sub_project_error'
   end
+  
+  def test_destroy_sub_project_success
+    xhr :post, :destroy_sub_project, :id => 1
+    assert_response :success
+    assert_template '_destroy_sub_project_success'
+    assert_raises( ActiveRecord::RecordNotFound) { SubProject.find 1 }
+  end
+  
+  def test_destroy_sub_project_failure
+    xhr :post, :destroy_sub_project, :id => 'foo'
+    assert_response :error
+    assert_template '_destroy_sub_project_error'
+  end
 
   private
 

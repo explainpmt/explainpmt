@@ -1,5 +1,15 @@
 <tr id="SubProject_<%= sub_project.id -%>">
   <td><%= sub_project.name %></td>
-  <td><a href="#">delete</a></td>
-  <td>&nbsp;</td>
+  <td>
+    <%= link_to_remote 'delete',
+      :url => { :controller => 'projects', :action => 'destroy_sub_project',
+                :id =>  sub_project.id },
+      :loading => "Element.toggle('SubProjectSpinner_#{sub_project.id}')",
+      :complete => "Element.toggle('SubProjectSpinner_#{sub_project.id}')",
+      :success => evaluate_remote_response,
+      :failure => evaluate_remote_response
+      %>
+  </td>
+  <td><%= image_tag 'spinner.gif', :id => "SubProjectSpinner_#{sub_project.id}",
+    :style => 'display: none' -%></td>
 </tr>

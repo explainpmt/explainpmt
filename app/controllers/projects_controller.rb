@@ -161,4 +161,13 @@ class ProjectsController < ApplicationController
       render :partial => 'sub_project_new'
     end
   end
+  
+  def destroy_sub_project
+    @sub_project = SubProject.find params[ :id ]
+    @sub_project.destroy
+    render :partial => 'destroy_sub_project_success'
+  rescue Exception => e
+    @message = e.message
+    render :partial => 'destroy_sub_project_error', :status => 500
+  end
 end
