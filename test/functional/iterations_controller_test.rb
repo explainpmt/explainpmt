@@ -197,8 +197,8 @@ class IterationsControllerTest < Test::Unit::TestCase
   end
 
   def test_assign_stories
-    post :assign_stories, 'id' => '1', 'project_id' => '1',
-      'selected_stories' => [ 4, 5 ], 'move_to' => 2
+    post :assign_stories, :id => 1, :project_id => 1,
+      :selected_stories => [ 4, 5 ], :move_to => 2
     assert_response :success
     assert_template 'layouts/refresh_parent_close_popup'
     sc_one = Story.find 4
