@@ -19,7 +19,7 @@
 
 # The methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
-  VERSION = '1.4.0'
+  VERSION = 'dev trunk'
   
   # Used to determine if the currently logged in user has administrative
   # privileges
