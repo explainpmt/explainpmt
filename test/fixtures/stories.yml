@@ -14,3 +14,10 @@ second:
   title: 'Second Story'
   status: 6
   points: 3
+third:
+  id: 3
+  scid: 3
+  project_id: 1
+  title: 'Third Story'
+  status: 1
+  points: 2

@@ -29,18 +29,6 @@
 #   has_many :stories, :dependent => true
 #   has_many :backlog, :class_name => 'Story',
 #            :conditions => "iteration_id IS NULL"
-#   has_many :future_iterations, :class_name => 'Iteration',
-#            :order => 'start_date ASC',
-#            :conditions => "start_date > CURDATE()"
-#   has_many :past_iterations, :class_name => 'Iteration',
-#            :order => 'start_date DESC',
-#            :conditions => "DATE_ADD(start_date, INTERVAL (length - 1) DAY) " +
-#                           "< CURDATE()"
-#   has_one :current_iteration, :class_name => 'Iteration',
-#           :order => 'start_date DESC',
-#           :conditions => "start_date <= CURDATE() AND " +
-#                          "DATE_ADD(start_date, INTERVAL (length - 1) DAY) " +
-#                          ">= CURDATE()"
 #   has_and_belongs_to_many :users, :order => 'last_name ASC, first_name ASC'
 #
 # And the following data validations:
@@ -65,11 +53,7 @@ class Project < ActiveRecord::Base
     @past_iterations ||= iterations( reload ).select do |i|
       ( i.start_date + i.length ).to_time <= today.at_midnight
     end
-    if reload
-      @past_iterations.reverse!
-    else
-      @past_iterations
-    end
+    @past_iterations.reverse
   end
 
   # Returns an Array of all associated iterations that start after today

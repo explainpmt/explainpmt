@@ -1,140 +1,131 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ProjectTest < Test::Unit::TestCase
+  fixtures :projects, :stories, :iterations
+
   def setup
-    Project.destroy_all
-    create_common_fixtures :project_one, :past_milestone1, :past_milestone2,
-                           :recent_milestone1, :recent_milestone2,
-                           :future_milestone1, :future_milestone2
-  end
-  
-  def test_current_iteration
-    assert_nil @project_one.current_iteration(true)
-    assert_nil @project_one.current_iteration
+    @project_one = Project.find 1
+    
+    @iteration_one = Iteration.find 1
+    @iteration_two = Iteration.find 2
+    @iteration_four = Iteration.find 4
+    @iteration_five = Iteration.find 5
+    @iteration_six = Iteration.find 6
 
-    iteration = @project_one.iterations.create('start_date' => Date.today,
-                                               'length' => 14)
-    iteration.save
-    assert_equal iteration, @project_one.current_iteration(true)
-    assert_equal iteration, @project_one.current_iteration
-    iteration.start_date = (Date.today - 10)
-    iteration.save
-    assert_equal iteration, @project_one.current_iteration(true)
-    assert_equal iteration, @project_one.current_iteration
-    iteration.start_date = (Date.today + 1)
-    iteration.save
-    assert_nil @project_one.current_iteration(true)
-    assert_nil @project_one.current_iteration
-  end
-  
-  def test_previous_iteration
-    assert_nil @project_one.previous_iteration(true)
-    assert_nil @project_one.previous_iteration
-    iteration = @project_one.iterations.create('start_date' => (Date.today - 1),
-                                               'length' => 2)
-    assert_nil @project_one.previous_iteration(true)
-    assert_nil @project_one.previous_iteration
-    iteration.length = 1
-    iteration.save
-    assert_equal iteration, @project_one.previous_iteration(true)
-    assert_equal iteration, @project_one.previous_iteration
-    iteration2 = @project_one.iterations.create(
-      'start_date' => (Date.today - 30),
-      'length' => 1
-    )
-    @project_one.iterations.create('start_date' => Date.today, 'length' => 1)
-    assert_equal iteration, @project_one.previous_iteration(true)
-    assert_equal iteration, @project_one.previous_iteration
-    iteration.destroy
-    assert_equal iteration2, @project_one.previous_iteration(true)
-    assert_equal iteration2, @project_one.previous_iteration
-    iteration2.destroy
-    assert_nil @project_one.previous_iteration(true)
-    assert_nil @project_one.previous_iteration
+    @milestone_one = Milestone.find 1
+    @milestone_two = Milestone.find 2
+    @milestone_three = Milestone.find 3
+    @milestone_four = Milestone.find 4
+    @milestone_five = Milestone.find 5
+    @milestone_six = Milestone.find 6
   end
 
-  def test_next_iteration
-    assert_nil @project_one.next_iteration(true)
-    assert_nil @project_one.next_iteration
-    iteration = @project_one.iterations.create('start_date' => Date.today,
-                                               'length' => 1)
-    assert_nil @project_one.next_iteration(true)
-    assert_nil @project_one.next_iteration
-    iteration.start_date = Date.today + 1
-    iteration.save
-    assert_equal iteration, @project_one.next_iteration(true)
-    assert_equal iteration, @project_one.next_iteration
-    @project_one.iterations.create('start_date' => Date.today, 'length' => 1)
-    @project_one.iterations.create('start_date' => Date.today - 1,
-                                   'length' => 1)
-    assert_equal iteration, @project_one.next_iteration(true)
-    assert_equal iteration, @project_one.next_iteration
-    iteration.destroy
-    assert_nil @project_one.next_iteration(true)
-    assert_nil @project_one.next_iteration
-    iteration = @project_one.iterations.create(iteration.attributes)
-    @project_one.iterations.create('start_date' => Date.today + 5,
-                                   'length' => 1)
-    assert_equal iteration, @project_one.next_iteration(true)
-    assert_equal iteration, @project_one.next_iteration
+  def test_current_iteration_that_starts_today
+    assert_equal @iteration_one, @project_one.current_iteration
   end
 
-  def test_backlog
-    assert @project_one.backlog(true).empty?
-    4.times do |i|
-      @project_one.stories.create('title' => "Test Backlog #{i}",
-                                  'status' => Story::Status::New)
-    end
-    assert_equal 4, @project_one.backlog(true).size
-    iteration = @project_one.iterations.create('start_date' => Date.today,
-                                               'length' => 1)
-    story = @project_one.stories.create('title' => "Test Backlog")
-    story.priority = Story::Priority::High
-    story.risk = Story::Risk::Low
-    story.points = 4
-    story.description = 'description'
-    story.save
-    assert_equal 5, @project_one.backlog(true).size
-    story.iteration = iteration
-    story.save
-    assert_equal 4, @project_one.backlog(true).size
+  def test_current_iteration_that_ends_today
+    Iteration.destroy_all 'id != 1' # otherwise others would overlap
+    @iteration_one.start_date = Date.today - ( @iteration_one.length - 1 )
+    @iteration_one.save!
+    assert_equal @iteration_one, @project_one.current_iteration
   end
 
-  def test_future_iterations
-    assert @project_one.future_iterations(true).empty?
-    assert @project_one.future_iterations.empty?
-    (-1..3).to_a.each do |i|
-      @project_one.iterations.create('start_date' => Date.today + i,
-                                     'length' => 1)
-    end
-    assert_equal 3, @project_one.future_iterations(true).size
-    assert_equal 3, @project_one.future_iterations.size
+  def test_current_iteration_that_began_yesterday
+    Iteration.destroy_all 'id != 1' # otherwise others would overlap
+    @iteration_one.start_date = Date.today - 1
+    @iteration_one.save!
+    assert_equal @iteration_one, @project_one.current_iteration
   end
   
   def test_past_iterations
-    assert @project_one.past_iterations(true).empty?
-    assert @project_one.past_iterations.empty?
-    (-3..1).to_a.each do |i|
-      @project_one.iterations.create('start_date' => Date.today + i,
-                                     'length' => 1)
-    end
-    assert_equal 3, @project_one.past_iterations(true).size
-    assert_equal 3, @project_one.past_iterations.size
+    assert_equal [ @iteration_four, @iteration_six ],
+      @project_one.past_iterations
+  end
+
+  def destroy_past_iterations
+    @iteration_four.destroy
+    @iteration_six.destroy
   end
   
+  def test_past_iterations_with_no_past_iterations
+    destroy_past_iterations
+    assert @project_one.past_iterations.empty?
+  end
+  
+  def test_previous_iteration
+    assert_equal @iteration_four, @project_one.previous_iteration
+  end
+
+  def test_previous_iteration_with_no_past_iterations
+    destroy_past_iterations
+    assert_nil @project_one.previous_iteration
+  end
+
+  def test_future_iterations
+    assert_equal [ @iteration_two, @iteration_five ],
+      @project_one.future_iterations
+  end
+
+  def destroy_future_iterations
+    @iteration_two.destroy
+    @iteration_five.destroy
+  end
+  
+  def test_future_iterations_with_no_future_iterations
+    destroy_future_iterations
+    assert @project_one.future_iterations.empty?
+  end
+  
+  def test_next_iteration
+    assert_equal @iteration_two, @project_one.next_iteration
+  end
+
+  def test_next_iteration_with_no_future_iterations
+    destroy_future_iterations
+    assert_nil @project_one.next_iteration
+  end
+
   def test_future_milestones
-    assert_equal [ @future_milestone1, @future_milestone2 ],
+    assert_equal [ @milestone_five, @milestone_six ],
                  @project_one.future_milestones
+  end
+
+  def test_future_milestones_with_no_future_milestones
+    @milestone_five.destroy
+    @milestone_six.destroy
+    assert @project_one.future_milestones.empty?
   end
   
   def test_recent_milestones
-    assert_equal [ @recent_milestone2, @recent_milestone1 ],
+    assert_equal [ @milestone_four, @milestone_three ],
                  @project_one.recent_milestones
+  end
+
+  def destroy_recent_milestones
+    @milestone_four.destroy
+    @milestone_three.destroy
+  end
+  
+  def test_recent_milestones_with_no_recent_milestones
+    destroy_recent_milestones
+    assert @project_one.recent_milestones.empty?
   end
   
   def test_past_milestones
-    assert_equal [ @recent_milestone2, @recent_milestone1, @past_milestone2,
-                   @past_milestone1 ], @project_one.past_milestones
+    assert_equal @project_one.recent_milestones +
+      [ @milestone_two, @milestone_one ], @project_one.past_milestones
+  end
+
+  def test_past_milestones_with_no_past_milestones
+    destroy_recent_milestones
+    @milestone_two.destroy
+    @milestone_one.destroy
+    assert @project_one.past_milestones.empty?
+  end
+  
+  def test_backlog
+    assert_equal 1, @project_one.backlog.size
   end
 end
 
