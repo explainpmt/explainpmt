@@ -27,7 +27,8 @@ class StoriesController < ApplicationController
   # non-blank value).
   def index
     @page_title = "Backlog"
-    SortHelper.columns = %w( scid title points priority risk status )
+    SortHelper.columns = %w( scid sub_project.name title points priority risk
+                             status )
     SortHelper.default_order = %w( status priority risk )
     if params['show_cancelled']
       @stories = @project.stories.backlog

@@ -53,10 +53,11 @@ class DashboardController < ApplicationController
   # Uses SortHelper to sort the list of story cards
   def sort_stories(stories)
     if @project.nil?
-      SortHelper.columns = %w( project.name scid title points priority risk
-                               status )
+      SortHelper.columns = %w( project.name sub_project.name scid title points
+                               priority risk status )
     else
-      SortHelper.columns = %w( scid title points priority risk status )
+      SortHelper.columns = %w( sub_project.name scid title points priority
+                               risk status )
     end
     SortHelper.default_order = %w( status priority risk )
     stories = stories.sort do |a,b|

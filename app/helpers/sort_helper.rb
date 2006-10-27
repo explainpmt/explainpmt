@@ -131,8 +131,8 @@ module SortHelper
       a_col = a
       b_col = b
       @@sort_columns[column_index.abs].split('.').each do |meth|
-        a_col = a_col.send(meth)
-        b_col = b_col.send(meth)
+        a_col = a_col.send(meth) unless a_col.nil?
+        b_col = b_col.send(meth) unless b_col.nil?
       end
       reverse = (column_index < 0)
       case a_col && a_col <=> b_col

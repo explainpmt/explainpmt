@@ -15,6 +15,10 @@ stories_table = CollectionTableHelper::CollectionTable.new(@stories,
                                     [:scid,
                                      link_to_sort_by('ID', 'scid',
                                                      sort_header_params)],
+                                    [:sub_project,
+                                     link_to_sort_by('Sub-Project',
+                                                     'sub_project.name',
+                                                      sort_header_params)],
                                     [:title,
                                      link_to_sort_by('Title', 'title',
                                                      sort_header_params)],
@@ -35,6 +39,13 @@ stories_table.column_align(:points, 'center')
 stories_table.column_align(:edit, 'right')
 stories_table.data_row_class = ['odd_row','even_row']
 stories_table.column_modifier(:scid) { |s| "SC#{s.scid}" }
+stories_table.column_modifier( :sub_project ) do |s|
+  if s.sub_project.nil?
+    ''
+  else
+    s.sub_project.name
+  end
+end
 stories_table.column_modifier(:title) do |s|
   link_to(s.title,
              :controller => 'stories',

@@ -15,6 +15,10 @@
                                        link_to_sort_by('Project',
                                                        'project.name',
                                                        sort_header_params)],
+                                      [:sub_project,
+                                       link_to_sort_by('Sub-Project',
+                                                       'sub_project.name',
+                                                       sort_header_params)],
                                       [:scid,
                                        link_to_sort_by('ID', 'scid',
                                                        sort_header_params)],
@@ -40,6 +44,13 @@
   stories_table.column_modifier(:project) do |s|
     link_to(s.project.name, :controller => 'dashboard',
             :action => 'index', :project_id => s.project.id)
+  end
+  stories_table.column_modifier( :sub_project ) do |s|
+    if s.sub_project.nil?
+      ''
+    else
+      s.sub_project.name
+    end
   end
   stories_table.column_modifier(:scid) { |s| "SC#{s.scid}" }
   stories_table.column_modifier(:title) do |s|
