@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class IterationTest < Test::Unit::TestCase
-  fixtures :iterations, :projects
+  fixtures :iterations, :projects, :stories
   def setup
     @project_one = Project.find 1
     @iteration_one = Iteration.find 1
@@ -15,13 +15,7 @@ class IterationTest < Test::Unit::TestCase
   end
 
   def test_total_points
-    @iteration_one.stories.clear
-    4.times do |i|
-      @iteration_one.stories.create('title' => "Test #{i}",
-                                    'status' => Story::Status::New,
-                                    'points' => '3')
-    end
-    assert_equal 12, @iteration_one.total_points
+    assert_equal 6, @iteration_one.total_points
   end
 
   def test_remaining_resources

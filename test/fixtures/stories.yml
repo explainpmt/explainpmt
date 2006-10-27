@@ -1,0 +1,16 @@
+first:
+  id: 1
+  scid: 1
+  project_id: 1
+  iteration_id: 1
+  title: 'First Story'
+  status: 1
+  points: 3
+second:
+  id: 2
+  scid: 2
+  project_id: 1
+  iteration_id: 1
+  title: 'Second Story'
+  status: 1
+  points: 3
