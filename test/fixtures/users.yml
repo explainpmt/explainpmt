@@ -1,7 +1,7 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 admin_user:
   id: 1
-  admin: 1
+  admin: true
   login: admin
   password: admin
   email: admin@localhost
@@ -9,7 +9,7 @@ admin_user:
 
 normal_user:
   id: 2
-  admin: 0
+  admin: false
   login: user
   password: user
   email: user@localhost
@@ -17,7 +17,7 @@ normal_user:
 
 admin_user_two:
   id: 3
-  admin: 1
+  admin: true
   login: anotheradmin
   password: admin2
   email: admin@localhost

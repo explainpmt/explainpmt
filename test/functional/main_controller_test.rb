@@ -20,6 +20,7 @@ class MainControllerTest < Test::Unit::TestCase
     get :dashboard
     assert_response :success
     assert_template 'dashboard'
+    assert_equal @user, assigns( :current_user )
     assert_tag :tag => 'a', :content => @user.name,
       :attributes => { :href => "users/show/#{@user.id}" },
       :ancestor => { :attributes => { :id => 'CurrentUserInfo' } }
@@ -30,6 +31,7 @@ class MainControllerTest < Test::Unit::TestCase
     get :dashboard
     assert_response :success
     assert_template 'dashboard'
+    assert_equal @admin, assigns( :current_user )
     assert_tag :tag => 'a', :content => @admin.name,
       :attributes => { :href => "users/show/#{@admin.id}" },
       :ancestor => { :attributes => { :id => 'CurrentUserInfo' } }

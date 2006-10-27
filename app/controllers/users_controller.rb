@@ -49,7 +49,7 @@ class UsersController < ApplicationController
     if session[ :current_user_id ] == @user.id
       flash[ :error ] = 'You may not delete your own account'
     else
-      if User.count('admin = 1') == 1
+      if User.count( [ 'admin = ?', true ] ) == 1
         flash[ :error ] = 'You may not delete the last admin account'
       else
         User.find(@params[:id]).destroy
