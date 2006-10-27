@@ -78,6 +78,16 @@ class Iteration < ActiveRecord::Base
     ( start_date.to_time <= today ) and ( stop_date.to_time >= today ) 
   end
 
+  def future?
+    tomorrow = Time.now.tomorrow.at_midnight
+    start_date.to_time >= tomorrow
+  end
+
+  def past?
+    today = Time.now.at_midnight
+    stop_date.to_time < today
+  end
+
   protected
 
   # Ensures that all associated Story objects are placed back in the project

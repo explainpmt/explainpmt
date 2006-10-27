@@ -48,21 +48,15 @@ class Project < ActiveRecord::Base
   validates_length_of :name, :maximum => 100
 
   def past_iterations( reload = false )
-    today = Time.now
     @past_iterations = nil if reload
-    @past_iterations ||= iterations( reload ).select do |i|
-      ( i.start_date + i.length ).to_time <= today.at_midnight
-    end
+    @past_iterations ||= iterations( reload ).select { |i| i.past? }
     @past_iterations.reverse
   end
 
   # Returns an Array of all associated iterations that start after today
   def future_iterations( reload = false )
-    today = Time.now
     @future_iterations = nil if reload
-    @future_iterations ||= iterations( reload ).select do |i|
-      i.start_date.to_time > today
-    end
+    @future_iterations ||= iterations( reload ).select { |i| i.future? }
   end
 
   # Returns the current iteration (if there is one)

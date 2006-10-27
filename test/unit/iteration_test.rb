@@ -79,4 +79,20 @@ class IterationTest < Test::Unit::TestCase
     @iteration_one.start_date = Date.today - ( @iteration_one.length - 1 )
     assert @iteration_one.current?
   end
+
+  def test_future_eh?
+    assert !@iteration_one.future?
+    assert @iteration_two.future?
+    assert !@iteration_four.future?
+    assert @iteration_five.future?
+    assert !@iteration_six.future?
+  end
+
+  def test_past_eh?
+    assert !@iteration_one.past?
+    assert !@iteration_two.past?
+    assert @iteration_four.past?
+    assert !@iteration_five.past?
+    assert @iteration_six.past?
+  end
 end
