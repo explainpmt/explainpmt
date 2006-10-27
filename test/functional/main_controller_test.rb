@@ -20,6 +20,9 @@ class MainControllerTest < Test::Unit::TestCase
     get :dashboard
     assert_response :success
     assert_template 'dashboard'
+    assert_tag :tag => 'a', :content => @user.name, :ancestor => {
+      :attributes => { :id => 'CurrentUserInfo' }
+    }
   end
   
   def test_dashboard_for_admin
@@ -27,6 +30,9 @@ class MainControllerTest < Test::Unit::TestCase
     get :dashboard
     assert_response :success
     assert_template 'dashboard'
+    assert_tag :tag => 'a', :content => @admin.name, :ancestor => {
+      :attributes => { :id => 'CurrentUserInfo' }
+    }
   end
 
   def test_dashboard_for_not_logged_in

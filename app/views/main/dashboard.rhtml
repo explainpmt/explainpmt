@@ -10,7 +10,7 @@
 <body>
   <div id="Header">
     <div id="CurrentUserInfo">
-      Logged in as: <%= link_to 'John Wilger', :action => 'user_profile' %>
+      Logged in as: <%= link_to @current_user.name, :action => 'user_profile' %>
       (<%= link_to 'log out', :action => 'log_out' %>)
     </div>
     <h1><span id="AppTitle">eXPlainPMT</span> ::
