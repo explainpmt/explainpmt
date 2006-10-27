@@ -28,7 +28,7 @@ class UserTest < Test::Unit::TestCase
   
   def test_read_user
     assert_equal "admin", @admin.login
-    assert_equal 1, @admin.admin
+    assert @admin.admin
     assert_equal "Admin", @admin.name
   end
 
