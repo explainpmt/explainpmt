@@ -34,63 +34,62 @@
   	<% end %>
     </div>
   
-    <% sort_header_params = {
-         :controller => 'stories', :action => 'index', :project_id => @project.id
-       }
-       stories_table = CollectionTableHelper::CollectionTable.new(@stories,
-         [:scid, link_to_sort_by('ID', 'scid', sort_header_params)],
-         [:sub_project, link_to_sort_by('Sub-Project', 'sub_project.name',
-          sort_header_params)],
-         [:title, link_to_sort_by('Title', 'title', sort_header_params)],
-         [:points, link_to_sort_by('Points', 'points', sort_header_params)],
-         [:priority, link_to_sort_by('Priority', 'priority', sort_header_params)],
-         [:risk, link_to_sort_by('Risk', 'risk', sort_header_params)],
-         [:status, link_to_sort_by('Status', 'status', sort_header_params)],
-         [:edit,''], [:delete,''])
-       stories_table.column_align(:points, 'center')
-       stories_table.column_align(:edit, 'right')
-       stories_table.column_align(:delete, 'right')
-       stories_table.data_row_class = ['odd_row','even_row']
-       stories_table.column_modifier(:scid) do |s|
-         "<input type=\"checkbox\" name=\"selected_stories[]\" " +
-         "value=\"#{s.id}\" id=\"SC_Check_#{s.id}\" />&nbsp;" +
-         "<label for=\"SC_Check_#{s.id}\">SC#{s.scid}</label>"
-       end
-       stories_table.column_modifier(:title) do |s|
-         str = link_to(s.title,
-           :controller => 'stories', :action => 'show', :id => s.id,
-           :project_id => s.project.id)
-         if s.description?
-           str += '&nbsp' +
-             link_to(image_tag('info-icon.gif', :alt => '[description]'),
-               {:controller => 'stories', :action => 'show', :id => s.id,
-               :project_id => s.project.id},
-               :class => 'story_description_icon')
-         end
-         str
-       end
-       stories_table.column_modifier(:edit) do |s|
-         link_to('Edit',
-           :controller => 'stories',
-           :action => 'edit',
-           :id => s.id,
-           :project_id => s.project.id)
-       end
-       stories_table.column_modifier(:delete) do |s|
-         link_to('Delete', { :controller => 'stories', :action => 'delete',
-           :id => s.id, :project_id => s.project.id },
-           :confirm => "Are you sure you want to delete SC#{s.scid}?")
-       end
-       stories_table.column_modifier( :sub_project ) do |s|
-         if s.sub_project.nil?
-           ''
-         else
-           s.sub_project.name
-         end
-       end
-    %>
-    <%= stories_table.build_table %>
-  
+    <% sort_header_params = { :controller => 'stories',
+                              :action => 'index',
+                              :project_id => @project.id } %>
+    <table id="StoryListTable" class="collection_table">
+      <thead>
+        <tr>
+          <th><%= link_to_sort_by( 'ID', 'scid', sort_header_params ) -%></th>
+          <th><%= link_to_sort_by( 'Sub-Project', 'sub_project.name',
+                                   sort_header_params ) -%></th>
+          <th><%= link_to_sort_by( 'Title', 'title', sort_header_params ) -%></th>
+          <th><%= link_to_sort_by( 'Points', 'points', sort_header_params ) -%></th>
+          <th><%= link_to_sort_by( 'Priority', 'priority', sort_header_params ) -%></th>
+          <th><%= link_to_sort_by( 'Risk', 'risk', sort_header_params ) -%></th>
+          <th><%= link_to_sort_by( 'Status', 'status', sort_header_params ) -%></th>
+          <th colspan="2">&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody id="StoryList">
+        <% @stories.each_with_index do |story, i| %>
+        <tr id="story_card_<%= story.id -%>" class="odd_row">
+          <td>
+            <input type="checkbox" name="selected_stories[]"
+              value="<%= story.id -%>" id="story_card_check_<%= story.id -%>" />
+            <label for="story_card_check_<%= story.id -%>">SC<%= story.scid -%></label>
+          </td>
+          <td><%= story.sub_project.name if story.sub_project -%></td>
+          <td>
+            <%= link_to( story.title, :controller => 'stories',
+                         :action => 'show', :id => story.id,
+                         :project_id => story.project.id ) %>
+            <% if story.description? %>
+            <%= link_to( image_tag( 'info-icon.gif', :alt => '[description]' ),
+                         { :controller => 'stories', :action => 'show',
+                           :id => story.id, :project_id => story.project.id },
+                         :class => 'story_description_icon' ) %>
+            <% end %>
+          </td>
+          <td align="center"><%= story.points -%></td>
+          <td><%= story.priority -%></td>
+          <td><%= story.risk -%></td>
+          <td><%= story.status -%></td>
+          <td align="right">
+            <%= link_to( 'Edit', :controller => 'stories',
+                         :action => 'edit', :id => story.id,
+                         :project_id => story.project.id ) %>
+          </td>
+          <td align="right">
+            <%= link_to( 'Delete',
+                         { :controller => 'stories', :action => 'delete',
+                           :id => story.id, :project_id => story.project.id },
+                         :confirm => "Are you sure you want to delete SC#{story.scid}?" ) %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
   <%= end_form_tag %>
 <% else %>
   <p>No stories are in the project backlog.</p>
