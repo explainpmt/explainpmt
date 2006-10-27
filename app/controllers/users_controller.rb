@@ -19,7 +19,9 @@
 
 
 class UsersController < ApplicationController
-  before_filter :require_admin_privileges, :except => [:index, :project]
+  before_filter :require_admin_privileges, :except => [ :index, :project,
+    :authenticate, :login, :logout ]
+  skip_before_filter :check_authentication, :only => [ :authenticate, :login ]
 
   # If the 'project_id' request parameter is set, this will display the
   # project's team members. Otherwise, it shows all users on the system.
@@ -122,6 +124,44 @@ class UsersController < ApplicationController
       flash[:status] = "User account for #{user.full_name} has been deleted."
     end
     redirect_to :controller => 'users', :action => 'index'
+  end
+  
+  def login
+    render :layout => false
+  end
+  
+  def authenticate
+    session[ :current_user ] = User.authenticate( params[ :username ],
+      params[ :password ] )
+    respond_to do |wants|
+      wants.html do
+        if session[ :current_user ]
+          if session[ :return_to ]
+            redirect_to_path session[ :return_to ]
+            session[ :return_to ] = nil
+          else
+            redirect_to :controller => 'dashboard', :action => 'index'
+          end
+        else
+          flash[ :error ] = 'You entered an invalid username and/or password.'
+          redirect_to :controller => 'users', :action => 'login'
+        end
+      end
+      wants.xml do
+        if session[ :current_user ]
+          render :xml => session[ :current_user ].to_xml( :dasherize => false )
+        else
+          @error = 'You entered an invalid username and/or password.'
+          render :template => 'shared/error', :layout => false
+        end
+      end
+    end
+  end
+  
+  def logout
+    session[ :current_user ] = nil
+    flash[:status] = "You have been logged out."
+    redirect_to :controller => 'users', :action => 'login'
   end
 
   protected

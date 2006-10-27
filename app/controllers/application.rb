@@ -48,12 +48,10 @@ class ApplicationController < ActionController::Base
   # variable will contain the path to the page the user was originally trying to
   # access.
   def check_authentication
-    unless session[:current_user].kind_of?(User) or
-      self.class == SessionController
-
+    unless session[:current_user].kind_of?(User)
       session[:return_to] = request.request_uri
       flash[:status] = "Please log in, and we'll send you right along."
-      redirect_to :controller => 'session', :action => 'login'
+      redirect_to :controller => 'users', :action => 'login'
       return false
     end
   end

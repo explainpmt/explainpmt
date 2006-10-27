@@ -36,8 +36,7 @@
       <div id="SystemStatus"><%= textilize_without_paragraph(flash[:status])
         %></div>
       <% end %>
-      <form action="<%= url_for(:controller => 'session',
-        :action => 'authenticate') %>" method="post">
+      <form action="<%= authenticate_users_url %>" method="post">
                   <table class="form_layout">
                         <tr>
                                 <th><label for="Username">Username:</label></th>

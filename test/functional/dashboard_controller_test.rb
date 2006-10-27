@@ -39,7 +39,7 @@ class DashboardControllerTest < Test::Unit::TestCase
   def test_authentication_required
     @request.session[:current_user] = nil
     get :index
-    assert_redirected_to :controller => 'session', :action => 'login'
+    assert_redirected_to :controller => 'users', :action => 'login'
     assert_equal '/', session[:return_to]
     assert_equal "Please log in, and we'll send you right along.",
                  flash[:status]

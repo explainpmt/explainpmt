@@ -42,7 +42,7 @@ class UsersControllerTest < Test::Unit::TestCase
     actions = [ :index, :new, :create, :edit, :update, :delete ]
     actions.each do |a|
       process a
-      assert_redirected_to :controller => 'session', :action => 'login'
+      assert_redirected_to :controller => 'users', :action => 'login'
       assert session[ :return_to ]
       assert_equal "Please log in, and we'll send you right along.",
         flash[ :status ]
@@ -214,5 +214,81 @@ class UsersControllerTest < Test::Unit::TestCase
     assert_raise( ActiveRecord::RecordNotFound ) do
       User.find @user_one.id
     end
+  end
+  
+  def test_should_redirect_user_to_dashboard_after_successful_authentication
+    post :authenticate, :username => @user_one.username,
+      :password => @user_one.password
+    assert_redirected_to :controller => 'dashboard', :action => 'index'
+  end
+  
+  def test_should_redirect_user_to_specified_url_after_successful_authentication
+    @request.session[ :return_to ] = '/foo/bar'
+    post :authenticate, :username => @user_one.username,
+      :password => @user_one.password
+    assert_equal 'http://test.host/foo/bar', @response.redirect_url
+    assert_nil session[ :return_to ]
+  end
+  
+  def test_should_render_current_user_as_xml_after_successful_authentication
+    @request.env[ 'HTTP_ACCEPT' ] = 'application/xml'
+    post :authenticate, :username => @admin.username,
+      :password => @admin.password
+    assert_response :success
+    assert_equal @admin.to_xml( :dasherize => false ), @response.body
+  end
+  
+  def test_should_set_current_user_in_session_after_successful_authentication
+    post :authenticate, :username => @user_one.username,
+      :password => @user_one.password
+    assert_equal @user_one, session[ :current_user ]
+  end
+  
+  def test_should_not_set_current_user_after_authentication_failure
+    post :authenticate
+    assert_nil session[ :current_user ]
+  end
+  
+  def test_should_redirect_to_login_after_authentication_failure
+    post :authenticate
+    assert_redirected_to :controller => 'users', :action => 'login'
+  end
+  
+  def test_should_set_flash_error_after_authentication_failure
+    post :authenticate
+    assert_equal 'You entered an invalid username and/or password.',
+      flash[ :error ]
+  end
+  
+  def test_should_render_xml_error_template_after_authentication_failure
+    @request.env[ 'HTTP_ACCEPT' ] = 'application/xml'
+    post :authenticate
+    assert_template 'shared/error'
+    assert_tag :tag => 'message',
+      :content => 'You entered an invalid username and/or password.'
+  end
+  
+  def test_should_render_login_template
+    get :login
+    assert_response :success
+    assert_template 'login'
+  end
+  
+  def test_should_remove_current_user_from_session_on_logout
+    @request.session[ :current_user ] = @user_one
+    get :logout
+    assert_nil session[ :current_user ]
+  end
+  
+  def test_should_redirect_to_login_after_logout
+    @request.session[ :current_user ] = @user_one
+    get :logout
+    assert_redirected_to :controller => 'users', :action => 'login'
+  end
+  
+  def test_should_set_flash_status_after_logout
+    @request.session[ :current_user ] = @user_one
+    get :logout
+    assert_equal "You have been logged out.", flash[ :status ]
   end
 end

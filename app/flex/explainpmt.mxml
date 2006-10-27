@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
+    xmlns:ex="com.explainpmt.components.*">
+    <mx:states>
+        <mx:State name="loggedIn">
+            <mx:RemoveChild target="{spacer1}"/>
+            <mx:RemoveChild target="{image1}"/>
+            <mx:RemoveChild target="{loginPanel}"/>
+            <mx:RemoveChild target="{vbox1}"/>
+            <mx:AddChild position="lastChild">
+                <mx:ApplicationControlBar dock="true" fillColors="[#e6e6e6, #cccccc]" fillAlphas="[1.0, 1.0]">
+                </mx:ApplicationControlBar>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:Label text="{'Welcome, ' + currentUser.first_name}" fontWeight="bold" fontSize="32" color="#000000" textAlign="center" horizontalCenter="0" verticalCenter="0"/>
+            </mx:AddChild>
+        </mx:State>
+    </mx:states>
+    <mx:Script>
+        <![CDATA[
+            import com.explainpmt.events.LoginEvent;
+            import mx.controls.Alert;
+            [Embed(source="../../public/images/logo.png")]
+            [Bindable]
+            public var logoImg:Class;
+            
+            [Bindable]
+            private var currentUser:XML;
+            
+            private function handleLogin(event:LoginEvent):void {
+                currentUser = event.user;
+                currentState = "loggedIn";
+            }
+        ]]>
+    </mx:Script>
+    <mx:VBox width="100%" height="100%" horizontalAlign="center" backgroundColor="#FFFFFF" id="vbox1">
+       <mx:Spacer height="20%" id="spacer1"/>
+       <mx:Image source="{logoImg}" id="image1"/>
+       <ex:LoginPanel id="loginPanel" login="handleLogin(event)"/>
+    </mx:VBox>
+</mx:Application>

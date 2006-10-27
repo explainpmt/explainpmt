@@ -6,6 +6,9 @@ ActionController::Routing::Routes.draw do |map|
 # map.connect 'products/:id', :controller => 'catalog', :action => 'view'
 # Keep in mind you can assign values other than :controller and :action
 
+map.resources :users,
+  :collection => { :login => :get, :authenticate => :post, :logout => :get }
+
 map.connect ':controller/:action/:id', :controller => 'dashboard'
 
 map.connect 'project/:project_id/stories',

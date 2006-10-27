@@ -38,7 +38,7 @@
           :controller => 'users',
           :action => 'edit',
           :id => session[:current_user].id)%> &nbsp; | &nbsp; 
-        <%= link_to('Log-out', :controller => 'session', :action => 'logout') %>
+        <%= link_to( 'Log-out', logout_users_url ) %>
       </div>
       <% end %>
     </div>

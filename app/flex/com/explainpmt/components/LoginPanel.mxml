@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" title="Please Log In" borderAlpha="1"
+    initialize="handleInitialize()">
+    <mx:states>
+        <mx:State name="authenticationFailed">
+            <mx:AddChild relativeTo="{formitem1}" position="before">
+                <mx:Label id="errorMessage" text="{svcAuthenticate.lastResult.message}" fontWeight="bold" color="#ff0000" width="100%"/>
+            </mx:AddChild>
+        </mx:State>
+    </mx:states>
+    <mx:Metadata>
+        [Event(name="login", type="com.explainpmt.events.LoginEvent")]
+    </mx:Metadata>
+    <mx:Script>
+        <![CDATA[
+            import com.explainpmt.events.LoginEvent;
+            import mx.rpc.events.ResultEvent;
+           import mx.controls.Alert;
+           
+           private function doLogin():void {
+               svcAuthenticate.send({
+                   username: usernameTI.text,
+                   password: passwordTI.text
+               });
+           }
+           
+           private function handleAuthenticateResult(event:ResultEvent):void {
+               var result:XML = XML(event.result);
+               if (result.name().localName == 'error') {
+                   currentState = "authenticationFailed";
+                   usernameTI.text = "";
+               } else {
+                   currentState = "";
+                   dispatchEvent(new LoginEvent(result));
+               }
+               usernameTI.setFocus();
+               passwordTI.text = "";
+           }
+           
+           private function handleInitialize():void {
+               usernameTI.setFocus();
+               addEventListener(KeyboardEvent.KEY_DOWN, handleKeyDown);
+           }
+           
+           private function handleKeyDown(event:KeyboardEvent):void {
+               if (event.keyCode == Keyboard.ENTER) {
+                   doLogin();
+               }
+           }
+        ]]>
+    </mx:Script>
+    
+    <mx:HTTPService id="svcAuthenticate"
+        url="/users.xml;authenticate"
+        method="POST"
+        useProxy="false"
+        resultFormat="e4x"
+        result="handleAuthenticateResult(event)"/>
+    
+    <mx:Form left="0" right="0" top="0" bottom="0">
+        <mx:FormItem label="Username" id="formitem1">
+           <mx:TextInput id="usernameTI" tabIndex="1"/>
+        </mx:FormItem>
+        <mx:FormItem label="Password">
+           <mx:TextInput id="passwordTI" tabIndex="2" displayAsPassword="true"/> 
+        </mx:FormItem>
+        <mx:FormItem>
+           <mx:Button id="loginButton" label="login" click="doLogin()" tabIndex="3"/>
+        </mx:FormItem>
+    </mx:Form>
+</mx:Panel>

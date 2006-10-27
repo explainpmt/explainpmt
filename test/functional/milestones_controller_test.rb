@@ -54,7 +54,7 @@ class MilestonesControllerTest < Test::Unit::TestCase
     @request.session[:current_user] = nil
     ALL_ACTIONS.each do |a|
       process a
-      assert_redirected_to :controller => 'session', :action => 'login'
+      assert_redirected_to :controller => 'users', :action => 'login'
       assert session[:return_to]
     end
   end
