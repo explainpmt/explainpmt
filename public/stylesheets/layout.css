@@ -4,6 +4,10 @@ body {
   padding: 0;
 }
 
+h2 {
+  font-size: 1.1em;
+}
+
 #Header {
   margin: 0;
   padding: 0;
@@ -29,7 +33,22 @@ body {
 #MyProjects {
   float: right;
   width: 15em;
-  margin: 0 0 10px 10px;
+  margin: 0;
   padding: 5px;
   background-color: #CCCCCC;
+}
+
+#MyProjects h2 {
+  text-align: center;
+}
+
+#MyProjects li a {
+  display: block;
+  text-decoration: none;
+  margin: 0;
+  padding: 0.25em 1em;
+}
+
+#MyProjects li a:hover {
+  background-color: #EEEEEE;
 }
