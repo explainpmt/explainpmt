@@ -65,7 +65,7 @@ class Iteration < ActiveRecord::Base
 
   # The last date of the iteration
   def stop_date
-    start_date + length - 1
+    start_date + length.to_i - 1
   end
 
   # The number of unallocated budget points

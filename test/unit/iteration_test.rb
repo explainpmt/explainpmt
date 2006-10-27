@@ -95,4 +95,9 @@ class IterationTest < Test::Unit::TestCase
     assert !@iteration_five.past?
     assert @iteration_six.past?
   end
+  
+  def test_no_exception_raised_when_evaluating_stop_date_of_iteration_with_nil_length
+    @iteration_one.length = nil
+    assert_nothing_raised(TypeError) { @iteration_one.stop_date }
+  end
 end

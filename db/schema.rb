@@ -2,19 +2,19 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 2) do
+ActiveRecord::Schema.define(:version => 1) do
 
   create_table "iterations", :force => true do |t|
-    t.column "project_id", :integer, :default => 0, :null => false
+    t.column "project_id", :integer
     t.column "start_date", :date
-    t.column "length", :integer, :default => 14
+    t.column "length", :integer
     t.column "budget", :integer
     t.column "created_at", :datetime
     t.column "updated_at", :datetime
   end
 
   create_table "milestones", :force => true do |t|
-    t.column "project_id", :integer, :default => 0, :null => false
+    t.column "project_id", :integer
     t.column "date", :date
     t.column "name", :string
     t.column "description", :text
@@ -30,13 +30,13 @@ ActiveRecord::Schema.define(:version => 2) do
   end
 
   create_table "projects_users", :id => false, :force => true do |t|
-    t.column "user_id", :integer, :default => 0, :null => false
-    t.column "project_id", :integer, :default => 0, :null => false
+    t.column "user_id", :integer
+    t.column "project_id", :integer
   end
 
   create_table "stories", :force => true do |t|
-    t.column "scid", :integer, :default => 0, :null => false
-    t.column "project_id", :integer, :default => 0, :null => false
+    t.column "scid", :integer
+    t.column "project_id", :integer
     t.column "iteration_id", :integer
     t.column "user_id", :integer
     t.column "title", :string
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(:version => 2) do
     t.column "email", :string
     t.column "first_name", :string
     t.column "last_name", :string
-    t.column "admin", :boolean, :default => false
+    t.column "admin", :boolean
     t.column "created_at", :datetime
     t.column "updated_at", :datetime
   end
