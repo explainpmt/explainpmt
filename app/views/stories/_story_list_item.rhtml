@@ -21,6 +21,22 @@
   <td><%= story.priority -%></td>
   <td><%= story.risk -%></td>
   <td><%= story.status -%></td>
+  <% unless hide_cols.include?( :owner ) %>
+    <td>
+      <%=
+      if story.has_owner?
+        story.owner.full_name + ' (' + link_to('release', :controller => 'stories',
+                                           :action => 'release_ownership',
+                                           :id => story.id,
+                                           :project_id => story.project.id) + ')'
+      else
+        'None (' + link_to('take', :controller => 'stories',
+                           :action => 'take_ownership', :id => story.id,
+                           :project_id => story.project.id) + ')'
+      end
+       %>
+    </td>
+  <% end %>
   <td align="right">
     <%= link_to( 'Edit', :controller => 'stories',
                  :action => 'edit', :id => story.id,
