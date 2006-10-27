@@ -1,6 +1,9 @@
-<h3>Create new story card</h3>
+<h3>Create new story cards</h3>
+
+<p><label for="StoryCardTitles">Enter titles of new storycards, one per line:</label>
+  <input type="submit" name="submit" value="Create Story Cards" /></p>
 
 <%= start_form_tag(:controller => 'stories', :action => 'create',
-                   :project_id => @project.id) %>
-<%= render_partial('story_form', :story => @story) %>
+  :project_id => @project.id) %>
+  <p><textarea id="StoryCardTitles" name="story_card_titles" rows="40" cols="80"></textarea></p>
 <%= end_form_tag %>

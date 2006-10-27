@@ -41,35 +41,24 @@ class StoriesController < ApplicationController
     end
   end
 
-  # Displays a form for creating a new story card.
+  # Displays a form for creating new story cards.
   def new
-    @page_title = "Create new story card"
+    @page_title = "Create new story cards"
     @selected_main_menu_link = :none
-    if @story = session[:new_story]
-      session[:new_story] = nil
-    else
-      @story = Story.new
-    end
-    @story.return_ids_for_aggregations
   end
 
-  # Creates a new story card based on the information posted form the #new
+  # Creates new story cards based on the story titles posted form the #new
   # action.
   def create
-    @page_title = "Create new story card"
-    @selected_main_menu_link = :none
-    modify_risk_status_and_priority_params
-    story = Story.new(params['story'])
-    story.project = @project
-    if story.valid?
-      story.save
-      flash[:status] = 'The new story card has been saved.'
-      redirect_to :controller => 'stories', :action => 'index',
-                  :project_id => @project.id
+    if params[:story_card_titles].empty?
+      flash[:error] = 'Please enter at least one story card title.'
+      redirect_to :controller => 'stories', :action => 'new', :project_id => @project
     else
-      session[:new_story] = story
-      redirect_to :controller => 'stories', :action => 'new',
-                  :project_id => @project.id
+      session[:new_story_ids] = []
+      params[:story_card_titles].each_line do |title|
+        session[:new_story_ids] << @project.stories.create(:title => title).id
+      end
+      redirect_to :controller => 'stories', :action => 'list_new', :project_id => @project
     end
   end
 

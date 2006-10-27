@@ -85,33 +85,31 @@ class StoriesControllerTest < Test::Unit::TestCase
   end
 
   def test_new
-    get :new, 'project_id' => @project_one.id
+    get :new, :project_id => @project_one.id
     assert_response :success
     assert_template 'new'
-    assert_kind_of Story, assigns( :story )
-    assert assigns( :story ).new_record?
-  end
-
-  def test_new_from_invalid
-    @request.session[ :new_story ] = Story.new
-    test_new
-    assert_nil session[ :new_story ]
+    assert_equal 'Create new story cards', assigns(:page_title)
   end
 
   def test_create
     num = @project_one.stories.backlog.size
-    post :create, 'project_id' => @project_one.id,
-      'story' => { 'title' => 'Test Create', 'status' => 1 }
-    assert_redirected_to :controller => 'stories', :action => 'index'
-    assert_equal num + 1, @project_one.stories( true ).backlog.size
+    previous_stories = @project_one.stories.dup
+    post :create, :project_id => @project_one.id,
+      :story_card_titles => "New Story One\nNew Story Two\nNew Story Three"
+    assert_redirected_to :controller => 'stories', :action => 'list_new', :project_id => @project_one.id
+    assert_equal num + 3, @project_one.stories( true ).backlog.size
+    new_stories = @project_one.stories - previous_stories
+    assert_kind_of Array, session[:new_story_ids]
+    new_stories.map{ |s| s.id }.each { |id| assert session[:new_story_ids].include?(id) }
+    assert_equal new_stories.size, session[:new_story_ids].size
   end
 
-  def test_create_invalid
+  def test_create_empty
     num = Story.count
-    post :create, 'project_id' => @project_one.id, 'story' => { 'title' => '' }
+    post :create, :project_id => @project_one.id, :story_card_titles => ''
     assert_redirected_to :controller => 'stories', :action => 'new',
       :project_id => @project_one.id
-    assert session[ :new_story ]
+    assert_equal 'Please enter at least one story card title.', flash[:error]
   end
 
   def test_edit
