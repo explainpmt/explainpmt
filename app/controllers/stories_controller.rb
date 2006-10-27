@@ -132,6 +132,7 @@ class StoriesController < ApplicationController
   # parameter.
   def show
     @story = Story.find(@params['id'])
+    @selected_main_menu_link = :none
     @page_title = @story.title
   end
 

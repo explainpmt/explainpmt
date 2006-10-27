@@ -1,7 +1,17 @@
 <h3><%= "SC#{@story.scid}: #{@story.title}" %></h3>
 <p>
-  (<%= link_to('Edit', :controller => 'stories', :action => 'edit',
-               :id => @story.id, :project_id => @project.id) %>)
+  <%= link_to('Edit', :controller => 'stories', :action => 'edit',
+               :id => @story.id, :project_id => @project.id) %>
+               
+  &nbsp;&nbsp;&nbsp;
+  
+  <% if @story.iteration %>
+    <%= link_to('Back to Iteration', :controller => 'iterations', :action => 'show',
+                 :id => @story.iteration.id, :project_id => @project.id) %>
+  <% else %>
+    <%= link_to('Back to Backlog', :controller => 'stories', :project_id => @project.id) %>
+  <% end %>
+               
 </p>
 <table cellspacing="0" cellpadding="3" border="0">
   <tr>
