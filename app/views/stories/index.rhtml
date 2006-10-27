@@ -18,9 +18,9 @@
   <div style="text-align: right;">
     &nbsp;&nbsp;&nbsp;Move Selected Story Cards to:
     <select name="move_to">
-      <% iteration_options = @project.future_iterations
-         if @project.current_iteration
-           iteration_options.unshift(@project.current_iteration)
+      <% iteration_options = @project.iterations.future
+         if @project.iterations.current
+           iteration_options.unshift(@project.iterations.current)
          end
          iteration_options.each do |i|
            %>
@@ -75,4 +75,3 @@
 <% else %>
   <p>No stories are in the project backlog.</p>
 <% end %>
-

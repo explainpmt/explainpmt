@@ -28,9 +28,9 @@ class IterationsController < ApplicationController
   # iteration, the previous iteration, or the next iteration and redirects to
   # that iteration's #show view
   def index
-    iteration = @project.current_iteration
-    iteration = @project.previous_iteration if iteration.nil?
-    iteration = @project.next_iteration if iteration.nil?
+    iteration = @project.iterations.current
+    iteration = @project.iterations.previous if iteration.nil?
+    iteration = @project.iterations.next if iteration.nil?
 
     unless iteration.nil?
       flash.keep

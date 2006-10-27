@@ -37,7 +37,27 @@
 #   validates_length_of :name, :maximum => 100
 #
 class Project < ActiveRecord::Base
-  has_many :iterations, :order => 'start_date ASC', :dependent => true
+  has_many :iterations, :order => 'start_date ASC', :dependent => true do
+    def past
+      self.reverse.select { |i| i.past? }
+    end
+
+    def future
+      self.select { |i| i.future? }
+    end
+
+    def previous
+      past.first
+    end
+
+    def next
+      future.first
+    end
+
+    def current
+      self.detect { |i| i.current? }
+    end
+  end
   has_many :milestones, :order => 'date ASC', :dependent => true
   has_many :stories, :dependent => true
   has_many :backlog, :class_name => 'Story',
@@ -47,34 +67,6 @@ class Project < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 100
 
-  def past_iterations( reload = false )
-    @past_iterations = nil if reload
-    @past_iterations ||= iterations( reload ).select { |i| i.past? }
-    @past_iterations.reverse
-  end
-
-  # Returns an Array of all associated iterations that start after today
-  def future_iterations( reload = false )
-    @future_iterations = nil if reload
-    @future_iterations ||= iterations( reload ).select { |i| i.future? }
-  end
-
-  # Returns the current iteration (if there is one)
-  def current_iteration( reload = false )
-    @current_iteration = nil if reload
-    @current_iteration ||= iterations( reload ).detect { |i| i.current? }
-  end
-
-  # Returns the last iteration to have ended or nil
-  def previous_iteration(reload = false)
-    past_iterations(reload).first
-  end
-
-  # Returns the next scheduled iteration or nil
-  def next_iteration(reload = false)
-    future_iterations(reload).first
-  end
-  
   def future_milestones(reload = false)
     milestones(reload).select { |m| m.future? }
   end

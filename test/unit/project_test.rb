@@ -21,26 +21,26 @@ class ProjectTest < Test::Unit::TestCase
   end
 
   def test_current_iteration_that_starts_today
-    assert_equal @iteration_one, @project_one.current_iteration
+    assert_equal @iteration_one, @project_one.iterations.current
   end
 
   def test_current_iteration_that_ends_today
     Iteration.destroy_all 'id != 1' # otherwise others would overlap
     @iteration_one.start_date = Date.today - ( @iteration_one.length - 1 )
     @iteration_one.save!
-    assert_equal @iteration_one, @project_one.current_iteration
+    assert_equal @iteration_one, @project_one.iterations.current
   end
 
   def test_current_iteration_that_began_yesterday
     Iteration.destroy_all 'id != 1' # otherwise others would overlap
     @iteration_one.start_date = Date.today - 1
     @iteration_one.save!
-    assert_equal @iteration_one, @project_one.current_iteration
+    assert_equal @iteration_one, @project_one.iterations.current
   end
   
   def test_past_iterations
     assert_equal [ @iteration_four, @iteration_six ],
-      @project_one.past_iterations
+      @project_one.iterations.past
   end
 
   def destroy_past_iterations
@@ -50,21 +50,21 @@ class ProjectTest < Test::Unit::TestCase
   
   def test_past_iterations_with_no_past_iterations
     destroy_past_iterations
-    assert @project_one.past_iterations.empty?
+    assert @project_one.iterations.past.empty?
   end
   
   def test_previous_iteration
-    assert_equal @iteration_four, @project_one.previous_iteration
+    assert_equal @iteration_four, @project_one.iterations.previous
   end
 
   def test_previous_iteration_with_no_past_iterations
     destroy_past_iterations
-    assert_nil @project_one.previous_iteration
+    assert_nil @project_one.iterations.previous
   end
 
   def test_future_iterations
     assert_equal [ @iteration_two, @iteration_five ],
-      @project_one.future_iterations
+      @project_one.iterations.future
   end
 
   def destroy_future_iterations
@@ -74,16 +74,16 @@ class ProjectTest < Test::Unit::TestCase
   
   def test_future_iterations_with_no_future_iterations
     destroy_future_iterations
-    assert @project_one.future_iterations.empty?
+    assert @project_one.iterations.future.empty?
   end
   
   def test_next_iteration
-    assert_equal @iteration_two, @project_one.next_iteration
+    assert_equal @iteration_two, @project_one.iterations.next
   end
 
   def test_next_iteration_with_no_future_iterations
     destroy_future_iterations
-    assert_nil @project_one.next_iteration
+    assert_nil @project_one.iterations.next
   end
 
   def test_future_milestones
@@ -128,4 +128,3 @@ class ProjectTest < Test::Unit::TestCase
     assert_equal 1, @project_one.backlog.size
   end
 end
-

@@ -9,36 +9,36 @@
                :project_id => @project.id) %>
 
 <ul>
-<% if @project.current_iteration %>
+<% if @project.iterations.current %>
 <li>
 <%= link_to_unless_current('Current Iteration',:controller => 'iterations',
                            :action => 'show',
-                           :id => @project.current_iteration.id,
+                           :id => @project.iterations.current.id,
                            :project_id => @project.id) %>
 </li>
 <% end %>
-<% if @project.next_iteration %>
+<% if @project.iterations.next %>
 <li>
 <%= link_to_unless_current('Next Iteration', :controller => 'iterations',
                            :action => 'show',
-                           :id => @project.next_iteration.id,
+                           :id => @project.iterations.next.id,
                            :project_id => @project.id) %>
 </li>
 <% end %>
-<% if @project.previous_iteration %>
+<% if @project.iterations.previous %>
 <li>
 <%= link_to_unless_current('Previous Iteration', :controller => 'iterations',
                            :action => 'show',
-                           :id => @project.previous_iteration.id,
+                           :id => @project.iterations.previous.id,
                            :project_id => @project.id) %>
 </li>
 <% end %>
 </ul>
 
-<% if @project.future_iterations.size > 0 %>
+<% if @project.iterations.future.size > 0 %>
 <strong>Upcoming Iterations:</strong>
 <ul>
-<% @project.future_iterations.each do |i| %>
+<% @project.iterations.future.each do |i| %>
 <li>
 <%= link_to_unless_current(numeric_date(i.start_date),
                            :controller => 'iterations', :action => 'show',
@@ -48,10 +48,10 @@
 </ul>
 <% end %>
 
-<% if @project.past_iterations.size > 0 %>
+<% if @project.iterations.past.size > 0 %>
 <strong>Completed Iterations:</strong>
 <ul>
-<% @project.past_iterations.each do |i| %>
+<% @project.iterations.past.each do |i| %>
 <li>
 <%= link_to_unless_current(numeric_date(i.start_date),
                            :controller => 'iterations', :action => 'show',
@@ -146,9 +146,9 @@
 <select name="move_to">
 <option vlaue="0">Backlog</option>
 <%
-iteration_options = @project.future_iterations
-if @project.current_iteration
-  iteration_options.unshift(@project.current_iteration)
+iteration_options = @project.iterations.future
+if @project.iterations.current
+  iteration_options.unshift(@project.iterations.current)
 end
 iteration_options.each do |i|
   unless i == @iteration
