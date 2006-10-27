@@ -32,6 +32,18 @@ class UserTest < Test::Unit::TestCase
     assert_nil User.authenticate('bad_username', 'bad_password')
     assert_nil User.authenticate(nil, nil)
   end
+  
+  def test_username_validations
+    @user_one.username = '_' * 1
+    @user_one.valid?
+    assert_nil @user_one.errors[:username]
+  end
+  
+  def test_password_validations
+    @user_one.password = '_' * 1
+    @user_one.valid?
+    assert_nil @user_one.errors[:password]
+  end
 end
 
 

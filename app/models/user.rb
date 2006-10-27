@@ -25,10 +25,8 @@
 #   has_many :stories
 #
 # And the following data validations:
-#   validates_presence_of :first_name, :last_name, :email
+#   validates_presence_of :first_name, :last_name, :email, :username, :password
 #   validates_uniqueness_of :username, :email
-#   validates_length_of :username, :minimum => 4
-#   validates_length_of :password, :minimum => 6
 #   validates_confirmation_of :password
 #   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/
 #
@@ -36,10 +34,8 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :projects
   has_many :stories
 
-  validates_presence_of :first_name, :last_name, :email
+  validates_presence_of :first_name, :last_name, :email, :username, :password
   validates_uniqueness_of :username, :email
-  validates_length_of :username, :minimum => 4
-  validates_length_of :password, :minimum => 6
   validates_confirmation_of :password
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/
 
