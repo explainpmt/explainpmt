@@ -167,7 +167,7 @@ class IterationsController < ApplicationController
   # Doest the actual work of changing the iteration assignment for #move_stories
   # and #assign_stories
   def change_story_assignment
-    stories = @params['selected_stories'].map do |sid|
+    stories = ( @params['selected_stories'] || [] ).map do |sid|
       Story.find(sid)
     end
     successes = []

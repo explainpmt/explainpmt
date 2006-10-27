@@ -192,6 +192,13 @@ class IterationsControllerTest < Test::Unit::TestCase
     assert flash[:status]
   end
 
+  def test_move_stories_raises_no_error_if_no_stories_selected
+    assert_nothing_raised do
+      post :move_stories, :project_id => @project_one.id,
+        :move_to => @iteration_two.id
+    end
+  end
+
   def test_select_stories
     get :select_stories, 'id' => @iteration_one.id,
         'project_id' => @project_one.id
