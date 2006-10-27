@@ -13,7 +13,8 @@
       Logged in as: <%= link_to 'John Wilger', :action => 'user_profile' %>
       (<%= link_to 'log out', :action => 'log_out' %>)
     </div>
-    <h1><span id="AppTitle">eXPlainPMT</span> :: <span id="ViewTitle">Dashboard</span></h1>
+    <h1><span id="AppTitle">eXPlainPMT</span> ::
+      <span id="ViewTitle">Dashboard</span></h1>
   </div>
 
   <div id="MyProjects">
@@ -30,7 +31,8 @@
   <div id="MyStoryCards">
     <form action="<%= url_for :action => 'print_story_cards' %>" method="post">
       <h2>My Story Cards</h2>
-      <input id="PrintStoryCards" type="submit" name="submit" value="Print Selected" />
+      <input id="PrintStoryCards" type="submit" name="submit"
+        value="Print Selected" />
       <table>
         <tr>
           <th>&nbsp;</th>
@@ -42,8 +44,10 @@
           <th>&nbsp;</th>
         </tr>
         <tr>
-          <td><input type="checkbox" name="selected_stories[]" value="1" /></td>
-          <td><%= link_to 'Project Three', :action => 'project_overview' %></td>
+          <td><input type="checkbox" name="selected_stories[]" value="1" />
+            </td>
+          <td><%= link_to 'Project Three', :action => 'project_overview' %>
+            </td>
           <td><%= link_to 'SC4', :action => 'view_story_card' %></td>
           <td><%= link_to 'check out', :action => 'view_story_card' %></td>
           <td>In Progress</td>
@@ -51,19 +55,24 @@
           <td><%= link_to 'edit', :action => 'edit_story_card' %></td>
         </tr>
         <tr>
-          <td><input type="checkbox" name="selected_stories[]" value="5" /></td>
-          <td><%= link_to 'Project Three', :action => 'project_overview' %></td>
+          <td><input type="checkbox" name="selected_stories[]" value="5" />
+            </td>
+          <td><%= link_to 'Project Three', :action => 'project_overview' %>
+            </td>
           <td><%= link_to 'SC19', :action => 'view_story_card' %></td>
-          <td><%= link_to 'redeem a coupon', :action => 'view_story_card' %></td>
+          <td><%= link_to 'redeem a coupon', :action => 'view_story_card' %>
+            </td>
           <td>Blocked</td>
           <td><%= link_to 'release', :action => 'release_story_card' %></td>
           <td><%= link_to 'edit', :action => 'edit_story_card' %></td>
         </tr>
         <tr>
-          <td><input type="checkbox" name="selected_stories[]" value="9" /></td>
+          <td><input type="checkbox" name="selected_stories[]" value="9" />
+            </td>
           <td><%= link_to 'Project Two', :action => 'project_overview' %></td>
           <td><%= link_to 'SC1', :action => 'view_story_card' %></td>
-          <td><%= link_to 'create new work-item', :action => 'view_story_card' %></td>
+          <td><%= link_to 'create new work-item',
+                          :action => 'view_story_card' %></td>
           <td>Complete</td>
           <td><%= link_to 'release', :action => 'release_story_card' %></td>
           <td><%= link_to 'edit', :action => 'edit_story_card' %></td>
@@ -82,12 +91,14 @@
       </tr>
       <tr>
         <td><%= link_to 'Project Three', :action => 'project_overview' %></td>
-        <td><%= link_to 'Version 1.6 Release', :action => 'view_milestone' %></td>
+        <td><%= link_to 'Version 1.6 Release', :action => 'view_milestone' %>
+          </td>
         <td>10/31/2005</td>
       </tr>
       <tr>
         <td><%= link_to 'Project Two', :action => 'project_overview' %></td>
-        <td><%= link_to 'Project Post-Mortem', :action => 'view_milestone' %></td>
+        <td><%= link_to 'Project Post-Mortem', :action => 'view_milestone' %>
+          </td>
         <td>10/15/2005</td>
       </tr>
     </table>
@@ -104,24 +115,30 @@
         <th>Who?</th>
       </tr>
       <tr>
-        <td><%= image_tag 'story_card_icon_small', :alt => 'SC', :size => '10x10' %></td>
+        <td><%= image_tag 'story_card_icon_small', :alt => 'SC',
+                          :size => '10x10' %></td>
         <td><%= link_to 'Project Four', :action => 'project_overview' %></td>
         <td>9/27/2005 12:33pm</td>
-        <td>New story card added: "<%= link_to 'calculate probability', :action => 'view_story_card' %>"</td>
+        <td>New story card added: "<%= link_to 'calculate probability',
+          :action => 'view_story_card' %>"</td>
         <td><%= link_to 'J. Brown', :action => 'user_profile' %></td>
       </tr>
       <tr>
-        <td><%= image_tag 'feature_icon_small', :alt => 'FE', :size => '10x10' %></td>
+        <td><%= image_tag 'feature_icon_small', :alt => 'FE',
+                          :size => '10x10' %></td>
         <td><%= link_to 'Project Three', :action => 'project_overview' %></td>
         <td>9/27/2005 09:24am</td>
-        <td>Changed feature: "<%= link_to 'Secure Checkout', :action => 'view_feature' %>"</td>
+        <td>Changed feature: "<%= link_to 'Secure Checkout',
+          :action => 'view_feature' %>"</td>
         <td><%= link_to 'M. Rogers', :action => 'user_profile' %></td>
       </tr>
       <tr>
-        <td><%= image_tag 'defect_icon_small', :alt => 'DF', :size => '10x10' %></td>
+        <td><%= image_tag 'defect_icon_small', :alt => 'DF',
+                          :size => '10x10' %></td>
         <td><%= link_to 'Project Two', :action => 'project_overview' %></td>
         <td>9/26/2005 10:55pm</td>
-        <td>New defect reported: "<%= link_to 'DF82', :action => 'view_defect' %>"</td>
+        <td>New defect reported: "<%= link_to 'DF82',
+          :action => 'view_defect' %>"</td>
         <td><%= link_to 'D. Vader', :action => 'user_profile' %></td>
       </tr>
     </table>
