@@ -5,12 +5,11 @@ require 'dashboard_controller'
 class DashboardController; def rescue_action(e) raise e end; end
 
 class DashboardControllerTest < Test::Unit::TestCase
+  fixtures :users, :projects, :projects_users
   def setup
-    Project.destroy_all
-    User.destroy_all
-    create_common_fixtures :admin, :user_one, :project_one, :project_two
-    @user_one.projects << @project_one
-    @user_one.projects << @project_two
+    @admin = User.find 1
+    @user_one = User.find 2
+    @user_two = User.find 3
 
     @controller = DashboardController.new
     @request = ActionController::TestRequest.new
@@ -52,19 +51,17 @@ class DashboardControllerTest < Test::Unit::TestCase
   end
 
   def test_index_when_regular_user_on_one_project_team
-    @user_one.projects.clear
-    @user_one.projects << @project_one
-    @request.session[:current_user] = @user_one
+    @request.session[ :current_user ] = @user_two
     get :index
     assert_redirected_to :controller => 'dashboard', :action => 'index',
-                         :project_id => @user_one.projects.first.id
+      :project_id => @user_two.projects.first.id
   end
 
   def test_index_with_project_id
-    get :index, 'project_id' => @project_one.id
+    get :index, 'project_id' => '1'
     assert_response :success
     assert_template 'project'
-    assert_equal @project_one, assigns(:project)
+    assert_equal Project.find( 1 ), assigns( :project )
   end
   
   ### Regression Tests ###

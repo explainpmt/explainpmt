@@ -14,3 +14,11 @@ second:
   first_name: 'User'
   last_name: 'One'
   admin: false
+third:
+  id: 3
+  username: 'user_two'
+  password: 'user_twopassword'
+  email: 'user_two@example.com'
+  first_name: 'User'
+  last_name: 'Two'
+  admin: false
