@@ -24,14 +24,14 @@ module ApplicationHelper
   # Used to determine if the currently logged in user has administrative
   # privileges
   def is_admin?
-    @session[:current_user].admin?
+    session[:current_user].admin?
   end
 
   # Returns an array of projects other than the currently active project which
   # the curren tuser has access to
   def other_projects
     unless @other_projects_cache
-      can_access = @session[:current_user].projects
+      can_access = session[:current_user].projects
       @other_projects_cache = can_access.select { |p| p != @project }
     end
     @other_projects_cache

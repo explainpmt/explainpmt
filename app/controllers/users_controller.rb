@@ -36,9 +36,9 @@ class UsersController < ApplicationController
   # Displays the form to create a new user account.
   def new
     @page_title = "New User"
-    if @session[:new_user]
-      @user = @session[:new_user]
-      @session[:new_user] = nil
+    if session[:new_user]
+      @user = session[:new_user]
+      session[:new_user] = nil
     else
       register_referer
       @user = User.new
@@ -47,11 +47,11 @@ class UsersController < ApplicationController
 
   # Displays the form to edit a user account.
   def edit
-    @user = User.find(@params['id'])
+    @user = User.find(params['id'])
     @page_title = @user.full_name
-    if @session[:edit_user]
-      @user = @session[:edit_user]
-      @session[:edit_user] = nil
+    if session[:edit_user]
+      @user = session[:edit_user]
+      session[:edit_user] = nil
     else
       register_referer
     end
@@ -60,7 +60,7 @@ class UsersController < ApplicationController
   # Creates a new user account based o information submitted from the #new
   # action.
   def create
-    user = User.new(@params['user'])
+    user = User.new(params['user'])
     if user.valid?
       user.save
       flash[:status] = "User account for #{user.full_name} has been created."
@@ -75,7 +75,7 @@ class UsersController < ApplicationController
         redirect_to :controller => 'dashboard'
       end
     else
-      @session[:new_user] = user
+      session[:new_user] = user
       if @project
         redirect_to(:controller => 'users', :action => 'new',
                     :project_id => @project.id)
@@ -87,14 +87,14 @@ class UsersController < ApplicationController
 
   # Updates a user account with the information submitted from the #edit action.
   def update
-    user = User.find(@params['id'])
+    user = User.find(params['id'])
     original_password = user.password
-    user.attributes = @params['user']
-    if @params['user']['password'] == ''
+    user.attributes = params['user']
+    if params['user']['password'] == ''
       user.password = user.password_confirmation = original_password
     end
-    if user == @session[:current_user] and !user.admin? and
-      @session[:current_user].admin?
+    if user == session[:current_user] and !user.admin? and
+      session[:current_user].admin?
 
       user.admin = 1
       flash[:error] = "You can not remove admin privileges from yourself."
@@ -106,15 +106,15 @@ class UsersController < ApplicationController
         redirect_to :controller => 'dashboard'
       end
     else
-      @session[:edit_user] = user
+      session[:edit_user] = user
       redirect_to(:controller => 'users', :action => 'edit', :id => user.id)
     end
   end
 
   # Deletes the user account identified by the 'id' request parameter.
   def delete
-    user = User.find(@params['id'])
-    if user == @session[:current_user]
+    user = User.find(params['id'])
+    if user == session[:current_user]
       flash[:error] = "You can not delete your own account."
     else
       user.destroy
@@ -130,7 +130,7 @@ class UsersController < ApplicationController
   def require_admin_privileges
     case action_name
     when 'edit','update'
-      super if @params['id'].to_i != @session[:current_user].id
+      super if params['id'].to_i != session[:current_user].id
     else
       super
     end

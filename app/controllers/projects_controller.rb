@@ -36,8 +36,8 @@ class ProjectsController < ApplicationController
   # Displays a form for creating a new project.
   def new
     @page_title = "New Project"
-    if @new_project = @session[:new_project]
-      @session[:new_project] = nil
+    if @new_project = session[:new_project]
+      session[:new_project] = nil
     else
       @new_project = Project.new
     end
@@ -46,16 +46,16 @@ class ProjectsController < ApplicationController
   # Creates a new project based on the information submitted from the #new
   # action.
   def create
-    project = Project.new(@params['new_project'])
+    project = Project.new(params['new_project'])
     if project.valid?
       project.save
-      if @params['add_me'] == '1'
-        @session[:current_user].projects << project
+      if params['add_me'] == '1'
+        session[:current_user].projects << project
       end
       flash[:status] = "New project \"#{project.name}\" has been created."
       redirect_to :controller => 'projects', :action => 'index'
     else
-      @session[:new_project] = project
+      session[:new_project] = project
       redirect_to :controller => 'projects', :action => 'new'
     end
   end
@@ -74,10 +74,10 @@ class ProjectsController < ApplicationController
   # Adds the users identified by their id's in the 'selected_users' request
   # parameter to the project.
   def update_users
-    @params['selected_users'] ||= []
+    params['selected_users'] ||= []
     users_added = []
     users_not_added = []
-    @params['selected_users'].each do |uid|
+    params['selected_users'].each do |uid|
       uid = uid.to_i
       user = User.find(uid)
       if user.valid?
@@ -102,7 +102,7 @@ class ProjectsController < ApplicationController
 
   # Removes the user identified by the 'id' request parameter from the project.
   def remove_user
-    user = User.find(@params['id'])
+    user = User.find(params['id'])
     @project.users.delete(user)
     flash[:status] = "#{user.full_name} has been removed from the project."
     redirect_to :controller => 'users', :action => 'index',
@@ -112,7 +112,7 @@ class ProjectsController < ApplicationController
   # Deletes the project identified by the 'id' request parameter form the
   # system.
   def delete
-    project = Project.find(@params['id'])
+    project = Project.find(params['id'])
     project.destroy
     flash[:status] = "#{project.name} has been deleted."
     redirect_to :controller => 'projects', :action => 'index'
@@ -121,10 +121,10 @@ class ProjectsController < ApplicationController
   # Displays a form to edit the information for the project identified by the
   # 'id' request parameter.
   def edit
-    if @project = @session[:edit_project]
-      @session[:edit_project] = nil
+    if @project = session[:edit_project]
+      session[:edit_project] = nil
     else
-      @project = Project.find(@params['id'])
+      @project = Project.find(params['id'])
     end
     @page_title = "Edit Project"
   end
@@ -132,14 +132,14 @@ class ProjectsController < ApplicationController
   # Updates the project identified by the 'id' request parameter with the
   # information submitted from the #edit action.
   def update
-    project = Project.find(@params['id'])
-    project.attributes = @params['project']
+    project = Project.find(params['id'])
+    project.attributes = params['project']
     if project.valid?
       project.save
       flash[:status] = "Project \"#{project.name}\" has been updated."
       redirect_to :controller => 'projects', :action => 'index'
     else
-      @session[:edit_project] = project
+      session[:edit_project] = project
       redirect_to :controller => 'projects', :action => 'edit',
                   :id => project.id
     end
@@ -148,7 +148,7 @@ class ProjectsController < ApplicationController
   # Renders an ordered list of projects (with links) to which the current user
   # belongs
   def my_projects_list
-    @projects = @session[:current_user].projects
+    @projects = session[:current_user].projects
     render_partial 'my_projects_list'
   end
 end

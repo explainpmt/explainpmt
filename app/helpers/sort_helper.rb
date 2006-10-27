@@ -48,7 +48,7 @@
 #    ]
 #    SortHelper.default_order = %w[family.name name]
 #    @people = Person.find_all.sort do |a, b|
-#      SortHelper.sort(a, b, @params)
+#      SortHelper.sort(a, b, params)
 #    end
 #  end
 #
@@ -80,7 +80,7 @@ module SortHelper
     
     sort_key = @@sort_keys[sort_column]
     
-    sort = (@params['sort'] || '').split.map {|param| param.to_i }
+    sort = (params['sort'] || '').split.map {|param| param.to_i }
     
     if sort[0] && sort[0].abs == sort_key
       sort[0] = -sort[0]
@@ -118,7 +118,7 @@ module SortHelper
   #
   # Use it like this:
   #  @people = Person.find_all.sort do |a, b|
-  #    SortHelper.sort(a, b, @params)
+  #    SortHelper.sort(a, b, params)
   #  end
   #
   def self.sort(a, b, params)

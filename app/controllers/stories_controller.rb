@@ -30,7 +30,7 @@ class StoriesController < ApplicationController
     @page_title = "Backlog"
     SortHelper.columns = %w( scid title points priority risk status )
     SortHelper.default_order = %w( status priority risk )
-    if @params['show_cancelled']
+    if params['show_cancelled']
       @stories = @project.stories.backlog
     else
       @stories = @project.stories.backlog.select { |s|
@@ -38,7 +38,7 @@ class StoriesController < ApplicationController
       }
     end
     @stories.sort! do |a,b|
-      SortHelper.sort(a,b,@params)
+      SortHelper.sort(a,b,params)
     end
   end
 
@@ -46,8 +46,8 @@ class StoriesController < ApplicationController
   def new
     @page_title = "Create new story card"
     @selected_main_menu_link = :none
-    if @story = @session[:new_story]
-      @session[:new_story] = nil
+    if @story = session[:new_story]
+      session[:new_story] = nil
     else
       @story = Story.new
     end
@@ -60,7 +60,7 @@ class StoriesController < ApplicationController
     @page_title = "Create new story card"
     @selected_main_menu_link = :none
     modify_risk_status_and_priority_params
-    story = Story.new(@params['story'])
+    story = Story.new(params['story'])
     story.project = @project
     if story.valid?
       story.save
@@ -68,7 +68,7 @@ class StoriesController < ApplicationController
       redirect_to :controller => 'stories', :action => 'index',
                   :project_id => @project.id
     else
-      @session[:new_story] = story
+      session[:new_story] = story
       redirect_to :controller => 'stories', :action => 'new',
                   :project_id => @project.id
     end
@@ -80,10 +80,10 @@ class StoriesController < ApplicationController
     @selected_main_menu_link = :none
     register_referer
     
-    if @story = @session[:edit_story]
-      @session[:edit_story] = nil
+    if @story = session[:edit_story]
+      session[:edit_story] = nil
     else
-      @story = Story.find(@params['id'])
+      @story = Story.find(params['id'])
     end
     @story.return_ids_for_aggregations
   end
@@ -93,8 +93,8 @@ class StoriesController < ApplicationController
     @page_title = "Edit story card"
     @selected_main_menu_link = :none
     modify_risk_status_and_priority_params
-    story = Story.find(@params['id'])
-    story.attributes = @params['story']
+    story = Story.find(params['id'])
+    story.attributes = params['story']
     if story.valid?
       story.save
       flash[:status] = 'The changes to the story card have been saved.'
@@ -104,7 +104,7 @@ class StoriesController < ApplicationController
                     :project_id => @project.id.to_s
       end
     else
-      @session[:edit_story] = story
+      session[:edit_story] = story
       redirect_to :controller => 'stories', :action => 'edit',
                   :id => story.id.to_s, :project_id => @project.id.to_s
     end
@@ -112,11 +112,11 @@ class StoriesController < ApplicationController
 
   # Destroys the story card identified by the 'id' request parameter.
   def delete
-    Story.destroy(@params['id'])
+    Story.destroy(params['id'])
     flash[:status] = 'The story card was deleted.'
-    if @params['iteration_id']
+    if params['iteration_id']
       redirect_to :controller => 'iterations', :action => 'show',
-                  :id => @params['iteration_id'],
+                  :id => params['iteration_id'],
                   :project_id => @project.id.to_s
     else
       redirect_to :controller => 'stories', :action => 'index',
@@ -127,15 +127,15 @@ class StoriesController < ApplicationController
   # Displays the details for the story card identified by the 'id' request
   # parameter.
   def show
-    @story = Story.find(@params['id'])
+    @story = Story.find(params['id'])
     @selected_main_menu_link = :none
     @page_title = @story.title
   end
 
   # Sets the storycard's Story#owner attribute to the currently logged in user.
   def take_ownership
-    story = Story.find(@params['id'])
-    story.owner = @session[:current_user]
+    story = Story.find(params['id'])
+    story.owner = session[:current_user]
     story.save
     flash[:status] = "SC#{story.scid} has been updated."
     redirect_to :controller => 'iterations', :action => 'show',
@@ -144,7 +144,7 @@ class StoriesController < ApplicationController
 
   # Sets the story's owner to nil
   def release_ownership
-    story = Story.find(@params['id'])
+    story = Story.find(params['id'])
     story.owner = nil
     story.save
     flash[:status] = "SC#{story.scid} has been updated."
@@ -158,18 +158,18 @@ class StoriesController < ApplicationController
   # actual objects that need to be assigned based on the integer value
   # originally passed in that parameter.
   def modify_risk_status_and_priority_params
-    if @params['story']
-      if @params['story']['status']
-        @params['story']['status'] =
-          Story::Status.new(@params['story']['status'].to_i)
+    if params['story']
+      if params['story']['status']
+        params['story']['status'] =
+          Story::Status.new(params['story']['status'].to_i)
       end
-      if @params['story']['priority']
-        @params['story']['priority'] =
-          Story::Priority.new(@params['story']['priority'].to_i)
+      if params['story']['priority']
+        params['story']['priority'] =
+          Story::Priority.new(params['story']['priority'].to_i)
       end
-      if @params['story']['risk']
-        @params['story']['risk'] =
-          Story::Risk.new(@params['story']['risk'].to_i)
+      if params['story']['risk']
+        params['story']['risk'] =
+          Story::Risk.new(params['story']['risk'].to_i)
       end
     end
   end

@@ -43,8 +43,8 @@ class ApplicationController < ActionController::Base
   # available when performing actions that should occur within the context of a
   # single project.
   def set_selected_project
-    if @params['project_id']
-      @project = Project.find(@params['project_id'])
+    if params['project_id']
+      @project = Project.find(params['project_id'])
     else
       @project = nil
     end
@@ -56,10 +56,10 @@ class ApplicationController < ActionController::Base
   # variable will contain the path to the page the user was originally trying to
   # access.
   def check_authentication
-    unless @session[:current_user].kind_of?(User) or
+    unless session[:current_user].kind_of?(User) or
       self.class == SessionController
 
-      @session[:return_to] = @request.request_uri
+      session[:return_to] = request.request_uri
       flash[:status] = "Please log in, and we'll send you right along."
       redirect_to :controller => 'session', :action => 'login'
       return false
@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
   # redirected to the error page with an error message saying that they must log
   # in as an administrator to perform the requested action.
   def require_admin_privileges
-    unless @session[:current_user].admin?
+    unless session[:current_user].admin?
       flash[:error] = "You must be logged in as an administrator to perform " +
                       "the requested action."
       redirect_to :controller => 'error', :action => 'index'
@@ -84,8 +84,8 @@ class ApplicationController < ActionController::Base
   # allowed to access the current project by determining whether he is an
   # administrator or if he is on the project team.
   def require_team_membership
-    if @project and !@session[:current_user].admin?
-      unless User.find(@session[:current_user].id).projects.include?(@project)
+    if @project and !session[:current_user].admin?
+      unless User.find(session[:current_user].id).projects.include?(@project)
         flash[:error] = 'You do not have permission to access the project, ' +
                         'because you are not part of the project team.'
         redirect_to :controller => 'error', :action => 'index'

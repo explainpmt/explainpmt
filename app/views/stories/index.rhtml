@@ -1,12 +1,12 @@
 <h3>Story Cards in Project Backlog</h3>
 <%= link_to('New Story Card', :controller => 'stories', :action => 'new', :project_id => @project.id) %>
 &nbsp;&nbsp;&nbsp;
-<% if @params['show_cancelled'] %>
+<% if params['show_cancelled'] %>
   <%= link_to('Hide Cancelled Stories', :controller => 'stories', :action => 'index', :project_id => @project.id,
-    :sort => @params['sort']) %>
+    :sort => params['sort']) %>
 <% else %>
   <%= link_to('Show Cancelled Stories', :controller => 'stories', :action => 'index', :project_id => @project.id,
-    :show_cancelled => 1, :sort => @params['sort']) %>
+    :show_cancelled => 1, :sort => params['sort']) %>
 <% end %>
 
 <% unless @stories.empty? %>

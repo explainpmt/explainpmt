@@ -31,11 +31,11 @@ class SessionController < ApplicationController
   # If authentication is not successful, the user is directed back to the login
   # page, and an error message is displayed.
   def authenticate
-    if @session[:current_user] = User.authenticate(@params['username'],
-                                                   @params['password'])
-      if @session[:return_to]
-        redirect_to_path @session[:return_to]
-        @session[:return_to] = nil
+    if session[:current_user] = User.authenticate(params['username'],
+                                                   params['password'])
+      if session[:return_to]
+        redirect_to_path session[:return_to]
+        session[:return_to] = nil
       else
         redirect_to :controller => 'dashboard', :action => 'index'
       end

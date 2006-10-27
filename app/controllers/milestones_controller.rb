@@ -24,7 +24,7 @@ class MilestonesController < ApplicationController
   # Lists the milestones for the project.
   def index
     @page_title = "Milestones"
-    if @params['show_all'] == '1'
+    if params['show_all'] == '1'
       @past_milestones = 'all_past'
       @past_link_opts = [ 'show only recent', { :controller => 'milestones',
                                                 :action => 'index',
@@ -42,8 +42,8 @@ class MilestonesController < ApplicationController
 
   # Displays the form to add a new milestone.
   def new
-    if @milestone = @session[:new_milestone]
-      @session[:new_milestone] = nil
+    if @milestone = session[:new_milestone]
+      session[:new_milestone] = nil
     else
       @milestone = Milestone.new
     end
@@ -53,7 +53,7 @@ class MilestonesController < ApplicationController
   # Creates a new milestone based on the information submitted from the #new
   # action.
   def create
-    milestone = Milestone.new(@params['milestone'])
+    milestone = Milestone.new(params['milestone'])
     milestone.project = @project
     if milestone.valid?
       milestone.save
@@ -61,7 +61,7 @@ class MilestonesController < ApplicationController
                         "*#{milestone.date}* was created."
       render :template => 'layouts/refresh_parent_close_popup'
     else
-      @session[:new_milestone] = milestone
+      session[:new_milestone] = milestone
       redirect_to :controller => 'milestones', :action => 'new',
                   :project_id => @project.id
     end
@@ -70,25 +70,25 @@ class MilestonesController < ApplicationController
   # Displays the form to edit milestone information. The milestone to edit is
   # identified by the 'id' request parameter.
   def edit
-    if @milestone = @session[:edit_milestone]
-      @session[:edit_milestone] = nil
+    if @milestone = session[:edit_milestone]
+      session[:edit_milestone] = nil
     else
-      @milestone = Milestone.find(@params['id'])
+      @milestone = Milestone.find(params['id'])
     end
   end
 
   # Updates the milestone identified by the 'id' request parameter with the
   # information submitted from the #edit action.
   def update
-    milestone = Milestone.find(@params['id'])
-    milestone.attributes = @params['milestone']
+    milestone = Milestone.find(params['id'])
+    milestone.attributes = params['milestone']
     if milestone.valid?
       milestone.save
       flash[:status] = "Changes to milestone \"#{milestone.name}\" have " +
                         "been saved."
       render 'layouts/refresh_parent_close_popup'
     else
-      @session[:edit_milestone] = milestone
+      session[:edit_milestone] = milestone
       redirect_to :controller => 'milestones', :action => 'edit',
                   :id => milestone.id,
                   :project_id => milestone.project.id
@@ -97,7 +97,7 @@ class MilestonesController < ApplicationController
 
   # Deletes the milestone identified by the 'id' request parameter.
   def delete
-    milestone = Milestone.find(@params['id'])
+    milestone = Milestone.find(params['id'])
     milestone.destroy
     flash[:status] = "Milestone *#{milestone.name}* on *#{milestone.date}*" +
                       " has been deleted."
@@ -108,7 +108,7 @@ class MilestonesController < ApplicationController
   # Displays the details for the milestone identified by the 'id' request
   # parameter.
   def show
-    @milestone = Milestone.find(@params['id'])
+    @milestone = Milestone.find(params['id'])
   end
 
   # Renders the partial template for the milestones calendar component.
@@ -117,7 +117,7 @@ class MilestonesController < ApplicationController
     if @project
       milestones = @project.milestones
     else
-      milestones = @session[:current_user].projects.collect{|p| p.milestones}
+      milestones = session[:current_user].projects.collect{|p| p.milestones}
       @calendar_title.gsub!(':', ' (all projects):')
     end
     milestones = milestones.flatten.select { |m|
@@ -139,7 +139,7 @@ class MilestonesController < ApplicationController
   # Renders the partial template for the list component. Requires the parameter
   # 'include' to be set to one of 'future', 'recent', or 'all_past'
   def list
-    case @params['include']
+    case params['include']
     when 'future'
       @milestones = @project.milestones.future
     when 'recent'
