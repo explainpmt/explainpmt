@@ -12,7 +12,8 @@
     <div id="CurrentUserInfo">
       Logged in as: <%= link_to @current_user.name, :controller => 'users',
                                 :action => 'show', :id => @current_user %>
-      (<%= link_to 'log out', :action => 'log_out' %>)
+      (<%= link_to 'log out', :controller => 'users',
+                   :action => 'logout' %>)
     </div>
     <h1><span id="AppTitle">eXPlainPMT</span> ::
       <span id="ViewTitle">Dashboard</span></h1>
