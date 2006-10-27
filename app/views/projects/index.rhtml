@@ -1,8 +1,7 @@
 <p><strong>
-<%= popup_link('Create New Project', 'new_project',
-               'width=500,height=600,scrollbars,resizable',
-               :controller => 'projects', :action => 'new') %>
+  <%= link_to 'Create New Project', :controller => 'projects', :action => 'new' %>
 </strong></p>
+
 <% unless @projects.empty? %>
   <dl>
     <% @projects.each do |p| %>

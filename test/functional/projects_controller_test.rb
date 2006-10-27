@@ -5,9 +5,9 @@ require 'projects_controller'
 class ProjectsController; def rescue_action(e) raise e end; end
 
 class ProjectsControllerTest < Test::Unit::TestCase
-  FULL_PAGES = [:index]
-  POPUPS = [:new,:create,:add_users,:update_users,:edit,:update]
-  NO_RENDERS = [:remove_user,:delete]
+  FULL_PAGES = [:index, :new]
+  POPUPS = [:add_users,:update_users,:edit,:update]
+  NO_RENDERS = [:remove_user,:delete, :create]
   ALL_ACTIONS = FULL_PAGES + POPUPS + NO_RENDERS
 
   fixtures ALL_FIXTURES
@@ -76,8 +76,8 @@ class ProjectsControllerTest < Test::Unit::TestCase
     mem_num_before_create = current_user.projects.size
     post :create, 'project' => { 'name' => 'Test Create',
                                  'description' => '' }
-    assert_response :success
-    assert_template 'layouts/refresh_parent_close_popup'
+    assert_response :redirect
+    assert_redirected_to :controller => 'projects', :action => 'index'
     assert_equal num_before_create + 1, Project.count
     assert_equal mem_num_before_create, current_user.projects.size
   end
@@ -87,8 +87,8 @@ class ProjectsControllerTest < Test::Unit::TestCase
     mem_num_before_create = current_user.projects.size
     post :create, 'add_me' => '1', 'project' => { 'name' => 'Test Create',
                                                   'description' => '' }
-    assert_response :success
-    assert_template 'layouts/refresh_parent_close_popup'
+    assert_response :redirect
+    assert_redirected_to :controller => 'projects', :action => 'index'
     assert_equal num_before_create + 1, Project.count
     assert_equal mem_num_before_create + 1, current_user.projects.size
   end
