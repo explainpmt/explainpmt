@@ -55,7 +55,7 @@ class StoriesController < ApplicationController
       redirect_to :controller => 'stories', :action => 'new', :project_id => @project
     else
       params[:story_card_titles].each_line do |title|
-        @project.stories.create(:title => title).id
+        @project.stories.create(:title => title)
       end
       flash[:status] = 'New story cards created.'
       redirect_to :controller => 'stories', :action => 'index', :project_id => @project
