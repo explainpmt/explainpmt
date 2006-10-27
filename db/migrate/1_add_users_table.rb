@@ -7,6 +7,13 @@ class AddUsersTable < ActiveRecord::Migration
       t.column :password, :string
       t.column :name, :string
     end
+    first_admin = User.new
+    first_admin.admin = true
+    first_admin.login = 'admin'
+    first_admin.email = 'admin@example.com'
+    first_admin.password = 'admin'
+    first_admin.name = 'Admin User'
+    first_admin.save
   end
 
   def self.down
