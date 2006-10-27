@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_and_belongs_to_many :projects
   validates_presence_of :name, :login, :email, :password
   validates_uniqueness_of :login
   validates_confirmation_of :password

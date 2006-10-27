@@ -1,11 +1,12 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class UserTest < Test::Unit::TestCase
-  fixtures :users
+  fixtures :users, :projects, :projects_users
 
   def setup
-    @admin = User.find(1)
-    @user = User.find(2)
+    @admin = User.find 1
+    @user = User.find 2
+    @admin2 = User.find 3
   end
 
   # Replace this with your real tests.
@@ -55,8 +56,21 @@ class UserTest < Test::Unit::TestCase
   def test_not_able_to_delete_last_admin_account
     @admin.destroy
     assert_equal 1, User.count( [ 'admin = ?', true ] )
-    admin = User.find :first, :conditions => [ 'admin = ?', true ]
-    assert !admin.destroy
+    assert !@admin2.destroy
     assert_equal 1, User.count( [ 'admin = ?', true ] )
+  end
+
+  def test_project_relationship
+    project_1 = Project.find 1
+    project_2 = Project.find 2
+    
+    projects = @admin.projects.sort { |p1,p2| p1.id <=> p2.id }
+    assert_equal [ project_1 ], projects
+
+    projects = @user.projects.sort { |p1,p2| p1.id <=> p2.id }
+    assert_equal [ project_1, project_2 ], projects
+
+    projects = @admin2.projects.sort { |p1,p2| p1.id <=> p2.id }
+    assert_equal [ project_2 ], projects
   end
 end
