@@ -77,6 +77,7 @@ class StoriesController < ApplicationController
   # Displays the form for editing a story card's information.
   def edit
     @page_title = "Edit story card"
+    @selected_main_menu_link = :none
     @session[:return_to] = request.env['HTTP_REFERER']
     
     if @story = @session[:edit_story]
@@ -90,6 +91,7 @@ class StoriesController < ApplicationController
   # Updates a story card with the information posted form the #edit action.
   def update
     @page_title = "Edit story card"
+    @selected_main_menu_link = :none
     modify_risk_status_and_priority_params
     story = Story.find(@params['id'])
     story.attributes = @params['story']
