@@ -160,8 +160,8 @@ class MilestonesControllerTest < Test::Unit::TestCase
     assert_template '_milestones_calendar'
     days = empty_milestones_days_array
     days[0][:milestones] << @future_milestone1
-    days[13][:milestones] << @future_milestone4
     days[13][:milestones] << @future_milestone3
+    days[13][:milestones] << @future_milestone4
     assert_equal days, assigns(:days)
     assert_equal 'Upcoming Milestones (all projects):',
                  assigns(:calendar_title)
