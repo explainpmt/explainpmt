@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class StoryTest < Test::Unit::TestCase
-  fixtures :users, :projects, :iterations
+  fixtures :users, :projects, :projects_users, :iterations
 
   def setup
     @user_one = User.find 1
@@ -60,35 +60,17 @@ class StoryTest < Test::Unit::TestCase
   end
 
   def test_scid_increments_properly
-    @project_one.stories.destroy_all
-    story1 = @project_one.stories.create('title' => 'Story1')
-    story1.save
-    assert_equal 1, story1.scid
-    story2 = @project_one.stories.create('title' => 'Story2')
-    story2.save
-    assert_equal 2, story2.scid
-    story3 = @project_one.stories.create('title' => 'Story3')
-    story3.save
-    assert_equal 3, story3.scid
-    story2.destroy
-    story4 = @project_one.stories.create('title' => 'Story4')
-    story4.save
-    assert_equal 4, story4.scid
+    story = @project_one.stories.create :title => 'A Story Card'
+    assert_equal 4, story.scid
 
     project_two = Project.find 2
-    project_two.stories.destroy_all
-    story1 = project_two.stories.create('title' => 'Story1')
-    story1.save
-    assert_equal 1, story1.scid
+    story = project_two.stories.create :title => 'Another Story Card'
+    assert_equal 1, story.scid
   end
 
   def test_owner_set_to_nil_when_iteration_set_to_nil
-    @project_one.users << @user_one
-    story = @iteration_one.stories.create('title' => 'Test Story')
-    story.project = @project_one
-    story.owner = @user_one
-    story.save
-    assert_equal story.iteration_id, @iteration_one.id
+    story = Story.find 1
+    assert story.owner = User.find( 1 )
     story.iteration = nil
     story.save
     assert_nil story.owner
@@ -96,7 +78,6 @@ class StoryTest < Test::Unit::TestCase
 
   def test_status_set_to_defined_when_information_complete
     story = @project_one.stories.create('title' => 'Test Story')
-    story.save
     assert_equal Story::Status::New, story.status
     story.risk = Story::Risk::Low
     story.priority = Story::Priority::Low
