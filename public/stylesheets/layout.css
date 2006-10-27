@@ -1,27 +1,35 @@
 body {
-	display: block;
-	margin: 0;
-	padding: 0;
+  display: block;
+  margin: 0;
+  padding: 0;
 }
 
 #Header {
-	margin: 0;
-	padding: 0;
-	height: 40px;
-	width: 100%;
-	border-bottom: 1px solid #000000;
+  margin: 0;
+  padding: 0;
+  height: 40px;
+  width: 100%;
+  background-color: #AAAAAA;
 }
 
 #CurrentUserInfo {
-	margin: 5px;
-	padding: 0;
-	float: right;
-	height: 30px;
-	text-align: right;
+  margin: 5px;
+  padding: 0;
+  float: right;
+  height: 30px;
+  text-align: right;
 }
 
 #Header h1 {
-	margin: 5px;
-	padding: 0;
-	font-size: 30px;
+  margin: 0;
+  padding: 5px;
+  font-size: 30px;
+}
+
+#MyProjects {
+  float: right;
+  width: 15em;
+  margin: 0 0 10px 10px;
+  padding: 5px;
+  background-color: #CCCCCC;
 }
