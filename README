@@ -1,4 +1,4 @@
-= eXPlain Project Management Tool 20051231.0
+= eXPlain Project Management Tool
 
 eXPlain Project Management Tool (or simply eXPlainPMT) is a web-based
 application that supports the eXtreme Programming development methodology
@@ -14,8 +14,8 @@ accessible to the entire project team. It also allows the status of the stories
 to be tracked and for the stories to be planned in an ongoing iterative process.
 The goal of the product is to support the methodology while staying out of the
 way as much as possible, so you'll find that there are few access restrictions
-or permissions settings. Just like with notecards, restrictions on who can
-view/alter the story cards are left to the concensus of the team.
+or permissions settings. Just like with note cards, restrictions on who can
+view/alter the story cards are left to the consensus of the team.
 
 == License
 
@@ -34,20 +34,23 @@ license can be found in the file LICENSE in the application's root directory.
 1. If you haven't done so already, unpack the application tarball and
    move/rename the directory as you wish.
 
-2. Create a database for the application, and grant all rights (except the
-   GRANT privilege) to the username that the application should use when
-   accessing the database. (Skip this step if using SQLite.)
+2. Create a database for the application, and grant all rights to the username
+   that the application should use when accessing the database. (Skip this step
+   if using SQLite.)
 
-3. Edit config/database.yml.orig and save it as config/database.yml- only the production setting is required unless you
+3. Edit config/database.yml- only the production setting is required unless you
    wish to run the test suite and/or work in the development environment. Use
    the database and username from step 2.
 
-4. Run 'RAILS_ENV=production rake db_schema_import' to import the necessary
-   database tables. (If upgrading from a previous release, run
-   'RAILS_ENV=production rake migrate'
+4. Run 'RAILS_ENV=production rake migrate' to create the necessary
+   database tables.
 
-5. If this is a new installation, run './script/create_admin' and follow the
-   prompts to create the initial administrator account.
+5. If this is a new installation, the previous step will also create a default
+   admin account for your first login. The username and password are both
+   'admin'. (It is highly recommended that you only use this account to log in
+   for the first time. You should then create a new admin user account for
+   yourself, log out, log in with the new account and delete the default admin
+   account.)
 
 6. Either run the webrick server -- "./script/server -e production" -- or set up
    Apache or lighttpd as directed in the documentation for the Rails framework.

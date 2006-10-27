@@ -1,4 +1,6 @@
 class CreateInitialDatabase < ActiveRecord::Migration
+  class User < ActiveRecord::Base; end
+
   def self.up
     create_table :iterations do |t|
       t.column :project_id, :integer
@@ -54,7 +56,9 @@ class CreateInitialDatabase < ActiveRecord::Migration
       t.column :updated_at, :datetime
     end
 
-
+    # Create the initial admin user
+    User.create :username => 'admin', :password => 'admin', :email => 'admin@example.com', :first_name => 'admin',
+      :last_name => 'admin', :admin => true
   end
 
   def self.down
