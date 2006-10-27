@@ -164,7 +164,7 @@ class IterationsController < ApplicationController
 
   private
 
-  # Doest the actual work of changing the iteration assignment for #move_stories
+  # Does the actual work of changing the iteration assignment for #move_stories
   # and #assign_stories
   def change_story_assignment
     stories = ( @params['selected_stories'] || [] ).map do |sid|
