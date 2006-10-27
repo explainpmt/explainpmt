@@ -1,5 +1,32 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-first_story_card:
+story_card_a:
   id: 1
-another_story_card:
+  project_id: 1
+  user_id: 1
+  scid: 1
+  name: Story Card A
+  status: In Progress
+  
+story_card_b:
   id: 2
+  project_id: 1
+  user_id: 2
+  scid: 2
+  name: Story Card B
+  status: Complete
+  
+story_card_c:
+  id: 3
+  project_id: 2
+  user_id: 2
+  scid: 1
+  name: Story Card C
+  status: In Progress
+  
+story_card_d:
+  id: 4
+  project_id: 2
+  user_id: 3
+  scid: 2
+  name: Story Card D
+  status: In Progress

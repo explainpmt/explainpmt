@@ -1,14 +1,15 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class StoryCardTest < Test::Unit::TestCase
-  fixtures :story_cards
+  fixtures :users, :projects, :projects_users, :story_cards
 
-  def setup
-    @story_card = StoryCard.find(1)
-  end
+  def test_project_relationship
+    sca, scb, scc, scd = StoryCard.find :all, :order => 'id', :limit => 4
+    p1, p2 = Project.find :all, :order => 'id', :limit => 2
 
-  # Replace this with your real tests.
-  def test_truth
-    assert_kind_of StoryCard,  @story_card
+    assert_equal p1, sca.project
+    assert_equal p1, scb.project
+    assert_equal p2, scc.project
+    assert_equal p2, scd.project
   end
 end
