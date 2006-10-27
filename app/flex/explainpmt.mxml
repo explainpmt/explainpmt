@@ -8,28 +8,45 @@
             <mx:RemoveChild target="{loginPanel}"/>
             <mx:RemoveChild target="{vbox1}"/>
             <mx:AddChild position="lastChild">
-                <mx:ApplicationControlBar dock="true" fillColors="[#e6e6e6, #cccccc]" fillAlphas="[1.0, 1.0]">
+                <mx:ApplicationControlBar dock="true" fillColors="[#e6e6e6, #cccccc]" fillAlphas="[1.0, 1.0]" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0">
+                    <mx:MenuBar id="mainMenu" width="100%" height="100%" labelField="@label" dataProvider="{mainMenuOptions}"/>
                 </mx:ApplicationControlBar>
             </mx:AddChild>
-            <mx:AddChild position="lastChild">
-                <mx:Label text="{'Welcome, ' + currentUser.first_name}" fontWeight="bold" fontSize="32" color="#000000" textAlign="center" horizontalCenter="0" verticalCenter="0"/>
-            </mx:AddChild>
+            <mx:SetProperty name="styleName" value="plain"/>
         </mx:State>
     </mx:states>
     <mx:Script>
         <![CDATA[
+            import mx.collections.XMLListCollection;
             import com.explainpmt.events.LoginEvent;
             import mx.controls.Alert;
+            import com.explainpmt.model.User;
             [Embed(source="../../public/images/logo.png")]
             [Bindable]
             public var logoImg:Class;
             
             [Bindable]
-            private var currentUser:XML;
+            private var currentUser:User;
+            
+            private var mainMenuAdmin:Object = {
+                '@label': 'Admin',
+                id: 'mainMenuAdmin',
+                enabled: 'false'
+            };
+            
+            [Bindable]
+            private var mainMenuOptions:Array = [
+                mainMenuAdmin
+            ];
             
             private function handleLogin(event:LoginEvent):void {
                 currentUser = event.user;
+                resetMainMenu();
                 currentState = "loggedIn";
+            }
+            
+            private function resetMainMenu():void {
+                mainMenuAdmin.enabled = currentUser.isAdmin();
             }
         ]]>
     </mx:Script>
