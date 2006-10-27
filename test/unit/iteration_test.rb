@@ -5,6 +5,10 @@ class IterationTest < Test::Unit::TestCase
   def setup
     @project_one = Project.find 1
     @iteration_one = Iteration.find 1
+    @iteration_two = Iteration.find 2
+    @iteration_four = Iteration.find 4
+    @iteration_five = Iteration.find 5
+    @iteration_six = Iteration.find 6
   end
   
   def test_stop_date
@@ -56,5 +60,23 @@ class IterationTest < Test::Unit::TestCase
     @iteration_one.project = nil
     assert !@iteration_one.valid?
     assert @iteration_one.errors.on( :base )
+  end
+
+  def test_current_eh
+    assert @iteration_one.current?
+    assert !@iteration_two.current?
+    assert !@iteration_four.current?
+    assert !@iteration_five.current?
+    assert !@iteration_six.current?
+  end
+
+  def test_current_eh_started_yesterday
+    @iteration_one.start_date = Date.today - 1
+    assert @iteration_one.current?
+  end
+
+  def test_current_eh_ends_today
+    @iteration_one.start_date = Date.today - ( @iteration_one.length - 1 )
+    assert @iteration_one.current?
   end
 end

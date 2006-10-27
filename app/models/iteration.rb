@@ -73,6 +73,11 @@ class Iteration < ActiveRecord::Base
     total_points - completed_points
   end
 
+  def current?
+    today = Time.now.at_midnight
+    ( start_date.to_time <= today ) and ( stop_date.to_time >= today ) 
+  end
+
   protected
 
   # Ensures that all associated Story objects are placed back in the project

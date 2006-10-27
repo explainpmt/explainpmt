@@ -67,12 +67,8 @@ class Project < ActiveRecord::Base
 
   # Returns the current iteration (if there is one)
   def current_iteration( reload = false )
-    today = Time.now
     @current_iteration = nil if reload
-    @current_iteration ||= iterations( reload ).detect do |i|
-      ( i.start_date.to_time <= today.at_midnight ) and
-      ( ( i.start_date + i.length ).to_time >= today.tomorrow.at_midnight )
-    end
+    @current_iteration ||= iterations( reload ).detect { |i| i.current? }
   end
 
   # Returns the last iteration to have ended or nil
