@@ -17,6 +17,8 @@ second:
   title: 'Second Story'
   status: 6
   points: 3
+  priority: 2
+  risk: 1
 third:
   id: 3
   scid: 3
@@ -24,6 +26,8 @@ third:
   title: 'Third Story'
   status: 8
   points: 2
+  priority: 2
+  risk: 1
 fourth:
   id: 4
   scid: 4
