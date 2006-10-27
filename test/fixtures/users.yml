@@ -22,3 +22,19 @@ third:
   first_name: 'User'
   last_name: 'Two'
   admin: false
+fourth:
+  id: 4
+  username: 'user_three'
+  password: 'user_threepassword'
+  email: 'user_three@example.com'
+  first_name: 'User'
+  last_name: 'Three'
+  admin: false
+fifth:
+  id: 5
+  username: 'user_four'
+  password: 'user_fourpassword'
+  email: 'user_four@example.com'
+  first_name: 'User'
+  last_name: 'Four'
+  admin: false
