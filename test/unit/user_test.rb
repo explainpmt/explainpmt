@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class UserTest < Test::Unit::TestCase
-  fixtures :users, :projects, :projects_users
+  fixtures :users, :projects, :projects_users, :story_cards
 
   def setup
     @admin = User.find 1
@@ -72,5 +72,14 @@ class UserTest < Test::Unit::TestCase
 
     projects = @admin2.projects.sort { |p1,p2| p1.id <=> p2.id }
     assert_equal [ project_2 ], projects
+  end
+
+  def test_story_card_relationship
+    sca, scb, scc, scd = StoryCard.find :all, :order => 'id', :limit => 4
+    ua, ub, uc = User.find :all, :order => 'id', :limit => 3
+
+    assert_equal [ sca ], ua.story_cards
+    assert_equal [ scb, scc ], ub.story_cards.sort { |a,b| a.id <=> b.id }
+    assert_equal [ scd ], uc.story_cards
   end
 end

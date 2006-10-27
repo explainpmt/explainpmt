@@ -12,4 +12,14 @@ class StoryCardTest < Test::Unit::TestCase
     assert_equal p2, scc.project
     assert_equal p2, scd.project
   end
+
+  def test_user_relationship
+    sca, scb, scc, scd = StoryCard.find :all, :order => 'id', :limit => 4
+    ua, ub, uc = User.find :all, :order => 'id', :limit => 3
+
+    assert_equal ua, sca.user
+    assert_equal ub, scb.user
+    assert_equal ub, scc.user
+    assert_equal uc, scd.user
+  end
 end
