@@ -160,6 +160,13 @@ class StoryTest < Test::Unit::TestCase
     story.save or fail
     assert_equal Story::Status::InProgress, story.status
   end
+  
+  def test_title_validations
+    story = Story.new
+    story.title = '_' * 255
+    story.valid?
+    assert_nil story.errors[:title]
+  end
 end
 
 class StoryPriorityTest < Test::Unit::TestCase

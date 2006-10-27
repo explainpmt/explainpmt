@@ -29,7 +29,6 @@
 # And the following data validations:
 #   validates_presence_of :title, :project, :status
 #   validates_inclusion_of :points, :in => 1..99, :allow_nil => true
-#   validates_length_of :title, :maximum => 100
 #   validates_uniqueness_of :scid, :scope => 'project_id'
 #
 # As well as the following aggregations:
@@ -59,7 +58,6 @@ class Story < ActiveRecord::Base
   validates_inclusion_of :points, :in => POINT_RANGE, :allow_nil => true,
     :message => "must be a number between #{POINT_RANGE.first} and " +
                 "#{POINT_RANGE.last}"
-  validates_length_of :title, :maximum => 100
   validates_uniqueness_of :scid, :scope => 'project_id'
   
   composed_of :status, :mapping => %w(status order)
