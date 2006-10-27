@@ -104,6 +104,12 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert session[ :new_project ]
     assert_equal num_before_create, Project.count
   end
+  
+  def test_create_new_project_link
+    xhr :get, :create_new_project_link
+    assert_response :success
+    assert_template '_create_new_project'
+  end
 
   def test_add_users
     get :add_users, 'project_id' => @project_one.id

@@ -33,6 +33,10 @@ class ProjectsController < ApplicationController
     @projects = Project.find_all(nil, 'name ASC')
   end
   
+  def create_new_project_link
+    render :partial => 'create_new_project'
+  end
+  
   # Displays a form for creating a new project.
   def new
     @project = session[:new_project] || Project.new
