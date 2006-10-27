@@ -159,8 +159,10 @@ class IterationsControllerTest < Test::Unit::TestCase
       :id => '1', :project_id => '1'
     sc_one = Story.find 4
     assert_nil sc_one.iteration
+    assert_nil sc_one.owner
     sc_two = Story.find 5
     assert_nil sc_two.iteration
+    assert_nil sc_two.owner
     assert flash[ :status ]
   end
 
