@@ -160,11 +160,16 @@ class MilestonesControllerTest < Test::Unit::TestCase
     assert_template '_milestones_calendar'
     days = empty_milestones_days_array
     days[0][:milestones] << @future_milestone1
+    # These two lines are randomly causing the next assertion to fail.  This
+    # is because somehow, from one test to the next, the @days is having them 
+    # loaded in different orders. 
     days[13][:milestones] << @future_milestone4
     days[13][:milestones] << @future_milestone3
     assert_equal days, assigns(:days)
     assert_equal 'Upcoming Milestones (all projects):',
                  assigns(:calendar_title)
+    assert_tag :tag => "li", :content =>"Project One: Milestone Seven"
+    assert_tag :tag => "li", :content =>"Project Two: Milestone Eight"
   end
 
   def test_milestones_calendar_one_project
@@ -176,6 +181,8 @@ class MilestonesControllerTest < Test::Unit::TestCase
     days[13][:milestones] << @future_milestone3
     assert_equal days, assigns(:days)
     assert_equal 'Upcoming Milestones:', assigns(:calendar_title)
+    assert_no_tag :tag => "li", :content =>"Project One: Milestone Seven"
+    assert_tag :tag => "li", :content =>"Milestone Seven"
   end
   
   def test_list_future

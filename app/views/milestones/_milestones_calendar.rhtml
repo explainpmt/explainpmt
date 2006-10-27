@@ -16,7 +16,13 @@
           <ul>
             <% day[:milestones].each do |milestone| %>
               <li>
-                <%= popup_link("#{milestone.project.name}: #{milestone.name}",
+								<% if @project -%>
+								  <% milestone_popup_name = milestone.name -%>
+								<% else -%>
+								  <% milestone_popup_name = "#{milestone.project.name}: " +
+								 														"#{milestone.name}" -%>
+								<% end -%>								
+                <%= popup_link( milestone_popup_name,
                                "milestone_#{milestone.id}",
                                'width=500,height=500,resizable,scrollbars',
                                :controller => 'milestones',
