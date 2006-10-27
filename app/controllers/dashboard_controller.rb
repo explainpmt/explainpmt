@@ -54,12 +54,12 @@ class DashboardController < ApplicationController
   def sort_stories(stories)
     if @project.nil?
       SortHelper.columns = %w( project.name sub_project.name scid title points
-                               priority risk status )
+                               value risk status )
     else
-      SortHelper.columns = %w( sub_project.name scid title points priority
+      SortHelper.columns = %w( sub_project.name scid title points value
                                risk status )
     end
-    SortHelper.default_order = %w( status priority risk )
+    SortHelper.default_order = %w( status value risk )
     stories = stories.sort do |a,b|
       SortHelper.sort(a,b,params)
     end

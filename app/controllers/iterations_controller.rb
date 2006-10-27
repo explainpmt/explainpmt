@@ -116,9 +116,9 @@ class IterationsController < ApplicationController
   def show
     @iteration = Iteration.find(params['id'])
     @page_title = "Iteration: #{@iteration.start_date} - #{@iteration.stop_date}"
-    SortHelper.columns = %w(scid sub_project.name title points priority risk
+    SortHelper.columns = %w(scid sub_project.name title points value risk
                             status)
-    SortHelper.default_order = %w(status priority risk)
+    SortHelper.default_order = %w(status value risk)
     @stories = @iteration.stories.sort do |a,b|
       SortHelper.sort(a,b,params)
     end
@@ -145,8 +145,8 @@ class IterationsController < ApplicationController
   # the selected stories to the iteration being displayed.
   def select_stories
     @page_title = "Assign Story Cards"
-    SortHelper.columns = %w(scid title points priority risk status)
-    SortHelper.default_order = %w(status priority risk)
+    SortHelper.columns = %w(scid title points value risk status)
+    SortHelper.default_order = %w(status value risk)
     @stories = @project.stories.backlog.select { |s|
       s.status != Story::Status::New and
       s.status != Story::Status::Cancelled

@@ -27,9 +27,9 @@ class StoriesController < ApplicationController
   # non-blank value).
   def index
     @page_title = "Backlog"
-    SortHelper.columns = %w( scid sub_project.name title points priority risk
+    SortHelper.columns = %w( scid sub_project.name title points value risk
                              status )
-    SortHelper.default_order = %w( status priority risk )
+    SortHelper.default_order = %w( status value risk )
     if params['show_cancelled']
       @stories = @project.stories.backlog
     else
@@ -85,7 +85,7 @@ class StoriesController < ApplicationController
   def update
     @page_title = "Edit story card"
     @selected_main_menu_link = :none
-    modify_risk_status_and_priority_params
+    modify_risk_status_and_value_params
     story = Story.find(params['id'])
     story.attributes = params['story']
     if story.valid?
@@ -144,18 +144,18 @@ class StoriesController < ApplicationController
 
   protected
 
-  # Sets the parameter values for a story's status, priority and risk to the
+  # Sets the parameter values for a story's status, value and risk to the
   # actual objects that need to be assigned based on the integer value
   # originally passed in that parameter.
-  def modify_risk_status_and_priority_params
+  def modify_risk_status_and_value_params
     if params['story']
       if params['story']['status']
         params['story']['status'] =
           Story::Status.new(params['story']['status'].to_i)
       end
-      if params['story']['priority']
-        params['story']['priority'] =
-          Story::Priority.new(params['story']['priority'].to_i)
+      if params['story']['value']
+        params['story']['value'] =
+          Story::Value.new(params['story']['value'].to_i)
       end
       if params['story']['risk']
         params['story']['risk'] =

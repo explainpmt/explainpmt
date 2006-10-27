@@ -34,7 +34,7 @@
 #
 # As well as the following aggregations:
 #   composed_of :status, :mapping => %w(status order)
-#   composed_of :priority, :mapping => %w(priority order)
+#   composed_of :value, :mapping => %w(value order)
 #   composed_of :risk, :mapping => %w(risk order)
 #
 class Story < ActiveRecord::Base
@@ -47,8 +47,8 @@ class Story < ActiveRecord::Base
   # The collection of defined Status objects
   Statuses = []
 
-  # The collection of defined Priority objects
-  Priorities = []
+  # The collection of defined Value objects
+  Values = []
 
   # The collection of defined Risk objects
   Risks = []
@@ -60,7 +60,7 @@ class Story < ActiveRecord::Base
   validates_length_of :title, :maximum => 255
   
   composed_of :status, :mapping => %w(status order)
-  composed_of :priority, :mapping => %w(priority order)
+  composed_of :value, :mapping => %w(value order)
   composed_of :risk, :mapping => %w(risk order)
   
   class RankedValue
@@ -132,19 +132,19 @@ class Story < ActiveRecord::Base
     Statuses << Cancelled = create(8, 'Cancelled', false, true)
   end
 
-  class Priority < RankedValue
+  class Value < RankedValue
     class << self
       def new(order)
-        super(order,Priorities)
+        super(order,Values)
       end
     end
 
-    Priorities << High = create(1, 'High')
-    Priorities << MedHigh = create(2, 'Med-High')
-    Priorities << Medium = create(3, 'Medium')
-    Priorities << MedLow = create(4, 'Med-Low')
-    Priorities << Low = create(5, 'Low')
-    Priorities << NA = create(6,'')
+    Values << High = create(1, 'High')
+    Values << MedHigh = create(2, 'Med-High')
+    Values << Medium = create(3, 'Medium')
+    Values << MedLow = create(4, 'Med-Low')
+    Values << Low = create(5, 'Low')
+    Values << NA = create(6,'')
   end
 
   class Risk < RankedValue
@@ -167,15 +167,15 @@ class Story < ActiveRecord::Base
   #   story = Story.new
   #   story.return_ids_for_aggregations
   #   story.status                        => 1
-  #   story.priority                      => 6
+  #   story.value                      => 6
   #   story.risk                          => 4
   def return_ids_for_aggregations
     self.instance_eval <<-EOF
       def status
         read_attribute('status')
       end
-      def priority
-        read_attribute('priority')
+      def value
+        read_attribute('value')
       end
       def risk
         read_attribute('risk')
@@ -193,10 +193,10 @@ class Story < ActiveRecord::Base
   end
 
   # The after_initialize callback is used to set the default values for #status,
-  # #priority and #risk.
+  # #value and #risk.
   def after_initialize
     self.status = Status::New unless self.status
-    self.priority = Priority::NA unless self.priority
+    self.value = Value::NA unless self.value
     self.risk = Risk::Normal unless self.risk
   end
 
@@ -236,7 +236,7 @@ class Story < ActiveRecord::Base
   end
   
   def is_defined?
-    self.priority != Priority::NA and self.points?
+    self.value != Value::NA and self.points?
   end
 
   def before_save_reset_status

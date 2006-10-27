@@ -59,12 +59,12 @@ class StoryTest < Test::Unit::TestCase
     )
   end
 
-  def test_priority_collection
+  def test_value_collection
     assert_equal(
-      [ Story::Priority::High, Story::Priority::MedHigh,
-        Story::Priority::Medium, Story::Priority::MedLow, Story::Priority::Low,
-        Story::Priority::NA ],
-      Story::Priorities
+      [ Story::Value::High, Story::Value::MedHigh,
+        Story::Value::Medium, Story::Value::MedLow, Story::Value::Low,
+        Story::Value::NA ],
+      Story::Values
     )
   end
 
@@ -80,9 +80,9 @@ class StoryTest < Test::Unit::TestCase
     assert_equal Story::Status::New, story.status
   end
 
-  def test_priority_default_na
+  def test_value_default_na
     story = Story.new
-    assert_equal Story::Priority::NA, story.priority
+    assert_equal Story::Value::NA, story.value
   end
 
   def test_risk_default_na
@@ -94,7 +94,7 @@ class StoryTest < Test::Unit::TestCase
     story = Story.new
     story.return_ids_for_aggregations
     assert_equal Story::Status::New.order, story.status
-    assert_equal Story::Priority::NA.order, story.priority
+    assert_equal Story::Value::NA.order, story.value
     assert_equal Story::Risk::Normal.order, story.risk
   end
 
@@ -121,7 +121,7 @@ class StoryTest < Test::Unit::TestCase
     story = @project_one.stories.create('title' => 'Test Story')
     assert_equal Story::Status::New, story.status
     story.risk = Story::Risk::Low
-    story.priority = Story::Priority::Low
+    story.value = Story::Value::Low
     story.points = 2
     story.save
     assert_equal Story::Status::Defined, story.status
@@ -156,7 +156,7 @@ class StoryTest < Test::Unit::TestCase
     story.iteration = @iteration_one
     assert !story.save
     assert story.errors.on(:iteration)
-    story.priority = Story::Priority::High
+    story.value = Story::Value::High
     story.risk = Story::Risk::High
     story.points = 1
     story.description = 'description'
@@ -173,7 +173,7 @@ class StoryTest < Test::Unit::TestCase
 
   def test_status_set_to_in_progress_when_taken_by_user_if_status_is_defined
     story = @project_one.stories.create('title' => 'Test Story')
-    story.priority = Story::Priority::Low
+    story.value = Story::Value::Low
     story.risk = Story::Risk::Low
     story.points = 1
     story.description = 'description'
@@ -216,23 +216,23 @@ class StoryTest < Test::Unit::TestCase
   end
 end
 
-class StoryPriorityTest < Test::Unit::TestCase
+class StoryValueTest < Test::Unit::TestCase
   def setup
-    @priorities = []
+    @values = []
     5.times do |i|
-      @priorities << Story::Priority.new(i + 1)
+      @values << Story::Value.new(i + 1)
     end
   end
 
   def test_order
-    @priorities.each_with_index do |p,i|
+    @values.each_with_index do |p,i|
       i += 1
       assert_equal i, p.order
     end
   end
 
   def test_name
-    @priorities.each_with_index do |p,i|
+    @values.each_with_index do |p,i|
       i += 1
       case i
       when 1
@@ -253,22 +253,22 @@ class StoryPriorityTest < Test::Unit::TestCase
   end
 
   def test_to_s
-    @priorities.each do |p|
+    @values.each do |p|
       assert_equal p.name, p.to_s
     end
   end
 
   def test_invalid_order
-    assert_raise(Story::Priority::InvalidOrder) { Story::Priority.new(7) }
+    assert_raise(Story::Value::InvalidOrder) { Story::Value.new(7) }
   end
 
   def test_constants
-    assert_equal Story::Priority.new(1), Story::Priority::High
-    assert_equal Story::Priority.new(2), Story::Priority::MedHigh
-    assert_equal Story::Priority.new(3), Story::Priority::Medium
-    assert_equal Story::Priority.new(4), Story::Priority::MedLow
-    assert_equal Story::Priority.new(5), Story::Priority::Low
-    assert_equal Story::Priority.new(6), Story::Priority::NA
+    assert_equal Story::Value.new(1), Story::Value::High
+    assert_equal Story::Value.new(2), Story::Value::MedHigh
+    assert_equal Story::Value.new(3), Story::Value::Medium
+    assert_equal Story::Value.new(4), Story::Value::MedLow
+    assert_equal Story::Value.new(5), Story::Value::Low
+    assert_equal Story::Value.new(6), Story::Value::NA
   end
 end
 

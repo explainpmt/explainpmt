@@ -102,7 +102,7 @@ class DashboardControllerTest < Test::Unit::TestCase
       'budget' => 5)
     story = project1.stories.create('title' => 'Story Card',
       'description' => 'test', 'points' => 1,
-      'priority' => Story::Priority::High, 'risk' => Story::Risk::High)
+      'value' => Story::Value::High, 'risk' => Story::Risk::High)
     iteration.stories << story
     story.owner = user
     story.save
