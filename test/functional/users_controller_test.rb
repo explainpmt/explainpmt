@@ -43,7 +43,8 @@ class UsersControllerTest < Test::Unit::TestCase
     get :edit, 'id' => @user_one.id
     assert_response :success
     post :update, 'id' => @user_one.id, 'user' => {}
-    assert_response :success
+    assert_response :redirect
+    assert_redirected_to :controller => 'dashboard'
     user = User.find @user_one.id
     assert !user.admin?
   end
@@ -109,8 +110,8 @@ class UsersControllerTest < Test::Unit::TestCase
       'password_confirmation' => 'test_create_password',
       'email' => 'test_create@example.com', 'first_name' => 'Test',
       'last_name' => 'Create' }
-    assert_response :success
-    assert_template 'layouts/refresh_parent_close_popup'
+    assert_response :redirect
+    assert_redirected_to :controller => 'dashboard'
     assert_equal num_users + 1, User.count
   end
 
@@ -133,8 +134,8 @@ class UsersControllerTest < Test::Unit::TestCase
         'password_confirmation' => 'test_create_password',
         'email' => 'test_create@example.com', 'first_name' => 'Test',
         'last_name' => 'Create' }         
-    assert_response :success
-    assert_template 'layouts/refresh_parent_close_popup'
+    assert_response :redirect
+    assert_redirected_to :controller => 'dashboard'
     assert_equal num_users + 1, User.count
     user = User.find :first,
       :conditions => [ 'username = ?', 'test_create_with_project' ]  
@@ -172,8 +173,8 @@ class UsersControllerTest < Test::Unit::TestCase
   def test_update
     @request.session[ :current_user ] = @admin
     post :update, 'id' => @user_one.id, 'user' => { 'last_name' => 'Foo' }
-    assert_response :success
-    assert_template 'layouts/refresh_parent_close_popup'
+    assert_response :redirect
+    assert_redirected_to :controller => 'dashboard'
     assert_equal 'Foo', User.find( @user_one.id ).last_name
   end
 

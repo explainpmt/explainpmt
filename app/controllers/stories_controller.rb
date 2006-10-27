@@ -78,7 +78,7 @@ class StoriesController < ApplicationController
   def edit
     @page_title = "Edit story card"
     @selected_main_menu_link = :none
-    @session[:return_to] = request.env['HTTP_REFERER']
+    register_referer
     
     if @story = @session[:edit_story]
       @session[:edit_story] = nil
@@ -99,11 +99,7 @@ class StoriesController < ApplicationController
       story.save
       flash[:status] = 'The changes to the story card have been saved.'
       
-      if @session[:return_to]
-        logger.debug('Returning to '+@session[:return_to])
-        redirect_to @session[:return_to]
-        @session[:return_to] = nil
-      else
+      unless redirect_to_referer
         redirect_to :controller => 'stories', :action => 'index',
                     :project_id => @project.id.to_s
       end

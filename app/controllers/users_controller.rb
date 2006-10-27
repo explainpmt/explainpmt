@@ -39,6 +39,7 @@ class UsersController < ApplicationController
       @user = @session[:new_user]
       @session[:new_user] = nil
     else
+      register_referer
       @user = User.new
     end
   end
@@ -50,6 +51,8 @@ class UsersController < ApplicationController
     if @session[:edit_user]
       @user = @session[:edit_user]
       @session[:edit_user] = nil
+    else
+      register_referer
     end
   end
 
@@ -66,7 +69,10 @@ class UsersController < ApplicationController
         flash[:status] = "User account for #{user.full_name} has been " +
                           "created and added to the project team."
       end
-      render 'layouts/refresh_parent_close_popup'
+      
+      unless redirect_to_referer
+        redirect_to :controller => 'dashboard'
+      end
     else
       @session[:new_user] = user
       if @project
@@ -95,7 +101,9 @@ class UsersController < ApplicationController
     if user.valid?
       user.save
       flash[:status] = "User account for #{user.full_name} has been updated."
-      render 'layouts/refresh_parent_close_popup'
+      unless redirect_to_referer
+        redirect_to :controller => 'dashboard'
+      end
     else
       @session[:edit_user] = user
       redirect_to(:controller => 'users', :action => 'edit', :id => user.id)
