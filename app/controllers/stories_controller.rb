@@ -31,9 +31,9 @@ class StoriesController < ApplicationController
     SortHelper.columns = %w( scid title points priority risk status )
     SortHelper.default_order = %w( status priority risk )
     if @params['show_cancelled']
-      @stories = @project.backlog
+      @stories = @project.stories.backlog
     else
-      @stories = @project.backlog.select { |s|
+      @stories = @project.stories.backlog.select { |s|
         s.status != Story::Status::Cancelled
       }
     end

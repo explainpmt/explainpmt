@@ -145,7 +145,7 @@ class IterationsController < ApplicationController
     @page_title = "Assign Story Cards"
     SortHelper.columns = %w(id title points priority risk status)
     SortHelper.default_order = %w(status priority risk)
-    @stories = @project.backlog.select { |s|
+    @stories = @project.stories.backlog.select { |s|
       s.status != Story::Status::New and
       s.status != Story::Status::Cancelled
     }

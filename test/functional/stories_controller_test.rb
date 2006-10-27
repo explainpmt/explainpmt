@@ -83,11 +83,11 @@ class StoriesControllerTest < Test::Unit::TestCase
   end
 
   def test_create
-    num = @project_one.backlog.size
+    num = @project_one.stories.backlog.size
     post :create, 'project_id' => @project_one.id,
          'story' => { 'title' => 'Test Create', 'status' => 1 }
     assert_redirected_to :controller => 'stories', :action => 'index'
-    assert_equal num + 1, @project_one.backlog(true).size
+    assert_equal num + 1, @project_one.stories( true ).backlog.size
   end
 
   def test_create_invalid

@@ -131,7 +131,7 @@
 <p class="clear_both"></p>
 
 <h3>Story Cards</h3>
-<% if @project.backlog.size > 0 and @iteration.stop_date + 1 > Date.today %>
+<% if @project.stories.backlog.size > 0 and @iteration.stop_date + 1 > Date.today %>
 <%= popup_link('Assign Story Cards', 'assign_stories',
                'width=600,height=500,scrollbars,resizable',
                :controller => 'iterations',
