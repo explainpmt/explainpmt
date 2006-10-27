@@ -20,7 +20,8 @@ class ProjectTest < Test::Unit::TestCase
   end
   
   def test_milestones_relationship
-    milestones = Milestone.find :all, :limit => 2, :order => 'id'
+    milestones = Milestone.find :all, :order => 'id',
+      :conditions => [ 'project_id = ?', 1 ]
     project = Project.find 1
     assert_equal milestones, project.milestones.sort { |a,b| a.id <=> b.id }
   end

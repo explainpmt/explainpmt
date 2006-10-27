@@ -75,20 +75,15 @@
         <th>Name</th>
         <th>Date</th>
       </tr>
+      <% @upcoming_milestones.each do |milestone| %>
       <tr>
         <td>
-          <%= link_to 'Project Three', :action => 'project_overview' %>
-          <%= link_to 'Version 1.6 Release', :action => 'view_milestone' %>
+          <%= link_to "#{milestone.project.name}: #{milestone.name}",
+          	:action => 'view_milestone', :id => milestone %>
         </td>
-        <td>10/31/2005</td>
+        <td><%= milestone.date.strftime %></td>
       </tr>
-      <tr>
-        <td>
-          <%= link_to 'Project Two', :action => 'project_overview' %>
-          <%= link_to 'Project Post-Mortem', :action => 'view_milestone' %>
-        </td>
-        <td>10/15/2005</td>
-      </tr>
+      <% end %>
     </table>
   </div>
 
