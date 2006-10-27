@@ -55,11 +55,17 @@
          "<label for=\"SC_Check_#{s.id}\">SC#{s.scid}</label>"
        end
        stories_table.column_modifier(:title) do |s|
-         link_to(s.title,
-           :controller => 'stories',
-           :action => 'show',
-           :id => s.id,
+         str = link_to(s.title,
+           :controller => 'stories', :action => 'show', :id => s.id,
            :project_id => s.project.id)
+         if s.description?
+           str += '&nbsp' +
+             link_to(image_tag('info-icon.gif', :alt => '[description]'),
+               {:controller => 'stories', :action => 'show', :id => s.id,
+               :project_id => s.project.id},
+               :class => 'story_description_icon')
+         end
+         str
        end
        stories_table.column_modifier(:edit) do |s|
          link_to('Edit',
