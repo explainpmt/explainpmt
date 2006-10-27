@@ -1,8 +1,5 @@
 <!-- BEGIN iterations/index.rhtml -->
 <p>This project does not have any iterations yet.</p>
-<p><%= popup_link('Create New Iteration', 'new_iteration',
-               'width=400,height=200,resizable,scrollbars',
-               :controller => 'iterations',
-               :action => 'new',
-               :project_id => @project.id) %></p>
+<p><%= link_to 'Create New Iteration', :controller => 'iterations',
+  :action => 'new', :project_id => @project.id %></p>
 <!-- END iterations/index.rhtml -->

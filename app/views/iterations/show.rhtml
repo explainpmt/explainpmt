@@ -4,10 +4,8 @@
 <tr>
 <td id="SmallLeftColumn">
 <div id="IterationsMenu">
-	<h3><%= popup_link('New Iteration', 'new_iteration',
-	  'width=400,height=200,scrollbars,resizable',
-    :controller => 'iterations', :action => 'new',
-    :project_id => @project.id) %></h3>
+	<h3><%= link_to 'Create New Iteration', :controller => 'iterations',
+    :action => 'new', :project_id => @project.id %></h3>
 
 <ul>
 <% if @project.iterations.current %>

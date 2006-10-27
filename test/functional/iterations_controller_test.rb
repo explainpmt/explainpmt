@@ -103,12 +103,14 @@ class IterationsControllerTest < Test::Unit::TestCase
         'length' => '14',
         'budget' => '120'
       }
-    assert_response :success
-    assert_template 'layouts/refresh_parent_close_popup'
+    assert_response :redirect
     assert_equal "A new, 14-day iteration starting on " +
       "#{Date.today.strftime('%m/%d/%Y')} has been created.",
       flash[ :status ]
     assert_equal 1, Iteration.count
+    iteration = Iteration.find :first
+    assert_redirected_to :controller => 'iterations', :action => 'show',
+      :project_id => @project_one.id, :id => iteration.id
   end
 
   def test_create_invalid
