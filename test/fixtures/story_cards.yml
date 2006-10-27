@@ -1,0 +1,5 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+first_story_card:
+  id: 1
+another_story_card:
+  id: 2
