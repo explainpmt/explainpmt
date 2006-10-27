@@ -90,7 +90,11 @@ class UsersControllerTest < Test::Unit::TestCase
     
     num_users = User.count
 
-    post :create, :user => {}
+    post :create, :user => {
+      'login' => 'test_create', 'password' => 'password',
+      'password_confirmation' => 'password', 'email' => 'test@example.com',
+      'name' => 'Test Create'
+    }
 
     assert_response :redirect
     assert_redirected_to :action => 'list'
