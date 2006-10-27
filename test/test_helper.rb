@@ -15,8 +15,8 @@ Test::Unit::TestCase.fixture_path = File.dirname(__FILE__) + "/fixtures/"
 
 class Test::Unit::TestCase
   # Turn these on to use transactional fixtures with table_name(:fixture_name) instantiation of fixtures
-  # self.use_transactional_fixtures = true
-  # self.use_instantiated_fixtures  = false
+  self.use_transactional_fixtures = true
+  self.use_instantiated_fixtures  = false
 
   def create_fixtures(*table_names)
     Fixtures.create_fixtures(File.dirname(__FILE__) + "/fixtures", table_names)

@@ -49,12 +49,8 @@ class UsersController < ApplicationController
     if session[ :current_user_id ] == @user.id
       flash[ :error ] = 'You may not delete your own account'
     else
-      if User.count( [ 'admin = ?', true ] ) == 1
-        flash[ :error ] = 'You may not delete the last admin account'
-      else
-        User.find(@params[:id]).destroy
-        flash[ :notice ] = 'User has been deleted'
-      end
+      User.find(@params[:id]).destroy
+      flash[ :notice ] = 'User has been deleted'
     end
     redirect_to :action => 'list'
   end

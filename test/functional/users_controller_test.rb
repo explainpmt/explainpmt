@@ -171,34 +171,6 @@ class UsersControllerTest < Test::Unit::TestCase
     assert_equal "admin", User.find(1).login  
   end
   
-  def test_destroy_last_admin
-    # This should never happen as in order to destroy the last admin, an admin
-    # must be logged in and destroy themselves.  This would trigger the branch
-    # of any user destroying themselves.  But it is included here for 
-    # completeness.
-    @request.session[ :current_user_id ] = @admin.id
-    # First remove the first admin of the two
-    assert_not_nil User.find(3)
-    post :destroy, :id => 3
-    assert_response :redirect
-    assert_redirected_to :action => 'list'
-    # Check that the first admin was removed
-    assert_raise(ActiveRecord::RecordNotFound) {
-      User.find(3)
-    }
-    # Now try to remove the final admin
-    assert_not_nil User.find(1)
-    post :destroy, :id => 1
-    assert_response :redirect
-    assert_redirected_to :action => 'list'
-    # Here is where it hits the Destroying of their own account.  The next
-    # commented code would then catch the deletion of the last admin account 
-    # if users were allowed to delete themselves.
-    assert_equal 'You may not delete your own account', flash[ :error ]  
-    #assert_equal 'You may not delete the last admin account', flash[ :error ]
-    assert_equal "admin", User.find(1).login 
-  end
-  
   def test_login
     get :login
     assert_template 'login'

@@ -51,4 +51,12 @@ class UserTest < Test::Unit::TestCase
     assert_equal @admin, User.authenticate( @admin.login, 'admin' )
     assert_equal @user, User.authenticate( @user.login, 'user' )
   end
+
+  def test_not_able_to_delete_last_admin_account
+    @admin.destroy
+    assert_equal 1, User.count( [ 'admin = ?', true ] )
+    admin = User.find :first, :conditions => [ 'admin = ?', true ]
+    assert !admin.destroy
+    assert_equal 1, User.count( [ 'admin = ?', true ] )
+  end
 end
