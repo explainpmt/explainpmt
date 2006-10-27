@@ -127,6 +127,7 @@ class StoriesController < ApplicationController
     story = Story.find(params['id'])
     story.owner = session[:current_user]
     story.save
+    session[:current_user].reload
     flash[:status] = "SC#{story.scid} has been updated."
     redirect_to :controller => 'iterations', :action => 'show',
                 :id => story.iteration.id.to_s, :project_id => @project.id.to_s
@@ -137,6 +138,7 @@ class StoriesController < ApplicationController
     story = Story.find(params['id'])
     story.owner = nil
     story.save
+    session[:current_user].reload    
     flash[:status] = "SC#{story.scid} has been updated."
     redirect_to :controller => 'iterations', :action => 'show',
                 :id => story.iteration.id.to_s, :project_id => @project.id.to_s

@@ -168,6 +168,8 @@ class StoriesControllerTest < Test::Unit::TestCase
     assert flash[ :status ]
     assert_equal @request.session[ :current_user ],
       Story.find( @story_one.id ).owner
+    assert_equal @request.session[ :current_user ].stories,
+      [@story_one]
   end
 
   def test_release_ownership
@@ -180,6 +182,7 @@ class StoriesControllerTest < Test::Unit::TestCase
       :id => @iteration_one.id.to_s, :project_id => @project_one.id.to_s
     assert flash[ :status ]
     assert_nil Story.find( @story_one.id ).owner
+    assert @request.session[ :current_user ].stories.empty?
   end
   
   def test_main_menu_has_correct_current_link

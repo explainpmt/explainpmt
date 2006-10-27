@@ -31,11 +31,8 @@ module ApplicationHelper
   # Returns an array of projects other than the currently active project which
   # the curren tuser has access to
   def other_projects
-    unless @other_projects_cache
-      can_access = session[:current_user].projects
-      @other_projects_cache = can_access.select { |p| p != @project }
-    end
-    @other_projects_cache
+    can_access = User.find(session[:current_user].id).projects
+    can_access.select { |p| p != @project }
   end
 
   # Returns the title to use for the page's html title tag.
