@@ -22,6 +22,7 @@ class SubProject < ActiveRecord::Base
   class ProjectMismatchError < StandardError; end
   
   belongs_to :project
+  has_many :stories, :order => 'scid', :dependent => :nullify
   
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => 'project_id'

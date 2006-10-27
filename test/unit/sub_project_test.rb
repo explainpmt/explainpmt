@@ -27,6 +27,8 @@ class SubProjectTest < Test::Unit::TestCase
     @project_one = projects( :first )
     @project_two = projects( :second )
     @sub_project_one = sub_projects( :first )
+    @story_one = stories( :first )
+    @story_two = stories( :second )
   end
 
   test_required_attributes SubProject, :name
@@ -46,5 +48,19 @@ class SubProjectTest < Test::Unit::TestCase
   
   def test_project_association
     assert_equal @project_one, @sub_project_one.project
+  end
+  
+  def test_associated_stories_are_disassociated_when_sub_project_destroyed
+    assert_equal @sub_project_one, @story_one.sub_project
+    assert_equal @sub_project_one, @story_two.sub_project
+    @sub_project_one.destroy
+    @story_one.reload
+    @story_two.reload
+    assert_nil @story_one.sub_project_id
+    assert_nil @story_two.sub_project_id
+  end
+  
+  def test_stories_association
+    assert_equal [ @story_one, @story_two ], @sub_project_one.stories
   end
 end
