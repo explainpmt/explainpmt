@@ -5,8 +5,10 @@ first:
   iteration_id: 1
   user_id: 1
   title: 'First Story'
-  status: 1
+  status: 2
   points: 3
+  priority: 2
+  risk: 1
 second:
   id: 2
   scid: 2
@@ -20,7 +22,7 @@ third:
   scid: 3
   project_id: 1
   title: 'Third Story'
-  status: 1
+  status: 8
   points: 2
 fourth:
   id: 4
@@ -42,5 +44,14 @@ fifth:
   title: 'Fifth Story'
   status: 2
   points: 3
+  priority: 1
+  risk: 1
+sixth:
+  id: 6
+  scid: 6
+  project_id: 1
+  title: 'Sixth Story'
+  status: 2
+  points: 2
   priority: 1
   risk: 1

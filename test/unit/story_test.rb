@@ -59,8 +59,10 @@ class StoryTest < Test::Unit::TestCase
   end
 
   def test_scid_increments_properly
+    current_scid = @project_one.stories.sort{ |a,b| a.scid <=> b.scid }.
+      last.scid
     story = @project_one.stories.create :title => 'A Story Card'
-    assert_equal 6, story.scid
+    assert_equal current_scid + 1, story.scid
 
     project_two = Project.find 2
     story = project_two.stories.create :title => 'Another Story Card'

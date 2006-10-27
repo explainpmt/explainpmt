@@ -127,6 +127,7 @@ class ProjectTest < Test::Unit::TestCase
   end
   
   def test_backlog
-    assert_equal 1, @project_one.stories.backlog.size
+    num_backlog = @project_one.stories.reject{ |a| a.iteration }.size
+    assert_equal num_backlog, @project_one.stories.backlog.size
   end
 end
