@@ -61,7 +61,7 @@ class StoryTest < Test::Unit::TestCase
 
   def test_scid_increments_properly
     story = @project_one.stories.create :title => 'A Story Card'
-    assert_equal 4, story.scid
+    assert_equal 6, story.scid
 
     project_two = Project.find 2
     story = project_two.stories.create :title => 'Another Story Card'

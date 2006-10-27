@@ -17,7 +17,7 @@ class IterationTest < Test::Unit::TestCase
   end
 
   def test_total_points
-    assert_equal 6, @iteration_one.stories.total_points
+    assert_equal 12, @iteration_one.stories.total_points
   end
 
   def test_remaining_resources
@@ -29,7 +29,7 @@ class IterationTest < Test::Unit::TestCase
   end
 
   def test_remaining_points
-    assert_equal 3, @iteration_one.stories.remaining_points
+    assert_equal 9, @iteration_one.stories.remaining_points
   end
 
   def test_iteration_id_of_stories_set_to_null_when_iteration_deleted

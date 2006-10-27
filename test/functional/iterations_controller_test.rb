@@ -5,28 +5,15 @@ require 'iterations_controller'
 class IterationsController; def rescue_action(e) raise e end; end
 
 class IterationsControllerTest < Test::Unit::TestCase
-  def setup
-    Project.destroy_all
-    User.destroy_all
-    create_common_fixtures :user_one, :project_one, :story_one, :story_two,
-                           :iteration_one
-    @project_one.users << @user_one
-    @story_one.project = @project_one
-    @story_one.save
-    @story_two.project = @project_one
-    @story_two.save
-    @iteration_one.project = @project_one
-    @iteration_one.save
-    @iteration_one.stories << @story_one
-    @iteration_one.stories << @story_two
-    @iteration_two = Iteration.create('start_date' => Date.today + 14,
-                                      'length' => 14, 'budget' => 14,
-                                      'project_id' => @project_one.id)
+  fixtures ALL_FIXTURES
 
+  def setup
     @controller = IterationsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    @request.session[:current_user] = @user_one
+    @request.session[:current_user] = User.find 1
+
+    @project_one = Project.find 1
   end
 
   def test_index_no_project_id
@@ -60,15 +47,15 @@ class IterationsControllerTest < Test::Unit::TestCase
   end
 
   def test_show
-    get :show, 'id' => @iteration_one.id, 'project_id' => @project_one.id
+    get :show, 'id' => 1, 'project_id' => 1
     assert_response :success
     assert_template 'show'
-    assert_equal @iteration_one, assigns(:iteration)
+    assert_equal Iteration.find( 1 ), assigns(:iteration)
     assert assigns(:stories)
   end
 
   def test_new
-    get :new, 'project_id' => @project_one.id
+    get :new, 'project_id' => 1
     assert_response :success
     assert_template 'new'
     assert assigns(:iteration).class == Iteration
@@ -112,38 +99,39 @@ class IterationsControllerTest < Test::Unit::TestCase
   end
 
   def test_delete
-    get :delete, 'id' => @iteration_one.id, 'project_id' => @project_one.id
+    iteration = Iteration.find 1
+    get :delete, 'id' => 1, 'project_id' => 1
     assert_redirected_to :controller => 'iterations', :action => 'index',
-                         :project_id => @project_one.id.to_s
-    assert_equal "The #{@iteration_one.length}-day iteration scheduled to " +
-                 "start on #{@iteration_one.start_date.strftime('%m/%d/%Y')} " +
+                         :project_id => '1'
+    assert_equal "The #{iteration.length}-day iteration scheduled to " +
+                 "start on #{iteration.start_date.strftime('%m/%d/%Y')} " +
                  "has been deleted. All stories assigned to the iteration " +
                  "(if any) have been moved to the project backlog.",
                  flash[:status]
     assert_raise(ActiveRecord::RecordNotFound) {
-      Iteration.find(@iteration_one.id)
+      Iteration.find iteration.id
     }
     assert_equal [], 
                  Story.find(:all,
                             :conditions => [ 'iteration_id = ?',
-                                             @iteration_one.id ])
+                                             iteration.id ])
   end
 
   def test_edit
-    get :edit, 'id' => @iteration_one.id, 'project_id' => @project_one.id
+    get :edit, 'id' => 1, 'project_id' => 1
     assert_response :success
     assert_template 'edit'
-    assert_equal @iteration_one, assigns(:iteration)
+    assert_equal Iteration.find( 1 ), assigns(:iteration)
   end
 
   def test_edit_invalid
-    @request.session[:edit_iteration] = @iteration_one
+    @request.session[:edit_iteration] = Iteration.find 1
     test_edit
     assert_nil session[:edit_iteration]
   end
 
   def test_update
-    post :update, 'id' => @iteration_one.id, 'project_id' => @project_one.id,
+    post :update, 'id' => 1, 'project_id' => 1,
          'iteration' => { 'length' => '10' }
     assert_response :success
     assert_template 'layouts/refresh_parent_close_popup'
@@ -151,61 +139,56 @@ class IterationsControllerTest < Test::Unit::TestCase
   end
 
   def test_update_invalid
-    post :update, 'id' => @iteration_one.id, 'project_id' => @project_one.id,
+    post :update, 'id' => 1, 'project_id' => 1,
          'iteration' => { 'length' => 'foo' }
     assert_redirected_to :controller => 'iterations', :action => 'edit',
-                         :id => @iteration_one.id.to_s,
-                         :project_id => @project_one.id.to_s
+                         :id => '1',
+                         :project_id => '1'
     assert session[:edit_iteration]
   end
 
   def test_move_stories_to_backlog
-    post :move_stories, 'id' => @iteration_one.id,
-         'project_id' => @project_one.id,
-         'selected_stories' => [ @story_one.id, @story_two.id ], 'move_to' => 0
+    post :move_stories, 'id' => 1,
+         'project_id' => 1,
+         'selected_stories' => [ 4, 5 ], 'move_to' => 0
     assert_redirected_to :controller => 'iterations', :action => 'show',
-                         :id => @iteration_one.id.to_s,
-                         :project_id => @project_one.id.to_s
-    sc_one = Story.find(@story_one.id)
+                         :id => '1',
+                         :project_id => '1'
+    sc_one = Story.find( 4 )
     assert_nil sc_one.iteration
-    sc_two = Story.find(@story_two.id)
+    sc_two = Story.find( 5 )
     assert_nil sc_two.iteration
     assert flash[:status]
   end
 
   def test_move_stories_to_another_iteration
-    @story_one.status = Story::Status::Defined
-    @story_one.save
-    @story_two.status = Story::Status::Defined
-    @story_two.save
-    post :move_stories, 'id' => @iteration_one.id,
-         'project_id' => @project_one.id,
-         'selected_stories' => [@story_one.id, @story_two.id],
-         'move_to' => @iteration_two.id
+    post :move_stories, 'id' => 1,
+         'project_id' => 1,
+         'selected_stories' => [ 4, 5 ],
+         'move_to' => 2
     assert_redirected_to :controller => 'iterations', :action => 'show',
-                         :id => @iteration_one.id.to_s,
-                         :project_id => @project_one.id.to_s
-    sc_one = Story.find(@story_one.id)
-    assert_equal @iteration_two, sc_one.iteration
-    sc_two = Story.find(@story_two.id)
-    assert_equal @iteration_two, sc_two.iteration
+                         :id => '1',
+                         :project_id => '1'
+    sc_one = Story.find( 4 )
+    assert_equal Iteration.find( 2 ), sc_one.iteration
+    sc_two = Story.find( 5 )
+    assert_equal Iteration.find( 2 ), sc_two.iteration
     assert flash[:status]
   end
 
   def test_move_stories_raises_no_error_if_no_stories_selected
     assert_nothing_raised do
-      post :move_stories, :project_id => @project_one.id,
-        :move_to => @iteration_two.id
+      post :move_stories, :project_id => 1,
+        :move_to => 2
     end
   end
 
   def test_select_stories
-    get :select_stories, 'id' => @iteration_one.id,
-        'project_id' => @project_one.id
+    get :select_stories, 'id' => 1, 'project_id' => 1
     assert_response :success
     assert_template 'select_stories'
-    assert_equal @iteration_one, assigns(:iteration)
-    assigns['stories'].each do |s|
+    assert_equal Iteration.find( 1 ), assigns(:iteration)
+    assigns( :stories ).each do |s|
       assert_nil s.iteration
       assert s.status != Story::Status::New
       assert s.status != Story::Status::Cancelled
@@ -213,25 +196,25 @@ class IterationsControllerTest < Test::Unit::TestCase
   end
 
   def test_assign_stories
-    post :assign_stories, 'id' => @iteration_one.id,
-         'project_id' => @project_one.id,
-         'selected_stories' => [ @story_one.id, @story_two.id ],
-         'move_to' => @iteration_two.id
+    post :assign_stories, 'id' => '1',
+         'project_id' => '1',
+         'selected_stories' => [ 4, 5 ],
+         'move_to' => 2
     assert_response :success
     assert_template 'layouts/refresh_parent_close_popup'
-    sc_one = Story.find(@story_one.id)
-    assert_equal @iteration_two, sc_one.iteration
-    sc_two = Story.find(@story_two.id)
-    assert_equal @iteration_two, sc_two.iteration
+    sc_one = Story.find 4
+    assert_equal Iteration.find( 2 ), sc_one.iteration
+    sc_two = Story.find 5
+    assert_equal Iteration.find( 2 ), sc_two.iteration
     assert flash[:status]
   end
 
   def test_assign_stories_not_defined
     story = @project_one.stories.create('title' => 'undefed story')
-    post :move_stories, 'project_id' => @project_one.id,
-         'selected_stories' => [story.id], 'move_to' => @iteration_one.id
+    post :move_stories, 'project_id' => 1,
+         'selected_stories' => [story.id], 'move_to' => 1 
     assert_redirected_to :controller => 'stories', :action => 'index',
-                         :project_id => @project_one.id.to_s
+                         :project_id => '1'
     assert_nil flash[:status]
     assert flash[:error]
   end
