@@ -233,8 +233,7 @@ class Story < ActiveRecord::Base
   end
 
   def is_defined?
-    self.priority != Priority::NA and self.risk != Risk::NA and self.points? and
-    self.description?
+    self.priority != Priority::NA and self.risk != Risk::NA and self.points?
   end
 
   def before_save_reset_status
@@ -242,8 +241,7 @@ class Story < ActiveRecord::Base
       self.status = Status::InProgress
     end
 
-    if self.status == Status::New and self.priority != Priority::NA and
-      self.risk != Risk::NA and self.points? and self.description?
+    if self.status == Status::New and is_defined?
       self.status = Status::Defined
     end
   end

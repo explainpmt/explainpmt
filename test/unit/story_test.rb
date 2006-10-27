@@ -98,7 +98,6 @@ class StoryTest < Test::Unit::TestCase
     story.risk = Story::Risk::Low
     story.priority = Story::Priority::Low
     story.points = 2
-    story.description = "This is the story description."
     story.save
     assert_equal Story::Status::Defined, story.status
     story.status = Story::Status::InProgress
