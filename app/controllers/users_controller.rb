@@ -19,7 +19,7 @@
 
 class UsersController < ApplicationController
   before_filter :require_admin_privileges, :except => [:index, :project]
-  popups :new, :create, :edit, :update
+  popups :edit, :update
 
   # If the 'project_id' request parameter is set, this will display the
   # project's team members. Otherwise, it shows all users on the system.

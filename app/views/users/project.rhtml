@@ -11,10 +11,9 @@
                                   :controller => 'projects',
                                   :action => 'add_users',
                                   :project_id => @project.id) %></strong></p>
-        <p><strong><%= popup_link('Create New User', 'new_user',
-                                  'width=400,height=400,resizable,scrollbars',
-                                  :controller => 'users', :action => 'new',
-                                  :project_id => @project.id) %></strong></p>
+        <p><strong><%= link_to('Create New User',
+                                :controller => 'users', :action => 'new',
+                                :project_id => @project.id) %></strong></p>
       <% end %>
     </td>
     <td id="RightColumn" valign="top">
