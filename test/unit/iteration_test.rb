@@ -29,12 +29,8 @@ class IterationTest < Test::Unit::TestCase
   end
 
   def test_iteration_id_of_stories_set_to_null_when_iteration_deleted
-    story = @iteration_one.stories.create('title' => 'Test Delete Iteration',
-                                          'status' => Story::Status::New,
-                                          'points' => 3)
-    assert_equal @iteration_one, story.iteration
     @iteration_one.destroy
-    assert_nil story.iteration(true) # true arg specified to reload association
+    assert_nil Story.find( 1 ).iteration
   end
 
   def test_iterations_not_allowed_to_overlap
