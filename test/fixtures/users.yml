@@ -6,6 +6,7 @@ admin_user:
   password: admin
   email: admin@localhost
   name: Admin
+
 normal_user:
   id: 2
   admin: 0
@@ -13,3 +14,11 @@ normal_user:
   password: user
   email: user@localhost
   name: User
+
+admin_user_two:
+  id: 3
+  admin: 1
+  login: anotheradmin
+  password: admin2
+  email: admin@localhost
+  name: Admin Deux
