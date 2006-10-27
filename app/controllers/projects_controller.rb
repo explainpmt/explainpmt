@@ -36,17 +36,17 @@ class ProjectsController < ApplicationController
   # Displays a form for creating a new project.
   def new
     @page_title = "New Project"
-    if @project = @session[:new_project]
+    if @new_project = @session[:new_project]
       @session[:new_project] = nil
     else
-      @project = Project.new
+      @new_project = Project.new
     end
   end
 
   # Creates a new project based on the information submitted from the #new
   # action.
   def create
-    project = Project.new(@params['project'])
+    project = Project.new(@params['new_project'])
     if project.valid?
       project.save
       if @params['add_me'] == '1'

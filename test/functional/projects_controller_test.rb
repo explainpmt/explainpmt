@@ -56,25 +56,25 @@ class ProjectsControllerTest < Test::Unit::TestCase
     get :new
     assert_response :success
     assert_template 'new'
-    assert_kind_of Project, assigns(:project)
-    assert assigns( :project ).new_record?
+    assert_kind_of Project, assigns(:new_project)
+    assert assigns(:new_project).new_record?
   end
 
   def test_new_from_error
     project = Project.create
     assert !project.valid?
-    @request.session[ :new_project ] = project
+    @request.session[:new_project] = project
     get :new
     assert_response :success
     assert_template 'new'
-    assert_equal project, assigns( :project )
-    assert_nil session[ :new_project ]
+    assert_equal project, assigns(:new_project)
+    assert_nil session[:new_project]
   end
 
   def test_create_no_membership
     num_before_create = Project.count
     mem_num_before_create = current_user.projects.size
-    post :create, 'project' => { 'name' => 'Test Create',
+    post :create, 'new_project' => { 'name' => 'Test Create',
                                  'description' => '' }
     assert_response :redirect
     assert_redirected_to :controller => 'projects', :action => 'index'
@@ -85,7 +85,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
   def test_create_add_membership
     num_before_create = Project.count
     mem_num_before_create = current_user.projects.size
-    post :create, 'add_me' => '1', 'project' => { 'name' => 'Test Create',
+    post :create, 'add_me' => '1', 'new_project' => { 'name' => 'Test Create',
                                                   'description' => '' }
     assert_response :redirect
     assert_redirected_to :controller => 'projects', :action => 'index'
@@ -97,7 +97,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
     num_before_create = Project.count
     post :create
     assert_redirected_to :controller => 'projects', :action => 'new'
-    assert session[ :new_project ]
+    assert session[:new_project]
     assert_equal num_before_create, Project.count
   end
 

@@ -1,5 +1,25 @@
 <%= start_form_tag(:controller => 'projects', :action => 'update',
                    :id => @project.id) %>
-<%= render_partial('project_form', :project => @project) %>
+<fieldset>
+  <legend>Project Information</legend>
+  <%= error_messages_for('project') %>
+  <table class="form_layout">
+    <tr>
+      <th><label for="project_name">Name:</label></th>
+      <td><%= text_field('project', 'name') %></td>
+    </tr>
+    <tr>
+      <th><label for="project_description">Description:</label></th>
+      <td><%= text_area('project', 'description') %></td>
+    </tr>
+    <tr>
+      <td colspan="2" class="form_actions">
+        <input type="submit" name="submit" value="Update Project" />
+        &nbsp;&nbsp;
+        <%= link_to 'Cancel', :controller => 'projects', :action => 'index' %>
+      </td>
+    </tr>
+  </table>
+</fieldset>
 <%= end_form_tag %>
 
