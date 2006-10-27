@@ -1,8 +1,7 @@
-<p><strong>
-<%= popup_link('Create New Project', 'new_project',
-               'width=500,height=600,scrollbars,resizable',
-               :controller => 'projects', :action => 'new') %>
-</strong></p>
+<div id="NewProject">
+  <%= render :partial => 'create_new_project' %>
+</div>
+
 <% unless @projects.empty? %>
   <dl>
     <% @projects.each do |p| %>

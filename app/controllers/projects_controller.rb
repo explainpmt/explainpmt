@@ -25,7 +25,7 @@ class ProjectsController < ApplicationController
                                                      :update_users, :edit,
                                                      :update, :remove_user,
                                                      :delete, :index ]
-  popups :new, :create, :add_users, :update_users, :edit, :update
+  popups :add_users, :update_users, :edit, :update
 
   # Lists all of the projects that exist on the system.
   def index
@@ -35,12 +35,9 @@ class ProjectsController < ApplicationController
   
   # Displays a form for creating a new project.
   def new
-    @page_title = "New Project"
-    if @project = @session[:new_project]
-      @session[:new_project] = nil
-    else
-      @project = Project.new
-    end
+    @project = session[:new_project] || Project.new
+    session[:new_project] = nil
+    render :partial => 'new'
   end
 
   # Creates a new project based on the information submitted from the #new
@@ -52,8 +49,7 @@ class ProjectsController < ApplicationController
       if @params['add_me'] == '1'
         @session[:current_user].projects << project
       end
-      flash[:status] = "New project \"#{project.name}\" has been created."
-      render 'layouts/refresh_parent_close_popup'
+      render :partial => 'create_new_project'
     else
       @session[:new_project] = project
       redirect_to :controller => 'projects', :action => 'new'

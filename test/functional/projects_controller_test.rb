@@ -6,9 +6,10 @@ class ProjectsController; def rescue_action(e) raise e end; end
 
 class ProjectsControllerTest < Test::Unit::TestCase
   FULL_PAGES = [:index]
-  POPUPS = [:new,:create,:add_users,:update_users,:edit,:update]
+  PARTIALS = [:new,:create]
+  POPUPS = [:add_users,:update_users,:edit,:update]
   NO_RENDERS = [:remove_user,:delete]
-  ALL_ACTIONS = FULL_PAGES + POPUPS + NO_RENDERS
+  ALL_ACTIONS = FULL_PAGES + PARTIALS + POPUPS + NO_RENDERS
 
   fixtures ALL_FIXTURES
   
@@ -53,9 +54,9 @@ class ProjectsControllerTest < Test::Unit::TestCase
   end
 
   def test_new
-    get :new
+    xhr :get, :new
     assert_response :success
-    assert_template 'new'
+    assert_template '_new'
     assert_kind_of Project, assigns(:project)
     assert assigns( :project ).new_record?
   end
@@ -64,9 +65,10 @@ class ProjectsControllerTest < Test::Unit::TestCase
     project = Project.create
     assert !project.valid?
     @request.session[ :new_project ] = project
-    get :new
+    
+    xhr :get, :new
     assert_response :success
-    assert_template 'new'
+    assert_template '_new'
     assert_equal project, assigns( :project )
     assert_nil session[ :new_project ]
   end
@@ -74,10 +76,11 @@ class ProjectsControllerTest < Test::Unit::TestCase
   def test_create_no_membership
     num_before_create = Project.count
     mem_num_before_create = current_user.projects.size
-    post :create, 'project' => { 'name' => 'Test Create',
+    
+    xhr :post, :create, 'project' => { 'name' => 'Test Create',
                                  'description' => '' }
     assert_response :success
-    assert_template 'layouts/refresh_parent_close_popup'
+    assert_template '_create_new_project'
     assert_equal num_before_create + 1, Project.count
     assert_equal mem_num_before_create, current_user.projects.size
   end
@@ -85,10 +88,11 @@ class ProjectsControllerTest < Test::Unit::TestCase
   def test_create_add_membership
     num_before_create = Project.count
     mem_num_before_create = current_user.projects.size
-    post :create, 'add_me' => '1', 'project' => { 'name' => 'Test Create',
-                                                  'description' => '' }
+    
+    xhr :post, :create, 'add_me' => '1',
+      'project' => {'name' => 'Test Create', 'description' => ''}
     assert_response :success
-    assert_template 'layouts/refresh_parent_close_popup'
+    assert_template '_create_new_project'
     assert_equal num_before_create + 1, Project.count
     assert_equal mem_num_before_create + 1, current_user.projects.size
   end
