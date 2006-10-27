@@ -1,0 +1,30 @@
+first:
+  id: 1
+  project_id: 1
+  name: 'Milestone One'
+  date: <%= Date.today - 365 %>
+second:
+  id: 2
+  project_id: 1
+  name: 'Milestone Two'
+  date: <%= Date.today - 15 %>
+third:
+  id: 3
+  project_id: 1
+  name: 'Milestone Three'
+  date: <%= Date.today - 14 %>
+fourth:
+  id: 4
+  project_id: 1
+  name: 'Milestone Four'
+  date: <%= Date.today - 1 %>
+fifth:
+  id: 5
+  project_id: 1
+  name: 'Milestone Five'
+  date: <%= Date.today %>
+sixth:
+  id: 6
+  project_id: 1
+  name: 'Milestone Six'
+  date: <%= Date.today + 365 %>

@@ -1,11 +1,17 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MilestoneTest < Test::Unit::TestCase
+  fixtures :milestones
+
   def setup
-    create_common_fixtures :project_one, :past_milestone1, :past_milestone2,
-                           :recent_milestone1, :recent_milestone2,
-                           :future_milestone1, :future_milestone2
+    @past_milestone1 = Milestone.find 1
+    @past_milestone2 = Milestone.find 2
+    @recent_milestone1 = Milestone.find 3
+    @recent_milestone2 = Milestone.find 4
+    @future_milestone1 = Milestone.find 5
+    @future_milestone2 = Milestone.find 6
   end
+  
   def test_future_eh
     assert !@past_milestone1.future?
     assert !@past_milestone2.future?
@@ -33,4 +39,3 @@ class MilestoneTest < Test::Unit::TestCase
     assert !@future_milestone2.past?
   end
 end
-
