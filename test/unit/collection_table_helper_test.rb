@@ -63,17 +63,24 @@ class CollectionTableHelperTest < Test::Unit::TestCase
   def test_header_row
     ct = CollectionTableHelper::CollectionTable.new(@items, [:id,'ID'], :name,
                                                     :phone)
-    expected = "  <tr>\n    <th>ID</th>\n    <th>Name</th>\n" +
-               "    <th>Phone</th>\n  </tr>\n"
+    expected = "  <thead>\n" +
+               "    <tr>\n" +
+               "      <th>ID</th>\n" +
+               "      <th>Name</th>\n" +
+               "      <th>Phone</th>\n" +
+               "    </tr>\n" +
+               "  </thead>"
     assert_equal expected, ct.send(:header_row)
   end
 
   def test_data_row
     ct = CollectionTableHelper::CollectionTable.new(@items, :id, :name, :phone)
     item = @items.first
-    expected = "  <tr>\n    <td>#{item.id}</td>\n" +
-               "    <td>#{item.name}</td>\n    <td>#{item.phone}</td>\n" +
-               "  </tr>\n"
+    expected = "    <tr>\n" +
+               "      <td>#{item.id}</td>\n" +
+               "      <td>#{item.name}</td>\n" +
+               "      <td>#{item.phone}</td>\n" +
+               "    </tr>\n"
     assert_equal expected, ct.send(:data_row, item)
   end
 
@@ -87,11 +94,12 @@ class CollectionTableHelperTest < Test::Unit::TestCase
       "<a href=\"/item/edit/#{item.id}\">Edit</a>"
     }
     item = @items.first
-    expected = "  <tr>\n    <td>#{item.id}</td>\n" +
-               "    <td>#{item.name}</td>\n" +
-               "    <td>#{item.phone.gsub('-','#')}</td>\n" +
-               "    <td><a href=\"/item/edit/#{item.id}\">Edit</a></td>\n" +
-               "  </tr>\n"
+    expected = "    <tr>\n" +
+               "      <td>#{item.id}</td>\n" +
+               "      <td>#{item.name}</td>\n" +
+               "      <td>#{item.phone.gsub('-','#')}</td>\n" +
+               "      <td><a href=\"/item/edit/#{item.id}\">Edit</a></td>\n" +
+               "    </tr>\n"
     assert_equal expected, ct.send(:data_row, item)
   end
 
@@ -111,7 +119,9 @@ class CollectionTableHelperTest < Test::Unit::TestCase
     ct = CollectionTableHelper::CollectionTable.new(@items, :id)
     ct.column_align(:id, 'right')
     item = @items.shift
-    expected = "  <tr>\n    <td align=\"right\">#{item.id}</td>\n  </tr>\n"
+    expected = "    <tr>\n" +
+               "      <td align=\"right\">#{item.id}</td>\n" +
+               "    </tr>\n"
     assert_equal expected, ct.send(:data_row, item)
   end
 
@@ -121,21 +131,57 @@ class CollectionTableHelperTest < Test::Unit::TestCase
     ct.data_row_class = [ 'odd_row', 'even_row' ]
     expected = <<EOF
 <table class="collection_table">
-  <tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Phone</th>
-  </tr>
-  <tr class="odd_row">
-    <td>1</td>
-    <td>John Doe</td>
-    <td>555-5555</td>
-  </tr>
-  <tr class="even_row">
-    <td>2</td>
-    <td>Jane Doe</td>
-    <td>666-6666</td>
-  </tr>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Phone</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="odd_row">
+      <td>1</td>
+      <td>John Doe</td>
+      <td>555-5555</td>
+    </tr>
+    <tr class="even_row">
+      <td>2</td>
+      <td>Jane Doe</td>
+      <td>666-6666</td>
+    </tr>
+  </tbody>
+</table>
+EOF
+    assert_equal expected, ct.build_table
+  end
+  
+  def test_table_and_tbody_id
+    ct = CollectionTableHelper::CollectionTable.new(@items, [:id,'ID'], :name,
+                                                    :phone)
+    ct.data_row_class = [ 'odd_row', 'even_row' ]
+    ct.table_id = 'MyTable'
+    ct.tbody_id = 'MyTBody'
+    expected = <<EOF
+<table id="MyTable" class="collection_table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Phone</th>
+    </tr>
+  </thead>
+  <tbody id="MyTBody">
+    <tr class="odd_row">
+      <td>1</td>
+      <td>John Doe</td>
+      <td>555-5555</td>
+    </tr>
+    <tr class="even_row">
+      <td>2</td>
+      <td>Jane Doe</td>
+      <td>666-6666</td>
+    </tr>
+  </tbody>
 </table>
 EOF
     assert_equal expected, ct.build_table

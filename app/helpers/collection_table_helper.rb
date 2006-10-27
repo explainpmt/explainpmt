@@ -47,30 +47,34 @@ module CollectionTableHelper
   # build_table might return the following HTML:
   #
   #   <table class="collection_table">
-  #     <tr>
-  #       <th>ID</th>
-  #       <th>Last Name</th>
-  #       <th>First Name</th>
-  #       <th>Email</th>
-  #       <th></th>
-  #       <th></th>
-  #     </tr>
-  #     <tr class="odd_row">
-  #       <td align="right">2</td>
-  #       <td>Doe</td>
-  #       <td>Jane</td>
-  #       <td><a href="mailto:janedoe@example.com">janedoe@example.com</a></td>
-  #       <td><a href="/people/edit/2">Edit</a></td>
-  #       <td><a href="/people/delete/2">Delete</a></td>
-  #     </tr>
-  #     <tr class="even_row">
-  #       <td align="right">3</td>
-  #       <td>Body</td>
-  #       <td>Some</td>
-  #       <td><a href="mailto:somebody@example.com">somebody@example.com</a></td>
-  #       <td><a href="/people/edit/3">Edit</a></td>
-  #       <td><a href="/people/delete/3">Delete</a></td>
-  #     </tr>
+  #     <thead>
+  #       <tr>
+  #         <th>ID</th>
+  #         <th>Last Name</th>
+  #         <th>First Name</th>
+  #         <th>Email</th>
+  #         <th></th>
+  #         <th></th>
+  #       </tr>
+  #     </thead>
+  #     <tbody>
+  #       <tr class="odd_row">
+  #         <td align="right">2</td>
+  #         <td>Doe</td>
+  #         <td>Jane</td>
+  #         <td><a href="mailto:janedoe@example.com">janedoe@example.com</a></td>
+  #         <td><a href="/people/edit/2">Edit</a></td>
+  #         <td><a href="/people/delete/2">Delete</a></td>
+  #       </tr>
+  #       <tr class="even_row">
+  #         <td align="right">3</td>
+  #         <td>Body</td>
+  #         <td>Some</td>
+  #         <td><a href="mailto:somebody@example.com">somebody@example.com</a></td>
+  #         <td><a href="/people/edit/3">Edit</a></td>
+  #         <td><a href="/people/delete/3">Delete</a></td>
+  #       </tr>
+  #     </tbody>
   #   </table>
   class CollectionTable
     # The attribute of each item in the collection that can be used as a unique
@@ -80,6 +84,10 @@ module CollectionTableHelper
     # Takes an array of CSS class names. The class names will be applied in
     # sequence to the +tr+ tag of each data row.
     attr_writer :data_row_class
+    
+    attr_writer :table_id
+    
+    attr_writer :tbody_id
 
     # Returns a new CollectionTable object that will operate on the +items+ (any
     # enumerable) and will display a column for each of the specified +columns+.
@@ -116,9 +124,12 @@ module CollectionTableHelper
     # Returns the complete HTML for the table based on the options set on the
     # object with a data row for each item in the collection.
     def build_table
-      output = "<table class=\"collection_table\">\n"
+      output = "<table #{@table_id.nil? ? '' : "id=\"#{@table_id}\" "}" +
+               "class=\"collection_table\">\n"
       output += header_row
+      output += "\n  <tbody#{@tbody_id.nil? ? '' : " id=\"#{@tbody_id}\""}>\n"
       output += @items.inject('') { |txt,item| txt + data_row(item) }
+      output += "  </tbody>\n"
       output += "</table>\n"
     end
 
@@ -178,18 +189,18 @@ module CollectionTableHelper
         else
           td = "<td>"
         end
-        txt + "    #{td + cell_content}</td>\n"
+        txt + "      #{td + cell_content}</td>\n"
       end
-      "  <tr#{current_row_class}>\n" +
-      data_cells + "  </tr>\n"
+      "    <tr#{current_row_class}>\n" +
+      data_cells + "    </tr>\n"
     end
 
     # Returns the complete table header row
     def header_row
       header_cells = @column_order.inject('') do |txt,col|
-        txt + "    <th>#{heading_for(col)}</th>\n"
+        txt + "      <th>#{heading_for(col)}</th>\n"
       end
-      "  <tr>\n" + header_cells + "  </tr>\n"
+      "  <thead>\n    <tr>\n" + header_cells + "    </tr>\n  </thead>"
     end
 
 
