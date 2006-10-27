@@ -1,3 +1,6 @@
 first:
   id: 1
   name: 'Project One'
+second:
+  id: 2
+  name: 'Project Two'

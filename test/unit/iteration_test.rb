@@ -33,29 +33,22 @@ class IterationTest < Test::Unit::TestCase
     assert_nil Story.find( 1 ).iteration
   end
 
-  def test_iterations_not_allowed_to_overlap
-    Iteration.destroy_all
-    iteration1 = Iteration.new('start_date' => Date.today, 'length' => 10)
-    iteration1.project = @project_one
-    assert iteration1.save
-    iteration2 = Iteration.new('start_date' => Date.today - 5, 'length' => 10)
-    iteration2.project = @project_one
-    assert !iteration2.save
-    assert iteration2.errors.on('start_date')
-    iteration2.start_date = Date.today + 5
-    assert !iteration2.save
-    assert iteration2.errors.on('start_date')
-    iteration2.start_date = Date.today
-    assert !iteration2.save
-    assert iteration2.errors.on('start_date')
-    iteration2.start_date = Date.today + 1
-    iteration2.length = 5
-    assert !iteration2.save
-    assert iteration2.errors.on('start_date')
-    iteration2.start_date = Date.today - 1
-    iteration2.length = 12
-    assert !iteration2.save
-    assert iteration2.errors.on('start_date')
+  def test_iterations_not_allowed_to_overlap_on_same_project
+    iteration_two = Iteration.find 2
+    [ -1, 0, 13 ].each do |i|
+      iteration_two.start_date = @iteration_one.start_date + i
+      assert !iteration_two.valid?
+      assert iteration_two.errors.on( :start_date )
+    end
+  end
+
+  def test_iterations_allowed_to_overlap_on_different_project
+    iteration_three = Iteration.find 3
+    [ -1, 0, 13 ].each do |i|
+      iteration_three.start_date = @iteration_one.start_date + i
+      assert iteration_three.valid?
+      assert_nil iteration_three.errors.on( :start_date )
+    end
   end
 
   def test_iteration_must_belong_to_project
