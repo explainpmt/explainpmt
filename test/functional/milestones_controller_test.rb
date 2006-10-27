@@ -10,19 +10,22 @@ class MilestonesControllerTest < Test::Unit::TestCase
   NO_RENDERS = [:delete]
   ALL_ACTIONS = FULL_PAGES + POPUPS + NO_RENDERS + [:milestones_calendar]
 
+  fixtures ALL_FIXTURES
+
   def setup
-    Project.destroy_all
-    User.destroy_all
-    create_common_fixtures :user_one, :project_one, :project_two,
-                           :past_milestone1, :past_milestone2,
-                           :recent_milestone1, :recent_milestone2,
-                           :future_milestone1, :future_milestone2
-    @project_one.users << @user_one
-    @project_two.users << @user_one
+    @project_one = Project.find 1
+    @project_two = Project.find 2
+    @past_milestone1 = Milestone.find 1
+    @past_milestone2 = Milestone.find 2
+    @recent_milestone1 = Milestone.find 3
+    @recent_milestone2 = Milestone.find 4
+    @future_milestone1 = Milestone.find 5
+    @future_milestone2 = Milestone.find 6
+    
     @controller = MilestonesController.new
     @request = ActionController::TestRequest.new
     @response = ActionController::TestResponse.new
-    @request.session[:current_user] = @user_one
+    @request.session[:current_user] = User.find 2
   end
 
   def test_authentication_required
