@@ -5,7 +5,7 @@ require 'main_controller'
 class MainController; def rescue_action(e) raise e end; end
 
 class MainControllerTest < Test::Unit::TestCase
-  fixtures :users, :projects, :projects_users, :story_cards
+  fixtures :users, :projects, :projects_users, :story_cards, :milestones
   
   def setup
     @controller = MainController.new

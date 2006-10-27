@@ -1,0 +1,45 @@
+<h1>SC<%= @story_card.scid %>: <%= @story_card.name %></h1>
+
+<table>
+  <tr>
+    <td><b>Priority:</b></td>
+    <td>
+<% if @story_card.priority != 0 -%>
+      <%=h StoryCard::Priorities[@story_card.priority.to_i] %>
+<% else -%>
+      NA
+<% end %>
+    </td>
+  </tr>
+  <tr>
+    <td><b>Risk:</b></td>
+    <td>
+<% if @story_card.risk != 0 -%>
+      <%=h StoryCard::Risks[@story_card.risk.to_i] %>
+<% else -%>
+      NA
+<% end -%>
+    </td>
+  </tr>
+  <tr>
+    <td><b>Estimation:</b></td>
+    <td>
+<% if !@story_card.points.nil? -%>
+        <%=h @story_card.points %>
+        <% if @story_card.points > 1 %>points<% else %>point<% end %>
+<% else -%>
+        NA
+<% end -%>
+    </td>
+  </tr>
+  <tr>
+    <td><b>Status:</b></td>
+    <td><%=h StoryCard::Statuses[@story_card.status.to_i] %></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <p><b>Description:</b></p>
+      <p><%=h @story_card.description %></p>
+    </td>
+  </tr>
+</table>

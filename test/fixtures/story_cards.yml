@@ -5,7 +5,10 @@ story_card_a:
   user_id: 1
   scid: 1
   name: Story Card A
-  status: In Progress
+  status: 3
+  risk: 2
+  priority: 5
+  points: 4
   
 story_card_b:
   id: 2
@@ -13,20 +16,29 @@ story_card_b:
   user_id: 2
   scid: 2
   name: Story Card B
-  status: Complete
-  
+  status: 6
+  risk: 1
+  priority: 4
+  points: 3
+
 story_card_c:
   id: 3
   project_id: 2
   user_id: 2
   scid: 1
   name: Story Card C
-  status: In Progress
-  
+  status: 3
+  risk: 3
+  priority: 3
+  points: 2
+    
 story_card_d:
   id: 4
   project_id: 2
   user_id: 3
   scid: 2
   name: Story Card D
-  status: In Progress
+  status: 3
+  risk: 2
+  priority: 2
+  points: 1

@@ -7,6 +7,6 @@ class RoutingTest < Test::Unit::TestCase
 
   def test_route_for_project_dashboard
     assert_routing 'project/1', :controller => 'main',
-      :action => 'project_dashboard', :id => '1'
+      :action => 'dashboard', :id => '1'
   end
 end
