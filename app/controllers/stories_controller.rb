@@ -54,11 +54,11 @@ class StoriesController < ApplicationController
       flash[:error] = 'Please enter at least one story card title.'
       redirect_to :controller => 'stories', :action => 'new', :project_id => @project
     else
-      session[:new_story_ids] = []
       params[:story_card_titles].each_line do |title|
-        session[:new_story_ids] << @project.stories.create(:title => title).id
+        @project.stories.create(:title => title).id
       end
-      redirect_to :controller => 'stories', :action => 'list_new', :project_id => @project
+      flash[:status] = 'New story cards created.'
+      redirect_to :controller => 'stories', :action => 'index', :project_id => @project
     end
   end
 

@@ -93,15 +93,11 @@ class StoriesControllerTest < Test::Unit::TestCase
 
   def test_create
     num = @project_one.stories.backlog.size
-    previous_stories = @project_one.stories.dup
     post :create, :project_id => @project_one.id,
       :story_card_titles => "New Story One\nNew Story Two\nNew Story Three"
-    assert_redirected_to :controller => 'stories', :action => 'list_new', :project_id => @project_one.id
+    assert_redirected_to :controller => 'stories', :action => 'index', :project_id => @project_one.id
     assert_equal num + 3, @project_one.stories( true ).backlog.size
-    new_stories = @project_one.stories - previous_stories
-    assert_kind_of Array, session[:new_story_ids]
-    new_stories.map{ |s| s.id }.each { |id| assert session[:new_story_ids].include?(id) }
-    assert_equal new_stories.size, session[:new_story_ids].size
+    assert_equal "New story cards created.", flash[:status]
   end
 
   def test_create_empty
