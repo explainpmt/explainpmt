@@ -53,5 +53,3 @@ license can be found in the file LICENSE in the application's root directory.
    Apache or lighttpd as directed in the documentation for the Rails framework.
 
 7. Load up the application in your browser, log in, and enjoy!
-
-test
