@@ -156,4 +156,12 @@ class StoriesControllerTest < Test::Unit::TestCase
     assert flash[:status]
     assert_nil Story.find(@story_one.id).owner
   end
+  
+  def test_main_menu_has_correct_current_link
+    # new/edit/view story should have no selected item (class="current") in the MainMenu
+    for action in [:new, :show, :edit]
+      get action, 'id' => @story_one.id, 'project_id' => @project_one.id
+      assert_no_tag :tag => 'a', :attributes => { :class => 'current' }, :ancestor => { :tag => 'ul', :attributes => { :id => 'MainMenu' } }
+    end
+  end
 end
