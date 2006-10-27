@@ -59,7 +59,7 @@ class MilestonesController < ApplicationController
       milestone.save
       flash[:status] = "New milestone *#{milestone.name}* on " +
                         "*#{milestone.date}* was created."
-      render 'layouts/refresh_parent_close_popup'
+      render :template => 'layouts/refresh_parent_close_popup'
     else
       @session[:new_milestone] = milestone
       redirect_to :controller => 'milestones', :action => 'new',
@@ -133,7 +133,7 @@ class MilestonesController < ApplicationController
       }
     end
     @days = days
-    render_partial 'milestones_calendar'
+    render :partial => 'milestones_calendar'
   end
   
   # Renders the partial template for the list component. Requires the parameter
@@ -141,19 +141,18 @@ class MilestonesController < ApplicationController
   def list
     case @params['include']
     when 'future'
-      @milestones = @project.future_milestones
+      @milestones = @project.milestones.future
     when 'recent'
-      @milestones = @project.recent_milestones
+      @milestones = @project.milestones.recent
     when 'all_past'
-      @milestones = @project.past_milestones
+      @milestones = @project.milestones.past
     else
       @milestones = []
     end
     unless @milestones.empty?
-      render_partial 'list'
+      render :partial => 'list'
     else
-      render_text '<p>Nothing to show.</p>'
+      render :text => '<p>Nothing to show.</p>'
     end
   end
 end
-

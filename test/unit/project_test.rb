@@ -88,18 +88,18 @@ class ProjectTest < Test::Unit::TestCase
 
   def test_future_milestones
     assert_equal [ @milestone_five, @milestone_six ],
-                 @project_one.future_milestones
+                 @project_one.milestones.future
   end
 
   def test_future_milestones_with_no_future_milestones
     @milestone_five.destroy
     @milestone_six.destroy
-    assert @project_one.future_milestones.empty?
+    assert @project_one.milestones.future.empty?
   end
   
   def test_recent_milestones
     assert_equal [ @milestone_four, @milestone_three ],
-                 @project_one.recent_milestones
+                 @project_one.milestones.recent
   end
 
   def destroy_recent_milestones
@@ -109,19 +109,19 @@ class ProjectTest < Test::Unit::TestCase
   
   def test_recent_milestones_with_no_recent_milestones
     destroy_recent_milestones
-    assert @project_one.recent_milestones.empty?
+    assert @project_one.milestones.recent.empty?
   end
   
   def test_past_milestones
-    assert_equal @project_one.recent_milestones +
-      [ @milestone_two, @milestone_one ], @project_one.past_milestones
+    assert_equal @project_one.milestones.recent +
+      [ @milestone_two, @milestone_one ], @project_one.milestones.past
   end
 
   def test_past_milestones_with_no_past_milestones
     destroy_recent_milestones
     @milestone_two.destroy
     @milestone_one.destroy
-    assert @project_one.past_milestones.empty?
+    assert @project_one.milestones.past.empty?
   end
   
   def test_backlog

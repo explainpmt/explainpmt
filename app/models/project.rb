@@ -58,7 +58,21 @@ class Project < ActiveRecord::Base
       self.detect { |i| i.current? }
     end
   end
-  has_many :milestones, :order => 'date ASC', :dependent => true
+  
+  has_many :milestones, :order => 'date ASC', :dependent => true do
+    def future
+      self.select { |m| m.future? }
+    end
+  
+    def recent
+      self.reverse.select { |m| m.recent? }
+    end
+  
+    def past
+      self.reverse.select { |m| m.past? }
+    end
+  end
+
   has_many :stories, :dependent => true
   has_many :backlog, :class_name => 'Story',
            :conditions => "iteration_id IS NULL"
@@ -66,17 +80,5 @@ class Project < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 100
-
-  def future_milestones(reload = false)
-    milestones(reload).select { |m| m.future? }
-  end
-  
-  def recent_milestones(reload = false)
-    milestones(reload).reverse.select { |m| m.recent? }
-  end
-  
-  def past_milestones(reload = false)
-    milestones(reload).reverse.select { |m| m.past? }
-  end
 end
 
