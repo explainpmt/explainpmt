@@ -5,9 +5,9 @@ require 'projects_controller'
 class ProjectsController; def rescue_action(e) raise e end; end
 
 class ProjectsControllerTest < Test::Unit::TestCase
-  FULL_PAGES = [:index, :new]
-  POPUPS = [:add_users,:update_users,:edit,:update]
-  NO_RENDERS = [:remove_user,:delete, :create]
+  FULL_PAGES = [:index, :new, :edit]
+  POPUPS = [:add_users,:update_users]
+  NO_RENDERS = [:remove_user,:delete, :create, :update]
   ALL_ACTIONS = FULL_PAGES + POPUPS + NO_RENDERS
 
   fixtures ALL_FIXTURES
@@ -157,8 +157,8 @@ class ProjectsControllerTest < Test::Unit::TestCase
 
   def test_update
     post :update, 'id' => @project_one.id, 'project' => { 'name' => 'Test' }
-    assert_response :success
-    assert_template 'layouts/refresh_parent_close_popup'
+    assert_response :redirect
+    assert_redirected_to :controller => 'projects', :action => 'index'
     project = Project.find @project_one.id
     assert_equal 'Test', project.name
   end

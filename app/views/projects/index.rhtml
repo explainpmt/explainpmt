@@ -13,10 +13,7 @@
           (<%= link_to('Team', :controller => 'users', :action => 'index',
                        :project_id => p.id) %>)
           &nbsp;&nbsp;
-          (<%= popup_link('Edit', 'edit_project',
-                          'width=500,height=500,scrollbars,resizable',
-                          :controller => 'projects', :action => 'edit',
-                          :id => p.id) %>)
+          (<%= link_to('Edit', :controller => 'projects', :action => 'edit', :id => p.id) %>)
           &nbsp;&nbsp;
           (<%= link_to('Delete',
                        {

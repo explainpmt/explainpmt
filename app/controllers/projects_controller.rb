@@ -25,7 +25,7 @@ class ProjectsController < ApplicationController
                                                      :update_users, :edit,
                                                      :update, :remove_user,
                                                      :delete, :index ]
-  popups :add_users, :update_users, :edit, :update
+  popups :add_users, :update_users
 
   # Lists all of the projects that exist on the system.
   def index
@@ -137,7 +137,7 @@ class ProjectsController < ApplicationController
     if project.valid?
       project.save
       flash[:status] = "Project \"#{project.name}\" has been updated."
-      render 'layouts/refresh_parent_close_popup'
+      redirect_to :controller => 'projects', :action => 'index'
     else
       @session[:edit_project] = project
       redirect_to :controller => 'projects', :action => 'edit',
