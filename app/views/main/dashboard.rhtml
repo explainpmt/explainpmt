@@ -47,40 +47,23 @@
           <th>&nbsp;</th>
           <th>&nbsp;</th>
         </tr>
+        <% @my_story_cards.each do |story_card| %>
         <tr>
-          <td><input type="checkbox" name="selected_stories[]" value="1" />
-            </td>
-          <td><%= link_to 'Project Three', :action => 'project_overview' %>
-            </td>
-          <td><%= link_to 'SC4', :action => 'view_story_card' %></td>
-          <td><%= link_to 'check out', :action => 'view_story_card' %></td>
-          <td>In Progress</td>
-          <td><%= link_to 'release', :action => 'release_story_card' %></td>
-          <td><%= link_to 'edit', :action => 'edit_story_card' %></td>
+          <td><input type="checkbox" name="selected_stories[]"
+            value="<%= story_card %>" /></td>
+          <td><%= link_to story_card.project.name, :action => 'project_overview',
+            :id => story_card.project %></td>
+          <td><%= link_to story_card.scid, :action => 'view_story_card',
+            :id => story_card %></td>
+          <td><%= link_to story_card.name, :action => 'view_story_card',
+            :id => story_card %></td>
+          <td><%= story_card.status %></td>
+          <td><%= link_to 'release', :action => 'release_story_card',
+            :id => story_card %></td>
+          <td><%= link_to 'edit', :action => 'edit_story_card',
+            :id => story_card %></td>
         </tr>
-        <tr>
-          <td><input type="checkbox" name="selected_stories[]" value="5" />
-            </td>
-          <td><%= link_to 'Project Three', :action => 'project_overview' %>
-            </td>
-          <td><%= link_to 'SC19', :action => 'view_story_card' %></td>
-          <td><%= link_to 'redeem a coupon', :action => 'view_story_card' %>
-            </td>
-          <td>Blocked</td>
-          <td><%= link_to 'release', :action => 'release_story_card' %></td>
-          <td><%= link_to 'edit', :action => 'edit_story_card' %></td>
-        </tr>
-        <tr>
-          <td><input type="checkbox" name="selected_stories[]" value="9" />
-            </td>
-          <td><%= link_to 'Project Two', :action => 'project_overview' %></td>
-          <td><%= link_to 'SC1', :action => 'view_story_card' %></td>
-          <td><%= link_to 'create new work-item',
-                          :action => 'view_story_card' %></td>
-          <td>Complete</td>
-          <td><%= link_to 'release', :action => 'release_story_card' %></td>
-          <td><%= link_to 'edit', :action => 'edit_story_card' %></td>
-        </tr>
+        <% end %>
       </table>
     </form>
   </div>
