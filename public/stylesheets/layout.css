@@ -161,6 +161,12 @@ table.collection_table th {
   border: none;
 }
 
+a.story_description_icon,
+a.story_description_icon img {
+  text-decoration: none;
+  border: none;
+}
+
 #Header {
   margin: 0;
 }
