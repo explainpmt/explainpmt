@@ -25,12 +25,12 @@ class ApplicationController < ActionController::Base
   # here to prevent an error when the session variables are read in
   model :user
   model :project
+  model :sub_project
   model :iteration
   model :story
   model :milestone
 
   helper :sort
-  helper :collection_table
   
   layout :choose_layout
   before_filter :check_authentication
