@@ -54,6 +54,8 @@ class Story < ActiveRecord::Base
 
   validates_uniqueness_of :scid, :scope => 'project_id'
   
+  validates_length_of :title, :maximum => 255
+  
   composed_of :status, :mapping => %w(status order)
   composed_of :priority, :mapping => %w(priority order)
   composed_of :risk, :mapping => %w(risk order)

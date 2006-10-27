@@ -165,6 +165,13 @@ class StoryTest < Test::Unit::TestCase
     story.title = '_' * 255
     story.valid?
     assert_nil story.errors[:title]
+    
+    # title validation must throw an error when title.length > 255
+    # to support postgreSQL (mySQL truncates a value when it's longer
+    # than defined in the DB, but postgreSQL dies)
+    story.title = '_' * 256
+    story.valid?
+    assert_not_nil story.errors[:title]
   end
   
   def test_points_validations
