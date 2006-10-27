@@ -168,7 +168,7 @@ class StoryTest < Test::Unit::TestCase
     end
     story.status = Story::Status::Cancelled
     assert story.save
-    assert !story.has_iteration?
+    assert !story.iteration
   end
 
   def test_status_set_to_in_progress_when_taken_by_user_if_status_is_defined

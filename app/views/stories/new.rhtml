@@ -1,6 +1,6 @@
 <h3>Create new story cards</h3>
 
-<%= start_form_tag(:controller => 'stories', :action => 'create',
+<%= form_tag(:controller => 'stories', :action => 'create',
   :project_id => @project.id) %>
   <p><label for="sub_project">Sub-Project:</label>
     <select id="sub_project" name="sub_project">
@@ -11,7 +11,7 @@
   <p><label for="StoryCardTitles">Enter titles of new storycards, one per line:</label>
   <input type="submit" name="submit" value="Create Story Cards" /></p>
   <p><textarea id="StoryCardTitles" name="story_card_titles" rows="40" cols="80"></textarea></p>
-<%= end_form_tag %>
+</form>
 <script type="text/javascript">
 <!--
 document.getElementById('StoryCardTitles').focus();

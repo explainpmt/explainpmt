@@ -51,7 +51,7 @@ function select_all(sbox) {
 }
 //]]>
 </script>
-<%= start_form_tag(:controller => 'projects', :action => 'update_users',
+<%= form_tag(:controller => 'projects', :action => 'update_users',
                    :project_id => @project.id) %>
 <h1>Add users to <%= @project.name %></h1>
 <table width="100%" cellspacing="0" cellpadding="3">
@@ -92,4 +92,4 @@ function select_all(sbox) {
     </td>
   </tr>
 </table>
-<%= end_form_tag %>
+</form>

@@ -10,7 +10,7 @@
 <% end %>
 
 <% unless @stories.empty? %>
-  <%= start_form_tag(:controller => 'iterations', :action => 'move_stories',
+  <%= form_tag(:controller => 'iterations', :action => 'move_stories',
     :project_id => @project.id) %>
   
     <div style="text-align: right;">
@@ -41,7 +41,7 @@
                 :locals => { :sort_header_params => sort_header_params,
                              :stories => @stories,
                              :hide_cols => [ :owner, :project ] } ) %>
-  <%= end_form_tag %>
+  </form>
 <% else %>
   <p>No stories are in the project backlog.</p>
 <% end %>

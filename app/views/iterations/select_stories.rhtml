@@ -1,6 +1,6 @@
 <h2>Backlog</h2>
 <p>Select the stories that you want to add to the iteration.</p>
-<%= start_form_tag(:controller => 'iterations', :action => 'assign_stories',
+<%= form_tag(:controller => 'iterations', :action => 'assign_stories',
                    :id => @iteration.id, :project_id => @project.id) %>
 <p><input type="submit" name="submit"
         value="Add Selected Stories to Iteration" /></p>
@@ -13,4 +13,4 @@
                          :sort_header_params => sort_header_params,
                          :hide_cols => [ :owner, :delete, :edit,
                                          :project ] } ) %>
-<%= end_form_tag %>
+</form>

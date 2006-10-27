@@ -2,6 +2,6 @@
 <%= form_tag(:controller => 'iterations', :action => 'update',
              :project_id => @project.id, :id => @iteration.id) %>
 <%= render_partial('iteration_form', :iteration => @iteration) %>
-<%= end_form_tag %>
+</form>
 <!-- END iterations/edit.rhtml -->
 

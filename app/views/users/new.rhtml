@@ -1,6 +1,6 @@
-<%= start_form_tag(:controller => 'users', :action => 'create') %>
+<%= form_tag(:controller => 'users', :action => 'create') %>
 <% if @project %>
 <input type="hidden" name="project_id" value="<%= @project.id %>" />
 <% end %>
 <%= render_partial('user_form', :user => @user) %>
-<%= end_form_tag %>
+</form>

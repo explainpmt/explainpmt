@@ -28,7 +28,7 @@
   <% unless hide_cols.include?( :owner ) %>
     <td>
       <%=
-      if story.has_owner?
+      if story.owner
         story.owner.full_name + ' (' + link_to('release', :controller => 'stories',
                                            :action => 'release_ownership',
                                            :id => story.id,

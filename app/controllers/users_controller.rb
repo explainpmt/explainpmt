@@ -27,10 +27,10 @@ class UsersController < ApplicationController
     if @project
       @page_title = "Project Team"
       @users = @project.users
-      render 'users/project'
+      render :action => 'project'
     else
       @page_title = "System Users"
-      @users = User.find_all(nil, 'last_name ASC, first_name ASC')
+      @users = User.find( :all, :order => 'last_name ASC, first_name ASC')
     end
   end
 

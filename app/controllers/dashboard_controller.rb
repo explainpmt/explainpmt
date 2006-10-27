@@ -27,11 +27,11 @@ class DashboardController < ApplicationController
   def index
     if @project
       @page_title = "Dashboard"
-      @stories = session[:current_user].stories.find_all([ "project_id = ?",
-                                                            @project.id ])
+      @stories = session[:current_user].stories.
+        find( :all, :conditions => [ "project_id = ?", @project.id ])
       @stories = @stories.select { |s| !s.status.closed? }
       @stories = sort_stories(@stories)
-      render 'dashboard/project'
+      render :action => 'project'
     else
       @page_title = 'Overview'
       @projects = session[:current_user].projects
@@ -39,7 +39,7 @@ class DashboardController < ApplicationController
         redirect_to :controller => 'dashboard', :action => 'index',
                     :project_id => @projects.first.id
       elsif @projects.empty?
-        render 'dashboard/index_no_projects'
+        render :action => 'index_no_projects'
       else
         @stories = session[:current_user].stories
         @stories = @stories.select { |s| !s.status.closed? }

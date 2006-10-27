@@ -50,7 +50,7 @@ class SessionControllerTest < Test::Unit::TestCase
     @request.session[ :return_to ] = '/foo/bar'
     post :authenticate, 'username' => @user_one.username,
       'password' => @user_one.password
-    assert_redirect_url 'http://test.host/foo/bar'
+    assert_equal 'http://test.host/foo/bar', @response.redirect_url
   end
 
   def test_authenticate_failed

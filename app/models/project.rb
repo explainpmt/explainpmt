@@ -25,9 +25,9 @@
 # accounts) should be deleted as well.
 #
 # Project has the following associations:
-#   has_many :iterations, :order => 'start_date ASC', :dependent => true
-#   has_many :milestones, :order => 'date ASC', :dependent => true
-#   has_many :stories, :dependent => true
+#   has_many :iterations, :order => 'start_date ASC', :dependent => :destroy
+#   has_many :milestones, :order => 'date ASC', :dependent => :destroy
+#   has_many :stories, :dependent => :destroy
 #   has_many :backlog, :class_name => 'Story',
 #            :conditions => "iteration_id IS NULL"
 #   has_and_belongs_to_many :users, :order => 'last_name ASC, first_name ASC'
@@ -38,9 +38,9 @@
 #   validates_length_of :name, :maximum => 100
 #
 class Project < ActiveRecord::Base
-  has_many :sub_projects, :order => 'name', :dependent => true
+  has_many :sub_projects, :order => 'name', :dependent => :destroy
   
-  has_many :iterations, :order => 'start_date ASC', :dependent => true do
+  has_many :iterations, :order => 'start_date ASC', :dependent => :destroy do
     def past
       self.reverse.select { |i| i.past? }
     end
@@ -62,7 +62,7 @@ class Project < ActiveRecord::Base
     end
   end
   
-  has_many :milestones, :order => 'date ASC', :dependent => true do
+  has_many :milestones, :order => 'date ASC', :dependent => :destroy do
     def future
       self.select { |m| m.future? }
     end
@@ -76,7 +76,7 @@ class Project < ActiveRecord::Base
     end
   end
 
-  has_many :stories, :dependent => true do
+  has_many :stories, :dependent => :destroy do
     def backlog
       self.select { |s| s.iteration.nil? }
     end

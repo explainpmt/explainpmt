@@ -42,7 +42,7 @@ class Story < ActiveRecord::Base
   belongs_to :sub_project
   before_save :check_project_and_sub_project_match
   belongs_to :iteration
-  belongs_to :owner, :class_name => 'User'
+  belongs_to :owner, :class_name => 'User', :foreign_key => 'user_id'
 
   # The collection of defined Status objects
   Statuses = []
@@ -201,7 +201,7 @@ class Story < ActiveRecord::Base
   end
 
   def before_create
-    if last_story = self.project.stories.find_first(nil, 'scid DESC')
+    if last_story = project.stories.find( :first, :order => 'scid DESC' )
       self.scid = last_story.scid + 1
     else
       self.scid = 1
@@ -226,8 +226,7 @@ class Story < ActiveRecord::Base
   def validate_has_iteration_only_if_defined
     unless is_defined?
       errors.add(:iteration,
-        "can only be specified for defined stories") if
-        self.has_iteration?
+        "can only be specified for defined stories") if iteration
     end
   end
 
@@ -240,11 +239,11 @@ class Story < ActiveRecord::Base
   end
 
   def before_save_reset_status
-    if self.status == Status::Defined and self.has_owner?
+    if status == Status::Defined and owner
       self.status = Status::InProgress
     end
 
-    if self.status == Status::New and is_defined?
+    if status == Status::New and is_defined?
       self.status = Status::Defined
     end
   end

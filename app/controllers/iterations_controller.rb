@@ -161,7 +161,7 @@ class IterationsController < ApplicationController
   # window used by #select_stories
   def assign_stories
     change_story_assignment
-    render 'layouts/refresh_parent_close_popup'
+    render :template => 'layouts/refresh_parent_close_popup'
   end
 
   private

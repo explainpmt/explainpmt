@@ -27,13 +27,13 @@
     </style>
   </head>
   <body>
-    <div id="Login" <%= 'class="login_error"' if @flash['error'] %>>
+    <div id="Login" <%= 'class="login_error"' if flash['error'] %>>
       <h1>eXPlain Project Management Tool</h1>
-      <% if @flash[:error] %>
-      <div id="SystemError"><%= textilize_without_paragraph(@flash[:error])
+      <% if flash[:error] %>
+      <div id="SystemError"><%= textilize_without_paragraph(flash[:error])
         %></div>
-      <% elsif @flash[:status] %>
-      <div id="SystemStatus"><%= textilize_without_paragraph(@flash[:status])
+      <% elsif flash[:status] %>
+      <div id="SystemStatus"><%= textilize_without_paragraph(flash[:status])
         %></div>
       <% end %>
       <form action="<%= url_for(:controller => 'session',

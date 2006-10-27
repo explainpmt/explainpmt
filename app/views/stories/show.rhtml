@@ -36,7 +36,7 @@
     <th>Status:</th>
     <td><%= @story.status.name %></td>
   </tr>
-  <% if @story.has_owner? %>
+  <% if @story.owner %>
     <tr>
       <th>Owner:</th>
       <td><%= @story.owner.full_name %></td>

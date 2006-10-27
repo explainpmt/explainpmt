@@ -67,18 +67,18 @@
   </div>
 
     <div id="Main">
-      <% if @flash[:error] %>
+      <% if flash[:error] %>
       <div id="SystemError">
         <%= textilize_without_paragraph(@flash[:error]) %>
       </div>
       <% end %>
-      <% if @flash[:status] %>
+      <% if flash[:status] %>
       <div id="SystemStatus">
         <%= textilize_without_paragraph(@flash[:status]) %>
       </div>
       <% end %>
 
-      <%= @content_for_layout %>
+      <%= yield %>
     </div>
 
     <div id="Footer">

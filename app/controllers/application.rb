@@ -21,15 +21,6 @@
 # The filters added to this controller will be run for all controllers in the application.
 # Likewise will all the methods added be available for all controllers.
 class ApplicationController < ActionController::Base
-  # Any ActiveRecord object that is stored in the session should be declared
-  # here to prevent an error when the session variables are read in
-  model :user
-  model :project
-  model :sub_project
-  model :iteration
-  model :story
-  model :milestone
-
   helper :sort
   
   layout :choose_layout

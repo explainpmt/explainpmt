@@ -30,7 +30,7 @@ class ProjectsController < ApplicationController
   # Lists all of the projects that exist on the system.
   def index
     @page_title = "Projects"
-    @projects = Project.find_all(nil, 'name ASC')
+    @projects = Project.find( :all, :order => 'name ASC' )
   end
   
   # Displays a form for creating a new project.
@@ -65,8 +65,8 @@ class ProjectsController < ApplicationController
   # displayed.
   def add_users
     @page_title = "Add Users to Project Team"
-    @available_users = User.find_all(nil,
-                               'last_name ASC, first_name ASC').select do |usr|
+    @available_users = User.find( :all,
+      :order => 'last_name ASC, first_name ASC' ).select do |usr|
       !usr.projects.include?(@project)
     end
   end
@@ -97,7 +97,7 @@ class ProjectsController < ApplicationController
                        "project, because there is a problem with their " +
                        "account: #{users_not_added.join(', ')}"
     end
-    render 'layouts/refresh_parent_close_popup'
+    render :template => 'layouts/refresh_parent_close_popup'
   end
 
   # Removes the user identified by the 'id' request parameter from the project.
@@ -149,7 +149,7 @@ class ProjectsController < ApplicationController
   # belongs
   def my_projects_list
     @projects = session[:current_user].projects
-    render_partial 'my_projects_list'
+    render :partial => 'my_projects_list'
   end
   
   def create_sub_project

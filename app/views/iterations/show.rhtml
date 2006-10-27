@@ -136,7 +136,7 @@
                :project_id => @project.id) %>
 <% end %>
 <% if @stories.size > 0 %>
-<%= start_form_tag(:controller => 'iterations', :action => 'move_stories',
+<%= form_tag(:controller => 'iterations', :action => 'move_stories',
                    :id => @iteration.id, :project_id => @project.id) %>
 <div style="text-align: right;">
 &nbsp;&nbsp;&nbsp;Move Selected Story Cards to:
@@ -166,7 +166,7 @@ sort_header_params = { :controller => 'iterations', :action => 'show',
             :locals => { :stories =>  @stories,
                          :sort_header_params => sort_header_params,
                          :hide_cols => [ :project ] } ) %>
-<%= end_form_tag %>
+</form>
 <% else %>
 <p>No stories have been assigned to this iteration.</p>
 <% end %>

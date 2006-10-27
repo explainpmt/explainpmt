@@ -1,7 +1,7 @@
 <!-- BEGIN milestones/edit.rhtml -->
-<%= start_form_tag(:controller => 'milestones', :action => 'update',
+<%= form_tag(:controller => 'milestones', :action => 'update',
                    :id => @milestone.id, :project_id => @project.id) %>
 <%= render_partial('milestone_form', :milestone => @milestone) %>
-<%= end_form_tag %>
+</form>
 <!-- END milestones/edit.rhtml -->
 

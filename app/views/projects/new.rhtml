@@ -1,4 +1,4 @@
-<%= start_form_tag(:controller => 'projects', :action => 'create') %>
+<%= form_tag(:controller => 'projects', :action => 'create') %>
 <fieldset>
   <legend>New Project Information</legend>
   <%= error_messages_for('new_project') %>
@@ -29,4 +29,4 @@
     </tr>
   </table>
 </fieldset>
-<%= end_form_tag %>
+</form>

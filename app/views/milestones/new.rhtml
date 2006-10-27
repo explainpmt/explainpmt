@@ -1,6 +1,6 @@
 <!-- BEGIN milestones/new.rhtml -->
-<%= start_form_tag(:controller => 'milestones', :action => 'create',
+<%= form_tag(:controller => 'milestones', :action => 'create',
                    :project_id => @project.id) %>
 <%= render_partial('milestone_form', :milestone => @milestone) %>
-<%= end_form_tag %>
+</form>
 <!-- END milestones/new.rhtml -->

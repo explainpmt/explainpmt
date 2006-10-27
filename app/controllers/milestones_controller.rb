@@ -87,7 +87,7 @@ class MilestonesController < ApplicationController
       milestone.save
       flash[:status] = "Changes to milestone \"#{milestone.name}\" have " +
                         "been saved."
-      render 'layouts/refresh_parent_close_popup'
+      render :template => 'layouts/refresh_parent_close_popup'
     else
       session[:edit_milestone] = milestone
       redirect_to :controller => 'milestones', :action => 'edit',
