@@ -8,10 +8,8 @@ class IterationTest < Test::Unit::TestCase
   end
   
   def test_stop_date
-    14.times do |i|
-      @iteration_one.length = i + 1
-      assert_equal @iteration_one.start_date + i, @iteration_one.stop_date
-    end
+    assert_equal @iteration_one.start_date + ( @iteration_one.length - 1 ),
+      @iteration_one.stop_date
   end
 
   def test_total_points
