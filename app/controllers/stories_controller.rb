@@ -105,13 +105,10 @@ class StoriesController < ApplicationController
 
   # Destroys the story card identified by the 'id' request parameter.
   def delete
+    register_referer
     Story.destroy(params['id'])
     flash[:status] = 'The story card was deleted.'
-    if params['iteration_id']
-      redirect_to :controller => 'iterations', :action => 'show',
-                  :id => params['iteration_id'],
-                  :project_id => @project.id.to_s
-    else
+    unless redirect_to_referer
       redirect_to :controller => 'stories', :action => 'index',
                   :project_id => @project.id.to_s
     end

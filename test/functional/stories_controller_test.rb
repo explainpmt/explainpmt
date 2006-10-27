@@ -80,10 +80,10 @@ class StoriesControllerTest < Test::Unit::TestCase
   end
 
   def test_delete_from_iteration
+    @request.session[:referer] = 'http://test.host/project/1/iterations/show/1'  
     get :delete, 'id' => @story_one.id, 'project_id' => @project_one.id,
       :iteration_id => @iteration_one.id
-    assert_redirected_to :controller => 'iterations', :action => 'show',
-      :id => @iteration_one.id.to_s, :project_id => @project_one.id.to_s
+    assert_redirected_to 'http://test.host/project/1/iterations/show/1'
     assert_raise( ActiveRecord::RecordNotFound ) { Story.find @story_one.id }
   end
 
