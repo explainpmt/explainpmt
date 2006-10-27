@@ -1,0 +1,5 @@
+<% update_element_function( "SubProjectList_#{@sub_project.project.id}",
+  :position => :bottom, :binding => binding ) do %>
+  <%= render :partial => 'sub_project' %>
+<% end %>
+new Effect.Highlight('SubProject_<%= @sub_project.id -%>');

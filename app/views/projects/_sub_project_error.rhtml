@@ -1,0 +1,4 @@
+alert('<%= escape_javascript %Q{
+Unable to create project:
+#{@sub_project.errors.full_messages.join("\n")}
+} -%>');

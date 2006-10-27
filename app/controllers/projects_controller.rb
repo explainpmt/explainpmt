@@ -151,5 +151,14 @@ class ProjectsController < ApplicationController
     @projects = session[:current_user].projects
     render_partial 'my_projects_list'
   end
+  
+  def create_sub_project
+    project = Project.find params[ :project_id ]
+    @sub_project = project.sub_projects.create params[ :sub_project ]
+    if @sub_project.new_record?
+      render :partial => 'sub_project_error', :status => 500
+    else
+      render :partial => 'sub_project_new'
+    end
+  end
 end
-

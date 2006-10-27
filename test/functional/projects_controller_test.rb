@@ -191,6 +191,22 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert assigns( :projects ).include?( @project_one )
     assert assigns( :projects ).include?( @project_two )
   end
+  
+  def test_create_sub_project_success
+    sub_count = @project_one.sub_projects.size
+    xhr :post, :create_sub_project, :project_id => 1,
+      :sub_project => { :name => 'Test Create' }
+    assert_response :success
+    assert_template '_sub_project_new'
+    assert_equal sub_count + 1, @project_one.sub_projects( true ).size
+  end
+  
+  def test_create_sub_project_failure
+    sub_count = @project_one.sub_projects.size
+    xhr :post, :create_sub_project, :project_id => 1
+    assert_response :error
+    assert_template '_sub_project_error'
+  end
 
   private
 

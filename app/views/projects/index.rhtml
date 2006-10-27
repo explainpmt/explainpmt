@@ -26,7 +26,38 @@
                                    'the project and can not be undone!') %>)
         </small>
       </dt>
-      <dd><%= textilize(p.description) %></dd>
+      <dd>
+        <h4>
+          Sub-Projects:
+          <small><%= link_to_function 'show/hide', "Element.toggle('SubProjectForm_#{p.id}')" %></small>
+        </h4>
+        
+        <%= form_remote_tag :url => { :controller => 'projects', :action => 'create_sub_project' },
+          :html => { :id => "SubProjectForm_#{p.id}", :style => 'display: none;' },
+          :loading => "Element.toggle('SubProjectFormSpinner_#{p.id}')",
+          :complete => "Element.toggle('SubProjectFormSpinner_#{p.id}');" +
+            "$('SubProjectForm_#{p.id}').reset();",
+          :success =>  evaluate_remote_response,
+          :failure => evaluate_remote_response %>
+        
+          <table cellspacing="0" cellpadding="3" border="0">
+            <tbody id="SubProjectList_<%= p.id -%>">
+              <%= render :partial => 'sub_project', :collection => p.sub_projects %>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td><input type="text" name="sub_project[name]" /></td>
+                <td><%= submit_tag '+' %></td>
+                <td><%= image_tag 'spinner.gif', :id => "SubProjectFormSpinner_#{p.id}",
+                  :style => 'display: none' -%></td>
+              </tr>
+            </tfoot>
+          </table>
+          <input type="hidden" name="project_id" value="<%= p.id %>" />
+        </form>
+
+        <%= textilize(p.description) %>
+      </dd>
     <% end %>
   </dl>
 <% else %>
