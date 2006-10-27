@@ -34,3 +34,21 @@ sixth:
   length: 14
   project_id: 1
   budget: 11
+past:
+  id: 7
+  start_date: <%= Date.today - 30 %>
+  length: 14
+  project_id: 3
+  budget: 11
+current:
+  id: 8
+  start_date: <%= Date.today - 3 %>
+  length: 14
+  project_id: 3
+  budget: 11
+future:
+  id: 9
+  start_date: <%= Date.today + 30 %>
+  length: 14
+  project_id: 3
+  budget: 11
