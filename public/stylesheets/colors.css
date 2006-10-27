@@ -123,3 +123,13 @@ dt.project_header a:hover {
   background-color: #CCFFCC;
   border-color: #00FF00;
 }
+
+form fieldset {
+  border:1px solid #716e69;
+}
+
+form fieldset legend {
+  border:1px solid #716e69;
+  color:#fff;
+  background-color:#716e69;
+}

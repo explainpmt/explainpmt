@@ -39,8 +39,7 @@ stories_table.column_modifier(:scid) do |s|
   "<label for=\"SC_Check_#{s.id}\">SC#{s.scid}</label>"
 end
 stories_table.column_modifier(:title) do |s|
-  popup_link(s.title, "story_#{s.id}",
-             'width=600,height=600,scrollbars,resizable',
+  link_to(s.title,
              :controller => 'stories',
              :action => 'show',
              :id => s.id,

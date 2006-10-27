@@ -34,7 +34,7 @@
         <input type="submit" name="submit"
          value="<%= @story.new_record? ? 'Create' : 'Update' %> Story Card" />
         &nbsp;&nbsp;
-        <a href="javascript:window.close();">Cancel</a>
+        <%= link_to 'Cancel', controller.request.env['HTTP_REFERER'] %>
       </td>
     </tr>
   </table>

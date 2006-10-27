@@ -1,6 +1,5 @@
 <h3>Story Cards in Project Backlog</h3>
-<%= popup_link('New Story Card', 'new_story',
-               'width=600,height=600,scrollbars,resizable',
+<%= link_to('New Story Card',
                :controller => 'stories', :action => 'new',
                :project_id => @project.id) %>
 &nbsp;&nbsp;&nbsp;
@@ -53,16 +52,14 @@
        "<label for=\"SC_Check_#{s.id}\">SC#{s.scid}</label>"
      end
      stories_table.column_modifier(:title) do |s|
-       popup_link(s.title, "story_#{s.id}",
-         'width=600,height=600,scrollbars,resizable',
+       link_to(s.title,
          :controller => 'stories',
          :action => 'show',
          :id => s.id,
          :project_id => s.project.id)
      end
      stories_table.column_modifier(:edit) do |s|
-       popup_link('Edit', 'edit_story',
-         'width=600,height=600,scrollbars,resizable',
+       link_to('Edit',
          :controller => 'stories',
          :action => 'edit',
          :id => s.id,

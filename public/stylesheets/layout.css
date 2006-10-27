@@ -43,7 +43,6 @@ p.clear_both {
 }
 
 table.form_layout {
-  margin: 0 auto;
 }
 
 table.form_layout th {
@@ -314,4 +313,9 @@ table.collection_table th {
   float: left;
   padding: 3px;
   border: 1px solid;
+}
+
+form fieldset {
+  margin:5px 0px 5px 0px;
+  padding:5px;
 }

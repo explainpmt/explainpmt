@@ -19,7 +19,6 @@
 
 class StoriesController < ApplicationController
   before_filter :require_current_project
-  popups :new, :create, :edit, :update, :show
 
   helper :collection_table
 
@@ -45,6 +44,7 @@ class StoriesController < ApplicationController
 
   # Displays a form for creating a new story card.
   def new
+    @page_title = "Create new story card"
     if @story = @session[:new_story]
       @session[:new_story] = nil
     else
@@ -56,22 +56,27 @@ class StoriesController < ApplicationController
   # Creates a new story card based on the information posted form the #new
   # action.
   def create
+    @page_title = "Create new story card"
     modify_risk_status_and_priority_params
     story = Story.new(@params['story'])
     story.project = @project
     if story.valid?
       story.save
       flash[:status] = 'The new story card has been saved.'
-      render 'layouts/refresh_parent_close_popup'
+      redirect_to :controller => 'stories', :action => 'index',
+                  :project_id => @project.id
     else
       @session[:new_story] = story
       redirect_to :controller => 'stories', :action => 'new',
-                  :project_id => @project.id.to_s
+                  :project_id => @project.id
     end
   end
 
   # Displays the form for editing a story card's information.
   def edit
+    @page_title = "Edit story card"
+    @session[:return_to] = request.env['HTTP_REFERER']
+    
     if @story = @session[:edit_story]
       @session[:edit_story] = nil
     else
@@ -82,13 +87,22 @@ class StoriesController < ApplicationController
 
   # Updates a story card with the information posted form the #edit action.
   def update
+    @page_title = "Edit story card"
     modify_risk_status_and_priority_params
     story = Story.find(@params['id'])
     story.attributes = @params['story']
     if story.valid?
       story.save
       flash[:status] = 'The changes to the story card have been saved.'
-      render 'layouts/refresh_parent_close_popup'
+      
+      if @session[:return_to]
+        logger.debug('Returning to '+@session[:return_to])
+        redirect_to @session[:return_to]
+        @session[:return_to] = nil
+      else
+        redirect_to :controller => 'stories', :action => 'index',
+                    :project_id => @project.id.to_s
+      end
     else
       @session[:edit_story] = story
       redirect_to :controller => 'stories', :action => 'edit',

@@ -43,16 +43,14 @@
   end
   stories_table.column_modifier(:scid) { |s| "SC#{s.scid}" }
   stories_table.column_modifier(:title) do |s|
-    popup_link(s.title, "story_#{s.id}",
-               'width=600,height=600,scrollbars,resizable',
+    link_to(s.title,
                :controller => 'stories',
                :action => 'show',
                :id => s.id,
                :project_id => s.project.id)
   end
   stories_table.column_modifier(:edit) do |s|
-    popup_link('Edit', 'edit_story',
-               'width=600,height=600,scrollbars,resizable',
+    link_to('Edit',
                :controller => 'stories',
                :action => 'edit',
                :id => s.id,

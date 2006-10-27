@@ -86,8 +86,7 @@ class StoriesControllerTest < Test::Unit::TestCase
     num = @project_one.backlog.size
     post :create, 'project_id' => @project_one.id,
          'story' => { 'title' => 'Test Create', 'status' => 1 }
-    assert_response :success
-    assert_template 'layouts/refresh_parent_close_popup'
+    assert_redirected_to :controller => 'stories', :action => 'index'
     assert_equal num + 1, @project_one.backlog(true).size
   end
 
@@ -95,7 +94,7 @@ class StoriesControllerTest < Test::Unit::TestCase
     num = Story.count
     post :create, 'project_id' => @project_one.id, 'story' => { 'title' => '' }
     assert_redirected_to :controller => 'stories', :action => 'new',
-                         :project_id => @project_one.id.to_s
+                         :project_id => @project_one.id
     assert session[:new_story]
   end
 
@@ -116,8 +115,14 @@ class StoriesControllerTest < Test::Unit::TestCase
   def test_update
     post :update, 'project_id' => @project_one.id, 'id' => @story_one.id,
          'story' => { 'title' => 'Test Update', 'status' => 1 }
-    assert_response :success
-    assert_template 'layouts/refresh_parent_close_popup'
+    assert_redirected_to :controller => 'stories', :action => 'index'
+  end
+  
+  def test_update_return_to_referer
+    @request.session[:return_to] = '/project/1/iterations/show/1'  
+    post :update, 'project_id' => @project_one.id, 'id' => @story_one.id,
+         'story' => { 'title' => 'Test Update', 'status' => 1 }       
+    assert_redirected_to '/project/1/iterations/show/1'
   end
 
   def test_update_invalid
