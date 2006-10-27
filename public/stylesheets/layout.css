@@ -8,6 +8,11 @@ h2 {
   font-size: 1.1em;
 }
 
+th, td {
+  text-align: left;
+  vertical-align: top;
+}
+
 #Header {
   margin: 0;
   padding: 0;
@@ -30,7 +35,8 @@ h2 {
   font-size: 30px;
 }
 
-#MyProjects {
+#MyProjects, #UpcomingMilestones {
+  clear: right;
   float: right;
   width: 15em;
   margin: 0;
@@ -51,4 +57,12 @@ h2 {
 
 #MyProjects li a:hover {
   background-color: #EEEEEE;
+}
+
+#MyStoryCards, #RecentActivity {
+  margin: 1em 16em 0 0;
+}
+
+#MyStoryCards table, #RecentActivity table {
+  width: 100%;
 }
