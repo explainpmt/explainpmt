@@ -32,7 +32,7 @@ seventh:
   id: 7
   project_id: 1
   name: 'Milestone Seven'
-  date: <%= Date.today + 13 %>
+  date: <%= Date.today + 12 %>
 eighth:
   id: 8
   project_id: 2
