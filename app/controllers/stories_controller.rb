@@ -20,8 +20,6 @@
 class StoriesController < ApplicationController
   before_filter :require_current_project
 
-  helper :collection_table
-
   # Lists all of the stories in the project 'Backlog' (stories that have no
   # iteration). Stories with a "cancelled" status are hidden by default. They
   # can be displayed by passing the request parameter 'show_cancelled' (with any

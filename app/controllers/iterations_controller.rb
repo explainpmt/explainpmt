@@ -18,8 +18,6 @@
 =end LICENSE
 
 class IterationsController < ApplicationController
-  helper :collection_table
-
   before_filter :require_current_project
   popups :new, :create, :edit, :update, :select_stories, :assign_stories
 

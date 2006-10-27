@@ -18,8 +18,6 @@
 =end LICENSE
 
 class DashboardController < ApplicationController
-  helper :collection_table
-
   # If called without a project_id parameter, displays summary information for
   # all projects for which the user is a team member. If a project_id parameter
   # is passed, summary information will be displayed for that project. Also, if
