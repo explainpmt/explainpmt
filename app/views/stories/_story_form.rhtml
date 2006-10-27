@@ -7,6 +7,12 @@
       <td><%= input('story', 'title') %></td>
     </tr>
     <tr>
+      <th><label for="story_sub_project_id">Sub-Project:</label></th>
+      <% sub_collection = [ SubProject.new ] + @story.project.sub_projects %>
+      <td><%= collection_select( 'story', 'sub_project_id', sub_collection,
+        'id', 'name' ) %></td>
+    </tr>
+    <tr>
       <th><label for="story_status">Status:</label></th>
       <td><%= collection_select('story', 'status', Story::Statuses, 'order',
                                 'name') %></td>

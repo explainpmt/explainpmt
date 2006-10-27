@@ -19,6 +19,8 @@
 
 
 class SubProject < ActiveRecord::Base
+  class ProjectMismatchError < StandardError; end
+  
   belongs_to :project
   
   validates_presence_of :name

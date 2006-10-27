@@ -39,6 +39,8 @@
 #
 class Story < ActiveRecord::Base
   belongs_to :project
+  belongs_to :sub_project
+  before_save :check_project_and_sub_project_match
   belongs_to :iteration
   belongs_to :owner, :class_name => 'User'
 
@@ -60,7 +62,7 @@ class Story < ActiveRecord::Base
   composed_of :status, :mapping => %w(status order)
   composed_of :priority, :mapping => %w(priority order)
   composed_of :risk, :mapping => %w(risk order)
-
+  
   class RankedValue
     class InvalidOrder < Exception;end
 
@@ -244,6 +246,12 @@ class Story < ActiveRecord::Base
 
     if self.status == Status::New and is_defined?
       self.status = Status::Defined
+    end
+  end
+  
+  def check_project_and_sub_project_match
+    unless sub_project.nil? or sub_project.project == project
+      raise SubProject::ProjectMismatchError
     end
   end
 end

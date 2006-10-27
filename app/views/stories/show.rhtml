@@ -14,6 +14,12 @@
                
 </p>
 <table cellspacing="0" cellpadding="3" border="0">
+  <% if @story.sub_project %>
+    <tr>
+      <th>Sub-Project:</th>
+      <td><%= @story.sub_project.name %></td>
+    </tr>
+  <% end %>
   <tr>
     <th>Priority:</th>
     <td><%= @story.priority.name %></td>

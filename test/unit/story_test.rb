@@ -25,8 +25,28 @@ class StoryTest < Test::Unit::TestCase
 
   def setup
     @user_one = User.find 1
+    @story_one = stories( :first )
     @project_one = Project.find 1
+    @sub_project_one = sub_projects( :first )
+    @sub_project_two = sub_projects( :second )
+    @sub_project_three = sub_projects( :third )
     @iteration_one = Iteration.find 1
+  end
+  
+  def test_sub_project_association
+    assert_equal @sub_project_one, @story_one.sub_project
+  end
+  
+  def test_sub_project_must_be_part_of_storys_main_project
+    assert_raises( SubProject::ProjectMismatchError ) do
+      @story_one.sub_project = @sub_project_three
+      @story_one.save
+    end
+    
+    assert_nothing_raised do
+      @story_one.sub_project = @sub_project_two
+      @story_one.save
+    end
   end
   
   def test_status_collection
