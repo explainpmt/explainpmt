@@ -45,6 +45,16 @@ class StoriesControllerTest < Test::Unit::TestCase
     assert_equal [@story_two, @story_three], assigns(:stories)
   end
 
+  def test_backlog_no_iterations
+    # Destroy the one iteration
+    @iteration_one.destroy
+    assert_equal 0, Iteration.find(:all).length
+    get :index, 'project_id' => @project_one.id
+    assert_response :success
+    assert_template 'index'
+    assert_tag :tag => "div", :content => "No iterations to move story cards to."
+  end
+
   def test_show
     get :show, 'id' => @story_one.id, 'project_id' => @project_one.id
     assert_response :success

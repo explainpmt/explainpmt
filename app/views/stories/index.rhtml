@@ -13,9 +13,10 @@
               :show_cancelled => 1, :sort => @params['sort']) %>
 <% end %>
 <% unless @stories.empty? %>
+  <div style="text-align: right;">
+	<% if @project.iterations.current %>
   <%= start_form_tag(:controller => 'iterations', :action => 'move_stories',
                      :project_id => @project.id) %>
-  <div style="text-align: right;">
     &nbsp;&nbsp;&nbsp;Move Selected Story Cards to:
     <select name="move_to">
       <% iteration_options = @project.iterations.future
@@ -30,6 +31,10 @@
       %>
     </select>
     <input type="submit" name="submit" value="Go" />
+	<%= end_form_tag %>
+	<% else %>
+		<span style="color: #FF0000;">No iterations to move story cards to.</span>
+	<% end %>
   </div>
   <% sort_header_params = {
        :controller => 'stories', :action => 'index', :project_id => @project.id
