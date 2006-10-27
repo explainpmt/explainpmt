@@ -1,0 +1,129 @@
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8" />
+  <title>eXPlainPMT &raquo; Dashboard</title>
+</head>
+<body>
+  <div id="Header">
+    <div id="CurrentUserInfo">
+      Logged in as: <%= link_to 'John Wilger', :action => 'user_profile' %>
+      (<%= link_to 'log out', :action => 'log_out' %>)
+    </div>
+    <h1>eXPlainPMT :: Dashboard</h1>
+  </div>
+
+  <div id="MyProjects">
+    <h2>My Projects</h2>
+    <ul>
+      <li><%= link_to 'Project One', :action => 'project_overview' %></li>
+      <li><%= link_to 'Project Two', :action => 'project_overview' %></li>
+      <li><%= link_to 'Project Three', :action => 'project_overview' %></li>
+      <li><%= link_to 'Project Four', :action => 'project_overview' %></li>
+      <li><%= link_to 'Project Five', :action => 'project_overview' %></li>
+    </ul>
+  </div>
+
+  <div id="MyStoryCards">
+    <form action="<%= url_for :action => 'print_story_cards' %>" method="post">
+      <h2>My Story Cards</h2>
+      <input id="PrintStoryCards" type="submit" name="submit" value="Print Selected" />
+      <table>
+        <tr>
+          <th>&nbsp;</th>
+          <th>Project</th>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Status</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+        </tr>
+        <tr>
+          <td><input type="checkbox" name="selected_stories[]" value="1" /></td>
+          <td><%= link_to 'Project Three', :action => 'project_overview' %></td>
+          <td><%= link_to 'SC4', :action => 'view_story_card' %></td>
+          <td><%= link_to 'check out', :action => 'view_story_card' %></td>
+          <td>In Progress</td>
+          <td><%= link_to 'release', :action => 'release_story_card' %></td>
+          <td><%= link_to 'edit', :action => 'edit_story_card' %></td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" name="selected_stories[]" value="5" /></td>
+          <td><%= link_to 'Project Three', :action => 'project_overview' %></td>
+          <td><%= link_to 'SC19', :action => 'view_story_card' %></td>
+          <td><%= link_to 'redeem a coupon', :action => 'view_story_card' %></td>
+          <td>Blocked</td>
+          <td><%= link_to 'release', :action => 'release_story_card' %></td>
+          <td><%= link_to 'edit', :action => 'edit_story_card' %></td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" name="selected_stories[]" value="9" /></td>
+          <td><%= link_to 'Project Two', :action => 'project_overview' %></td>
+          <td><%= link_to 'SC1', :action => 'view_story_card' %></td>
+          <td><%= link_to 'create new work-item', :action => 'view_story_card' %></td>
+          <td>Complete</td>
+          <td><%= link_to 'release', :action => 'release_story_card' %></td>
+          <td><%= link_to 'edit', :action => 'edit_story_card' %></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+  <div id="UpcomingMilestones">
+    <h2>Upcoming Milstones</h2>
+    <table>
+      <tr>
+        <th>Project</th>
+        <th>Milestone</th>
+        <th>Date</th>
+      </tr>
+      <tr>
+        <td><%= link_to 'Project Three', :action => 'project_overview' %></td>
+        <td><%= link_to 'Version 1.6 Release', :action => 'view_milestone' %></td>
+        <td>10/31/2005</td>
+      </tr>
+      <tr>
+        <td><%= link_to 'Project Two', :action => 'project_overview' %></td>
+        <td><%= link_to 'Project Post-Mortem', :action => 'view_milestone' %></td>
+        <td>10/15/2005</td>
+      </tr>
+    </table>
+  </div>
+
+  <div id="RecentActivity">
+    <h2>Recent Activity</h2>
+    <table>
+      <tr>
+        <th>&nbsp;</th>
+        <th>Project</th>
+        <th>When?</th>
+        <th>What?</th>
+        <th>Who?</th>
+      </tr>
+      <tr>
+        <td><%= image_tag 'story_card_icon_small', :alt => 'SC', :size => '10x10' %></td>
+        <td><%= link_to 'Project Four', :action => 'project_overview' %></td>
+        <td>9/27/2005 12:33pm</td>
+        <td>New story card added: "<%= link_to 'calculate probability', :action => 'view_story_card' %>"</td>
+        <td><%= link_to 'J. Brown', :action => 'user_profile' %></td>
+      </tr>
+      <tr>
+        <td><%= image_tag 'feature_icon_small', :alt => 'FE', :size => '10x10' %></td>
+        <td><%= link_to 'Project Three', :action => 'project_overview' %></td>
+        <td>9/27/2005 09:24am</td>
+        <td>Changed feature: "<%= link_to 'Secure Checkout', :action => 'view_feature' %>"</td>
+        <td><%= link_to 'M. Rogers', :action => 'user_profile' %></td>
+      </tr>
+      <tr>
+        <td><%= image_tag 'defect_icon_small', :alt => 'DF', :size => '10x10' %></td>
+        <td><%= link_to 'Project Two', :action => 'project_overview' %></td>
+        <td>9/26/2005 10:55pm</td>
+        <td>New defect reported: "<%= link_to 'DF82', :action => 'view_defect' %>"</td>
+        <td><%= link_to 'D. Vader', :action => 'user_profile' %></td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>
