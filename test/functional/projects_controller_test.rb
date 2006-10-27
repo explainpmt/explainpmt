@@ -106,7 +106,9 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_equal @project_one, assigns( :project )
     assert_template 'add_users'
-    available = User.find( :all ) - @project_one.users
+    available = User.find( :all, 
+                           :order => 'last_name ASC, first_name ASC' ) -
+                            @project_one.users
     assert_equal available, assigns( :available_users )
   end
 
