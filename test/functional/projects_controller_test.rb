@@ -26,7 +26,8 @@ class ProjectsControllerTest < Test::Unit::TestCase
     get :index
     assert_response :redirect
     assert_redirected_to :controller => 'users', :action => 'login'
-    assert_equal "Please log in, and we'll send you right along.", flash[ :status ]
+    assert_equal "Please log in, and we'll send you right along.", 
+                                                        flash[ :status ]
   end
   
 
@@ -51,7 +52,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
     @request.session[ :current_user_id ] = @user.id
     get :new
     assert_response :redirect
-    assert_redirected_to :action => 'no_admin'
+    assert_redirected_to :controller => 'users', :action => 'no_admin'
     assert_equal 'You must be logged in as an administrator to perform'+
                   ' this action', flash[ :error ]
   end
@@ -70,7 +71,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
     num_projects = Project.count
     post :create, :project => {}
     assert_response :redirect
-    assert_redirected_to :action => 'no_admin'
+    assert_redirected_to :controller => 'users', :action => 'no_admin'
     assert_equal 'You must be logged in as an administrator to perform'+
                   ' this action', flash[ :error ]
   end
@@ -90,7 +91,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
     @request.session[ :current_user_id ] = @user.id
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to :action => 'no_admin'
+    assert_redirected_to :controller => 'users', :action => 'no_admin'
     assert_equal 'You must be logged in as an administrator to perform'+
                   ' this action', flash[ :error ]
   end
@@ -108,7 +109,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
     @request.session[ :current_user_id ] = @user.id
     post :update, :id => 1
     assert_response :redirect
-    assert_redirected_to :action => 'no_admin'
+    assert_redirected_to :controller => 'users', :action => 'no_admin'
     assert_equal 'You must be logged in as an administrator to perform'+
                   ' this action', flash[ :error ]
   end
@@ -126,7 +127,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_not_nil Project.find(1)
     post :destroy, :id => 1
     assert_response :redirect
-    assert_redirected_to :action => 'no_admin'
+    assert_redirected_to :controller => 'users', :action => 'no_admin'
     assert_equal 'You must be logged in as an administrator to perform'+
                   ' this action', flash[ :error ]
   end
@@ -156,5 +157,51 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_tag :tag => "div", :attributes => { :class => "errorExplanation"}
     assert_tag :tag => "div", :attributes => { :class => "fieldWithErrors"}
     assert_not_equal num_projects + 1, Project.count
+  end
+  
+  def test_view_project_team
+    @request.session[ :current_user_id ] = @user.id
+    get :team, :id => 1
+    assert_response :success
+    assert_template 'team'
+    assert_tag :tag => "td", :attributes => { :class => "name"}
+    assert_tag :tag => "td", :attributes => { :class => "email"}
+  end
+
+### Implemented before the change to the story card.  Currently working on
+###  -- Eric     
+#  def test_show_users_to_add_to_project_team
+#    @request.session[ :current_user_id ] = @admin.id
+#    get :add_user, :id => 1
+#    assert_response :success
+#    assert_template 'add_user'    
+#  end
+
+### Implemented before the change to the story card.  Currently working on
+###  -- Eric   
+#  def test_add_user_to_project_team
+#    @request.session[ :current_user_id ] = @admin.id
+#    post :add_user, :id => 1
+#    assert_response :redirect
+#    assert_redirected_to :action => 'team'
+#    assert_equal 'Added user to project team', flash[ :notice ]
+#  end
+
+  def test_remove_user_from_project_team
+    @request.session[ :current_user_id ] = @admin.id
+    post :remove_user, :id => 1, :user_id => 2
+    assert_response :redirect
+    assert_redirected_to :action => 'team'
+    assert_equal 'User was successfully removed from the project.',
+                     flash[ :notice ]
+  end   
+
+  def test_remove_user_from_project_team_as_user
+    @request.session[ :current_user_id ] = @user.id
+    post :remove_user, :id => 1, :user_id => 2
+    assert_response :redirect
+    assert_redirected_to :controller => 'users', :action => 'no_admin'
+    assert_equal 'You must be logged in as an administrator to perform'+
+                  ' this action', flash[ :error ]
   end
 end

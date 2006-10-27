@@ -14,13 +14,17 @@
   <% end %>
     <td><%= link_to 'Show', :action => 'show', :id => project %></td>
     <td><%= link_to 'Edit', :action => 'edit', :id => project %></td>
-    <td><%= link_to 'Destroy', { :action => 'destroy', :id => project }, :confirm => 'Are you sure?' %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => project },
+                                 :confirm => 'Are you sure?' %></td>
+    <td><%= link_to 'Team', :action => 'team', :id => project %></td>
   </tr>
 <% end %>
 </table>
 
-<%= link_to 'Previous page', { :page => @project_pages.current.previous } if @project_pages.current.previous %>
-<%= link_to 'Next page', { :page => @project_pages.current.next } if @project_pages.current.next %> 
+<%= link_to 'Previous page', { :page => @project_pages.current.previous } if 
+      @project_pages.current.previous %>
+<%= link_to 'Next page', { :page => @project_pages.current.next } if 
+      @project_pages.current.next %> 
 
 <br />
 

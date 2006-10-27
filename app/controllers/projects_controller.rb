@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
   before_filter :check_authentication
-  before_filter :require_admin, :except => [:index, :list, :show]
+  before_filter :require_admin, :except => [:index, :list, :show, :team]
 
   def index
     list
@@ -9,6 +9,7 @@ class ProjectsController < ApplicationController
 
   def list
     @project_pages, @projects = paginate :project, :per_page => 10
+    
   end
 
   def show
@@ -47,4 +48,23 @@ class ProjectsController < ApplicationController
     Project.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
+  
+  def team
+    @project = Project.find(params[:id])  
+    @users = @project.users
+  end
+  
+  def remove_user
+    @project = Project.find(params[:id])  
+    @project.remove_users(User.find(params[:user_id]))
+    redirect_to :action => 'team', :id => @project.id
+    flash[:notice] = 'User was successfully removed from the project.'    
+  end
+
+### Implemented before the change to the story card.  Currently working on
+###  -- Eric 
+#  def add_user
+#    @project = Project.find(params[:id])
+#  end 
+
 end

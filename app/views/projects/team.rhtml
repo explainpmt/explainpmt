@@ -1,0 +1,27 @@
+<h1>Team For Project: <%= @project.name %></h1>
+
+<table width="50%" border="1">
+<tr>
+  <th>Name</th><th>Email Address</th><th>&nbsp;</th>
+</tr>
+<% @users.each {|x| %>
+  <tr>
+    <td class="name"><%= h x.name %></td>
+    <td class="email"><%= h x.email %></td>
+    <td>
+      <% if @current_user.admin %>
+        <%= link_to 'Remove User From Project', :action => 'remove_user', 
+                                        :id => @project.id, :user_id => x %>
+      <% else %>
+        &nbsp;
+      <% end %>
+    </td>
+  </tr>
+<% } %>
+
+</table>
+<% if @current_user.admin %>
+<%=   link_to 'Add Existing Users', :action => 'add_user', 
+                                    :id => @project.id %>
+<% end %>
+<%= link_to "Back to Project List", :action => 'list'%>
