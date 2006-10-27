@@ -52,12 +52,6 @@ class Story < ActiveRecord::Base
 
   validates_presence_of :title, :project, :status
 
-  # A range representing valid values for the #points attribute
-  POINT_RANGE = 1..9
-  
-  validates_inclusion_of :points, :in => POINT_RANGE, :allow_nil => true,
-    :message => "must be a number between #{POINT_RANGE.first} and " +
-                "#{POINT_RANGE.last}"
   validates_uniqueness_of :scid, :scope => 'project_id'
   
   composed_of :status, :mapping => %w(status order)
@@ -191,6 +185,7 @@ class Story < ActiveRecord::Base
     self.iteration = nil if self.status == Status::Cancelled
     validate_has_iteration_only_if_defined
     validate_is_new_or_cancelled_if_not_defined
+    validate_points
   end
 
   # The after_initialize callback is used to set the default values for #status,
@@ -232,6 +227,10 @@ class Story < ActiveRecord::Base
     end
   end
 
+  def validate_points
+    errors.add(:points, "must be a positive integer") if self.points and self.points < 1
+  end
+  
   def is_defined?
     self.priority != Priority::NA and self.risk != Risk::NA and self.points?
   end

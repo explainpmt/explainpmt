@@ -166,6 +166,22 @@ class StoryTest < Test::Unit::TestCase
     story.valid?
     assert_nil story.errors[:title]
   end
+  
+  def test_points_validations
+    story = Story.new
+    
+    for valid_value in [nil, 1, 99]
+      story.points = valid_value
+      story.valid?
+      assert_nil story.errors[:points]
+    end
+    
+    for invalid_value in [-99, -1, 0]
+      story.points = invalid_value
+      story.valid?
+      assert_not_nil story.errors[:points]
+    end
+  end
 end
 
 class StoryPriorityTest < Test::Unit::TestCase

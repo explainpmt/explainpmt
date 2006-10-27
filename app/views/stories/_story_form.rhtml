@@ -23,8 +23,7 @@
     </tr>
     <tr>
       <th><label for="story_points">Points:</label></th>
-      <td><%= select('story', 'points', Story::POINT_RANGE,
-                     :include_blank => 'true') %></td>
+      <td><%= text_field('story', 'points', :size => 2) %></td>
     </tr>
     <tr>
       <th><label for="story_description">Description:</label></th>
