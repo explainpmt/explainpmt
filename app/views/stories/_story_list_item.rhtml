@@ -41,11 +41,13 @@
        %>
     </td>
   <% end %>
-  <td align="right">
-    <%= link_to( 'Edit', :controller => 'stories',
-                 :action => 'edit', :id => story.id,
-                 :project_id => story.project.id ) %>
-  </td>
+  <% unless hide_cols.include?( :edit ) %>
+    <td align="right">
+      <%= link_to( 'Edit', :controller => 'stories',
+                   :action => 'edit', :id => story.id,
+                   :project_id => story.project.id ) %>
+    </td>
+  <% end %>
   <% unless hide_cols.include?( :delete ) %>
     <td align="right">
       <%= link_to( 'Delete',

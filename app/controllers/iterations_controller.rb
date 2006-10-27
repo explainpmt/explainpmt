@@ -145,7 +145,7 @@ class IterationsController < ApplicationController
   # the selected stories to the iteration being displayed.
   def select_stories
     @page_title = "Assign Story Cards"
-    SortHelper.columns = %w(id title points priority risk status)
+    SortHelper.columns = %w(scid title points priority risk status)
     SortHelper.default_order = %w(status priority risk)
     @stories = @project.stories.backlog.select { |s|
       s.status != Story::Status::New and

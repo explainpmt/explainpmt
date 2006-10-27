@@ -5,46 +5,12 @@
 <p><input type="submit" name="submit"
         value="Add Selected Stories to Iteration" /></p>
 <input type="hidden" name="move_to" value="<%= @iteration.id %>" />
-<%
-sort_header_params = {
-  :controller => 'iterations',
-  :action => 'select_stories',
-  :id => @iteration.id,
-  :project_id => @project.id
-}
-stories_table = CollectionTableHelper::CollectionTable.new(@stories,
-                                    [:scid,
-                                     link_to_sort_by('ID', 'scid',
-                                                     sort_header_params)],
-                                    [:title,
-                                     link_to_sort_by('Title', 'title',
-                                                     sort_header_params)],
-                                    [:points,
-                                     link_to_sort_by('Points', 'points',
-                                                     sort_header_params)],
-                                    [:priority,
-                                     link_to_sort_by('Priority', 'priority',
-                                                     sort_header_params)],
-                                    [:risk,
-                                     link_to_sort_by('Risk', 'risk',
-                                                     sort_header_params)],
-                                    [:status,
-                                     link_to_sort_by('Status', 'status',
-                                                     sort_header_params)])
-stories_table.column_align(:points, 'center')
-stories_table.data_row_class = ['odd_row','even_row']
-stories_table.column_modifier(:scid) do |s|
-  "<input type=\"checkbox\" name=\"selected_stories[]\" " +
-  "value=\"#{s.id}\" id=\"SC_Check_#{s.id}\" />&nbsp;" +
-  "<label for=\"SC_Check_#{s.id}\">SC#{s.scid}</label>"
-end
-stories_table.column_modifier(:title) do |s|
-  link_to(s.title,
-             :controller => 'stories',
-             :action => 'show',
-             :id => s.id,
-             :project_id => s.project.id)
-end
-%>
-<%= stories_table.build_table %>
+<% sort_header_params = { :controller => 'iterations',
+                          :action => 'select_stories',
+                          :id => @iteration.id, :project_id => @project.id } %>
+<%= render( :partial => 'stories/story_list_table',
+            :locals => { :stories => @stories,
+                         :sort_header_params => sort_header_params,
+                         :hide_cols => [ :owner, :delete, :edit,
+                                         :project ] } ) %>
 <%= end_form_tag %>

@@ -16,7 +16,9 @@
       <% unless hide_cols.include?( :owner ) %>
         <th><%= link_to_sort_by( 'Owner', 'owner', sort_header_params ) -%></th>
       <% end %>
-      <th>&nbsp;</th>
+      <% unless hide_cols.include?( :edit ) %>
+        <th>&nbsp;</th>
+      <% end %>
       <% unless hide_cols.include?( :delete ) %>
         <th>&nbsp;</th>
       <% end %>
