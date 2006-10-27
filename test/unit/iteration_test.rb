@@ -52,11 +52,9 @@ class IterationTest < Test::Unit::TestCase
   end
 
   def test_iteration_must_belong_to_project
-    Iteration.destroy_all
-    iteration = Iteration.new('start_date' => Date.today, 'length' => 10)
-    assert !iteration.save
-    assert iteration.errors.on_base
-    iteration.project = @project_one
-    assert iteration.save
+    assert @iteration_one.valid?
+    @iteration_one.project = nil
+    assert !@iteration_one.valid?
+    assert @iteration_one.errors.on( :base )
   end
 end
