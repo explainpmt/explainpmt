@@ -22,11 +22,9 @@
   <div id="MyProjects">
     <h2>My Projects</h2>
     <ul>
-      <li><%= link_to 'Project One', :action => 'project_overview' %></li>
-      <li><%= link_to 'Project Two', :action => 'project_overview' %></li>
-      <li><%= link_to 'Project Three', :action => 'project_overview' %></li>
-      <li><%= link_to 'Project Four', :action => 'project_overview' %></li>
-      <li><%= link_to 'Project Five', :action => 'project_overview' %></li>
+      <% @my_projects.each do |p| %>
+        <li><%= link_to p.name, :action => 'project_dashboard', :id => p %></li>
+      <% end %>
     </ul>
   </div>
 

@@ -4,4 +4,9 @@ class RoutingTest < Test::Unit::TestCase
   def test_root_points_to_main_dashboard
     assert_routing '', :controller => 'main', :action => 'dashboard'
   end
+
+  def test_route_for_project_dashboard
+    assert_routing 'project/1', :controller => 'main',
+      :action => 'project_dashboard', :id => '1'
+  end
 end
