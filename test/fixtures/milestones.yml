@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+p1_milestone_today:
+  id: 1
+  name: First Milestone
+  date: <%= Date.today.strftime %>
+  project_id: 1
+p1_milestone_next_week:
+  id: 2
+  name: Second Milestone
+  date: <%= ( Date.today + 7 ).strftime %>
+  project_id: 1

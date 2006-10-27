@@ -18,4 +18,10 @@ class ProjectTest < Test::Unit::TestCase
     assert_equal [ sca, scb ], p1.story_cards.sort { |a,b| a.id <=> b.id }
     assert_equal [ scc, scd ], p2.story_cards.sort { |a,b| a.id <=> b.id }
   end
+  
+  def test_milestones_relationship
+    milestones = Milestone.find :all, :limit => 2, :order => 'id'
+    project = Project.find 1
+    assert_equal milestones, project.milestones.sort { |a,b| a.id <=> b.id }
+  end
 end
