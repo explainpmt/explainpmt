@@ -11,7 +11,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '', :controller => 'main', :action => 'dashboard'
 
   # Map 'project/:id' to the project dashboard view.
-  map.connect 'project/:id', :controller => 'main', :action => 'dashboard'
+  map.connect 'project/:id', :controller => 'main', :action => 'project_dashboard'
   
   # Map 'project/:id/:controller' for controllers that require
   # a project to be selected.
