@@ -28,3 +28,13 @@ sixth:
   project_id: 1
   name: 'Milestone Six'
   date: <%= Date.today + 365 %>
+seventh:
+  id: 7
+  project_id: 1
+  name: 'Milestone Seven'
+  date: <%= Date.today + 13 %>
+eighth:
+  id: 8
+  project_id: 2
+  name: 'Milestone Eight'
+  date: <%= Date.today + 13 %>

@@ -18,6 +18,7 @@ class ProjectTest < Test::Unit::TestCase
     @milestone_four = Milestone.find 4
     @milestone_five = Milestone.find 5
     @milestone_six = Milestone.find 6
+    @milestone_seven = Milestone.find 7
   end
 
   def test_current_iteration_that_starts_today
@@ -87,13 +88,14 @@ class ProjectTest < Test::Unit::TestCase
   end
 
   def test_future_milestones
-    assert_equal [ @milestone_five, @milestone_six ],
+    assert_equal [ @milestone_five, @milestone_seven, @milestone_six ],
                  @project_one.milestones.future
   end
 
   def test_future_milestones_with_no_future_milestones
     @milestone_five.destroy
     @milestone_six.destroy
+    @milestone_seven.destroy
     assert @project_one.milestones.future.empty?
   end
   

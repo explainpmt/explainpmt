@@ -21,6 +21,8 @@ class MilestonesControllerTest < Test::Unit::TestCase
     @recent_milestone2 = Milestone.find 4
     @future_milestone1 = Milestone.find 5
     @future_milestone2 = Milestone.find 6
+    @future_milestone3 = Milestone.find 7
+    @future_milestone4 = Milestone.find 8
     
     @controller = MilestonesController.new
     @request = ActionController::TestRequest.new
@@ -153,39 +155,25 @@ class MilestonesControllerTest < Test::Unit::TestCase
   end
 
   def test_milestones_calendar_all_projects
-    @future_milestone2.project = @project_two
-    @future_milestone2.date = Date.today + 13
-    @future_milestone2.save
     get :milestones_calendar
     assert_response :success
     assert_template '_milestones_calendar'
     days = empty_milestones_days_array
     days[0][:milestones] << @future_milestone1
-    days[13][:milestones] << @future_milestone2
+    days[13][:milestones] << @future_milestone4
+    days[13][:milestones] << @future_milestone3
     assert_equal days, assigns(:days)
     assert_equal 'Upcoming Milestones (all projects):',
                  assigns(:calendar_title)
   end
 
   def test_milestones_calendar_one_project
-    p1 = Project.create('name' => 'A Test Project')
-    m1 = Milestone.create('name' => 'Milestone One', 'date' => Date.today - 1)
-    m2 = Milestone.create('name' => 'Milestone Two', 'date' => Date.today)
-    m3 = Milestone.create('name' => 'Milestone Three',
-                          'date' => Date.today + 13)
-    m4 = Milestone.create('name' => 'Milestone Four',
-                          'date' => Date.today + 14)
-    p1.milestones << [m1,m2,m3,m4]
-    p2 = Project.create('name' => 'Another Test Project')
-    m5 = Milestone.create('name' => 'Milestone Five', 'date' => Date.today + 2)
-    p2.milestones << m5
-    @request.session[:current_user].projects << [p1,p2]
-    get :milestones_calendar, 'project_id' => p1.id
+    get :milestones_calendar, 'project_id' => 1
     assert_response :success
     assert_template '_milestones_calendar'
     days = empty_milestones_days_array
-    days[0][:milestones] << m2
-    days[13][:milestones] << m3
+    days[0][:milestones] << @future_milestone1
+    days[13][:milestones] << @future_milestone3
     assert_equal days, assigns(:days)
     assert_equal 'Upcoming Milestones:', assigns(:calendar_title)
   end
@@ -194,7 +182,7 @@ class MilestonesControllerTest < Test::Unit::TestCase
     process :list, :project_id => @project_one.id, :include => 'future'
     assert_response :success
     assert_template '_list'
-    assert_equal [ @future_milestone1, @future_milestone2 ],
+    assert_equal [ @future_milestone1, @future_milestone3, @future_milestone2 ],
                  assigns(:milestones)
   end
   
