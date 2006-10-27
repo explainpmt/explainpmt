@@ -136,8 +136,9 @@ class ApplicationController < ActionController::Base
   # Saves the HTTP_REFERER into the session
   # Used in conjunction with #return_to_referer
   def register_referer
-    @session[:referer] = request.env['HTTP_REFERER'] unless
-                         request.env['HTTP_REFERER'].blank?
+    unless request.env['HTTP_REFERER'].blank?
+      session[:referer] = request.env['HTTP_REFERER']
+    end
   end
   
   # Redirects the user back to the registered referer, and deletes the referer
@@ -147,9 +148,9 @@ class ApplicationController < ActionController::Base
     if session[:referer]
       redirect_to session[:referer]
       session[:referer] = nil
-      return true
+      true
     else
-      return false
+      false
     end
   end
 end

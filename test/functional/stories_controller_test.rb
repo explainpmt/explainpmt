@@ -115,10 +115,10 @@ class StoriesControllerTest < Test::Unit::TestCase
   end
   
   def test_update_return_to_referer
-    @request.session[:return_to] = '/project/1/iterations/show/1'  
+    @request.session[:referer] = 'http://test.host/project/1/iterations/show/1'  
     post :update, 'project_id' => @project_one.id, 'id' => @story_one.id,
-      'story' => { 'title' => 'Test Update' }       
-    assert_redirected_to '/project/1/iterations/show/1'
+      'story' => { 'title' => 'Test Update' } 
+    assert_redirected_to 'http://test.host/project/1/iterations/show/1'
   end
 
   def test_update_invalid

@@ -88,7 +88,7 @@ class StoriesController < ApplicationController
     @story.return_ids_for_aggregations
   end
 
-  # Updates a story card with the information posted form the #edit action.
+  # Updates a story card with the information posted from the #edit action.
   def update
     @page_title = "Edit story card"
     @selected_main_menu_link = :none
