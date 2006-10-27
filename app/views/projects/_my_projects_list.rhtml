@@ -1,0 +1,9 @@
+<div>
+<h3>My Projects:</h3>
+<ul id="ProjectsList">
+  <% @projects.each do |project| %>
+  <li><%= link_to(project.name, :controller => 'dashboard', :action => 'index',
+                  :project_id => project.id) %></li>
+  <% end %>
+</ul>
+</div>

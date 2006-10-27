@@ -1,0 +1,238 @@
+<!-- BEGIN iterations/show.rhtml -->
+<% require 'time' %>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+<td id="SmallLeftColumn">
+<%= popup_link('New Iteration', 'new_iteration',
+               'width=400,height=200,scrollbars,resizable',
+               :controller => 'iterations', :action => 'new',
+               :project_id => @project.id) %>
+
+<ul>
+<% if @project.current_iteration %>
+<li>
+<%= link_to_unless_current('Current Iteration',:controller => 'iterations',
+                           :action => 'show',
+                           :id => @project.current_iteration.id,
+                           :project_id => @project.id) %>
+</li>
+<% end %>
+<% if @project.next_iteration %>
+<li>
+<%= link_to_unless_current('Next Iteration', :controller => 'iterations',
+                           :action => 'show',
+                           :id => @project.next_iteration.id,
+                           :project_id => @project.id) %>
+</li>
+<% end %>
+<% if @project.previous_iteration %>
+<li>
+<%= link_to_unless_current('Previous Iteration', :controller => 'iterations',
+                           :action => 'show',
+                           :id => @project.previous_iteration.id,
+                           :project_id => @project.id) %>
+</li>
+<% end %>
+</ul>
+
+<% if @project.future_iterations.size > 0 %>
+<strong>Upcoming Iterations:</strong>
+<ul>
+<% @project.future_iterations.each do |i| %>
+<li>
+<%= link_to_unless_current(numeric_date(i.start_date),
+                           :controller => 'iterations', :action => 'show',
+                           :id => i.id, :project_id => @project.id) %>
+</li>
+<% end %>
+</ul>
+<% end %>
+
+<% if @project.past_iterations.size > 0 %>
+<strong>Completed Iterations:</strong>
+<ul>
+<% @project.past_iterations.each do |i| %>
+<li>
+<%= link_to_unless_current(numeric_date(i.start_date),
+                           :controller => 'iterations', :action => 'show',
+                           :id => i.id, :project_id => @project.id) %>
+</li>
+<% end %>
+</ul>
+<% end %>
+</td>
+
+<td id="RightColumn">
+<div style="float: right;">
+(
+<%= popup_link('Edit', 'edit_iteration',
+               'width=400,height=200,scrollbars,resizable',
+               :controller => 'iterations', :action => 'edit',
+               :id => @iteration.id, :project_id => @project.id) %>
+)
+(
+<%= link_to('Delete',
+            {
+              :controller => 'iterations', :action => 'delete',
+              :id => @iteration.id, :project_id => @project.id
+            },
+            :confirm => 'Are you sure you want to delete this iteration?') %>
+)
+</div>
+
+<h2><%= numeric_date(@iteration.start_date) %> -
+<%= numeric_date(@iteration.stop_date) %></h2>
+
+<div id="IterationSummary">
+<h3>Summary</h3>
+<table cellspacing="0" cellpadding="3" border="0"
+        style="float: left; margin-right: 20px;">
+<tr class="even_row">
+<td><strong>Length</strong></td>
+<td align="right"><%= @iteration.length %> days</td>
+</tr>
+<tr class="odd_row">
+<td><strong>Budget:</strong></td>
+<td align="right"><%=@iteration.budget %> points</td>
+</tr>
+<% if @iteration.stop_date + 1 > Date.today %>
+<tr class="even_row">
+<td><strong>Planned:</strong></td>
+<td align="right"><%= @iteration.total_points %> points</td>
+</tr>
+<tr class="odd_row">
+<td><strong>Available:</strong></td>
+<td align="right"><%= @iteration.remaining_resources %> points</td>
+</tr>
+<% end %>
+</table>
+<% if @iteration.start_date <= Date.today %>
+<table cellspacing="0" cellpadding="3" border="0" style="float: left;">
+<tr class="odd_row">
+<td><strong>Completed:</strong></td>
+<td align="right"><%= @iteration.completed_points %> points</td>
+</tr>
+<% if (@iteration.stop_date + 1) > Date.today %>
+<tr class="even_row">
+<td><strong>Remaining:</strong></td>
+<td align="right"><%= @iteration.remaining_points %> points</td>
+</tr>
+<tr class="odd_row">
+<td><strong>Time Remaining:</strong></td>
+<td align="right">
+<%= distance_of_time_in_words(Time.now,
+                              Time.parse((@iteration.stop_date + 1).to_s)) %>
+</td>
+</tr>
+<% end %>
+</table>
+<% end %>
+
+<p class="clear_both"></p>
+
+<h3>Story Cards</h3>
+<% if @project.backlog.size > 0 and @iteration.stop_date + 1 > Date.today %>
+<%= popup_link('Assign Story Cards', 'assign_stories',
+               'width=600,height=500,scrollbars,resizable',
+               :controller => 'iterations',
+               :action => 'select_stories', :id => @iteration.id,
+               :project_id => @project.id) %>
+<% end %>
+<% if @stories.size > 0 %>
+<%= start_form_tag(:controller => 'iterations', :action => 'move_stories',
+                   :id => @iteration.id, :project_id => @project.id) %>
+<div style="text-align: right;">
+&nbsp;&nbsp;&nbsp;Move Selected Story Cards to:
+<select name="move_to">
+<option vlaue="0">Backlog</option>
+<%
+iteration_options = @project.future_iterations
+if @project.current_iteration
+  iteration_options.unshift(@project.current_iteration)
+end
+iteration_options.each do |i|
+  unless i == @iteration
+%>
+<option value="<%= i.id %>"><%= numeric_date(i.start_date) %></option>
+<%
+  end
+end
+%>
+</select>
+<input type="submit" name="submit" value="Go" />
+</div>
+<%
+sort_header_params = {
+  :controller => 'iterations', :action => 'show', :id => @iteration.id,
+  :project_id => @project.id
+}
+stories_table = CollectionTableHelper::CollectionTable.new(@stories,
+                                    [:scid,
+                                     link_to_sort_by('ID', 'scid',
+                                                     sort_header_params)],
+                                    [:title,
+                                     link_to_sort_by('Title', 'title',
+                                                     sort_header_params)],
+                                    [:points,
+                                     link_to_sort_by('Points', 'points',
+                                                     sort_header_params)],
+                                    [:priority,
+                                     link_to_sort_by('Priority', 'priority',
+                                                     sort_header_params)],
+                                    [:risk,
+                                     link_to_sort_by('Risk', 'risk',
+                                                     sort_header_params)],
+                                    [:status,
+                                     link_to_sort_by('Status', 'status',
+                                                     sort_header_params)],
+                                    :owner, [:edit,nil], [:delete,nil])
+stories_table.data_row_class = ['odd_row', 'even_row']
+stories_table.column_align(:points, 'center')
+stories_table.column_align(:edit, 'right')
+stories_table.column_align(:delete, 'right')
+stories_table.column_modifier(:scid) do |s|
+  "<input type=\"checkbox\" name=\"selected_stories[]\" " +
+  "value=\"#{s.id}\" id=\"SC_Check_#{s.id}\" />&nbsp;" +
+  "<label for=\"SC_Check_#{s.id}\">SC#{s.scid}</label>"
+end
+stories_table.column_modifier(:title) do |s|
+  popup_link(s.title, "story_#{s.id}",
+             'width=600,height=600,scrollbars,resizable',
+             :controller => 'stories', :action => 'show', :id => s.id,
+             :project_id => s.project.id)
+end
+stories_table.column_modifier(:owner) do |s|
+  if s.has_owner?
+    s.owner.full_name + ' (' + link_to('release', :controller => 'stories',
+                                       :action => 'release_ownership',
+                                       :id => s.id,
+                                       :project_id => s.project.id) + ')'
+  else
+    'None (' + link_to('take', :controller => 'stories',
+                       :action => 'take_ownership', :id => s.id,
+                       :project_id => s.project.id) + ')'
+  end
+end
+stories_table.column_modifier(:edit) do |s|
+  popup_link('Edit', 'edit_story', 'width=600,height=600,scrollbars,resizable',
+             :controller => 'stories', :action => 'edit', :id => s.id,
+             :project_id => s.project.id)
+end
+stories_table.column_modifier(:delete) do |s|
+  link_to('Delete',
+          {
+            :controller => 'stories', :action => 'delete', :id => s.id,
+            :project_id => s.project.id, :iteration_id => @iteration.id
+          },
+          :confirm => "Are you sure you want to delete SC#{s.scid}?")
+end
+%>
+<%= stories_table.build_table %>
+<%= end_form_tag %>
+<% else %>
+<p>No stories have been assigned to this iteration.</p>
+<% end %>
+</td>
+</tr>
+</table>
+<!-- END iterations/show.rhtml -->

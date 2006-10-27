@@ -1,0 +1,32 @@
+<h3><%= "SC#{@story.scid}: #{@story.title}" %></h3>
+<p>
+  (<%= link_to('Edit', :controller => 'stories', :action => 'edit',
+               :id => @story.id, :project_id => @project.id) %>)
+  &nbsp;&nbsp;&nbsp;
+  (<a href="javascript:window.close();">Close Window</a>)
+</p>
+<table cellspacing="0" cellpadding="3" border="0">
+  <tr>
+    <th>Priority:</th>
+    <td><%= @story.priority.name %></td>
+  </tr>
+  <tr>
+    <th>Risk:</th>
+    <td><%= @story.risk.name %></td>
+  </tr>
+  <tr>
+    <th>Estimate:</th>
+    <td><%= @story.points %> points</td>
+  </tr>
+  <tr>
+    <th>Status:</th>
+    <td><%= @story.status.name %></td>
+  </tr>
+  <% if @story.has_owner? %>
+    <tr>
+      <th>Owner:</th>
+      <td><%= @story.owner.full_name %></td>
+    </tr>
+  <% end %>
+</table>
+<%= textilize(@story.description) %>

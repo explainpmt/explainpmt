@@ -1,70 +1,155 @@
+=begin License
+  eXPlain Project Management Tool
+  Copyright (C) 2005  John Wilger <johnwilger@gmail.com>
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+=end LICENSE
+
+# All actions on this controller require the user to have administrative
+# privileges.
 class ProjectsController < ApplicationController
-  before_filter :check_authentication
-  before_filter :require_admin, :except => [:index, :list, :show, :team]
+  model :project
+  before_filter :require_admin_privileges, :only => [ :new, :create, :add_users,
+                                                     :update_users, :edit,
+                                                     :update, :remove_user,
+                                                     :delete, :index ]
+  popups :new, :create, :add_users, :update_users, :edit, :update
 
+  # Lists all of the projects that exist on the system.
   def index
-    list
-    render :action => 'list'
+    @page_title = "Projects"
+    @projects = Project.find_all(nil, 'name ASC')
   end
-
-  def list
-    @project_pages, @projects = paginate :project, :per_page => 10
-    
-  end
-
-  def show
-    @project = Project.find(params[:id])
-  end
-
+  
+  # Displays a form for creating a new project.
   def new
-    @project = Project.new
+    @page_title = "New Project"
+    if @project = @session[:new_project]
+      @session[:new_project] = nil
+    else
+      @project = Project.new
+    end
   end
 
+  # Creates a new project based on the information submitted from the #new
+  # action.
   def create
-    @project = Project.new(params[:project])
-    if @project.save
-      flash[:notice] = 'Project was successfully created.'
-      redirect_to :action => 'list'
+    project = Project.new(@params['project'])
+    if project.valid?
+      project.save
+      if @params['add_me'] == '1'
+        @session[:current_user].projects << project
+      end
+      flash[:status] = "New project \"#{project.name}\" has been created."
+      render 'layouts/refresh_parent_close_popup'
     else
-      render :action => 'new'
+      @session[:new_project] = project
+      redirect_to :controller => 'projects', :action => 'new'
     end
   end
 
-  def edit
-    @project = Project.find(params[:id])
-  end
-
-  def update
-    @project = Project.find(params[:id])
-    if @project.update_attributes(params[:project])
-      flash[:notice] = 'Project was successfully updated.'
-      redirect_to :action => 'show', :id => @project
-    else
-      render :action => 'edit'
+  # Displays a form which allows existing user accounts to be added to the
+  # project team. Only users who do not already belong to the team will be
+  # displayed.
+  def add_users
+    @page_title = "Add Users to Project Team"
+    @available_users = User.find_all(nil,
+                               'last_name ASC, first_name ASC').select do |usr|
+      !usr.projects.include?(@project)
     end
   end
 
-  def destroy
-    Project.find(params[:id]).destroy
-    redirect_to :action => 'list'
+  # Adds the users identified by their id's in the 'selected_users' request
+  # parameter to the project.
+  def update_users
+    @params['selected_users'] ||= []
+    users_added = []
+    users_not_added = []
+    @params['selected_users'].each do |uid|
+      uid = uid.to_i
+      user = User.find(uid)
+      if user.valid?
+        @project.users << user
+        users_added << user.full_name
+      else
+        users_not_added << user.full_name
+      end
+    end
+    @project.save
+    if users_added.size > 0
+      flash[:status] = "The following users were added to the project: " +
+                        users_added.join(', ')
+    end
+    if users_not_added.size > 0
+      flash[:error] = "The following users could not be added to the " +
+                       "project, because there is a problem with their " +
+                       "account: #{users_not_added.join(', ')}"
+    end
+    render 'layouts/refresh_parent_close_popup'
   end
-  
-  def team
-    @project = Project.find(params[:id])  
-    @users = @project.users
-  end
-  
+
+  # Removes the user identified by the 'id' request parameter from the project.
   def remove_user
-    @project = Project.find(params[:id])  
-    @project.remove_users(User.find(params[:user_id]))
-    redirect_to :action => 'team', :id => @project.id
-    flash[:notice] = 'User was successfully removed from the project.'    
+    user = User.find(@params['id'])
+    @project.users.delete(user)
+    flash[:status] = "#{user.full_name} has been removed from the project."
+    redirect_to :controller => 'users', :action => 'index',
+                :project_id => @project.id
   end
 
-### Implemented before the change to the story card.  Currently working on
-###  -- Eric 
-#  def add_user
-#    @project = Project.find(params[:id])
-#  end 
+  # Deletes the project identified by the 'id' request parameter form the
+  # system.
+  def delete
+    project = Project.find(@params['id'])
+    project.destroy
+    flash[:status] = "#{project.name} has been deleted."
+    redirect_to :controller => 'projects', :action => 'index'
+  end
 
+  # Displays a form to edit the information for the project identified by the
+  # 'id' request parameter.
+  def edit
+    if @project = @session[:edit_project]
+      @session[:edit_project] = nil
+    else
+      @project = Project.find(@params['id'])
+    end
+    @page_title = "Edit Project"
+  end
+
+  # Updates the project identified by the 'id' request parameter with the
+  # information submitted from the #edit action.
+  def update
+    project = Project.find(@params['id'])
+    project.attributes = @params['project']
+    if project.valid?
+      project.save
+      flash[:status] = "Project \"#{project.name}\" has been updated."
+      render 'layouts/refresh_parent_close_popup'
+    else
+      @session[:edit_project] = project
+      redirect_to :controller => 'projects', :action => 'edit',
+                  :id => project.id
+    end
+  end
+
+  # Renders an ordered list of projects (with links) to which the current user
+  # belongs
+  def my_projects_list
+    @projects = @session[:current_user].projects
+    render_partial 'my_projects_list'
+  end
 end
+

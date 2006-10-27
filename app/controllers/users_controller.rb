@@ -1,95 +1,128 @@
+=begin License
+  eXPlain Project Management Tool
+  Copyright (C) 2005  John Wilger <johnwilger@gmail.com>
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+=end LICENSE
+
 class UsersController < ApplicationController
-  before_filter :check_authentication, :except => [:login, :authenticate]
-  before_filter :require_admin, :except => [:login, :logout, :authenticate,
-    :no_admin]
+  before_filter :require_admin_privileges, :except => [:index, :project]
+  popups :new, :create, :edit, :update
 
+  # If the 'project_id' request parameter is set, this will display the
+  # project's team members. Otherwise, it shows all users on the system.
   def index
-    list
-    render :action => 'list'
+    if @project
+      @page_title = "Project Team"
+      render 'users/project'
+    else
+      @page_title = "System Users"
+      @users = User.find_all(nil, 'last_name ASC, first_name ASC')
+    end
   end
 
-  def list
-    @user_pages, @users = paginate :user, :per_page => 10
-  end
-
-  def show
-    @user = User.find(params[:id])
-  end
-
+  # Displays the form to create a new user account.
   def new
-    @user = User.new
-  end
-
-  def create
-    @user = User.new(params[:user])
-    if @user.save
-      flash[:notice] = 'User was successfully created.'
-      redirect_to :action => 'list'
+    @page_title = "New User"
+    if @session[:new_user]
+      @user = @session[:new_user]
+      @session[:new_user] = nil
     else
-      render :action => 'new'
+      @user = User.new
     end
   end
 
+  # Displays the form to edit a user account.
   def edit
-    @user = User.find(params[:id])
-  end
-
-  def update
-    @user = User.find(params[:id])
-    if @user.update_attributes(params[:user])
-      flash[:notice] = 'User was successfully updated.'
-      redirect_to :action => 'show', :id => @user
-    else
-      render :action => 'edit'
+    @user = User.find(@params['id'])
+    @page_title = @user.full_name
+    if @session[:edit_user]
+      @user = @session[:edit_user]
+      @session[:edit_user] = nil
     end
   end
 
-  def destroy
-    @user = User.find(@params[:id])
-    if session[ :current_user_id ] == @user.id
-      flash[ :error ] = 'You may not delete your own account'
-    else
-      User.find(@params[:id]).destroy
-      flash[ :notice ] = 'User has been deleted'
-    end
-    redirect_to :action => 'list'
-  end
+  # Creates a new user account based o information submitted from the #new
+  # action.
+  def create
+    user = User.new(@params['user'])
+    if user.valid?
+      user.save
+      flash[:status] = "User account for #{user.full_name} has been created."
 
-  def login
-  end
-
-  def authenticate
-    if self.current_user = User.authenticate(@params[ :login ],
-                                             @params[ :password])
-      if session[:return_to]
-        redirect_to_path session[:return_to]
-        session[:return_to] = nil
-      else
-        redirect_to :controller => 'main', :action => 'dashboard'
+      if @project
+        @project.users << user
+        flash[:status] = "User account for #{user.full_name} has been " +
+                          "created and added to the project team."
       end
+      render 'layouts/refresh_parent_close_popup'
     else
-      flash[ :error ] = 'You entered an invalid username and/or password.'
-      redirect_to :controller => 'users', :action => 'login'
+      @session[:new_user] = user
+      if @project
+        redirect_to(:controller => 'users', :action => 'new',
+                    :project_id => @project.id)
+      else
+        redirect_to :controller => 'users', :action => 'new'
+      end
     end
   end
 
-  def logout
-    self.current_user = nil
-    redirect_to :controller => 'users', :action => 'login'
-    flash[ :notice ] = 'You have been logged out'    
+  # Updates a user account with the information submitted from the #edit action.
+  def update
+    user = User.find(@params['id'])
+    original_password = user.password
+    user.attributes = @params['user']
+    if @params['user']['password'] == ''
+      user.password = user.password_confirmation = original_password
+    end
+    if user == @session[:current_user] and !user.admin? and
+      @session[:current_user].admin?
+
+      user.admin = 1
+      flash[:error] = "You can not remove admin privileges from yourself."
+    end
+    if user.valid?
+      user.save
+      flash[:status] = "User account for #{user.full_name} has been updated."
+      render 'layouts/refresh_parent_close_popup'
+    else
+      @session[:edit_user] = user
+      redirect_to(:controller => 'users', :action => 'edit', :id => user.id)
+    end
   end
 
-  def no_admin
+  # Deletes the user account identified by the 'id' request parameter.
+  def delete
+    user = User.find(@params['id'])
+    if user == @session[:current_user]
+      flash[:error] = "You can not delete your own account."
+    else
+      user.destroy
+      flash[:status] = "User account for #{user.full_name} has been deleted."
+    end
+    redirect_to :controller => 'users', :action => 'index'
   end
 
   protected
 
-  # Overrides the ApplicationController#require_admin method so that
+  # Overrides the ApplicationController#require_admin_privileges method so that
   # a non-admin user can edit their own account details.
-  def require_admin
+  def require_admin_privileges
     case action_name
-    when 'edit','update', 'show'
-      super unless @params['id'].to_i == self.current_user.id
+    when 'edit','update'
+      super if @params['id'].to_i != @session[:current_user].id
     else
       super
     end

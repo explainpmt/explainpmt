@@ -1,0 +1,95 @@
+<script type="text/javascript">
+//<![CDATA[
+function move(fbox, tbox) {
+  fbox = document.getElementById(fbox);
+  tbox = document.getElementById(tbox);
+  var arrFbox = new Array();
+  var arrTbox = new Array();
+  var arrLookup = new Array();
+  var i;
+  for (i = 0; i < tbox.options.length; i++) {
+    arrLookup[tbox.options[i].text] = tbox.options[i].value;
+    arrTbox[i] = tbox.options[i].text;
+  }
+  var fLength = 0;
+  var tLength = arrTbox.length;
+  for(i = 0; i < fbox.options.length; i++) {
+    arrLookup[fbox.options[i].text] = fbox.options[i].value;
+    if (fbox.options[i].selected && fbox.options[i].value != "") {
+      arrTbox[tLength] = fbox.options[i].text;
+      tLength++;
+    }
+    else {
+      arrFbox[fLength] = fbox.options[i].text;
+      fLength++;
+    }
+  }
+  arrFbox.sort();
+  arrTbox.sort();
+  fbox.length = 0;
+  tbox.length = 0;
+  var c;
+  for(c = 0; c < arrFbox.length; c++) {
+    var no = new Option();
+    no.value = arrLookup[arrFbox[c]];
+    no.text = arrFbox[c];
+    fbox[c] = no;
+  }
+  for(c = 0; c < arrTbox.length; c++) {
+    var no = new Option();
+    no.value = arrLookup[arrTbox[c]];
+    no.text = arrTbox[c];
+    tbox[c] = no;
+  }
+}
+
+function select_all(sbox) {
+  sbox = document.getElementById(sbox);
+  for(i=0;i<sbox.options.length;i++) {
+    sbox.options[i].selected = true;
+  }
+}
+//]]>
+</script>
+<%= start_form_tag(:controller => 'projects', :action => 'update_users',
+                   :project_id => @project.id) %>
+<h1>Add users to <%= @project.name %></h1>
+<table width="100%" cellspacing="0" cellpadding="3">
+  <tr>
+    <th>Available</th>
+    <th> </th>
+    <th>Selected</th>
+  </tr>
+  <tr>
+    <td width="50%">
+      <select multiple="multiple" size="10" id="Available" name="available"
+       style="width: 100%;">
+        <%= options_from_collection_for_select(@available_users, 'id',
+                                               'full_name') %>
+      </select>
+    </td>
+    <td>
+      <input type="button" onclick="move('Selected', 'Available');"
+       value="&lt;&lt;" />
+      <br />
+      <br />
+      <input type="button" onclick="move('Available', 'Selected');"
+       value="&gt;&gt;" />
+    </td>
+    <td width="50%">
+      <select multiple="multiple" size="10" id="Selected"
+       name="selected_users[]" style="width: 100%;"></select>
+    </td>
+  </tr>
+</table>
+<table class="form_layout">
+  <tr>
+    <td class="form_actions">
+      <input type="submit" name="submit" value="Add Selected Users"
+       onclick="select_all('Selected');this.form.submit();" />
+      &nbsp;&nbsp;
+      <a href="javascript:window.close();">Cancel</a>
+    </td>
+  </tr>
+</table>
+<%= end_form_tag %>

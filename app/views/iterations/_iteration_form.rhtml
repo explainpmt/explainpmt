@@ -1,0 +1,32 @@
+<!-- BEGIN iterations/_iteration_form.rhtml -->
+<fieldset>
+<legend>Iteration Details</legend>
+<%= error_messages_for('iteration') %>
+<table class="form_layout">
+
+<tr>
+<th><label for="iteration_start_date">Start Date:</label></th>
+<td><%= input('iteration', 'start_date') %></td>
+</tr>
+
+<tr>
+<th><label for="iteration_length">Length:</label></th>
+<td><%= text_field('iteration', 'length', 'size' => '3') %>&nbsp;days</td>
+</tr>
+
+<tr>
+<th><label for="iteration_budget">Budget:</label></th>
+<td><%= text_field('iteration', 'budget', 'size' => '3') %>&nbsp;points</td>
+</tr>
+
+<tr>
+<td colspan="2" class="form_actions">
+<input type="submit" name="submit"
+value="<%= @iteration.new_record? ? 'Create' : 'Update' %> Iteration" />
+&nbsp;&nbsp;&nbsp;
+<a href="javascript:window.close();">Cancel</a>
+</tr>
+</table>
+</fieldset>
+<!-- END iterations/_iteration_form.rhtml -->
+

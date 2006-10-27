@@ -1,0 +1,43 @@
+<table cellspacing="0" cellpadding="0" border="0">
+  <tr>
+    <td id="SmallLeftColumn" valign="top">
+      <h2>Project Team</h2>
+      <p>The users shown here are part of the project team for
+        <strong><%= @project.name %></strong>.</p>
+      <p>Admin accounts are marked with <%= image_tag('admin_dot.gif') %>.</p>
+      <% if is_admin? %>
+        <p><strong><%= popup_link('Add Users to Project', 'add_users',
+                                  'width=600,height=400,resizable,scrollbars',
+                                  :controller => 'projects',
+                                  :action => 'add_users',
+                                  :project_id => @project.id) %></strong></p>
+        <p><strong><%= popup_link('Create New User', 'new_user',
+                                  'width=400,height=400,resizable,scrollbars',
+                                  :controller => 'users', :action => 'new',
+                                  :project_id => @project.id) %></strong></p>
+      <% end %>
+    </td>
+    <td id="RightColumn" valign="top">
+      <% @project.users.each do |user| %>
+        <div class="contact_card">
+          <h3<%= user.admin? ? ' class="admin"' : '' %>>
+            <%= user.full_name(User::LastFirst) %>
+          </h3>
+          <dl>
+            <dt>Email:</dt>
+            <dd><a href="mailto:<%= user.email %>"><%= user.email %></a></dd>
+          </dl>
+          <% if is_admin? %>
+            <ul class="action_links">
+              <li>
+                <%= link_to('Remove from Project', :controller => 'projects',
+                            :action => 'remove_user',
+                            :project_id => @project.id, :id => user.id) %>
+              </li>
+            </ul>
+          <% end %>
+        </div>
+      <% end %>
+    </td>
+  </tr>
+</table>

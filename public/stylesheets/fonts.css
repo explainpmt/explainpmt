@@ -1,13 +1,34 @@
 html {
-	font-size: 100%;
+  font-size: 100%;
 }
 
 body {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 0.85em;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 0.85em;
 }
 
-#CurrentUserInfo {
+.important {
+  font-weight: bold;
+}
+
+div.contact_card dt {
+  font-weight: bold;
+}
+
+dt.project_header {
+  font-weight: bold;
+}
+
+#topbar {
   font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
   font-size: 0.8em;
+}
+
+#SectionTitle {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.2em;
+}
+#SectionMenu {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.9em;
 }

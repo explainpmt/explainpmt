@@ -1,0 +1,42 @@
+<fieldset>
+  <legend>Story Card Details</legend>
+  <%= error_messages_for('story') %>
+  <table class="form_layout">
+    <tr>
+      <th><label for="story_title">Title:</label></th>
+      <td><%= input('story', 'title') %></td>
+    </tr>
+    <tr>
+      <th><label for="story_status">Status:</label></th>
+      <td><%= collection_select('story', 'status', Story::Statuses, 'order',
+                                'name') %></td>
+    </tr>
+    <tr>
+      <th><label for="story_priority">Priority:</label></th>
+      <td><%= collection_select('story', 'priority', Story::Priorities, 'order',
+                                'name') %></td>
+    </tr>
+    <tr>
+      <th><label for="story_risk">Risk:</label></th>
+      <td><%= collection_select('story', 'risk', Story::Risks, 'order',
+                                'name') %></td>
+    </tr>
+    <tr>
+      <th><label for="story_points">Points:</label></th>
+      <td><%= select('story', 'points', Story::POINT_RANGE,
+                     :include_blank => 'true') %></td>
+    </tr>
+    <tr>
+      <th><label for="story_description">Description:</label></th>
+      <td><%= input('story', 'description') %></td>
+    </tr>
+    <tr>
+      <td colspan="2" class="form_actions">
+        <input type="submit" name="submit"
+         value="<%= @story.new_record? ? 'Create' : 'Update' %> Story Card" />
+        &nbsp;&nbsp;
+        <a href="javascript:window.close();">Cancel</a>
+      </td>
+    </tr>
+  </table>
+</fieldset>

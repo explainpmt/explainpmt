@@ -1,0 +1,39 @@
+<p><strong>
+<%= popup_link('Create New Project', 'new_project',
+               'width=500,height=600,scrollbars,resizable',
+               :controller => 'projects', :action => 'new') %>
+</strong></p>
+<% unless @projects.empty? %>
+  <dl>
+    <% @projects.each do |p| %>
+      <dt class="project_header">
+        <%= link_to(p.name, :controller => 'dashboard', :action => 'index',
+                    :project_id => p.id) %>
+        <small>
+          &nbsp;&nbsp;
+          (<%= link_to('Team', :controller => 'users', :action => 'index',
+                       :project_id => p.id) %>)
+          &nbsp;&nbsp;
+          (<%= popup_link('Edit', 'edit_project',
+                          'width=500,height=500,scrollbars,resizable',
+                          :controller => 'projects', :action => 'edit',
+                          :id => p.id) %>)
+          &nbsp;&nbsp;
+          (<%= link_to('Delete',
+                       {
+                         :controller => 'projects', :action => 'delete',
+                         :id => p.id
+                       },
+                       :confirm => 'Are you sure you want to delete the ' +
+                                   'project "' + p.name + '"? This will ' +
+                                   'delete all information associated with ' +
+                                   'the project and can not be undone!') %>)
+        </small>
+      </dt>
+      <dd><%= textilize(p.description) %></dd>
+    <% end %>
+  </dl>
+<% else %>
+  <p>There are currently no projects.</p>
+<% end %>
+

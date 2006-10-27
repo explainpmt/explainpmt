@@ -1,0 +1,12 @@
+<!-- BEGIN milestones/show.rhtml -->
+<h2><%= @project.name %></h2>
+<h3><%= @milestone.name %></h3>
+<p><strong><%= long_date(@milestone.date) %></strong></p>
+<%= textilize(@milestone.description) %>
+<p>
+<%= link_to('Edit Milestone', :controller => 'milestones', :action => 'edit',
+            :id => @milestone.id, :project_id => @project.id) %>
+&nbsp;&nbsp;&nbsp;
+<a href="javascript:window.close();">Close Window</a>
+</p>
+<!-- END milestones/show.rhtml -->

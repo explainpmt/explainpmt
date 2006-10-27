@@ -1,0 +1,37 @@
+<h3><%= @calendar_title %></h3>
+<h4 style="margin:0 0 3px 0;padding:0 0 3px 0;border-bottom:1px solid black;">
+<%= Date::MONTHNAMES[@days.first[:date].mon] %></h4>
+<table class="calendar" width="100%" cellspacing="0" cellpadding="3">
+  <tr>
+  <% @days[0..6].each do |day| %>
+    <th><%= day[:name] %></th>
+  <% end %>
+  </tr>
+  <% [0,7].each do |offset| %>
+    <tr>
+    <% @days[(0 + offset)..(6 + offset)].each do |day| %>
+      <td style="<%= (day[:date] == Date.today) ? 'background-color:#FFCCCC;' : '' %>">
+        <strong><%= day[:date].day %></strong>
+        <% unless day[:milestones].empty? %>
+          <ul>
+            <% day[:milestones].each do |milestone| %>
+              <li>
+                <%= popup_link("#{milestone.project.name}: #{milestone.name}",
+                               "milestone_#{milestone.id}",
+                               'width=500,height=500,resizable,scrollbars',
+                               :controller => 'milestones',
+                               :action => 'show',
+                               :id => milestone.id,
+                               :project_id => milestone.project.id) %>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      </td>
+    <% end %>
+    </tr>
+  <% end %>
+</table>
+
+
+

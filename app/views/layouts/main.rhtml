@@ -1,0 +1,95 @@
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>eXPlainPMT &raquo; <%= page_title %></title>
+    <%= stylesheet_link_tag 'main' %>
+    <script type="text/javascript"
+      href="/javascripts/xmlhttprequest.js"></script>
+  </head>
+  <body>
+  <div id="Header">
+    <div id="topbar">
+      <% if @session[:current_user] %>
+      <div id="StatusRight">
+        Welcome back <%= @session[:current_user].full_name %> 
+	   &nbsp; | &nbsp; 
+	  <%= popup_link('Edit Profile', 'edit_profile',
+			 'width=400,height=400,resizable,scrollbars',
+			 :controller => 'users',
+			 :action => 'edit',
+			 :id => @session[:current_user].id)%>
+	   &nbsp; | &nbsp; 
+	  <%= link_to('Log-out', :controller => 'session', :action => 'logout') %>
+      </div>
+      <% end %>
+    </div>
+    <h1><%= link_to image_tag('/images/logo.png') %></h1>
+  </div>
+
+    <div id="StatusBar">
+      <% if @project %>
+      <div id="StatusLeft">
+        <% if other_projects.size > 0 %>   
+        <form action="<%=url_for(:controller => 'dashboard',
+          :action => 'index')%>" method="get">
+          <label for="SwitchTo">Switch project to:</label>
+          <select name="project_id" id="SwitchTo">
+            <option value="">Select Project</option>
+            <% other_projects.each do |p| %>
+            <option value="<%=p.id%>"><%=p.name%></option>
+            <% end %>
+          </select>
+          <input type="submit" name="submit" value="go" />
+        &nbsp;&nbsp;
+        <%=link_to('Projects Overview', :controller => 'dashboard',
+                                :action => 'index')%>
+        </form>
+        <% end %>
+      </div>
+      <% end%>
+    </div>
+
+  <div id="TopMenu">
+    <%= top_menu %>
+  </div>
+
+  <div id="SectionTitle">
+      <% if @project %>
+      <h1><%= link_to(@project.name,
+                      :controller => 'dashboard',
+                      :action => 'index',
+                      :project_id => @project.id) %></h1>
+      <% else %>
+      <h1><a href="/">eXPlain Project Management Tool</a></h1>
+      <% end %>
+  </div>
+
+  <div id="SectionMenu">
+    <%= main_menu %>
+  </div>
+
+    <div id="Main">
+      <% if @flash[:error] %>
+      <div id="SystemError">
+        <%= textilize_without_paragraph(@flash[:error]) %>
+      </div>
+      <% end %>
+      <% if @flash[:status] %>
+      <div id="SystemStatus">
+        <%= textilize_without_paragraph(@flash[:status]) %>
+      </div>
+      <% end %>
+
+      <%= @content_for_layout %>
+    </div>
+
+    <div id="Footer">
+      <p><strong>eXPlain Project Management Tool</strong> - <%= ApplicationHelper::VERSION %></p>
+      <p>This software is licensed under the <a
+        href="http://www.gnu.org/copyleft/gpl.html">terms of the GPL.</a></p>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+<h3>Story Cards in Project Backlog</h3>
+<%= popup_link('New Story Card', 'new_story',
+               'width=600,height=600,scrollbars,resizable',
+               :controller => 'stories', :action => 'new',
+               :project_id => @project.id) %>
+&nbsp;&nbsp;&nbsp;
+<% if @params['show_cancelled'] %>
+  <%= link_to('Hide Cancelled Stories', :controller => 'stories',
+              :action => 'index', :project_id => @project.id,
+              :sort => @params['sort']) %>
+<% else %>
+  <%= link_to('Show Cancelled Stories', :controller => 'stories',
+              :action => 'index', :project_id => @project.id,
+              :show_cancelled => 1, :sort => @params['sort']) %>
+<% end %>
+<% unless @stories.empty? %>
+  <%= start_form_tag(:controller => 'iterations', :action => 'move_stories',
+                     :project_id => @project.id) %>
+  <div style="text-align: right;">
+    &nbsp;&nbsp;&nbsp;Move Selected Story Cards to:
+    <select name="move_to">
+      <% iteration_options = @project.future_iterations
+         if @project.current_iteration
+           iteration_options.unshift(@project.current_iteration)
+         end
+         iteration_options.each do |i|
+           %>
+           <option value="<%= i.id %>"><%= numeric_date(i.start_date) %></option>
+           <%
+         end
+      %>
+    </select>
+    <input type="submit" name="submit" value="Go" />
+  </div>
+  <% sort_header_params = {
+       :controller => 'stories', :action => 'index', :project_id => @project.id
+     }
+     stories_table = CollectionTableHelper::CollectionTable.new(@stories,
+       [:scid, link_to_sort_by('ID', 'scid', sort_header_params)],
+       [:title, link_to_sort_by('Title', 'title', sort_header_params)],
+       [:points, link_to_sort_by('Points', 'points', sort_header_params)],
+       [:priority, link_to_sort_by('Priority', 'priority', sort_header_params)],
+       [:risk, link_to_sort_by('Risk', 'risk', sort_header_params)],
+       [:status, link_to_sort_by('Status', 'status', sort_header_params)],
+       [:edit,''], [:delete,''])
+     stories_table.column_align(:points, 'center')
+     stories_table.column_align(:edit, 'right')
+     stories_table.column_align(:delete, 'right')
+     stories_table.data_row_class = ['odd_row','even_row']
+     stories_table.column_modifier(:scid) do |s|
+       "<input type=\"checkbox\" name=\"selected_stories[]\" " +
+       "value=\"#{s.id}\" id=\"SC_Check_#{s.id}\" />&nbsp;" +
+       "<label for=\"SC_Check_#{s.id}\">SC#{s.scid}</label>"
+     end
+     stories_table.column_modifier(:title) do |s|
+       popup_link(s.title, "story_#{s.id}",
+         'width=600,height=600,scrollbars,resizable',
+         :controller => 'stories',
+         :action => 'show',
+         :id => s.id,
+         :project_id => s.project.id)
+     end
+     stories_table.column_modifier(:edit) do |s|
+       popup_link('Edit', 'edit_story',
+         'width=600,height=600,scrollbars,resizable',
+         :controller => 'stories',
+         :action => 'edit',
+         :id => s.id,
+         :project_id => s.project.id)
+     end
+     stories_table.column_modifier(:delete) do |s|
+       link_to('Delete', { :controller => 'stories', :action => 'delete',
+         :id => s.id, :project_id => s.project.id },
+         :confirm => "Are you sure you want to delete SC#{s.scid}?")
+     end
+  %>
+  <%= stories_table.build_table %>
+<% else %>
+  <p>No stories are in the project backlog.</p>
+<% end %>
+

@@ -1,6 +1,6 @@
 body {
   display: block;
-  margin: 0;
+  margin: 8px;
   padding: 0;
 }
 
@@ -13,28 +13,206 @@ th, td {
   vertical-align: top;
 }
 
-#Header {
-  margin: 0;
-  padding: 0;
-  border-bottom: 1px solid #999999;
+a, a:visited {
+  border-bottom: 1px dotted;
 }
 
-#CurrentUserInfo {
+p {
+  margin: 0.5em 0 1em 0;
+}
+
+.odd_row td {
+  border: 1px solid;
+}
+
+.even_row td {
+  border: 1px solid;
+}
+
+.important {
+  font-size: 110%;
+}
+
+p.clear_both {
+  clear: both;
+  margin: -1px 0 0 0;
+  padding: 0;
+  width: 0;
+  height: 1px;
+  overflow: hidden;
+}
+
+table.form_layout {
+  margin: 0 auto;
+}
+
+table.form_layout th {
   margin: 0;
-  padding: 3px 1em;
+  padding: 0 5px 10px 0;
+  text-align: right;
+  vertical-align: top;
+}
+
+table.form_layout td {
+  margin: 0;
+  padding: 0 0 10px 5px;
+  text-align: left;
+  vertical-align: top;
+}
+
+table.form_layout td.form_actions {
   text-align: right;
 }
 
-#Header h1 {
-  margin: 0 1em 0 1em;
-  padding: 0;
-  width: 208px;
-  height: 56px;
-  text-indent: -5000px;
+div.contact_card {
+  float: left;
+  width: 15em;
+  height: 8em;
   overflow: hidden;
-  background-image: url('../images/logo.png');
-  background-position: left top;
-  background-repeat: none;
+  border: 1px solid;
+  margin: 2px;
+  padding: 3px;
+  font-size: 85%;
+}
+
+div.contact_card h3 {
+  font-size: 15px;
+  height: 21px;
+  margin: 0 0 5px 0;
+  padding: 0 17px 0 0;
+}
+
+div.contact_card dl, div.contact_card dt, div.contact_card dd {
+  margin: 0;
+  padding: 0;
+}
+
+div.contact_card dt, div.contact_card dd {
+  display: inline;
+}
+
+div.contact_card dt {
+  margin-top: 3px;
+}
+
+ul.action_links, ul.action_links li {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+div.contact_card ul.action_links {
+  display: block;
+  margin-top: 10px;
+  text-align: right;
+}
+
+table.calendar td {
+  border: 1px solid;
+  vertical-align: top;
+}
+
+table.calendar ul {
+  list-style: none;
+  margin: 0 0 0 5px;
+  padding: 0;
+}
+
+table.calendar li {
+  list-style: none;
+  margin: 1px 0 3px 0;
+  padding: 0px;
+  font-size: 80%;
+}
+
+table.calendar a {
+  display: block;
+  margin: 0;
+  padding: 2px;
+  text-decoration: none;
+  border: 0;
+}
+
+div.milestone_list {
+  margin: 10px;
+}
+
+dt.project_header {
+  margin: 20px 0 0 0;
+  padding: 3px 1em 3px 1em;
+}
+
+dt.project_header a {
+  text-decoration: none;
+}
+
+table.collection_table {
+  width: 100%;
+}
+
+table.collection_table th,
+table.collection_table td {
+  margin: 0;
+  border: none;
+  padding: 3px;
+}
+
+table.collection_table th {
+  text-align: center;
+}
+
+.action_links a, dt.project_header a {
+  border: none;
+}
+
+#Header {
+  margin: 0;
+}
+
+#Header img {
+  padding-top: 10px;
+  padding-left: 15px;
+  padding-bottom: 10px;
+}
+
+#Header a, #SectionTitle a, #MainMenu a {
+  border: none;
+}
+
+#MainMenu a.current {
+  border-bottom: 3px solid;
+}
+
+#topbar {
+  margin: 0;
+  padding: 5px 1em;
+  text-align: right;
+}
+
+#SectionTitle {
+  padding: 8px;
+}
+#SectionMenu {
+  padding: 8px;
+}
+#TopMenu {
+  padding: 8px;
+  float: right;
+}
+
+#StatusBar {
+  position: absolute;
+  top: 8px;
+  left: 15px;
+  font-size: 10px;
+}
+#StatusBar select {
+  height: 15px;
+  font-size: 10px;
+}
+#StatusBar input {
+  font-size: 10px;
 }
 
 #MyProjects, #UpcomingMilestones {
@@ -56,14 +234,84 @@ th, td {
   padding: 0.25em 1em;
 }
 
-#MyProjects li a:hover {
-  background-color: #EEEEEE;
-}
-
 #MyStoryCards, #RecentActivity {
   margin: 1em 16em 0 0;
 }
 
 #MyStoryCards table, #RecentActivity table {
   width: 100%;
+}
+
+#MainMenu {
+  white-space: nowrap;
+}
+#MainMenu li {
+  display: inline; 
+  list-style: none;
+  margin-right: 10px;
+}
+
+#ProjectDescription {
+  border: 1px solid;
+  margin: 3px 0px;
+  padding: 3px;
+  font-size: 0.8em;
+}
+
+#Main {
+  padding: 10px;
+  margin: 0;
+}
+
+#SystemError {
+   position: relative;
+   border-top: 1px solid;
+   border-bottom: 1px solid;
+   padding: 3px 2em;
+   margin: 0 0 10px 0;
+}
+
+#SystemStatus {
+  position: relative;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  padding: 3px 2em;
+  margin: 0 0 10px 0;
+}
+
+#Footer {
+  text-align: center;
+  font-size: 75%;
+}
+
+#SmallLeftColumn {
+  width: 12em;
+  padding-right: 10px;
+  border-right: 1px solid;
+  vertical-align: top;
+}
+
+#RightColumn {
+  padding-left: 10px;
+  vertical-align: top;
+}
+
+#ProjectsList li {
+  margin: 0 0 5px 10px;
+}
+
+#RecentActivity td {
+  border: 1px solid;
+  font-size: 80%;
+}
+
+#IterationSummary h3 {
+  margin: 10px 0 5px 0;
+  padding: 0;
+}
+
+#IterationSummary table {
+  float: left;
+  padding: 3px;
+  border: 1px solid;
 }

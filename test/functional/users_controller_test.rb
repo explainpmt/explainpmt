@@ -5,205 +5,196 @@ require 'users_controller'
 class UsersController; def rescue_action(e) raise e end; end
 
 class UsersControllerTest < Test::Unit::TestCase
-  fixtures :users
-
   def setup
+    User.destroy_all
+    Project.destroy_all
+    create_common_fixtures :admin, :user_one
+    @project_one = Project.create('name' => 'Project One')
     @controller = UsersController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-    @admin      = User.find(1)
-    @user       = User.find(2)
+    @request = ActionController::TestRequest.new
+    @response = ActionController::TestResponse.new
+    @request.session[:current_user] = @user_one
   end
 
-  def test_index_for_admin
-    @request.session[ :current_user_id ] = @admin.id
+  def test_authentication_required
+    @request.session[:current_user] = nil
+    actions = [:index, :new, :create, :edit, :update, :delete]
+    actions.each do |a|
+      process a
+      assert_redirected_to :controller => 'session', :action => 'login'
+      assert session[:return_to]
+      assert_equal "Please log in, and we'll send you right along.",
+                   flash[:status]
+    end
+  end
+
+  def test_admin_required
+    actions = [:new, :create, :edit, :update, :delete]
+    actions.each do |a|
+      process a
+      assert_redirected_to :controller => 'error', :action => 'index'
+      assert_equal "You must be logged in as an administrator to perform " +
+                   "the requested action.", flash[:error]
+    end
+  end
+
+  def test_admin_not_required_on_edit_if_id_is_session_user
+    get :edit, 'id' => @user_one.id
+    assert_response :success
+    post :update, 'id' => @user_one.id, 'user' => {}
+    assert_response :success
+    user = User.find(@user_one.id)
+    assert !user.admin?
+  end
+
+  def test_admin_cannot_remove_own_admin_privileges
+    @request.session[:current_user] = @admin
+    get :edit, 'id' => @admin.id, 'user' => {'admin' => '0'}
+    assert_response :success
+    user = User.find(@admin.id)
+    assert user.admin?
+  end
+
+  def test_index
     get :index
-    assert_response :success
-    assert_template 'list'
+    assert_template 'index'
+    assert_equal User.find_all(nil, 'last_name ASC, first_name ASC'),
+                 assigns(:users)
   end
 
-  def test_index_for_user
-    @request.session[ :current_user_id ] = @user.id
-    get :index
-    assert_response :redirect
-    assert_redirected_to :action => 'no_admin'
-    assert_equal 'You must be logged in as an administrator to perform'+
-                  ' this action', flash[ :error ]
+  def test_index_with_project_id
+    @request.session[:current_user] = @admin
+    get :index, 'project_id' => @project_one.id
+    assert_template 'project'
+    assert_equal @project_one, assigns(:project)
   end
 
-  def test_list
-    @request.session[ :current_user_id ] = @admin.id
-    get :list
-
-    assert_response :success
-    assert_template 'list'
-
-    assert_not_nil assigns(:users)
-  end
-
-  def test_show_to_user
-    @request.session[ :current_user_id ] = @user.id
-    get :show, :id => 1
-    assert_response :redirect
-    assert_redirected_to :action => 'no_admin'
-    assert_equal 'You must be logged in as an administrator to perform'+
-                  ' this action', flash[ :error ]  
-  end
-  
-  def test_show_self_user
-    @request.session[ :current_user_id ] = @user.id
-    get :show, :id => 2
-    assert_response :success
-    assert_template 'show'
-    assert_not_nil assigns(:user)
-    assert assigns(:user).valid? 
-  end
-
-  def test_show_to_admin
-    @request.session[ :current_user_id ] = @admin.id
-    get :show, :id => 1
-    assert_response :success
-    assert_template 'show'
-    assert_not_nil assigns(:user)
-    assert assigns(:user).valid?  
-  end
-
-  def test_new_using_admin
-    @request.session[ :current_user_id ] = @admin.id
+  def test_new
+    @request.session[:current_user] = @admin
     get :new
     assert_response :success
     assert_template 'new'
-    assert_not_nil assigns(:user)
+    assert_kind_of User, assigns(:user)
+    assert assigns(:user).new_record?
   end
-  
-  def test_new_using_user
-    @request.session[ :current_user_id ] = @user.id
+
+  def test_new_from_invalid
+    @request.session[:current_user] = @admin
+    @request.session[:new_user] = User.new('last_name' => 'Foo')
     get :new
-    assert_response :redirect
-    assert_redirected_to :action => 'no_admin'
-    assert_equal 'You must be logged in as an administrator to perform'+
-                  ' this action', flash[ :error ]
+    assert_kind_of User, assigns(:user)
+    assert assigns(:user).new_record?
+    assert_equal 'Foo', assigns(:user).last_name
+    assert_nil session[:new_user]
+  end
+
+  def test_new_with_project_id
+    @request.session[:current_user] = @admin
+    get :new, 'project_id' => @project_one.id
+    assert_response :success
+    assert_template 'new'
+    assert_kind_of User, assigns(:user)
+    assert assigns(:user).new_record?
+    assert_equal @project_one, assigns(:project)
+    assert_tag :tag => 'input', :attributes => { :type => 'hidden',
+      :name => 'project_id', :value => @project_one.id }
   end
 
   def test_create
-    @request.session[ :current_user_id ] = @admin.id
-    
+    @request.session[:current_user] = @admin
     num_users = User.count
-
-    post :create, :user => {
-      'login' => 'test_create', 'password' => 'password',
-      'password_confirmation' => 'password', 'email' => 'test@example.com',
-      'name' => 'Test Create'
-    }
-
-    assert_response :redirect
-    assert_redirected_to :action => 'list'
-
+    post :create, 'user' => { 'username' => 'test_create',
+                              'password' => 'test_create_password',
+                              'password_confirmation' =>
+                              'test_create_password',
+                              'email' => 'test_create@example.com',
+                              'first_name' => 'Test',
+                              'last_name' => 'Create' }
+    assert_response :success
+    assert_template 'layouts/refresh_parent_close_popup'
     assert_equal num_users + 1, User.count
   end
 
-  def test_edit_from_user
-    @request.session[ :current_user_id ] = @user.id
-    get :edit, :id => 1
-    assert_response :redirect
-    assert_redirected_to :action => 'no_admin'
-    assert_equal 'You must be logged in as an administrator to perform'+
-                  ' this action', flash[ :error ]
+  def test_create_invalid
+    @request.session[:current_user] = @admin
+    num_users = User.count
+    post :create, 'user' => {}
+    assert_redirected_to :controller => 'users', :action => 'new'
+    assert_kind_of User, session[:new_user]
+    assert session[:new_user].new_record?
+    assert_equal num_users, User.count
   end
-  
-  def test_edit_from_admin
-    @request.session[ :current_user_id ] = @admin.id
-    get :edit, :id => 1
+
+  def test_create_with_project_id
+    @request.session[:current_user] = @admin
+    num_users = User.count
+    post :create, 'project_id' => @project_one.id,
+         'user' => { 'username' => 'test_create_with_project',
+                     'password' => 'test_create_password',
+                     'password_confirmation' =>
+                     'test_create_password',
+                     'email' => 'test_create@example.com',
+                     'first_name' => 'Test',
+                     'last_name' => 'Create' }         
+    assert_response :success
+    assert_template 'layouts/refresh_parent_close_popup'
+    assert_equal num_users + 1, User.count
+    user = User.find(:first,
+                     :conditions => [ 'username = ?',
+                                      'test_create_with_project' ]) 
+    assert @project_one.users.include?(user)
+  end
+
+  def test_create_invalid_with_project_id
+    @request.session[:current_user] = @admin
+    num_users = User.count
+    post :create, 'user' => {}, 'project_id' => @project_one.id
+    assert_redirected_to :controller => 'users', :action => 'new',
+                         :project_id => @project_one.id
+    assert_kind_of User, session[:new_user]
+    assert session[:new_user].new_record?
+    assert_equal num_users, User.count
+  end
+
+  def test_edit
+    @request.session[:current_user] = @admin
+    get :edit, 'id' => @user_one.id
     assert_response :success
     assert_template 'edit'
-    assert_not_nil assigns(:user)
-    assert assigns(:user).valid?
+    assert_equal @user_one, assigns(:user)
   end
-  
-  def test_edit_self_from_user
-    @request.session[ :current_user_id ] = @user.id
-    get :edit, :id => 2
-    assert_response :success
-    assert_template 'edit'
-    assert_not_nil assigns(:user)
-    assert assigns(:user).valid?
+
+  def test_edit_from_invalid
+    @request.session[:current_user] = @admin
+    @user_one.username = nil
+    @request.session[:edit_user] = @user_one
+    get :edit, 'id' => @user_one.id
+    assert_equal @user_one, assigns(:user)
+    assert_nil session[:edit_user]
   end
 
   def test_update
-    @request.session[ :current_user_id ] = @admin.id
-    post :update, :id => 1
-    assert_response :redirect
-    assert_redirected_to :action => 'show', :id => 1
+    @request.session[:current_user] = @admin
+    post :update, 'id' => @user_one.id, 'user' => {'last_name' => 'Foo'}
+    assert_response :success
+    assert_template 'layouts/refresh_parent_close_popup'
+    assert_equal 'Foo', User.find(@user_one.id).last_name
   end
 
-  def test_destroy
-    @request.session[ :current_user_id ] = @admin.id
+  def test_update_invalid
+    @request.session[:current_user] = @admin
+    post :update, 'id' => @user_one.id, 'user' => {'username' => ''}
+    assert_redirected_to :controller => 'users', :action => 'edit',
+                         :id => @user_one.id
+    @user_one.username = ''
+    assert_equal @user_one, session[:edit_user]
+  end
 
-    assert_not_nil User.find(3)
-
-    post :destroy, :id => 3
-    assert_response :redirect
-    assert_redirected_to :action => 'list'
-
+  def test_delete
+    @request.session[:current_user] = @admin
+    get :delete, :id => @user_one.id
     assert_raise(ActiveRecord::RecordNotFound) {
-      User.find(3)
+      User.find(@user_one.id)
     }
-  end
-  
-  def test_destroy_self_from_user
-    @request.session[ :current_user_id ] = @user.id
-    assert_not_nil User.find(2)
-    post :destroy, :id => 2
-    assert_response :redirect
-    assert_redirected_to :action => 'no_admin'
-    assert_equal 'You must be logged in as an administrator to perform'+
-                  ' this action', flash[ :error ]
-    assert_equal "user", User.find(2).login  
-  end
-
-  def test_destroy_self_from_admin
-    @request.session[ :current_user_id ] = @admin.id
-    assert_not_nil User.find(1)
-    post :destroy, :id => 1
-    assert_response :redirect
-    assert_redirected_to :action => 'list'
-    assert_equal 'You may not delete your own account', flash[ :error ]
-    assert_equal "admin", User.find(1).login  
-  end
-  
-  def test_login
-    get :login
-    assert_template 'login'
-  end
-  
-  def test_authenticate
-    post :authenticate, 'login' => @admin.login, 'password' => @admin.password
-    assert_equal @admin.id, session[ :current_user_id ]
-    assert_response :redirect
-    assert_redirected_to :controller => 'main', :action => 'dashboard'
-  end
-  
-  def test_fail_authenticate
-    post :authenticate, 'login' => @admin.login, 'password' => 'foo'
-    assert_nil session[ :current_user_id ]
-    assert_response :redirect
-    assert_redirected_to :controller => 'users', :action => 'login'
-    assert_equal 'You entered an invalid username and/or password.', 
-                 flash[ :error]
-  end
-  
-  def test_logout
-    @request.session[ :current_user_id ] = @user.id
-    get :logout
-    assert_nil session[ :current_user_id ]
-    assert_response :redirect
-    assert_redirected_to :controller => 'users', :action => 'login'
-    assert_equal 'You have been logged out', flash[ :notice ]
-  end
-  
-  def test_no_admin_error
-    @request.session[ :current_user_id ] = @user.id
-    get :no_admin
-    assert_template 'no_admin'
   end
 end

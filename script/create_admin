@@ -1,0 +1,51 @@
+#!/usr/local/bin/ruby
+
+require 'optparse'
+
+OPTIONS = {
+  :environment => "production",
+}
+
+ARGV.options do |opts|
+  script_name = File.basename($0)
+  opts.banner = "Usage: ruby #{script_name} [options]"
+
+  opts.separator ""
+
+  opts.on("-e", "--environment=name", String,
+          "Specifies the environment to create the account under (test/development/production).",
+          "Default: production") { |OPTIONS[:environment]| }
+
+  opts.separator ""
+
+  opts.on("-h", "--help",
+          "Show this help message.") { puts opts; exit }
+
+  opts.parse!
+end
+
+ENV["RAILS_ENV"] = OPTIONS[:environment]
+require File.dirname(__FILE__) + "/../config/environment"
+require 'user'
+
+admin = User.new
+admin.admin = true
+puts "Please enter the following information for the new admin user account:"
+print 'Username: '
+admin.username = gets.strip
+print 'Password: '
+admin.password = gets.strip
+print 'First Name: '
+admin.first_name = gets.strip
+print 'Last Name: '
+admin.last_name = gets.strip
+print 'Email Address: '
+admin.email = gets.strip
+
+if admin.save
+  puts "User #{admin.username} was created."
+else
+  puts "Unable to create new user account. The following errors occured:"
+  admin.errors.each_full {|m| puts m}
+end
+

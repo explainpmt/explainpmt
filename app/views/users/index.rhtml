@@ -1,0 +1,47 @@
+<table cellspacing="0" cellpadding="0" border="0">
+  <tr>
+    <td id="SmallLeftColumn" valign="top">
+      <h2>System Users</h2>
+      <p>This screen lists all of the user accounts that have been created.</p>
+      <p>Admin accounts are marked with <%= image_tag('admin_dot.gif') %></p>
+      <% if is_admin? %>
+        <p><strong>
+          <%= popup_link('Create New User', 'new_user',
+                         'width=400,height=400,resizable,scrollbars',
+                         :controller => 'users', :action => 'new') %>
+        </strong></p>
+      <% end %>
+    </td>
+    <td id="RightColumn" valign="top">
+      <% @users.each do |user| %>
+        <div class="contact_card">
+          <h3<%= user.admin? ? ' class="admin"' : '' %>>
+            <%= user.full_name(User::LastFirst) %>
+          </h3>
+          <dl>
+            <dt>Email:</dt>
+            <dd><a href="mailto:<%= user.email %>"><%= user.email %></a></dd>
+          </dl>
+          <% if is_admin? %>
+            <ul class="action_links">
+              <li><%= popup_link('Edit', 'edit_user',
+                                 'width=400,height=400,resizable,scrollbars',
+                                 :controller => 'users', :action => 'edit',
+                                 :id => user.id) %></li>
+              <li>
+                <%= link_to('Delete',
+                            {
+                              :controller => 'users', :action => 'delete',
+                              :id => user.id
+                            },
+                            :confirm => 'Are you sure you want to ' +
+                                        'delete ' + user.full_name + '? ' +
+                                        'This action cannot be undone.') %>
+              </li>
+            </ul>
+          <% end %>
+        </div>
+      <% end %>
+    </td>
+  </tr>
+</table>

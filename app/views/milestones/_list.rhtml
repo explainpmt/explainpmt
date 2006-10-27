@@ -1,0 +1,33 @@
+<table cellspacing="0" cellpadding="3" border="0" width="100%">
+  <tr>
+    <th width="100">Date</th>
+    <th>Name</th>
+    <th width="200" colspan="2">&nbsp;</th>
+  </tr>
+  <%
+  @milestones.each_with_index do |m,i|
+     row_class = (i%2 == 0) ? 'odd_row' : 'even_row'
+     %>
+     <tr class="<%= row_class %>">
+       <td><strong><%= numeric_date(m.date) %></strong></td>
+       <td><%= popup_link(m.name, "milestone_#{m.id}",
+                          'width=500,height=500,resizable,scrollbars',
+                          :controller => 'milestones',
+                          :action => 'show', :id => m.id,
+                          :project_id => @project.id) %></td>
+       <td><%= popup_link('Edit', 'edit_milestone',
+                          'width=500,height=500,resizable,scrollbars',
+                          :controller => 'milestones', :action => 'edit',
+                          :id => m.id, :project_id => @project.id) %></td>
+       <td><%= link_to('Delete', { :controller => 'milestones',
+                                   :action => 'delete',
+                                   :project_id => m.project.id,
+                                   :id => m.id },
+                       { :confirm => "Are you sure you want to delete " +
+                                     "milestone #{m.name} on " +
+                                     "#{m.date}? This action can not " +
+                                     "be undone." }) %></td>
+     </tr>
+  <% end %>
+</table>
+

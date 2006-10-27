@@ -1,0 +1,24 @@
+  <h2>Welcome to eXPlain Project Management Tool</h2>
+  <p><strong>eXPlainPMT</strong> is a project management tool designed to
+  support the agile development of software&mdash;specifically the
+  <em>eXtreme Programming</em> methodology. Although traditional <abbr
+  title="eXtreme Programming">XP</abbr> recommends the use of index cards
+  and whiteboards as the sole planning tools, many teams are unable to do
+  so because of geographical or organizational constraints. Using
+  <strong>eXPlainPMT</strong>, such a team can gain the full benefit of the
+  XP methodology while removing the barriers that offline communication can
+  impose.</p>
+
+  <div class="important">
+    <p>You are not currently assigned to any project team.</p>
+    <% if is_admin? %>
+    <p>You can now either...</p>
+    <p>
+    <%= link_to('Manage Projects', :controller => 'projects',
+                :action => 'index') %>
+    &nbsp;&nbsp;...or...&nbsp;&nbsp;
+    <%= link_to('Add Additional User Accounts', :controller => 'users',
+                :action => 'index') %>
+    </p>
+    <% end %>
+  </div>
