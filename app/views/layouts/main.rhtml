@@ -11,24 +11,6 @@
   <body>
   <div id="Header">
     <div id="topbar">
-      <% if @session[:current_user] %>
-      <div id="StatusRight">
-        Welcome back <%= @session[:current_user].full_name %> 
-     &nbsp; | &nbsp; 
-    <%= link_to('Edit Profile',
-       :controller => 'users',
-       :action => 'edit',
-       :id => @session[:current_user].id)%>
-     &nbsp; | &nbsp; 
-    <%= link_to('Log-out', :controller => 'session', :action => 'logout') %>
-      </div>
-      <% end %>
-    </div>
-    <h1><%= link_to image_tag('/images/logo.png'), :controller => 'dashboard',
-              :action => 'index' %></h1>
-  </div>
-
-    <div id="StatusBar">
       <% if @project %>
       <div id="StatusLeft">
         <% if other_projects.size > 0 %>   
@@ -41,15 +23,30 @@
             <option value="<%=p.id%>"><%=p.name%></option>
             <% end %>
           </select>
-          <input type="submit" name="submit" value="go" />
-        &nbsp;&nbsp;
-        <%=link_to('Projects Overview', :controller => 'dashboard',
-                                :action => 'index')%>
+          <input type="submit" name="submit" value="go" /> &nbsp; | &nbsp;
+
+          <%=link_to('Projects Overview', :controller => 'dashboard',
+                                  :action => 'index')%>
         </form>
         <% end %>
       </div>
       <% end%>
+
+      <% if @session[:current_user] %>
+      <div id="StatusRight">
+        Welcome back <%= @session[:current_user].full_name %> &nbsp; | &nbsp; 
+        <%= link_to('Edit Profile',
+          :controller => 'users',
+          :action => 'edit',
+          :id => @session[:current_user].id)%> &nbsp; | &nbsp; 
+        <%= link_to('Log-out', :controller => 'session', :action => 'logout') %>
+      </div>
+      <% end %>
     </div>
+    
+    <h1><%= link_to image_tag('/images/logo.png'), :controller => 'dashboard',
+      :action => 'index' %></h1>
+  </div>
 
   <div id="TopMenu">
     <%= top_menu %>

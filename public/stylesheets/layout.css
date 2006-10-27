@@ -192,25 +192,29 @@ table.collection_table th {
 #SectionTitle {
   padding: 8px;
 }
+
 #SectionMenu {
   padding: 8px;
 }
+
 #TopMenu {
   padding: 8px;
   float: right;
 }
 
-#StatusBar {
+#StatusLeft {
   position: absolute;
-  top: 8px;
+  top: 10px;
   left: 15px;
   font-size: 10px;
 }
-#StatusBar select {
+
+#StatusLeft select {
   height: 15px;
   font-size: 10px;
 }
-#StatusBar input {
+
+#StatusLeft input {
   font-size: 10px;
 }
 
