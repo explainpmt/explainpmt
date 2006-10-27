@@ -37,59 +37,9 @@
     <% sort_header_params = { :controller => 'stories',
                               :action => 'index',
                               :project_id => @project.id } %>
-    <table id="StoryListTable" class="collection_table">
-      <thead>
-        <tr>
-          <th><%= link_to_sort_by( 'ID', 'scid', sort_header_params ) -%></th>
-          <th><%= link_to_sort_by( 'Sub-Project', 'sub_project.name',
-                                   sort_header_params ) -%></th>
-          <th><%= link_to_sort_by( 'Title', 'title', sort_header_params ) -%></th>
-          <th><%= link_to_sort_by( 'Points', 'points', sort_header_params ) -%></th>
-          <th><%= link_to_sort_by( 'Priority', 'priority', sort_header_params ) -%></th>
-          <th><%= link_to_sort_by( 'Risk', 'risk', sort_header_params ) -%></th>
-          <th><%= link_to_sort_by( 'Status', 'status', sort_header_params ) -%></th>
-          <th colspan="2">&nbsp;</th>
-        </tr>
-      </thead>
-      <tbody id="StoryList">
-        <% @stories.each_with_index do |story, i| %>
-        <tr id="story_card_<%= story.id -%>" class="odd_row">
-          <td>
-            <input type="checkbox" name="selected_stories[]"
-              value="<%= story.id -%>" id="story_card_check_<%= story.id -%>" />
-            <label for="story_card_check_<%= story.id -%>">SC<%= story.scid -%></label>
-          </td>
-          <td><%= story.sub_project.name if story.sub_project -%></td>
-          <td>
-            <%= link_to( story.title, :controller => 'stories',
-                         :action => 'show', :id => story.id,
-                         :project_id => story.project.id ) %>
-            <% if story.description? %>
-            <%= link_to( image_tag( 'info-icon.gif', :alt => '[description]' ),
-                         { :controller => 'stories', :action => 'show',
-                           :id => story.id, :project_id => story.project.id },
-                         :class => 'story_description_icon' ) %>
-            <% end %>
-          </td>
-          <td align="center"><%= story.points -%></td>
-          <td><%= story.priority -%></td>
-          <td><%= story.risk -%></td>
-          <td><%= story.status -%></td>
-          <td align="right">
-            <%= link_to( 'Edit', :controller => 'stories',
-                         :action => 'edit', :id => story.id,
-                         :project_id => story.project.id ) %>
-          </td>
-          <td align="right">
-            <%= link_to( 'Delete',
-                         { :controller => 'stories', :action => 'delete',
-                           :id => story.id, :project_id => story.project.id },
-                         :confirm => "Are you sure you want to delete SC#{story.scid}?" ) %>
-          </td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <%= render( :partial => 'story_list_table',
+                :locals => { :sort_header_params => sort_header_params,
+                             :stories => @stories } ) %>
   <%= end_form_tag %>
 <% else %>
   <p>No stories are in the project backlog.</p>

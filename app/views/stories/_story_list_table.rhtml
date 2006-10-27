@@ -1,0 +1,18 @@
+<table id="StoryListTable" class="collection_table">
+  <thead>
+    <tr>
+      <th><%= link_to_sort_by( 'ID', 'scid', sort_header_params ) -%></th>
+      <th><%= link_to_sort_by( 'Sub-Project', 'sub_project.name',
+                               sort_header_params ) -%></th>
+      <th><%= link_to_sort_by( 'Title', 'title', sort_header_params ) -%></th>
+      <th><%= link_to_sort_by( 'Points', 'points', sort_header_params ) -%></th>
+      <th><%= link_to_sort_by( 'Priority', 'priority', sort_header_params ) -%></th>
+      <th><%= link_to_sort_by( 'Risk', 'risk', sort_header_params ) -%></th>
+      <th><%= link_to_sort_by( 'Status', 'status', sort_header_params ) -%></th>
+      <th colspan="2">&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody id="StoryList">
+    <%= render :partial => 'story_list_item', :collection => stories %>
+  </tbody>
+</table>
