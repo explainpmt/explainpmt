@@ -1,0 +1,26 @@
+<p>
+  (<%= link_to('Edit', :action => 'edit',
+               :id => @object.id, :project_id => @project.id) %>)
+  &nbsp;&nbsp;&nbsp;
+  (<a href="javascript:window.close();">Close Window</a>)
+</p>
+<table cellspacing="0" cellpadding="3" border="0"> 
+  <tr>
+    <th>Name:</th>
+    <td><%= @object.name %></td>
+    </tr>
+  <tr>
+    <th>Description:</th>
+    <td><%= @object.description %></td>
+  </tr>
+  <tr>
+    <th>Completed:</th>
+    <td><% if @object.complete == true %>Yes<% else %>No<% end %></td>
+  </tr>
+    <% if @object.has_owner? %>
+    <tr>
+      <th>Owner:</th>
+      <td><%= @object.owner.full_name %></td>
+    </tr>
+  <% end %>
+</table>

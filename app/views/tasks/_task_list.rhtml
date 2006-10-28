@@ -1,0 +1,59 @@
+<h3>Tasks</h3>
+ <% unless @story.tasks.empty? %>
+  <table class="sort-table" id="t15" cellspacing="0" cellpadding="0" border="0" width="100%">
+  <thead>
+    <td>Task Name</td>
+    <td>Completed</td>
+    <td>Owner</td>
+    <td>Action</td>
+  </thead>
+  <tbody>
+  <%@story.tasks.each_with_index do |m,i|
+     row_class = (i%2 == 0) ? 'odd_row' : 'even_row'%>
+     <tr class="<%= row_class %>">
+    <td>
+    <%= popup_link(m.name, "task_#{m.id}",
+    					  'width=525,height=300,resizable,scrollbars',
+    					  :controller => 'tasks',
+                          :action => 'show', :id => m.id,
+                          :project_id => @project.id) %></td> 
+       <td><% if m.complete == true %>Yes<% else %>No<% end %></td>
+       <td><%if m.has_owner?%>
+    		<%= m.owner.full_name %> 
+    		<%= '(' + link_to('release', 
+    			:controller => 'tasks', :action => 'release_ownership',
+                :id => m.id, :project_id => @project.id, :story_id => @story.id) + ')' %>
+ 		  <% else %>
+    		<%='None (' + link_to('take', :controller => 'tasks', 
+    			:action => 'take_ownership', :id => m.id,
+                :project_id => @project.id, :story_id => @story.id) + '/' +
+               popup_link('assign', 'edit_story', 'width=250,height=500,scrollbars,resizable',
+               		   :controller => 'tasks',
+                       :action => 'assign_owner', :id => m.id,
+                       :project_id => @project.id) + ')'%>
+  		  <% end %></td>
+       <td>              
+       <%= popup_link('Edit', "task_#{m.id}",
+                          'width=525,height=300,resizable,scrollbars',
+                          :controller => 'tasks',
+                          :action => 'edit', :id => m.id,
+                          :project_id => @project.id) %>
+       <%= link_to('Delete', { :controller => 'tasks',
+                                   :action => 'delete',
+                                   :id => m.id, :project_id => @project.id },
+                       { :confirm => "Are you sure you want to delete " +
+                                     "task #{m.name}." +
+                                     " This action can not " +
+                                     "be undone." }) %></td>
+     </tr>  
+  <% end %>
+  </tbody>
+</table>
+<script type="text/javascript">
+var st = new SortableTable(document.getElementById("t15"),
+	["CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString"]);
+MaintainSort(st);
+</script>
+  <% else %>
+  No tasks have been defined for this story.
+  <% end %>

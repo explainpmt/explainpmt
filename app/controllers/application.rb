@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
   before_filter :require_team_membership
   
   protected
-
+  
   # Used as a before_filter to instantiate the @project instance variable based
   # on the 'project_id' request parameter. This ensures that @project is always
   # available when performing actions that should occur within the context of a
@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
       return false
     end
   end
-
+  
   # This method can be used as a before_filter for actions which should require
   # admin privileges to perform. If the user tries to perform an action which
   # triggers this filter, and they do not have admin privileges, they will be
@@ -69,7 +69,7 @@ class ApplicationController < ActionController::Base
       return false
     end
   end
-
+  
   # Used as a before_filter to ensure that the currently logged in user is
   # allowed to access the current project by determining whether he is an
   # administrator or if he is on the project team.
@@ -83,7 +83,7 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-
+  
   # Used in the controller class definitions to specify which actions should be
   # rendered using the popup layout.
   def self.popups(*popup_actions)
@@ -93,7 +93,7 @@ class ApplicationController < ActionController::Base
       @@popups[controller_name] << a.to_sym
     end
   end
-
+  
   # Chooses whether to use the regular page layout or the popup page layout
   # depending on whether the action is listed as one of the controller's popup
   # views.
@@ -106,7 +106,7 @@ class ApplicationController < ActionController::Base
       'layouts/main'
     end
   end
-
+  
   # Used as a before_filter to ensure that a project is selected. If no project
   # is selected, the user is sent to an error page.
   def require_current_project
@@ -148,3 +148,66 @@ class ApplicationController < ActionController::Base
 end
 
 
+# my shared controller actions
+class WizardController < ApplicationController
+  
+ # Not used yet. 
+#  def index
+#    @list = mymodel.find(:all, :order => mymodel.list_order, 
+#                         :conditions => [ "project_id = (?)", @project.id] )
+#  end
+  
+  def edit
+    @object = session[:edit_object] || mymodel.find(params[:id])
+    session[:edit_object] = nil
+    @page_title = "Edit #{mymodel}"
+  end
+  
+  def new
+    @object = session[:new_object] || mymodel.new
+    session[:new_object] = nil
+    @page_title = "New #{mymodel}"
+  end
+
+  #Not used yet.  
+#  def create
+#    object_to_create = mymodel.new(params[:object])
+#    object_to_create.project = @project if object_to_create.has_attribute?(:project_id)
+#    if object_to_create.valid?
+#      object_to_create.save
+#      if mymodel.name == "Project" && params[:add_me] == '1'
+#        session[:current_user].projects << object_to_create
+#      end
+#      flash[:status] = "#{mymodel} \"#{object_to_create.name}\" has been saved."
+#      render 'layouts/refresh_parent_close_popup'
+#    else
+#      session[:new_object] = object_to_create
+#      redirect_to :action => 'new',:project_id => @project.id
+#    end
+#  end
+  
+  def update
+    ojbect_to_edit = mymodel.find(params[:id])
+    if ojbect_to_edit.update_attributes(params[:object])
+      flash[:status] = "Changes to \"#{ojbect_to_edit.name}\" have been been saved."
+      render 'layouts/refresh_parent_close_popup'
+    else
+      session[:edit_object] = ojbect_to_edit
+      redirect_to :action => 'edit', :id => ojbect_to_edit.id,
+      :project_id => @project.id
+    end
+  end
+  
+  def show
+    @object = mymodel.find(params[:id])
+  end
+  
+  #Not used yet. 
+#  def delete
+#    object_selected = mymodel.find(params[:id])
+#    object_selected.destroy
+#    flash[:status] = "#{mymodel.name} \"#{object_selected.name}\" has been deleted."
+#    redirect_to :action => 'index', :project_id => @project.id
+#  end
+  
+end

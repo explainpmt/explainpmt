@@ -43,6 +43,7 @@ class Story < ActiveRecord::Base
   before_save :check_project_and_sub_project_match
   belongs_to :iteration
   belongs_to :owner, :class_name => 'User', :foreign_key => 'user_id'
+  has_many :tasks, :dependent => true
 
   # The collection of defined Status objects
   Statuses = []

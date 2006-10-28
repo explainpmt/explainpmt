@@ -1,0 +1,3 @@
+<%= start_form_tag(:action => 'update',:id => @object.id, :project_id => @project.id) %>
+<%= render_partial('assign_owner_form') %>
+<%= end_form_tag %>

@@ -11,6 +11,10 @@
   <% else %>
     <%= link_to('Back to Backlog', :controller => 'stories', :project_id => @project.id) %>
   <% end %>
+    &nbsp;&nbsp;&nbsp;
+  (<%= popup_link('Add Task', "task", 'width=525,height=300,resizable,scrollbars',
+  			   :controller => 'tasks', :action => 'new',
+               :id => @story.id, :project_id => @project.id) %>)
                
 </p>
 <table cellspacing="0" cellpadding="3" border="0">
@@ -44,3 +48,5 @@
   <% end %>
 </table>
 <%= textilize(@story.description) %>
+<br><br>
+<%= render :partial => 'tasks/task_list' %>

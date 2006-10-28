@@ -1,0 +1,44 @@
+<fieldset>
+  <legend>Story Card Task</legend>
+  <%= error_messages_for('object') %>
+  <table class="form_layout">
+    <tr>
+      <th><label for="object_name">Name:</label></th>
+      <td><%= input('object', 'name') %></td>
+    </tr>
+    <tr>
+      <th><label for="object_description">Task Description:</label></th>
+      <td><%= text_area('object', 'description',"cols" => 40, "rows" => 4) %></td>
+    </tr>
+  	<tr>
+      <th><label for="object_owner">Owner:</label></th>
+      <td><select id="story_task" name="object[user_id]">
+      <option value=""></option>
+   			<% @project.users.each do |u| %>
+   				<option value="<%= u.id %>"
+  					<% if @object.user_id == u.id -%> 
+  						selected="selected"
+  					<% end -%> >
+ 				<%= u.full_name%>
+ 				</option>
+ 			<% end %></select></td>
+      </td>
+ 	</tr>
+  	<tr>
+   	 <th><label for="object_completed">Complete:</label></th>
+   	 <td><%= radio_button('object', 'complete', true) %></td>
+ 	</tr>
+  	<tr>
+      <th><label for="object_completed">Not Complete:</label></th>
+      <td><%= radio_button('object', 'complete', false) %></td>
+ 	</tr>
+    <tr>
+      <td colspan="2" class="form_actions">
+        <input type="submit" name="submit"
+         value="<%= @object.new_record? ? 'Create' : 'Update' %> Story Task" />
+         &nbsp;&nbsp;
+        <a href="javascript:window.close();">Cancel</a>
+      </td>
+    </tr>
+  </table>
+</fieldset>
