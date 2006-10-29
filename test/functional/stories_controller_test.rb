@@ -100,8 +100,8 @@ class StoriesControllerTest < Test::Unit::TestCase
     post :create, :project_id => @project_one.id,
       :story_card_titles => "New Story One\nNew Story Two\nNew Story Three",
       :sub_project => @sub_project_one.id
-    assert_redirected_to :controller => 'stories', :action => 'index',
-      :project_id => @project_one.id
+    assert_response :success
+    assert_template 'layouts/refresh_parent_close_popup'
     assert_equal num_a + 3, @project_one.stories( true ).backlog.size
     assert_equal num_b + 3, @sub_project_one.stories( true ).size
     assert_equal "New story cards created.", flash[:status]
@@ -112,8 +112,8 @@ class StoriesControllerTest < Test::Unit::TestCase
     post :create, :project_id => @project_one.id,
       :story_card_titles => "New Story One\nNew Story Two\nNew Story Three",
       :sub_project => ''
-    assert_redirected_to :controller => 'stories', :action => 'index',
-      :project_id => @project_one.id
+    assert_response :success
+    assert_template 'layouts/refresh_parent_close_popup'
     assert_equal num + 3, @project_one.stories( true ).backlog.size
     assert_equal "New story cards created.", flash[:status]
   end
