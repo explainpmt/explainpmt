@@ -20,6 +20,7 @@
 
 class StoriesController < ApplicationController
   before_filter :require_current_project
+  popups :show, :edit, :new
 
   # Lists all of the stories in the project 'Backlog' (stories that have no
   # iteration). Stories with a "cancelled" status are hidden by default. They
@@ -45,7 +46,6 @@ class StoriesController < ApplicationController
   # Displays a form for creating new story cards.
   def new
     @page_title = "Create new story cards"
-    @selected_main_menu_link = :none
   end
 
   # Creates new story cards based on the story titles posted form the #new
@@ -63,16 +63,15 @@ class StoriesController < ApplicationController
         sub_project.stories << story if sub_project
       end
       flash[:status] = 'New story cards created.'
-      redirect_to :controller => 'stories', :action => 'index', :project_id => @project
+      render 'layouts/refresh_parent_close_popup'
     end
   end
 
   # Displays the form for editing a story card's information.
   def edit
     @page_title = "Edit story card"
-    @selected_main_menu_link = :none
     register_referer
-    
+ 
     if @story = session[:edit_story]
       session[:edit_story] = nil
     else
@@ -91,7 +90,6 @@ class StoriesController < ApplicationController
     if story.valid?
       story.save
       flash[:status] = 'The changes to the story card have been saved.'
-      
       unless redirect_to_referer
         redirect_to :controller => 'stories', :action => 'index',
                     :project_id => @project.id.to_s
@@ -118,7 +116,6 @@ class StoriesController < ApplicationController
   # parameter.
   def show
     @story = Story.find(params['id'])
-    @selected_main_menu_link = :none
     @page_title = @story.title
   end
 
