@@ -18,9 +18,13 @@
 ##############################################################################
 
 
-class MilestonesController < ApplicationController
+class MilestonesController < WizardController
   before_filter :require_current_project, :except => [:milestones_calendar]
   popups :new, :create, :show, :edit, :update
+  
+  def mymodel
+    Milestone
+  end
   
   # Lists the milestones for the project.
   def index
@@ -40,78 +44,7 @@ class MilestonesController < ApplicationController
       @past_title = "Recent Milestones"
     end
   end
-
-  # Displays the form to add a new milestone.
-  def new
-    if @milestone = session[:new_milestone]
-      session[:new_milestone] = nil
-    else
-      @milestone = Milestone.new
-    end
-    @page_title = "New Milestone"
-  end
-
-  # Creates a new milestone based on the information submitted from the #new
-  # action.
-  def create
-    milestone = Milestone.new(params['milestone'])
-    milestone.project = @project
-    if milestone.valid?
-      milestone.save
-      flash[:status] = "New milestone *#{milestone.name}* on " +
-                        "*#{milestone.date}* was created."
-      render :template => 'layouts/refresh_parent_close_popup'
-    else
-      session[:new_milestone] = milestone
-      redirect_to :controller => 'milestones', :action => 'new',
-                  :project_id => @project.id
-    end
-  end
-
-  # Displays the form to edit milestone information. The milestone to edit is
-  # identified by the 'id' request parameter.
-  def edit
-    if @milestone = session[:edit_milestone]
-      session[:edit_milestone] = nil
-    else
-      @milestone = Milestone.find(params['id'])
-    end
-  end
-
-  # Updates the milestone identified by the 'id' request parameter with the
-  # information submitted from the #edit action.
-  def update
-    milestone = Milestone.find(params['id'])
-    milestone.attributes = params['milestone']
-    if milestone.valid?
-      milestone.save
-      flash[:status] = "Changes to milestone \"#{milestone.name}\" have " +
-                        "been saved."
-      render :template => 'layouts/refresh_parent_close_popup'
-    else
-      session[:edit_milestone] = milestone
-      redirect_to :controller => 'milestones', :action => 'edit',
-                  :id => milestone.id,
-                  :project_id => milestone.project.id
-    end
-  end
-
-  # Deletes the milestone identified by the 'id' request parameter.
-  def delete
-    milestone = Milestone.find(params['id'])
-    milestone.destroy
-    flash[:status] = "Milestone *#{milestone.name}* on *#{milestone.date}*" +
-                      " has been deleted."
-    redirect_to :controller => 'milestones', :action => 'index',
-                :project_id => @project.id
-  end
-
-  # Displays the details for the milestone identified by the 'id' request
-  # parameter.
-  def show
-    @milestone = Milestone.find(params['id'])
-  end
-
+  
   # Renders the partial template for the milestones calendar component.
   def milestones_calendar
     @calendar_title = 'Upcoming Milestones:'
