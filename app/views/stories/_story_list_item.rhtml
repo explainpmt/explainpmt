@@ -11,14 +11,14 @@
   <% end %>
   <td><%= story.sub_project.name if story.sub_project -%></td>
   <td>
-    <%= link_to( story.title, :controller => 'stories',
-                 :action => 'show', :id => story.id,
-                 :project_id => story.project.id ) %>
+  <%= popup_link(story.title, "story_#{story.id}",
+               'width=600,height=600,scrollbars,resizable',
+               :controller => 'stories',
+               :action => 'show',
+               :id => story.id,
+               :project_id => story.project.id)%>
     <% if story.description? %>
-    <%= link_to( image_tag( 'info-icon.gif', :alt => story.description ),
-                 { :controller => 'stories', :action => 'show',
-                   :id => story.id, :project_id => story.project.id },
-                 :class => 'story_description_icon' ) %>
+    <%= image_tag( 'info-icon.gif', :alt => story.description ) %>
     <% end %>
   </td>
   <td align="center"><%= story.points -%></td>
@@ -43,9 +43,11 @@
   <% end %>
   <% unless hide_cols.include?( :edit ) %>
     <td align="right">
-      <%= link_to( 'Edit', :controller => 'stories',
-                   :action => 'edit', :id => story.id,
-                   :project_id => story.project.id ) %>
+    <%= popup_link('Edit', 'edit_story',
+               'width=600,height=600,scrollbars,resizable',
+               :controller => 'stories', :action => 'edit',
+               :project_id => story.project.id, :id => story.id) %>
+
     </td>
   <% end %>
   <% unless hide_cols.include?( :delete ) %>
