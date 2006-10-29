@@ -93,14 +93,14 @@ class MilestonesControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'new'
     assert_equal @project_one, assigns(:project)
-    assert_kind_of Milestone, assigns(:milestone)
-    assert assigns(:milestone).new_record?
+    assert_kind_of Milestone, assigns(:object)
+    assert assigns(:object).new_record?
   end
 
   def test_create
     before_count = Milestone.count
     post :create, 'project_id' => @project_one.id,
-         'milestone' => { 'name' => 'Test Create', 'date' => '2005-12-31' }
+         'object' => { 'name' => 'Test Create', 'date' => '2005-12-31' }
     assert_response :success
     assert_template 'layouts/refresh_parent_close_popup'
     assert_equal before_count + 1, Milestone.count
@@ -109,10 +109,10 @@ class MilestonesControllerTest < Test::Unit::TestCase
   def test_create_invalid
     before_count = Milestone.count
     post :create, 'project_id' => @project_one.id,
-         'milestone' => { 'name' => 'test_create_invalid', 'date' => '' }
+         'object' => { 'name' => 'test_create_invalid', 'date' => '' }
     assert_redirected_to :controller => 'milestones', :action => 'new'
-    assert_kind_of Milestone, session[:new_milestone]
-    assert_equal 'test_create_invalid', session[:new_milestone].name
+    assert_kind_of Milestone, session[:new_object]
+    assert_equal 'test_create_invalid', session[:new_object].name
   end
 
   def test_edit
@@ -120,24 +120,24 @@ class MilestonesControllerTest < Test::Unit::TestCase
         'project_id' => @future_milestone1.project.id
     assert_response :success
     assert_template 'edit'
-    assert_equal @future_milestone1, assigns(:milestone)
+    assert_equal @future_milestone1, assigns(:object)
   end
 
   def test_edit_from_invalid
-    @request.session[:edit_milestone] = @future_milestone1
+    @request.session[:edit_object] = @future_milestone1
     get :edit, 'id' => @future_milestone1.id,
         'project_id' => @future_milestone1.project.id
     assert_response :success
     assert_template 'edit'
-    assert_kind_of Milestone, assigns(:milestone)
-    assert_equal @future_milestone1.id, assigns(:milestone).id
-    assert_nil session[:edit_milestone]
+    assert_kind_of Milestone, assigns(:object)
+    assert_equal @future_milestone1.id, assigns(:object).id
+    assert_nil session[:edit_object]
   end
 
   def test_update
     post :update, 'id' => @future_milestone1.id,
          'project_id' => @future_milestone1.project.id,
-         'milestone' => { 'name' => 'Fooooo!' }
+         'object' => { 'name' => 'Fooooo!' }
     assert_response :success
     assert_template 'layouts/refresh_parent_close_popup'
     m = Milestone.find(@future_milestone1.id)
@@ -148,13 +148,13 @@ class MilestonesControllerTest < Test::Unit::TestCase
   def test_update_invalid
     post :update, 'id' => @future_milestone1.id,
          'project_id' => @future_milestone1.project.id,
-         'milestone' => { 'name' => '' }
+         'object' => { 'name' => '' }
     assert_redirected_to :controller => 'milestones', :action => 'edit',
                          :id => @future_milestone1.id,
                          :project_id => @future_milestone1.project.id
     m = Milestone.find(@future_milestone1.id)
     m.name = ''
-    assert_equal m, session[:edit_milestone]
+    assert_equal m, session[:edit_object]
   end
 
   def test_delete
@@ -171,7 +171,7 @@ class MilestonesControllerTest < Test::Unit::TestCase
         :project_id => @future_milestone1.project.id
     assert_response :success
     assert_template 'show'
-    assert_equal @future_milestone1, assigns(:milestone)
+    assert_equal @future_milestone1, assigns(:object)
   end
 
   def test_milestones_calendar_all_projects
