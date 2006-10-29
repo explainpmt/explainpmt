@@ -33,14 +33,14 @@
     </tr>
     <tr>
       <th><label for="story_description">Description:</label></th>
-      <td><%= input('story', 'description') %></td>
+      <td><%= text_area('story', 'description',"cols" => 40, "rows" => 16)%></td>
     </tr>
     <tr>
       <td colspan="2" class="form_actions">
         <input type="submit" name="submit"
          value="<%= @story.new_record? ? 'Create' : 'Update' %> Story Card" />
         &nbsp;&nbsp;
-        <%= link_to 'Cancel', controller.request.env['HTTP_REFERER'] %>
+        <a href="javascript:window.close();">Cancel</a>
       </td>
     </tr>
   </table>
