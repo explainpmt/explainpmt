@@ -13,14 +13,15 @@
         <h3>Future Milestones</h3>
         <%= render_component :controller => 'milestones', :action => 'list',
                            :params => { :project_id => @project.id,
-                                        :include => 'future' } %>
+                                        :include => 'future', :table_id => "future_milestones" } %>
       </div>
+      <hr>
       <div class="milestone_list">
         <% past_link = link_to(*@past_link_opts) %>
         <h3><%= @past_title %> <small>(<%= past_link %>)</small></h3>
         <%= render_component :controller => 'milestones', :action => 'list',
                            :params => { :project_id => @project.id,
-                                        :include => @past_milestones } %>
+                                        :include => @past_milestones, :table_id => "past_milestones" } %>
       </div>
     </td>
   </tr>
