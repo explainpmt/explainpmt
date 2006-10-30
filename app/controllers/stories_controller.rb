@@ -63,7 +63,7 @@ class StoriesController < ApplicationController
         sub_project.stories << story if sub_project
       end
       flash[:status] = 'New story cards created.'
-      render 'layouts/refresh_parent_close_popup'
+      render :template => 'layouts/refresh_parent_close_popup'
     end
   end
 

@@ -18,7 +18,7 @@
                           :action => 'show', :id => m.id,
                           :project_id => @project.id) %></td> 
        <td><% if m.complete == true %>Yes<% else %>No<% end %></td>
-       <td><%if m.has_owner?%>
+       <td><% if m.owner %>
     		<%= m.owner.full_name %> 
     		<%= '(' + link_to('release', 
     			:controller => 'tasks', :action => 'release_ownership',

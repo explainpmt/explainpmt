@@ -16,7 +16,7 @@ class TasksController < WizardController
     if object_to_create.valid?
       object_to_create.save
       flash[:status] = "#{mymodel} \"#{object_to_create.name}\" has been saved."
-      render 'layouts/refresh_parent_close_popup'
+      render :template => 'layouts/refresh_parent_close_popup'
     else
       session[:new_object] = object_to_create
       redirect_to :action => 'new', :project_id => @project.id, 
