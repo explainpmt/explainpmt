@@ -33,4 +33,9 @@ class TaskTest < Test::Unit::TestCase
     task = Task.create
     assert task.errors.on(:name)
   end
+  
+  def test_task_default_completed_state
+    task = Task.new
+    assert !task.complete
+  end
 end
