@@ -1,4 +1,6 @@
-class TasksController < WizardController
+class TasksController < ApplicationController
+  include CrudActions
+  
   popups :new, :create, :edit, :show, :assign_owner
 
   def mymodel

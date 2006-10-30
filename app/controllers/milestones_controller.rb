@@ -18,7 +18,9 @@
 ##############################################################################
 
 
-class MilestonesController < WizardController
+class MilestonesController < ApplicationController
+  include CrudActions
+  
   before_filter :require_current_project, :except => [:milestones_calendar]
   popups :new, :create, :show, :edit, :update
   
