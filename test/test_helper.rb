@@ -17,7 +17,8 @@ class Test::Unit::TestCase
                    :projects,
                    :stories,
                    :users,
-                   :sub_projects ]
+                   :sub_projects,
+                   :tasks ]
     
   class << self
     def test_required_attributes( klass, *attributes )
