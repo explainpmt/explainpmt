@@ -1,5 +1,15 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
+first:
   id: 1
-two:
+  name: 'First Task'
+  description: 'First Task Description'
+  story_id: 1
+  complete: false
+  user_id: 1
+second:
   id: 2
+  name: 'Second Task'
+  description: 'Second Task Description'
+  complete: true
+  user_id: 1
+  
