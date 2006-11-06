@@ -25,7 +25,7 @@ class ProjectsController < ApplicationController
                                                      :update_users, :edit,
                                                      :update, :remove_user,
                                                      :delete, :index ]
-  popups :add_users, :update_users
+  popups :add_users, :update_users, :new, :edit
 
   # Lists all of the projects that exist on the system.
   def index
@@ -53,7 +53,7 @@ class ProjectsController < ApplicationController
         session[:current_user].projects << project
       end
       flash[:status] = "New project \"#{project.name}\" has been created."
-      redirect_to :controller => 'projects', :action => 'index'
+      render :template => 'layouts/refresh_parent_close_popup'
     else
       session[:new_project] = project
       redirect_to :controller => 'projects', :action => 'new'
@@ -137,7 +137,7 @@ class ProjectsController < ApplicationController
     if project.valid?
       project.save
       flash[:status] = "Project \"#{project.name}\" has been updated."
-      redirect_to :controller => 'projects', :action => 'index'
+      render :template => 'layouts/refresh_parent_close_popup'
     else
       session[:edit_project] = project
       redirect_to :controller => 'projects', :action => 'edit',
