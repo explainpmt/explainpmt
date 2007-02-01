@@ -96,8 +96,8 @@ class ProjectsControllerTest < Test::Unit::TestCase
     mem_num_before_create = current_user.projects.size
     post :create, 'new_project' => { 'name' => 'Test Create',
                                  'description' => '' }
-    assert_response :redirect
-    assert_redirected_to :controller => 'projects', :action => 'index'
+    assert_response :success
+    assert_template 'layouts/refresh_parent_close_popup'
     assert_equal num_before_create + 1, Project.count
     assert_equal mem_num_before_create, current_user.projects.size
   end
@@ -107,8 +107,8 @@ class ProjectsControllerTest < Test::Unit::TestCase
     mem_num_before_create = current_user.projects.size
     post :create, 'add_me' => '1', 'new_project' => { 'name' => 'Test Create',
                                                   'description' => '' }
-    assert_response :redirect
-    assert_redirected_to :controller => 'projects', :action => 'index'
+    assert_response :success
+    assert_template 'layouts/refresh_parent_close_popup'
     assert_equal num_before_create + 1, Project.count
     assert_equal mem_num_before_create + 1, current_user.projects.size
   end
@@ -177,8 +177,8 @@ class ProjectsControllerTest < Test::Unit::TestCase
 
   def test_update
     post :update, 'id' => @project_one.id, 'project' => { 'name' => 'Test' }
-    assert_response :redirect
-    assert_redirected_to :controller => 'projects', :action => 'index'
+    assert_response :success
+    assert_template 'layouts/refresh_parent_close_popup'
     project = Project.find @project_one.id
     assert_equal 'Test', project.name
   end
