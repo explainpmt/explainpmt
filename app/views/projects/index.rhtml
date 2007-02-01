@@ -36,9 +36,7 @@
           :html => { :id => "SubProjectForm_#{p.id}", :style => 'display: none;' },
           :loading => "Element.toggle('SubProjectFormSpinner_#{p.id}')",
           :complete => "Element.toggle('SubProjectFormSpinner_#{p.id}');" +
-            "$('SubProjectForm_#{p.id}').reset();",
-          :success =>  evaluate_remote_response,
-          :failure => evaluate_remote_response %>
+            "$('SubProjectForm_#{p.id}').reset();" %>
         
           <table cellspacing="0" cellpadding="3" border="0">
             <tbody id="SubProjectList_<%= p.id -%>">

@@ -1,0 +1,3 @@
+page.insert_html :bottom, "SubProjectList_#{@sub_project.project.id}",
+  :partial => 'sub_project'
+page.visual_effect :highlight, "SubProject_#{@sub_project.id}"

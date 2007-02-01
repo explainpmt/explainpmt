@@ -1,0 +1,1 @@
+page.remove "SubProject_#{@sub_project.id}"
