@@ -13,7 +13,6 @@
     </mx:Metadata>
     <mx:Script>
         <![CDATA[
-            import com.explainpmt.model.User;
             import com.explainpmt.events.LoginEvent;
             import mx.rpc.events.ResultEvent;
            import mx.controls.Alert;
@@ -32,7 +31,7 @@
                    usernameTI.text = "";
                } else {
                    currentState = "";
-                   dispatchEvent(new LoginEvent(new User(result)));
+                   dispatchEvent(new LoginEvent(result));
                }
                usernameTI.setFocus();
                passwordTI.text = "";

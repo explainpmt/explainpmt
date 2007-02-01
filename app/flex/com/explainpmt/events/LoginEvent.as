@@ -1,15 +1,14 @@
 package com.explainpmt.events
 {
     import flash.events.Event;
-    import com.explainpmt.model.User;
 
     public class LoginEvent extends Event
     {
         public const LOGIN:String = "login";
         
-        public var user:User;
+        public var user:XML;
         
-        public function LoginEvent(user:User):void {
+        public function LoginEvent(user:XML):void {
             super(LOGIN);
             this.user = user;
         }
