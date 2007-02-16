@@ -1,3 +1,32 @@
+*1.13.2* (February 5th, 2007)
+
+* Add much-needed html-scanner tests.  Fixed CDATA parsing bug. [Rick]
+
+* improve error message for Routing for named routes. [Rob Sanheim]
+
+* Added enhanced docs to routing assertions. [Rob Sanheim]
+
+* fix form_for example in ActionController::Resources documentation. [gnarg]
+
+* Add singleton resources from trunk [Rick Olson]
+
+* TestSession supports indifferent access so session['foo'] == session[:foo] in your tests.  #7372 [julik, jean.helou]
+
+* select :multiple => true suffixes the attribute name with [] unless already suffixed.  #6977 [nik.kakelin, ben, julik]
+
+* Improve routes documentation.  #7095 [zackchandler]
+
+* Resource member routes require :id, eliminating the ambiguous overlap with collection routes.  #7229 [dkubb]
+
+* Fixed NumberHelper#number_with_delimiter to use "." always for splitting the original number, not the delimiter parameter #7389 [ceefour]
+
+* Autolinking recognizes trailing and embedded . , : ;  #7354 [Jarkko Laine]
+
+* Make TextHelper::auto_link recognize URLs with colons in path correctly, fixes #7268.  [imajes]
+
+* Improved auto_link to match more valid urls correctly [Tobias Luetke]
+
+
 *1.13.1* (January 18th, 2007)
 
 * Fixed content-type bug in Prototype [sam]

@@ -26,7 +26,7 @@ class AcceptancetestsController < ApplicationController
   def export
     headers['Content-Type'] = "application/vnd.ms-excel" 
     @list = @project.acceptancetests
-    render_without_layout
+    render :layout => false
   end
   
   def new_acceptance_for_story

@@ -126,7 +126,8 @@ module ActionController
   # == Named routes
   #
   # Routes can be named with the syntax <tt>map.name_of_route options</tt>,
-  # allowing for easy reference within your source as +name_of_route_url+.
+  # allowing for easy reference within your source as +name_of_route_url+
+  # for the full URL and +name_of_route_path+ for the URI path.
   #
   # Example:
   #   # In routes.rb
@@ -137,29 +138,39 @@ module ActionController
   #
   # Arguments can be passed as well.
   #
-  #   redirect_to show_item_url(:id => 25)
+  #   redirect_to show_item_path(:id => 25)
   #
-  # When using +with_options+, the name goes after the item passed to the block.
+  # Use <tt>map.root</tt> as a shorthand to name a route for the root path ""
   #
-  #  ActionController::Routing::Routes.draw do |map| 
-  #    map.with_options :controller => 'blog' do |blog|
-  #      blog.show    '',            :action  => 'list'
-  #      blog.delete  'delete/:id',  :action  => 'delete',
-  #      blog.edit    'edit/:id',    :action  => 'edit'
-  #    end
-  #    map.connect ':controller/:action/:view 
-  #  end
+  #   # In routes.rb
+  #   map.root :controller => 'blogs'
   #
-  # You would then use the named routes in your views:
+  #   # would recognize http://www.example.com/ as
+  #   params = { :controller => 'blogs', :action => 'index' }
   #
-  #   link_to @article.title, show_url(:id => @article.id) 
+  #   # and provide these named routes
+  #   root_url   # => 'http://www.example.com/'
+  #   root_path  # => ''
   #
-  # == Pretty URL's
+  # Note: when using +with_options+, the route is simply named after the
+  # method you call on the block parameter rather than map.
+  #
+  #   # In routes.rb
+  #   map.with_options :controller => 'blog' do |blog|
+  #     blog.show    '',            :action  => 'list'
+  #     blog.delete  'delete/:id',  :action  => 'delete',
+  #     blog.edit    'edit/:id',    :action  => 'edit'
+  #   end
+  #
+  #   # provides named routes for show, delete, and edit
+  #   link_to @article.title, show_path(:id => @article.id) 
+  #
+  # == Pretty URLs
   #
   # Routes can generate pretty URLs. For example:
   #
   #  map.connect 'articles/:year/:month/:day',
-  #   	         :controller => 'articles', 
+  #              :controller => 'articles', 
   #              :action     => 'find_by_date',
   #              :year       => /\d{4}/,
   #              :month => /\d{1,2}/, 
@@ -1230,8 +1241,11 @@ module ActionController
     
         if named_route
           path = named_route.generate(options, merged, expire_on)
-          raise RoutingError, "#{named_route_name}_url failed to generate from #{options.inspect}, expected: #{named_route.requirements.inspect}, diff: #{named_route.requirements.diff(options).inspect}" if path.nil?
-          return path
+          if path.nil? 
+            raise_named_route_error(options, named_route, named_route_name)
+          else
+            return path
+          end
         else
           merged[:action] ||= 'index'
           options[:action] ||= 'index'
@@ -1250,6 +1264,18 @@ module ActionController
         end
     
         raise RoutingError, "No route matches #{options.inspect}"
+      end
+      
+      # try to give a helpful error message when named route generation fails
+      def raise_named_route_error(options, named_route, named_route_name)
+        diff = named_route.requirements.diff(options)
+        unless diff.empty?
+          raise RoutingError, "#{named_route_name}_url failed to generate from #{options.inspect}, expected: #{named_route.requirements.inspect}, diff: #{named_route.requirements.diff(options).inspect}"
+        else
+          required_segments = named_route.segments.select {|seg| (!seg.optional?) && (!seg.is_a?(DividerSegment)) }
+          required_keys_or_values = required_segments.map { |seg| seg.key rescue seg.value } # we want either the key or the value from the segment
+          raise RoutingError, "#{named_route_name}_url failed to generate from #{options.inspect} - you may have ambiguous routes, or you may need to supply additional parameters for this route.  content_url has the following required parameters: #{required_keys_or_values.inspect} - are they all satisifed?"
+        end
       end
   
       def recognize(request)

@@ -1,3 +1,23 @@
+*1.15.2* (February 5th, 2007)
+
+* Pass a range in :conditions to use the SQL BETWEEN operator.  #6974 [dcmanges]
+    Student.find(:all, :conditions => { :grade => 9..12 })
+
+* Don't create instance writer methods for class attributes. [Rick]
+
+* When dealing with SQLite3, use the table_info pragma helper, so that the bindings can do some translation for when sqlite3 breaks incompatibly between point releases. [Jamis Buck]
+
+* SQLServer: don't choke on strings containing 'null'.  #7083 [Jakob S]
+
+* Consistently use LOWER() for uniqueness validations (rather than mixing with UPPER()) so the database can always use a functional index on the lowercased column.  #6495 [Si]
+
+* MySQL: SET SQL_AUTO_IS_NULL=0 so 'where id is null' doesn't select the last inserted id.  #6778 [Jonathan Viney, timc]
+
+* Fixtures use the table name and connection from set_fixture_class.  #7330 [Anthony Eden]
+
+* SQLServer: quote table name in indexes query.  #2928 [keithm@infused.org]
+
+
 *1.15.1* (January 17th, 2007)
 
 * Fix nodoc breaking of adapters

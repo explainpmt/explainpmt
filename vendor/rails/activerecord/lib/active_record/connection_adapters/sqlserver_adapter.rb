@@ -73,7 +73,7 @@ module ActiveRecord
       end
 
       def type_cast(value)
-        return nil if value.nil? || value =~ /^\s*null\s*$/i
+        return nil if value.nil?
         case type
         when :datetime  then cast_to_datetime(value)
         when :timestamp then cast_to_time(value)
@@ -425,7 +425,7 @@ module ActiveRecord
       def indexes(table_name, name = nil)
         ActiveRecord::Base.connection.instance_variable_get("@connection")["AutoCommit"] = false
         indexes = []        
-        execute("EXEC sp_helpindex #{table_name}", name) do |sth|
+        execute("EXEC sp_helpindex '#{table_name}'", name) do |sth|
           sth.each do |index| 
             unique = index[1] =~ /unique/
             primary = index[1] =~ /primary key/
