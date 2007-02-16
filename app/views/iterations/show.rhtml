@@ -147,14 +147,15 @@
 <select name="move_to">
 <option vlaue="0">Backlog</option>
 <%
-iteration_options = @project.iterations.future
+iteration_options = @project.iterations
 if @project.iterations.current
   iteration_options.unshift(@project.iterations.current)
+  iteration_options.delete_at(0)
 end
-iteration_options.each do |i|
+iteration_options.reverse_each do |i|
   unless i == @iteration
 %>
-<option value="<%= i.id %>"><%= numeric_date(i.start_date) %></option>
+<option value="<%= i.id %>"><%= i.name %></option>
 <%
   end
 end
