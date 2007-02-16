@@ -77,8 +77,8 @@
 )
 </div>
 
-<h2><%= numeric_date(@iteration.start_date) %> -
-<%= numeric_date(@iteration.stop_date) %></h2>
+<h2><%= @iteration.name %>&nbsp;(<%= numeric_date(@iteration.start_date) %> -
+<%= numeric_date(@iteration.stop_date) %>)</h2>
 
 <div id="IterationSummary">
 <h3>Summary</h3>

@@ -94,6 +94,11 @@ module ApplicationHelper
                                 :project_id => @project.id)
         end
         xml.li do
+          xml << main_menu_link('Acceptance Tests', :controller => 'acceptancetests',
+                                :action => 'index',
+                                :project_id => @project.id)
+        end
+        xml.li do
           xml << main_menu_link('Milestones', :controller => 'milestones',
                                 :action => 'index',
                                 :project_id => @project.id)

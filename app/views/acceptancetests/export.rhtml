@@ -1,0 +1,56 @@
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+  <thead>
+    <tr>
+  		<td><big><b>Project: <%= @project.name %></b></big></td>
+    </tr>
+    <td><b>Test Name</b></td>
+    <td><b>Story</b></td>
+    <td><b>Description</b></td>
+    <td><b>Pre-Condition</b></td>
+    <td><b>Post-Condition</b></td>
+    <td><b>Expected Result</b></td>
+    <td><b>Iteration</b></td>
+    <td><b>Automated</b></td>
+    <td><b>Pass</b></td>
+  </thead>
+  <tbody>
+  <% @list.each do |m| %>
+    <tr>
+   	  <td><%= m.name %></td>
+      		<% if m.story_id? %>
+         		<td><%= m.story.scid %>(<%= m.story.title[0,50] %>...)</td>
+       	    <% else %>
+       	    <td> Not Assigned</td>
+       	    <% end %>
+      		<% if m.description? %>
+         		<td><%= m.description%></td>
+       	    <% else %>
+       	    <td> N/A</td>
+       	    <% end %>
+      		<% if m.pre_condition? %>
+         		<td><%= m.pre_condition%></td>
+       	    <% else %>
+       	    <td> N/A</td>
+       	    <% end %>
+       	    <% if m.post_condition? %>
+         		<td><%= m.post_condition%></td>
+       	    <% else %>
+       	    <td> N/A</td>
+       	    <% end %>
+      		<% if m.expected_result? %>
+         		<td><%= m.expected_result%></td>
+       	    <% else %>
+       	    <td> N/A</td>
+       	    <% end %>
+       	    <% if m.story_id? && m.story.iteration_id? %>
+         		<td><%= m.story.iteration.name %>
+                </td>
+       	    <% else %>
+     		  <td>Not Assigned</td>
+      	    <% end %>
+       <td><% if m.automated == 1 %>Yes<% else %>No<% end %></td>
+       <td><% if m.pass == 1 %>Yes<% else %>No<% end %></td>
+     </tr>
+  <% end %>
+  </tbody>
+</table>

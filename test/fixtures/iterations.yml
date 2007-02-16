@@ -4,51 +4,60 @@ first:
   length: 14
   project_id: 1
   budget: 17
+  name: One
 second:
   id: 2
   start_date: <%= Date.today + 14 %>
   length: 14
   project_id: 1
   budget: 11
+  name: Two
 third:
   id: 3
   start_date: <%= Date.today %>
   length: 14
   project_id: 2
   budget: 11
+  name: Three
 fourth:
   id: 4
   start_date: <%= Date.today - 14 %>
   length: 14
   project_id: 1
   budget: 11
+  name: Fourth
 fifth:
   id: 5
   start_date: <%= Date.today + 28 %>
   length: 14
   project_id: 1
   budget: 11
+  name: Fifth
 sixth:
   id: 6
   start_date: <%= Date.today - 28 %>
   length: 14
   project_id: 1
   budget: 11
+  name: Sixth
 past:
   id: 7
   start_date: <%= Date.today - 30 %>
   length: 14
   project_id: 3
   budget: 11
+  name: Past
 current:
   id: 8
   start_date: <%= Date.today - 3 %>
   length: 14
   project_id: 3
   budget: 11
+  name: Current
 future:
   id: 9
   start_date: <%= Date.today + 30 %>
   length: 14
   project_id: 3
   budget: 11
+  name: Future

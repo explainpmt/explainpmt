@@ -1,0 +1,48 @@
+<h3>Acceptance Tests</h3>
+  <% unless @story.acceptancetests.empty? %>
+  <table class="sort-table" id="t16" cellspacing="0" cellpadding="0" border="0" width="100%">
+  <thead>
+    <td>Test Name</td>
+    <td>Automated</td>
+    <td>Passing</td>
+    <td>&nbsp;</td>
+  </thead>
+  <tbody>
+  <%@story.acceptancetests.each_with_index do |m,i| row_class = (i%2 == 0) ? 'odd_row' : 'even_row' %>
+     <tr class="<%= row_class %>">
+    <td>
+    <%= popup_link(m.name, "acceptancetest_#{m.id}",
+                          'width=500,height=550,resizable,scrollbars',
+                          :controller => 'acceptancetests',
+                          :action => 'show', :id => m.id,
+                          :project_id => @project.id) %></td> 
+       <td><% if m.automated == true %>Yes<% else %>No<% end %></td>
+       <td><% if m.pass == true %>Yes<% else %>No<% end %></td>
+       <td>              
+       <%= popup_link('Edit', "acceptancetest_#{m.id}",
+                          'width=500,height=550,resizable,scrollbars',
+                          :controller => 'acceptancetests',
+                          :action => 'edit', :id => m.id,
+                          :project_id => @project.id) %>
+       <%=  popup_link('Clone', "acceptancetest_#{m.id}",
+               'width=500,height=550,scrollbars,resizable',         
+               :controller => 'acceptancetests',
+               :action => 'clone_acceptancetest',
+               :id => m.id,
+               :story_id => @story.id,
+               :project_id => @project.id)%>
+       </td>
+     </tr>  
+  <% end %>
+  </tbody>
+</table>
+
+  <script type="text/javascript">
+var st = new SortableTable(document.getElementById("t16"),
+	["CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString"]);
+MaintainSort(st);
+</script>
+  <% else %>
+  No Acceptance Tests have been defined for this story.
+  <% end %>
+  

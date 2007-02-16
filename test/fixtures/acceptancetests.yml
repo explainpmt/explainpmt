@@ -1,0 +1,34 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  name: 'test one'
+  automated: false
+  pass: false
+  project_id: 1
+  story_id: 1
+  description: 'desc'
+  pre_condition: 'pre'
+  post_condition: 'post'
+  expected_result: 'whatever'
+  
+two:
+  id: 2
+  name: 'test two'
+  automated: false
+  pass: false
+  project_id: 1
+  description: 'desc'
+  pre_condition: 'pre'
+  post_condition: 'post'
+  expected_result: 'whatever'
+  
+three:
+  id: 3
+  name: 'test three'
+  automated: false
+  pass: false
+  project_id: 2
+  description: 'desc'
+  pre_condition: 'pre'
+  post_condition: 'post'
+  expected_result: 'whatever'

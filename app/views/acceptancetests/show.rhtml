@@ -1,0 +1,36 @@
+<p>
+  (<%= link_to('Edit', :controller => 'acceptancetests', :action => 'edit',
+               :id => @object.id, :project_id => @project.id) %>)
+  &nbsp;&nbsp;&nbsp;
+  (<a href="javascript:window.close();">Close Window</a>)
+</p>
+<table cellspacing="0" cellpadding="3" border="0"> 
+  <tr>
+      <th>Name:</th>
+      <td><%= @object.name %></td>
+    </tr>
+  <tr>
+      <th>Description:</th>
+      <td><%= @object.description %></td>
+  </tr>
+  <tr>
+      <th>Pre Condition:</th>
+      <td><%= @object.pre_condition %></td>
+  </tr>
+  <tr>
+      <th>Post Condition:</th>
+      <td><%= @object.post_condition %></td>
+  </tr> 
+  <tr>
+      <th>Expected Result:</th>
+      <td><%= @object.expected_result %></td>
+  </tr>
+  <tr>
+      <th>Automated:</th>
+      <td><% if @object.automated == true %>Yes<% else %>No<% end %></td>
+  </tr>
+  <tr>
+      <th>Pass:</th>
+      <td><% if @object.pass == true %>Yes<% else %>No<% end %></td>
+  </tr>
+</table>

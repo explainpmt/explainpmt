@@ -1,0 +1,54 @@
+<fieldset>
+  <legend>Details</legend>
+  <%= error_messages_for('object') %>
+  <table class="form_layout">
+  <% if @story%>
+  <tr><td><%= hidden_field('object', 'story_id',"value" => "#{@story.id}") %></td></tr>
+  <% end %>
+  <tr>
+      <th><label for="edit_name">Name:</label></th>
+      <td><%= text_area('object', 'name',"cols" => 40, "rows" => 2) %></td>
+  </tr>
+  <tr>
+      <th><label for="edit_description">Description:</label></th>
+      <td><%= text_area('object', 'description',"cols" => 40, "rows" => 3) %></td>
+    </tr>
+   <tr>
+      <th><label for="edit_pre_condition">Pre Condition:</label></th>
+      <td><%= text_area('object', 'pre_condition',"cols" => 40, "rows" => 3) %></td>
+    </tr>
+     <tr>
+      <th><label for="edit_post_condition">Post Condition:</label></th>
+      <td><%= text_area('object', 'post_condition',"cols" => 40, "rows" => 3) %></td>
+    </tr>
+    <tr>
+      <th><label for="edit_expected_result">Expected Result:</label></th>
+      <td><%= text_area('object', 'expected_result',"cols" => 40, "rows" => 3) %></td>
+    </tr>
+    <tr>
+  <tr>
+    <th><label for="edit_autmated">Automated:</label></th>
+    <td><%= radio_button('object', 'automated', true) %></td>
+  </tr>
+  <tr>
+    <th><label for="edit_manual">Manual:</label></th>
+    <td><%= radio_button('object', 'automated', false) %></td>
+  </tr>
+  <tr>
+    <th><label for="edit_pass">Pass:</label></th>
+    <td><%= radio_button('object', 'pass', true) %></td>
+  </tr>
+  <tr>
+    <th><label for="edit_fail">Fail:</label></th>
+    <td><%= radio_button('object', 'pass', false) %></td>
+  </tr>
+    <tr>
+      <td colspan="2" class="form_actions">
+        <input type="submit" name="submit"
+  value="<%= @object.new_record? ? 'Create' : 'Update' %> Acceptance Test" />
+        &nbsp;&nbsp;
+        <a href="javascript:window.close();">Cancel</a>
+      </td>
+    </tr>
+  </table>
+</fieldset>

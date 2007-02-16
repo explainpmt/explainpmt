@@ -3,7 +3,10 @@
 <legend>Iteration Details</legend>
 <%= error_messages_for('iteration') %>
 <table class="form_layout">
-
+<tr>
+<th><label for="iteration_name">Name:</label></th>
+<td><%= input('iteration', 'name') %></td>
+</tr>
 <tr>
 <th><label for="iteration_start_date">Start Date:</label></th>
 <td><%= input('iteration', 'start_date') %></td>

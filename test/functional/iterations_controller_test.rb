@@ -101,7 +101,8 @@ class IterationsControllerTest < Test::Unit::TestCase
         'start_date(2i)' => Date.today.mon.to_s,
         'start_date(3i)' => Date.today.day.to_s,
         'length' => '14',
-        'budget' => '120'
+        'budget' => '120',
+        'name' => 'test'
       }
     assert_response :redirect
     assert_equal "A new, 14-day iteration starting on " +

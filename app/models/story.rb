@@ -44,6 +44,7 @@ class Story < ActiveRecord::Base
   belongs_to :iteration
   belongs_to :owner, :class_name => 'User', :foreign_key => 'user_id'
   has_many :tasks, :dependent => :destroy
+  has_many :acceptancetests, :dependent => :destroy
 
   # The collection of defined Status objects
   Statuses = []

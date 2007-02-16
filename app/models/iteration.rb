@@ -63,6 +63,9 @@ class Iteration < ActiveRecord::Base
                          :message => 'must be a number between 1 and 999 ' +
                                      '(or blank)'
   validates_presence_of :start_date
+  
+  validates_presence_of :name
+  validates_uniqueness_of :name, :scope => "project_id"
 
   # The last date of the iteration
   def stop_date

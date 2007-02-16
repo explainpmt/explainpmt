@@ -1,0 +1,30 @@
+<% unless @project.acceptancetests.empty? %> 
+<h3>All Acceptance Tests For Project <%= @project.name %></h3>
+  <%= popup_link('New Acceptance Test', 'new_acceptancetest',
+                 'width=500,height=550,resizable,scrollbars',
+                 :controller => 'acceptancetests', :action => 'new',
+                 :project_id => @project.id) %>
+&nbsp;&nbsp;&nbsp;
+<%= link_to('Export Acceptance Tests', :controller => 'acceptancetests',
+              :action => 'export', :project_id => @project.id) %>   
+<%= form_tag(:controller => 'stories', :action => 'move_acceptancetests',
+                   :project_id => @project.id) %>
+  <div style="text-align: right;">
+    &nbsp;&nbsp;&nbsp;Move Selected Acceptance Tests to:
+    <select name="move_to">
+      <option vlaue="0">Not Assigned</option>
+      <% story_options = @stories 
+      story_options.each do |i| %>
+        <option value="<%= i.id %>">SC<%= i.scid %>  (<%= i.title[0,30] %>...)</option>
+      <% end %>
+    </select>
+    <input type="submit" name="submit" value="Go" /></br></br>
+  </div>
+<%= render :partial => 'acceptancetests_list' %>
+<% else %>
+    <p>This project does not have any Acceptance Tests yet.</p>
+    <p><%= popup_link('New Acceptance Test', 'new_acceptancetest',
+                     'width=500,height=600,resizable,scrollbars',
+                     :controller => 'acceptancetests', :action => 'new',
+                     :project_id => @project.id) %></p>                  
+<% end %>

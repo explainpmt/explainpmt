@@ -140,6 +140,35 @@ class StoriesController < ApplicationController
     redirect_to :controller => 'iterations', :action => 'show',
                 :id => story.iteration.id.to_s, :project_id => @project.id.to_s
   end
+  
+    
+  def move_acceptancetests
+    change_acceptancetest_assignment
+    redirect_to :controller => 'acceptancetests', :action => 'index',
+                  :id => @params['id'], :project_id => @project.id 
+  end
+  
+  def change_acceptancetest_assignment
+    acceptancetests = @params['selected_acceptancetests'].map do |sid|
+      Acceptancetest.find(sid)
+    end
+    successes = []
+    failures = []
+    acceptancetests.each do |s|
+      if @params['move_to'].to_i == 0
+        s.story = nil
+      else
+        s.story = Story.find(@params['move_to'].to_i)
+      end
+      if s.save
+        successes << "Acceptance Tests has been moved."
+      else
+        failures << "Acceptance Tests could not be moved."
+      end
+    end
+    flash[:status] = successes.join("\n\n") unless successes.empty?
+    flash[:error] = failures.join("\n\n") unless failures.empty?
+  end
 
   protected
 
@@ -162,4 +191,5 @@ class StoriesController < ApplicationController
       end
     end
   end
+ 
 end

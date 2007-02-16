@@ -83,6 +83,7 @@ class Project < ActiveRecord::Base
   end
   
   has_and_belongs_to_many :users, :order => 'last_name ASC, first_name ASC'
+  has_many :acceptancetests, :dependent => :destroy
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 100
