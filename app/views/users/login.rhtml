@@ -28,7 +28,7 @@
   </head>
   <body>
     <div id="Login" <%= 'class="login_error"' if flash['error'] %>>
-      <h1>eXPlain Project Management Tool</h1>
+      <h1>eXPlain Project Management Tool</h1><br>
       <% if flash[:error] %>
       <div id="SystemError"><%= textilize_without_paragraph(flash[:error])
         %></div>
@@ -40,11 +40,11 @@
                   <table class="form_layout">
                         <tr>
                                 <th><label for="Username">Username:</label></th>
-                                <td><input type="text" name="username" id="Username" /></td>
+                                <td><input size= "20" type="text" name="username" id="Username" /></td>
                         </tr>
                         <tr>
                                 <th><label for="Password">Password:</label></th>
-                                <td><input type="password" name="password" id="Password" /></td>
+                                <td><input size= "22" type="password" name="password" id="Password" /></td>
                         </tr>
                         <tr>
                                 <td colspan="2" class="form_actions">
