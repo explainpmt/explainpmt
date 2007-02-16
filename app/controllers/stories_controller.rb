@@ -90,10 +90,7 @@ class StoriesController < ApplicationController
     if story.valid?
       story.save
       flash[:status] = 'The changes to the story card have been saved.'
-      unless redirect_to_referer
-        redirect_to :controller => 'stories', :action => 'index',
-                    :project_id => @project.id.to_s
-      end
+      render :template => 'layouts/refresh_parent_close_popup'
     else
       session[:edit_story] = story
       redirect_to :controller => 'stories', :action => 'edit',
