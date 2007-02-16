@@ -134,7 +134,11 @@
                :controller => 'iterations',
                :action => 'select_stories', :id => @iteration.id,
                :project_id => @project.id) %>
-<% end %>
+<% end %>&nbsp;
+<%= link_to('Export Stories', :controller => 'iterations',
+              :action => 'export', :project_id => @project.id, :id => @iteration.id) %>&nbsp;&nbsp;
+<%= link_to('Export Tasks', :controller => 'iterations',
+              :action => 'export_tasks', :project_id => @project.id, :id => @iteration.id) %> 
 <% if @stories.size > 0 %>
 <%= form_tag(:controller => 'iterations', :action => 'move_stories',
                    :id => @iteration.id, :project_id => @project.id) %>

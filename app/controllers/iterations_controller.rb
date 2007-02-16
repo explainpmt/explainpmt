@@ -163,6 +163,22 @@ class IterationsController < ApplicationController
     change_story_assignment
     render :template => 'layouts/refresh_parent_close_popup'
   end
+  
+  # Exports stories for given iteration to Microsoft Excel
+  def export
+    headers['Content-Type'] = "application/vnd.ms-excel" 
+    @iteration = Iteration.find(params[:id])
+    @stories = Iteration.find_stories(params[:id])
+    render_without_layout
+  end
+  
+  #Exports tasks for given iteration to Microsoft Excel
+  def export_tasks
+    headers['Content-Type'] = "application/vnd.ms-excel" 
+    @iteration = Iteration.find(params[:id])
+    @stories = Iteration.find_stories(params[:id])
+    render_without_layout
+  end
 
   private
 

@@ -92,6 +92,11 @@ class Iteration < ActiveRecord::Base
     stop_date.to_time < today
   end
 
+  #custom finder for stories in an iteration. Prevents active record from performing multiple queries per result.
+  def self.find_stories(iteration_id)
+  	Story.find(:all, :include => [:project, :owner], :conditions => "stories.iteration_id = #{iteration_id}")
+  end
+  
   protected
 
   # Ensures that all associated Story objects are placed back in the project
