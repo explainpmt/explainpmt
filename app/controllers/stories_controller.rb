@@ -49,8 +49,8 @@ class StoriesController < ApplicationController
   
   # Common logic used for new and new for iteration
   def newcommon
-  	@story = @session[:new_story] || Story.new
-    @session[:new_story] = nil
+  	@story = session[:new_story] || Story.new
+    session[:new_story] = nil
     @story.return_ids_for_aggregations
   end
 

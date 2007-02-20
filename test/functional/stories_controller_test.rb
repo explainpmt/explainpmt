@@ -91,7 +91,6 @@ class StoriesControllerTest < Test::Unit::TestCase
     get :new, :project_id => @project_one.id
     assert_response :success
     assert_template 'new'
-    assert_equal 'Create new story cards', assigns(:page_title)
   end
 
   def test_create_with_sub_project
