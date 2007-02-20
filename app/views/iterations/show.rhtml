@@ -4,8 +4,10 @@
 <tr>
 <td id="SmallLeftColumn">
 <div id="IterationsMenu">
-	<h3><%= link_to 'Create New Iteration', :controller => 'iterations',
-    :action => 'new', :project_id => @project.id %></h3>
+	<h3><%= popup_link('New Iteration', 'new_iteration',
+               'width=400,height=225,scrollbars,resizable',
+               :controller => 'iterations',
+               :action => 'new', :project_id => @project.id) %></h3>
 
 <ul>
 <% if @project.iterations.current %>
@@ -64,8 +66,11 @@
 <td id="RightColumn">
 <div style="float: right;">
 (
-<%= link_to 'Edit', :controller => 'iterations', :action => 'edit',
-  :id => @iteration, :project_id => @project %>
+<%= popup_link('Edit', 'edit_iteration',
+               'width=400,height=225,scrollbars,resizable',
+               :controller => 'iterations',
+               :action => 'edit', :id => @iteration.id,
+               :project_id => @project.id) %>
 )
 (
 <%= link_to('Delete',

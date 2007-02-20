@@ -20,7 +20,7 @@
 
 class IterationsController < ApplicationController
   before_filter :require_current_project
-  popups :select_stories, :assign_stories
+  popups :select_stories, :assign_stories, :edit, :new
 
   # If the project has no iterations, displays a page with a message to that
   # effect. Otherwise, tries to find either (in order of preference) a current
@@ -61,8 +61,7 @@ class IterationsController < ApplicationController
       flash[:status] = "A new, #{iteration.length}-day iteration starting " +
                        "on #{iteration.start_date.strftime('%m/%d/%Y')} has " +
                        "been created."
-      redirect_to :controller => 'iterations', :action => 'show',
-        :project_id => @project.id, :id => iteration.id
+     render :template => 'layouts/refresh_parent_close_popup'
     else
       session[:new_iteration] = iteration
       redirect_to :controller => 'iterations', :action => 'new',
@@ -87,8 +86,7 @@ class IterationsController < ApplicationController
     if iteration.valid?
       iteration.save
       flash[:status] = 'Changes to iteration have been saved.'
-      redirect_to :controller => 'iterations', :action => 'show',
-        :project_id => @project.id, :id => iteration.id
+      render :template => 'layouts/refresh_parent_close_popup'
     else
       session[:edit_iteration] = iteration
       redirect_to :controller => 'iterations', :action => 'edit',
