@@ -20,7 +20,7 @@
 
 class StoriesController < ApplicationController
   before_filter :require_current_project
-  popups :show, :edit, :new, :assign_owner
+  popups :show, :edit, :new, :assign_owner, :clone_story
 
   # Lists all of the stories in the project 'Backlog' (stories that have no
   # iteration). Stories with a "cancelled" status are hidden by default. They
