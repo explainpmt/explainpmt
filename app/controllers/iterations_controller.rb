@@ -19,8 +19,14 @@
 
 
 class IterationsController < ApplicationController
+  include CrudActions
+
   before_filter :require_current_project
   popups :select_stories, :assign_stories, :edit, :new
+
+  def mymodel
+    Iteration
+  end
 
   # If the project has no iterations, displays a page with a message to that
   # effect. Otherwise, tries to find either (in order of preference) a current
@@ -41,20 +47,10 @@ class IterationsController < ApplicationController
     end
   end
 
-  # Displays the form for adding a new iteration.
-  def new
-    @page_title = "New Iteration"
-    if @iteration = session[:new_iteration]
-      session[:new_iteration] = nil
-    else
-      @iteration = Iteration.new
-    end
-  end
-
   # Inserts a new iteration in the database based on information posted from
   # #new.
   def create
-    iteration = Iteration.new(params[:iteration])
+    iteration = Iteration.new(params[:object])
     iteration.project = @project
     if iteration.valid?
       iteration.save
@@ -63,32 +59,22 @@ class IterationsController < ApplicationController
                        "been created."
      render :template => 'layouts/refresh_parent_close_popup'
     else
-      session[:new_iteration] = iteration
+      session[:new_object] = iteration
       redirect_to :controller => 'iterations', :action => 'new',
                   :project_id => @project.id.to_s
-    end
-  end
-
-  # Displays a form used for editing an existing iteration.
-  def edit
-    @page_title = "Edit Iteration"
-    if @iteration = session[:edit_iteration]
-      session[:edit_iteration] = nil
-    else
-      @iteration = Iteration.find(params[:id])
     end
   end
 
   # Updates an iteration in the database based on data posted from #edit.
   def update
     iteration = Iteration.find(params[:id])
-    iteration.attributes = params[:iteration]
+    iteration.attributes = params[:object]
     if iteration.valid?
       iteration.save
       flash[:status] = 'Changes to iteration have been saved.'
       render :template => 'layouts/refresh_parent_close_popup'
     else
-      session[:edit_iteration] = iteration
+      session[:edit_object] = iteration
       redirect_to :controller => 'iterations', :action => 'edit',
                   :id => iteration.id.to_s, :project_id => @project.id.to_s
     end

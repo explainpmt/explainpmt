@@ -1,7 +1,5 @@
-<!-- BEGIN iterations/edit.rhtml -->
 <%= form_tag(:controller => 'iterations', :action => 'update',
-             :project_id => @project.id, :id => @iteration.id) %>
-<%= render_partial('iteration_form', :iteration => @iteration) %>
+             :project_id => @project.id, :id => @object.id) %>
+<%= render :partial => 'iteration_form' %>
 </form>
-<!-- END iterations/edit.rhtml -->
 

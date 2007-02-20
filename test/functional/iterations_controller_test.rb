@@ -83,20 +83,20 @@ class IterationsControllerTest < Test::Unit::TestCase
     get :new, 'project_id' => 1
     assert_response :success
     assert_template 'new'
-    assert assigns( :iteration ).class == Iteration
-    assert assigns( :iteration ).new_record?
+    assert assigns( :object ).class == Iteration
+    assert assigns( :object ).new_record?
   end
 
   def test_new_from_invalid
-    @request.session[ :new_iteration ] = Iteration.new
+    @request.session[ :new_object ] = Iteration.new
     test_new
-    assert_nil session[ :new_iteration ]
+    assert_nil session[ :new_object ]
   end
 
   def test_create
     Iteration.destroy_all
     post :create, 'project_id' => @project_one.id,
-      'iteration' => {
+      'object' => {
         'start_date(1i)' => Date.today.year.to_s,
         'start_date(2i)' => Date.today.mon.to_s,
         'start_date(3i)' => Date.today.day.to_s,
@@ -104,9 +104,6 @@ class IterationsControllerTest < Test::Unit::TestCase
         'budget' => '120',
         'name' => 'test'
       }
-    assert_equal "A new, 14-day iteration starting on " +
-      "#{Date.today.strftime('%m/%d/%Y')} has been created.",
-      flash[ :status ]
     assert_equal 1, Iteration.count
     assert_response :success
     assert_template 'layouts/refresh_parent_close_popup'
@@ -115,7 +112,7 @@ class IterationsControllerTest < Test::Unit::TestCase
   def test_create_invalid
     it_count = Iteration.count
     post :create, 'project_id' => @project_one.id,
-      'iteration' => {
+      'object' => {
         'start_date(1i)' => Date.today.year.to_s,
         'start_date(2i)' => Date.today.mon.to_s,
         'start_date(3i)' => Date.today.day.to_s,
@@ -124,7 +121,7 @@ class IterationsControllerTest < Test::Unit::TestCase
       }
     assert_redirected_to :controller => 'iterations', :action => 'new',
       :project_id => @project_one.id.to_s
-    assert session[ :new_iteration ]
+    assert session[ :new_object ]
     assert_equal it_count, Iteration.count
   end
 
@@ -148,13 +145,13 @@ class IterationsControllerTest < Test::Unit::TestCase
     get :edit, 'id' => 1, 'project_id' => 1
     assert_response :success
     assert_template 'edit'
-    assert_equal @iteration_one, assigns( :iteration )
+    assert_equal @iteration_one, assigns( :object )
   end
 
   def test_edit_invalid
-    @request.session[ :edit_iteration ] = @iteration_one
+    @request.session[ :edit_object ] = @iteration_one
     test_edit
-    assert_nil session[ :edit_iteration ]
+    assert_nil session[ :edit_object ]
   end
 
   def test_update
@@ -167,10 +164,8 @@ class IterationsControllerTest < Test::Unit::TestCase
 
   def test_update_invalid
     post :update, 'id' => 1, 'project_id' => 1,
-      'iteration' => { 'length' => 'foo' }
-    assert_redirected_to :controller => 'iterations', :action => 'edit',
-      :id => '1', :project_id => '1'
-    assert session[ :edit_iteration ]
+      'object' => { 'length' => 'foo' }
+    assert_not_nil session[ :edit_object ]
   end
 
   def test_move_stories_to_backlog
