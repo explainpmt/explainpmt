@@ -20,7 +20,7 @@
 
 class StoriesController < ApplicationController
   before_filter :require_current_project
-  popups :show, :edit, :new
+  popups :show, :edit, :new, :assign_owner
 
   # Lists all of the stories in the project 'Backlog' (stories that have no
   # iteration). Stories with a "cancelled" status are hidden by default. They
@@ -28,18 +28,12 @@ class StoriesController < ApplicationController
   # non-blank value).
   def index
     @page_title = "Backlog"
-    SortHelper.columns = %w( scid sub_project.name title points value risk
-                             status )
-    SortHelper.default_order = %w( status value risk )
-    if params['show_cancelled']
+    if params[:show_cancelled]
       @stories = @project.stories.backlog
     else
       @stories = @project.stories.backlog.select { |s|
         s.status != Story::Status::Cancelled
       }
-    end
-    @stories.sort! do |a,b|
-      SortHelper.sort(a,b,params)
     end
   end
 
@@ -67,18 +61,25 @@ class StoriesController < ApplicationController
     end
   end
 
+ #Displays the form for cloning a story
+  def clone_story
+	editcommon
+	@story.title = "Clone Of: " + @story.title
+  end
+  
   # Displays the form for editing a story card's information.
   def edit
+	editcommon
     @page_title = "Edit story card"
-    register_referer
- 
-    if @story = session[:edit_story]
-      session[:edit_story] = nil
-    else
-      @story = Story.find(params['id'])
-    end
+  end
+  
+  # Common logic used for edit and cloning
+  def editcommon
+  	@story = session[:story] || Story.find(params[:id])
+    session[:story] = nil
     @story.return_ids_for_aggregations
   end
+
 
   # Updates a story card with the information posted from the #edit action.
   def update
@@ -138,24 +139,28 @@ class StoriesController < ApplicationController
                 :id => story.iteration.id.to_s, :project_id => @project.id.to_s
   end
   
+  def assign_owner
+    @story = Story.find(params[:id])
+    @users = @project.users
+  end
     
   def move_acceptancetests
     change_acceptancetest_assignment
     redirect_to :controller => 'acceptancetests', :action => 'index',
-                  :id => @params['id'], :project_id => @project.id 
+                  :id => params[:id], :project_id => @project.id 
   end
   
   def change_acceptancetest_assignment
-    acceptancetests = @params['selected_acceptancetests'].map do |sid|
+    acceptancetests = params[:selected_acceptancetests].map do |sid|
       Acceptancetest.find(sid)
     end
     successes = []
     failures = []
     acceptancetests.each do |s|
-      if @params['move_to'].to_i == 0
+      if params[:move_to].to_i == 0
         s.story = nil
       else
-        s.story = Story.find(@params['move_to'].to_i)
+        s.story = Story.find(params[:move_to].to_i)
       end
       if s.save
         successes << "Acceptance Tests has been moved."

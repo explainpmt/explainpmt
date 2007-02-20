@@ -51,10 +51,10 @@ class StoriesControllerTest < Test::Unit::TestCase
   end
 
   def test_backlog_show_cancelled
-    get :index, 'project_id' => @project_one.id, 'show_cancelled' => 1
+    get :index, 'project_id' => @project_one.id, :show_cancelled => 1
     assert_response :success
     assert_template 'index'
-    assert_equal [ @story_six, @story_three ], assigns( :stories )
+    assert_equal [  @story_three, @story_six, ], assigns( :stories )
   end
 
   def test_backlog_no_iterations
@@ -135,22 +135,15 @@ class StoriesControllerTest < Test::Unit::TestCase
 
   def test_edit_from_invalid
     @story_one.title = nil
-    @request.session[ :edit_story ] = @story_one
+    @request.session[ :story ] = @story_one
     test_edit
-    assert_nil session[ :edit_story ]
+    assert_nil session[ :story ]
   end
 
   def test_update
     post :update, 'project_id' => @project_one.id, 'id' => @story_one.id,
       'story' => { 'title' => 'Test Update', 'status' => 1 }
-    assert_redirected_to :controller => 'stories', :action => 'index'
-  end
-  
-  def test_update_return_to_referer
-    @request.session[:referer] = 'http://test.host/project/1/iterations/show/1'  
-    post :update, 'project_id' => @project_one.id, 'id' => @story_one.id,
-      'story' => { 'title' => 'Test Update' } 
-    assert_redirected_to 'http://test.host/project/1/iterations/show/1'
+    assert_template 'layouts/refresh_parent_close_popup'
   end
 
   def test_update_invalid

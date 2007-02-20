@@ -1,0 +1,22 @@
+<fieldset>
+  <legend>Story Card Owner</legend>
+  <%= error_messages_for('story') %>
+  <table class="form_layout">
+    <% @users.each do |m| %>
+     <tr>
+       <td> 	
+         <%= radio_button('story', 'user_id', m.id) %>
+   	     <label for="edit_owner"><%= m.first_name %>,<%= m.last_name %></label>	
+	   </td>
+     </tr> 
+  <% end %>
+    <tr>
+      <td colspan="2" class="form_actions">
+        <input type="submit" name="submit"
+         value="Assign Owner" />
+        &nbsp;&nbsp;
+        <a href="javascript:window.close();">Cancel</a>
+      </td>
+    </tr>
+  </table>
+</fieldset>

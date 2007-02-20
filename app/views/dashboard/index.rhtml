@@ -8,11 +8,9 @@
 
 <% unless @stories.empty? %>
   <h3>My Stories (all projects):</h3>
-  <% sort_header_params = { :controller => 'dashboard', :action => 'index' } %>
   <%= render( :partial => 'stories/story_list_table',
               :locals => { :stories => @stories,
-                           :sort_header_params => sort_header_params,
-                           :hide_cols => [ :owner, :delete ] } ) %>
+                           :hide_cols => [ :checkbox, :owner, :action] } ) %>
 <% end %>
 </td>
 </tr>

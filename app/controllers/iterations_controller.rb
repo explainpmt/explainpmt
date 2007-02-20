@@ -116,12 +116,7 @@ class IterationsController < ApplicationController
   def show
     @iteration = Iteration.find(params['id'])
     @page_title = "Iteration: #{@iteration.start_date} - #{@iteration.stop_date}"
-    SortHelper.columns = %w(scid sub_project.name title points value risk
-                            status)
-    SortHelper.default_order = %w(status value risk)
-    @stories = @iteration.stories.sort do |a,b|
-      SortHelper.sort(a,b,params)
-    end
+    @stories = @iteration.stories
   end
 
   # Used to move stories between iterations and the backlog. A list of id
@@ -145,15 +140,10 @@ class IterationsController < ApplicationController
   # the selected stories to the iteration being displayed.
   def select_stories
     @page_title = "Assign Story Cards"
-    SortHelper.columns = %w(scid title points value risk status)
-    SortHelper.default_order = %w(status value risk)
     @stories = @project.stories.backlog.select { |s|
       s.status != Story::Status::New and
       s.status != Story::Status::Cancelled
     }
-    @stories = @stories.sort do |a,b|
-      SortHelper.sort(a,b,params)
-    end
     @iteration = Iteration.find(params['id'])
   end
 

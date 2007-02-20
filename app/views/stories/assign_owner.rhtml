@@ -1,0 +1,4 @@
+<%= form_tag(:controller => 'stories', :action => 'update',
+                   :id => @story.id, :project_id => @project.id) %>
+<%= render :partial => 'assign_owner_form' %>
+</form>

@@ -1,31 +1,53 @@
 <% hide_cols ||= [] %>
-<table id="StoryListTable" class="collection_table">
+<table class="sort-table" id="t9" cellspacing="0" cellpadding="0" border="0" width="100%">
   <thead>
-    <tr>
-      <th><%= link_to_sort_by( 'ID', 'scid', sort_header_params ) -%></th>
-      <% unless hide_cols.include?( :project ) %>
-        <th><%= link_to_sort_by( 'Project', 'project.name', sort_header_params ) -%></th>
-      <% end %>
-      <th><%= link_to_sort_by( 'Sub-Project', 'sub_project.name',
-                               sort_header_params ) -%></th>
-      <th><%= link_to_sort_by( 'Title', 'title', sort_header_params ) -%></th>
-      <th><%= link_to_sort_by( 'Points', 'points', sort_header_params ) -%></th>
-      <th><%= link_to_sort_by( 'Value', 'value', sort_header_params ) -%></th>
-      <th><%= link_to_sort_by( 'Risk', 'risk', sort_header_params ) -%></th>
-      <th><%= link_to_sort_by( 'Status', 'status', sort_header_params ) -%></th>
-      <% unless hide_cols.include?( :owner ) %>
-        <th><%= link_to_sort_by( 'Owner', 'owner', sort_header_params ) -%></th>
-      <% end %>
-      <% unless hide_cols.include?( :edit ) %>
-        <th>&nbsp;</th>
-      <% end %>
-      <% unless hide_cols.include?( :delete ) %>
-        <th>&nbsp;</th>
-      <% end %>
-    </tr>
+    <td>SCID</td>
+    <% unless hide_cols.include?( :project ) %><td>Project</td><%end%>
+    <td nowrap>Sub-Project</td>
+    <td>Title</td>
+    <td>Points</td>
+    <td>Risk</td>
+    <td>Status</td>
+    <% unless hide_cols.include?( :owner ) %><td>Owner</td><%end%>
+    <% unless hide_cols.include?( :action ) %><td>Action</td><%end%>
   </thead>
-  <tbody id="StoryList">
+  <tbody>
     <%= render( :partial => 'stories/story_list_item', :collection => stories,
                 :locals => { :hide_cols => hide_cols } ) %>
   </tbody>
 </table>
+<script type="text/javascript">
+<% unless @stories.empty? %>
+var st = new SortableTable(document.getElementById("t9"),
+    ["SCID", "CaseInsensitiveString",
+    <% unless hide_cols.include?( :project ) %>"CaseInsensitiveString",<%end%>
+    "CaseInsensitiveString","Number","CaseInsensitiveString","CaseInsensitiveString",
+    <% unless hide_cols.include?( :owner ) %>"CaseInsensitiveString",<%end%>
+    <% unless hide_cols.include?( :action ) %> "None" <%end%>]);
+
+MaintainSort(st);
+<% end %>
+function OpenNew(selectValue, action, w, h){
+	window.open("<%=base_path%>stories/" + action + "/" + selectValue , action + "_story","width=" + w + ",height=" + h + ",scrollbars,resizable");
+}
+
+function handleSelect(select){
+	selectValue = select.value;
+	if (select.selectedIndex == 1){OpenNew(selectValue, "show", "600", "600");}
+	
+	else if (select.selectedIndex == 2){OpenNew(selectValue, "edit", "600", "600");}
+	
+	else if (select.selectedIndex == 3){OpenNew(selectValue, "clone_story", "600", "600");}
+	
+	else if (select.selectedIndex == 4){
+		var x = confirm("Are you sure you want to delete?");
+		if (x){
+			window.location.href = "stories/delete/" + select.value
+	    }
+	}
+	select.value = "";
+	return false;
+}
+
+</script>
+

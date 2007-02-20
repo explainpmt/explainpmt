@@ -130,7 +130,7 @@
 <h3>Story Cards</h3>
 <% if @project.stories.backlog.size > 0 and @iteration.stop_date + 1 > Date.today %>
 <%= popup_link('Assign Story Cards', 'assign_stories',
-               'width=600,height=500,scrollbars,resizable',
+               'width=650,height=500,scrollbars,resizable',
                :controller => 'iterations',
                :action => 'select_stories', :id => @iteration.id,
                :project_id => @project.id) %>
@@ -163,14 +163,10 @@ end
 </select>
 <input type="submit" name="submit" value="Go" />
 </div>
-<%
-sort_header_params = { :controller => 'iterations', :action => 'show',
-                       :id => @iteration.id, :project_id => @project.id }
-%>
 <%= render( :partial => 'stories/story_list_table',
             :locals => { :stories =>  @stories,
-                         :sort_header_params => sort_header_params,
-                         :hide_cols => [ :project ] } ) %>
+                         :hide_cols => [ :project ],
+                         :base_path => '../../'} ) %>
 </form>
 <% else %>
 <p>No stories have been assigned to this iteration.</p>

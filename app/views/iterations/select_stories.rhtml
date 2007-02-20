@@ -5,12 +5,7 @@
 <p><input type="submit" name="submit"
         value="Add Selected Stories to Iteration" /></p>
 <input type="hidden" name="move_to" value="<%= @iteration.id %>" />
-<% sort_header_params = { :controller => 'iterations',
-                          :action => 'select_stories',
-                          :id => @iteration.id, :project_id => @project.id } %>
 <%= render( :partial => 'stories/story_list_table',
             :locals => { :stories => @stories,
-                         :sort_header_params => sort_header_params,
-                         :hide_cols => [ :owner, :delete, :edit,
-                                         :project ] } ) %>
+                         :hide_cols => [ :owner, :action, :project ] } ) %>
 </form>
