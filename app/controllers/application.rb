@@ -35,8 +35,8 @@ class ApplicationController < ActionController::Base
   # available when performing actions that should occur within the context of a
   # single project.
   def set_selected_project
-    if params['project_id']
-      @project = Project.find(params['project_id'])
+    if params[:project_id]
+      @project = Project.find(params[:project_id])
     else
       @project = nil
     end
