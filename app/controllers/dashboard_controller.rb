@@ -25,22 +25,25 @@ class DashboardController < ApplicationController
   # a user is only on one project team, but no project id is passed, the user
   # will be redirected to the dashboard of the project to which they belong.
   def index
+    user = session[:current_user].id
     if @project
+      project = @project.id
       @page_title = "Dashboard"
-      @stories = session[:current_user].stories.
-        find( :all, :conditions => [ "project_id = ?", @project.id ])
+      @stories = Story.find_by_user_and_project(user, project)
       @stories = @stories.select { |s| !s.status.closed? }
+      @tasks = Task.find_by_user_and_project(user, project)
       render :action => 'project'
     else
       @page_title = 'Overview'
-      @projects = session[:current_user].projects
+      @tasks = Task.find_by_user(user)
+      @projects = user.projects
       if @projects.size == 1
         redirect_to :controller => 'dashboard', :action => 'index',
                     :project_id => @projects.first.id
       elsif @projects.empty?
         render :action => 'index_no_projects'
       else
-        @stories = session[:current_user].stories
+        @stories = user.stories
         @stories = @stories.select { |s| !s.status.closed? }
       end
     end
