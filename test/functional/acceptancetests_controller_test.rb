@@ -23,10 +23,10 @@ class AcceptancetestsControllerTest < Test::Unit::TestCase
     get :index, :project_id => @project_one.id
     assert_response :success
     assert_template 'index'
-    assert_not_nil assigns(:list)
+    assert_not_nil assigns(:acceptancetests)
     assert_equal 'Acceptance Tests', assigns(:page_title)
     assert_equal @project_one.stories, assigns(:stories)
-    assert_equal 2, assigns(:list).size
+    assert_equal 2, assigns(:acceptancetests).size
 
   end
   

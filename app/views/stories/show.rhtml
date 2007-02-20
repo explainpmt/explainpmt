@@ -59,4 +59,12 @@
 No tasks have been defined for this story.
 <% end %>
 <br><br>
-<%= render :partial => 'acceptancetests/acceptancetests_short_list' %>
+<h3>Acceptance Tests</h3>
+<% unless @acceptancetests.empty?%>
+<%= render( :partial => 'acceptancetests/acceptancetest_list_table',
+                :locals => { :acceptancetests => @acceptancetests,
+                             :hide_cols => [ :story, :iteration ],
+                             :base_path => '../../'}) %>
+<% else %>
+No acceptance tests have been defined for this story.
+<% end %>

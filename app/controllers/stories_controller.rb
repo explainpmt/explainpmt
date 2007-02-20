@@ -169,6 +169,7 @@ class StoriesController < ApplicationController
   def show
     @story = Story.find(params[:id])
     @tasks = @story.tasks
+    @acceptancetests = @story.acceptancetests
     @page_title = @story.title
   end
 

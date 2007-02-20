@@ -19,7 +19,7 @@ class AcceptancetestsController < ApplicationController
   
   def index
     @stories = @project.stories
-    @list = mymodel.find(:all, :order => mymodel.editlist_order, :conditions => [ "project_id = (?)", @project.id] )
+    @acceptancetests = mymodel.find(:all, :order => mymodel.editlist_order, :conditions => [ "project_id = (?)", @project.id] )
     @page_title = "Acceptance Tests"
   end
   
