@@ -20,7 +20,7 @@
 
 class StoriesController < ApplicationController
   before_filter :require_current_project
-  popups :show, :edit, :new, :assign_owner, :clone_story
+  popups :show, :edit, :new, :assign_owner, :clone_story, :new_story_for_iteration
 
   # Lists all of the stories in the project 'Backlog' (stories that have no
   # iteration). Stories with a "cancelled" status are hidden by default. They
@@ -37,10 +37,23 @@ class StoriesController < ApplicationController
     end
   end
 
-  # Displays a form for creating new story cards.
+  # Displays a form for creating a new story card.
   def new
-    @page_title = "Create new story cards"
+	newcommon
   end
+
+  def new_story_for_iteration
+	newcommon
+    @iteration = Iteration.find(params[:iteration_id])
+  end
+  
+  # Common logic used for new and new for iteration
+  def newcommon
+  	@story = @session[:new_story] || Story.new
+    @session[:new_story] = nil
+    @story.return_ids_for_aggregations
+  end
+
 
   # Creates new story cards based on the story titles posted form the #new
   # action.

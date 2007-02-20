@@ -128,6 +128,11 @@
 <p class="clear_both"></p>
 
 <h3>Story Cards</h3>
+<%= popup_link('Create Story Card', 'new_story',
+               'width=600,height=575,scrollbars,resizable',
+               :controller => 'stories',
+               :action => 'new_story_for_iteration', :iteration_id => @iteration.id,
+               :project_id => @project.id) %>&nbsp;
 <% if @project.stories.backlog.size > 0 and @iteration.stop_date + 1 > Date.today %>
 <%= popup_link('Assign Story Cards', 'assign_stories',
                'width=650,height=500,scrollbars,resizable',
