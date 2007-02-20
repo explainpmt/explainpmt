@@ -97,7 +97,7 @@ class StoriesControllerTest < Test::Unit::TestCase
   def test_create_with_sub_project
     num_a = @project_one.stories.backlog.size
     num_b = @sub_project_one.stories.size
-    post :create, :project_id => @project_one.id,
+    post :create_many, :project_id => @project_one.id,
       :story_card_titles => "New Story One\nNew Story Two\nNew Story Three",
       :sub_project => @sub_project_one.id
     assert_response :success
@@ -109,7 +109,7 @@ class StoriesControllerTest < Test::Unit::TestCase
 
   def test_create_without_sub_project
     num = @project_one.stories.backlog.size
-    post :create, :project_id => @project_one.id,
+    post :create_many, :project_id => @project_one.id,
       :story_card_titles => "New Story One\nNew Story Two\nNew Story Three",
       :sub_project => ''
     assert_response :success
@@ -120,7 +120,7 @@ class StoriesControllerTest < Test::Unit::TestCase
   
   def test_create_empty
     num = Story.count
-    post :create, :project_id => @project_one.id, :story_card_titles => ''
+    post :create_many, :project_id => @project_one.id, :story_card_titles => ''
     assert_redirected_to :controller => 'stories', :action => 'new',
       :project_id => @project_one.id
     assert_equal 'Please enter at least one story card title.', flash[:error]

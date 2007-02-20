@@ -1,6 +1,6 @@
 <h3>Create new story cards</h3>
 
-<%= form_tag(:controller => 'stories', :action => 'create',
+<%= form_tag(:controller => 'stories', :action => 'create_many',
   :project_id => @project.id) %>
   <p><label for="sub_project">Sub-Project:</label>
     <select id="sub_project" name="sub_project">

@@ -44,7 +44,7 @@ class StoriesController < ApplicationController
 
   # Creates new story cards based on the story titles posted form the #new
   # action.
-  def create
+  def create_many
     if params[:story_card_titles].empty?
       flash[:error] = 'Please enter at least one story card title.'
       redirect_to :controller => 'stories', :action => 'new', :project_id => @project
@@ -60,11 +60,35 @@ class StoriesController < ApplicationController
       render :template => 'layouts/refresh_parent_close_popup'
     end
   end
+  
+  def create
+    modify_risk_status_and_value_params
+    story = Story.new(params[:story])
+    story.project = @project
+    story.iteration_id = params[:iteration_id]
+    if story.valid?
+      story.save
+      flash[:status] = 'The new story card has been saved.'
+      render 'layouts/refresh_parent_close_popup'
+    else
+      session[:new_story] = story
+      if(story.iteration_id?)
+            redirect_to :controller => 'stories', :action => 'new_story_for_iteration',
+                  :project_id => @project.id, :iteration_id => params[:iteration_id]
+      else
+      redirect_to :controller => 'stories', :action => 'new',
+                  :project_id => @project.id
+      end           
+    end
+  end
 
  #Displays the form for cloning a story
   def clone_story
 	editcommon
 	@story.title = "Clone Of: " + @story.title
+	if(@story.iteration_id?)
+	 @iterationid = @story.iteration_id
+	end
   end
   
   # Displays the form for editing a story card's information.
