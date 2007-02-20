@@ -86,8 +86,8 @@ class StoriesController < ApplicationController
     @page_title = "Edit story card"
     @selected_main_menu_link = :none
     modify_risk_status_and_value_params
-    story = Story.find(params['id'])
-    story.attributes = params['story']
+    story = Story.find(params[:id])
+    story.attributes = params[:story]
     if story.valid?
       story.save
       flash[:status] = 'The changes to the story card have been saved.'
@@ -102,7 +102,7 @@ class StoriesController < ApplicationController
   # Destroys the story card identified by the 'id' request parameter.
   def delete
     register_referer
-    Story.destroy(params['id'])
+    Story.destroy(params[:id])
     flash[:status] = 'The story card was deleted.'
     unless redirect_to_referer
       redirect_to :controller => 'stories', :action => 'index',
@@ -113,13 +113,13 @@ class StoriesController < ApplicationController
   # Displays the details for the story card identified by the 'id' request
   # parameter.
   def show
-    @story = Story.find(params['id'])
+    @story = Story.find(params[:id])
     @page_title = @story.title
   end
 
   # Sets the storycard's Story#owner attribute to the currently logged in user.
   def take_ownership
-    story = Story.find(params['id'])
+    story = Story.find(params[:id])
     story.owner = session[:current_user]
     story.save
     session[:current_user].reload
@@ -130,7 +130,7 @@ class StoriesController < ApplicationController
 
   # Sets the story's owner to nil
   def release_ownership
-    story = Story.find(params['id'])
+    story = Story.find(params[:id])
     story.owner = nil
     story.save
     session[:current_user].reload    
@@ -178,18 +178,18 @@ class StoriesController < ApplicationController
   # actual objects that need to be assigned based on the integer value
   # originally passed in that parameter.
   def modify_risk_status_and_value_params
-    if params['story']
-      if params['story']['status']
-        params['story']['status'] =
-          Story::Status.new(params['story']['status'].to_i)
+    if params[:story]
+      if params[:story][:status]
+        params[:story][:status] =
+          Story::Status.new(params[:story][:status].to_i)
       end
-      if params['story']['value']
-        params['story']['value'] =
-          Story::Value.new(params['story']['value'].to_i)
+      if params[:story][:value]
+        params[:story][:value] =
+          Story::Value.new(params[:story][:value].to_i)
       end
-      if params['story']['risk']
-        params['story']['risk'] =
-          Story::Risk.new(params['story']['risk'].to_i)
+      if params[:story][:risk]
+        params[:story][:risk] =
+          Story::Risk.new(params[:story][:risk].to_i)
       end
     end
   end
