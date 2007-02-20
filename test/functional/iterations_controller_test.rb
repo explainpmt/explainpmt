@@ -129,11 +129,6 @@ class IterationsControllerTest < Test::Unit::TestCase
     get :delete, 'id' => 1, 'project_id' => 1
     assert_redirected_to :controller => 'iterations', :action => 'index',
       :project_id => '1'
-    assert_equal "The #{@iteration_one.length}-day iteration scheduled to " +
-      "start on #{@iteration_one.start_date.strftime('%m/%d/%Y')} " +
-      "has been deleted. All stories assigned to the iteration " +
-      "(if any) have been moved to the project backlog.",
-      flash[ :status ]
     assert_raise( ActiveRecord::RecordNotFound ) do
       Iteration.find 1
     end

@@ -47,54 +47,6 @@ class IterationsController < ApplicationController
     end
   end
 
-  # Inserts a new iteration in the database based on information posted from
-  # #new.
-  def create
-    iteration = Iteration.new(params[:object])
-    iteration.project = @project
-    if iteration.valid?
-      iteration.save
-      flash[:status] = "A new, #{iteration.length}-day iteration starting " +
-                       "on #{iteration.start_date.strftime('%m/%d/%Y')} has " +
-                       "been created."
-     render :template => 'layouts/refresh_parent_close_popup'
-    else
-      session[:new_object] = iteration
-      redirect_to :controller => 'iterations', :action => 'new',
-                  :project_id => @project.id.to_s
-    end
-  end
-
-  # Updates an iteration in the database based on data posted from #edit.
-  def update
-    iteration = Iteration.find(params[:id])
-    iteration.attributes = params[:object]
-    if iteration.valid?
-      iteration.save
-      flash[:status] = 'Changes to iteration have been saved.'
-      render :template => 'layouts/refresh_parent_close_popup'
-    else
-      session[:edit_object] = iteration
-      redirect_to :controller => 'iterations', :action => 'edit',
-                  :id => iteration.id.to_s, :project_id => @project.id.to_s
-    end
-  end
-
-  # Destroys the iteration object with the specified ID and redirects to the
-  # #index action.
-  def delete
-    iteration = Iteration.find(params[:id])
-    iteration.destroy
-    flash[:status] = "The #{iteration.length}-day iteration scheduled to " +
-                     "start on " +
-                     "#{iteration.start_date.strftime('%m/%d/%Y')} " +
-                     "has been deleted. All stories assigned to the " +
-                     "iteration (if any) have been moved to the project " +
-                     "backlog."
-    redirect_to :controller => 'iterations', :action => 'index',
-                :project_id => @project.id.to_s
-  end
-
   # Displays a summary of the iteration and shows the list of story cards that
   # are assigned to the iteration.
   def show
