@@ -104,14 +104,12 @@ class IterationsControllerTest < Test::Unit::TestCase
         'budget' => '120',
         'name' => 'test'
       }
-    assert_response :redirect
     assert_equal "A new, 14-day iteration starting on " +
       "#{Date.today.strftime('%m/%d/%Y')} has been created.",
       flash[ :status ]
     assert_equal 1, Iteration.count
-    iteration = Iteration.find :first
-    assert_redirected_to :controller => 'iterations', :action => 'show',
-      :project_id => @project_one.id, :id => iteration.id
+    assert_response :success
+    assert_template 'layouts/refresh_parent_close_popup'
   end
 
   def test_create_invalid
@@ -162,10 +160,9 @@ class IterationsControllerTest < Test::Unit::TestCase
   def test_update
     post :update, 'id' => 1, 'project_id' => 1,
       'iteration' => { 'length' => '10' }
-    assert_response :redirect
-    assert_redirected_to :controller => 'iterations', :action => 'show',
-      :project_id => 1, :id => 1
-    assert flash[ :status ]
+    assert Iteration.find(1).length = '10'
+    assert_response :success
+    assert_template 'layouts/refresh_parent_close_popup'
   end
 
   def test_update_invalid

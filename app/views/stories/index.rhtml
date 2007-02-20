@@ -1,6 +1,9 @@
 <h3>Story Cards in Project Backlog</h3>
-<%= popup_link('New Story Card(s)', "bulk_create",'width=650,height=400,resizable,scrollbars',
-             :controller => 'stories', :action => 'new',
+<%= popup_link('New Story Card', "create",'width=550,height=575,resizable,scrollbars',
+             :controller => 'stories', :action => 'new_single',
+             :project_id => @project.id) %>&nbsp;&nbsp;&nbsp;
+<%= popup_link('Bulk Create', "bulk_create",'width=650,height=400,resizable,scrollbars',
+             :controller => 'stories', :action => 'new_bulk',
              :project_id => @project.id) %>
 &nbsp;&nbsp;&nbsp;
 <% if params['show_cancelled'] %>
