@@ -46,10 +46,10 @@ class ProjectsController < ApplicationController
   # Creates a new project based on the information submitted from the #new
   # action.
   def create
-    project = Project.new(params['new_project'])
+    project = Project.new(params[:new_project])
     if project.valid?
       project.save
-      if params['add_me'] == '1'
+      if params[:add_me] == '1'
         session[:current_user].projects << project
       end
       flash[:status] = "New project \"#{project.name}\" has been created."
@@ -74,10 +74,10 @@ class ProjectsController < ApplicationController
   # Adds the users identified by their id's in the 'selected_users' request
   # parameter to the project.
   def update_users
-    params['selected_users'] ||= []
+    params[:selected_users] ||= []
     users_added = []
     users_not_added = []
-    params['selected_users'].each do |uid|
+    params[:selected_users].each do |uid|
       uid = uid.to_i
       user = User.find(uid)
       if user.valid?
@@ -102,7 +102,7 @@ class ProjectsController < ApplicationController
 
   # Removes the user identified by the 'id' request parameter from the project.
   def remove_user
-    user = User.find(params['id'])
+    user = User.find(params[:id])
     @project.users.delete(user)
     flash[:status] = "#{user.full_name} has been removed from the project."
     redirect_to :controller => 'users', :action => 'index',
@@ -112,7 +112,7 @@ class ProjectsController < ApplicationController
   # Deletes the project identified by the 'id' request parameter form the
   # system.
   def delete
-    project = Project.find(params['id'])
+    project = Project.find(params[:id])
     project.destroy
     flash[:status] = "#{project.name} has been deleted."
     redirect_to :controller => 'projects', :action => 'index'
@@ -124,7 +124,7 @@ class ProjectsController < ApplicationController
     if @project = session[:edit_project]
       session[:edit_project] = nil
     else
-      @project = Project.find(params['id'])
+      @project = Project.find(params[:id])
     end
     @page_title = "Edit Project"
   end
@@ -132,8 +132,8 @@ class ProjectsController < ApplicationController
   # Updates the project identified by the 'id' request parameter with the
   # information submitted from the #edit action.
   def update
-    project = Project.find(params['id'])
-    project.attributes = params['project']
+    project = Project.find(params[:id])
+    project.attributes = params[:project]
     if project.valid?
       project.save
       flash[:status] = "Project \"#{project.name}\" has been updated."
