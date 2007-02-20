@@ -189,7 +189,7 @@ class StoriesController < ApplicationController
   end
   
   def change_acceptancetest_assignment
-    acceptancetests = params[:selected_acceptancetests].map do |sid|
+    acceptancetests = (params[:selected_acceptancetests] || []).map do |sid|
       Acceptancetest.find(sid)
     end
     successes = []
