@@ -12,7 +12,11 @@
   <%= link_to('Show Cancelled Stories', :controller => 'stories', :action => 'index', :project_id => @project.id,
     :show_cancelled => 1) %>
 <% end %>
-
+&nbsp;&nbsp;&nbsp;
+<%= link_to('Export All Stories', :controller => 'stories',
+              :action => 'export', :project_id => @project.id) %> &nbsp;&nbsp;&nbsp;
+<%= link_to('Export All Tasks', :controller => 'stories',
+              :action => 'export_tasks', :project_id => @project.id) %> 
 <% unless @stories.empty? %>
   <%= form_tag(:controller => 'iterations', :action => 'move_stories',
     :project_id => @project.id) %>
