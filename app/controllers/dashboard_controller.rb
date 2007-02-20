@@ -30,7 +30,6 @@ class DashboardController < ApplicationController
       @stories = session[:current_user].stories.
         find( :all, :conditions => [ "project_id = ?", @project.id ])
       @stories = @stories.select { |s| !s.status.closed? }
-      @stories = sort_stories(@stories)
       render :action => 'project'
     else
       @page_title = 'Overview'
@@ -43,26 +42,7 @@ class DashboardController < ApplicationController
       else
         @stories = session[:current_user].stories
         @stories = @stories.select { |s| !s.status.closed? }
-        @stories = sort_stories(@stories)
       end
     end
-  end
-
-  protected
-
-  # Uses SortHelper to sort the list of story cards
-  def sort_stories(stories)
-    if @project.nil?
-      SortHelper.columns = %w( project.name sub_project.name scid title points
-                               value risk status )
-    else
-      SortHelper.columns = %w( sub_project.name scid title points value
-                               risk status )
-    end
-    SortHelper.default_order = %w( status value risk )
-    stories = stories.sort do |a,b|
-      SortHelper.sort(a,b,params)
-    end
-    return stories
   end
 end
