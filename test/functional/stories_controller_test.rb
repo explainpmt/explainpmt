@@ -120,7 +120,7 @@ class StoriesControllerTest < Test::Unit::TestCase
   def test_create_empty
     num = Story.count
     post :create_many, :project_id => @project_one.id, :story_card_titles => ''
-    assert_redirected_to :controller => 'stories', :action => 'new',
+    assert_redirected_to :controller => 'stories', :action => 'new_bulk',
       :project_id => @project_one.id
     assert_equal 'Please enter at least one story card title.', flash[:error]
   end
