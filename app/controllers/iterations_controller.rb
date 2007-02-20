@@ -54,7 +54,7 @@ class IterationsController < ApplicationController
   # Inserts a new iteration in the database based on information posted from
   # #new.
   def create
-    iteration = Iteration.new(params['iteration'])
+    iteration = Iteration.new(params[:iteration])
     iteration.project = @project
     if iteration.valid?
       iteration.save
@@ -76,14 +76,14 @@ class IterationsController < ApplicationController
     if @iteration = session[:edit_iteration]
       session[:edit_iteration] = nil
     else
-      @iteration = Iteration.find(params['id'])
+      @iteration = Iteration.find(params[:id])
     end
   end
 
   # Updates an iteration in the database based on data posted from #edit.
   def update
-    iteration = Iteration.find(params['id'])
-    iteration.attributes = params['iteration']
+    iteration = Iteration.find(params[:id])
+    iteration.attributes = params[:iteration]
     if iteration.valid?
       iteration.save
       flash[:status] = 'Changes to iteration have been saved.'
@@ -99,7 +99,7 @@ class IterationsController < ApplicationController
   # Destroys the iteration object with the specified ID and redirects to the
   # #index action.
   def delete
-    iteration = Iteration.find(params['id'])
+    iteration = Iteration.find(params[:id])
     iteration.destroy
     flash[:status] = "The #{iteration.length}-day iteration scheduled to " +
                      "start on " +
@@ -114,7 +114,7 @@ class IterationsController < ApplicationController
   # Displays a summary of the iteration and shows the list of story cards that
   # are assigned to the iteration.
   def show
-    @iteration = Iteration.find(params['id'])
+    @iteration = Iteration.find(params[:id])
     @page_title = "Iteration: #{@iteration.start_date} - #{@iteration.stop_date}"
     @stories = @iteration.stories
   end
@@ -126,9 +126,9 @@ class IterationsController < ApplicationController
   # moved to the backlog. 
   def move_stories
     change_story_assignment
-    if params['id']
+    if params[:id]
       redirect_to :controller => 'iterations', :action => 'show',
-                  :id => params['id'], :project_id => @project.id.to_s
+                  :id => params[:id], :project_id => @project.id.to_s
     else
       redirect_to :controller => 'stories', :action => 'index',
                   :project_id => @project.id.to_s
@@ -144,7 +144,7 @@ class IterationsController < ApplicationController
       s.status != Story::Status::New and
       s.status != Story::Status::Cancelled
     }
-    @iteration = Iteration.find(params['id'])
+    @iteration = Iteration.find(params[:id])
   end
 
   # Essentially the same as #move_stories, but intended to render in a popup
@@ -175,16 +175,16 @@ class IterationsController < ApplicationController
   # Does the actual work of changing the iteration assignment for #move_stories
   # and #assign_stories
   def change_story_assignment
-    stories = ( params['selected_stories'] || [] ).map do |sid|
+    stories = ( params[:selected_stories] || [] ).map do |sid|
       Story.find(sid)
     end
     successes = []
     failures = []
     stories.each do |s|
-      if params['move_to'].to_i == 0
+      if params[:move_to].to_i == 0
         s.iteration = nil
       else
-        s.iteration = Iteration.find(params['move_to'].to_i)
+        s.iteration = Iteration.find(params[:move_to].to_i)
       end
       if s.save
         successes << "SC#{s.scid} has been moved."
