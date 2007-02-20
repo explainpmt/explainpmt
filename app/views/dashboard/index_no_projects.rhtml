@@ -12,13 +12,13 @@
   <div class="important">
     <p>You are not currently assigned to any project team.</p>
     <% if is_admin? %>
-    <p>You can now either...</p>
-    <p>
-    <%= link_to('Manage Projects', :controller => 'projects',
-                :action => 'index') %>
-    &nbsp;&nbsp;...or...&nbsp;&nbsp;
-    <%= link_to('Add Additional User Accounts', :controller => 'users',
-                :action => 'index') %>
-    </p>
+        <p>You can now either...</p>
+        <p>
+            <%= link_to('Manage Projects', :controller => 'projects',
+                        :action => 'index') %>
+            &nbsp;&nbsp;...or...&nbsp;&nbsp;
+            <%= link_to('Add Additional User Accounts', :controller => 'users',
+                        :action => 'index') %>
+        </p>
     <% end %>
   </div>

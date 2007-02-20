@@ -1,17 +1,24 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-<td id="SmallLeftColumn">
-<%= render_component(:controller => 'projects', :action => 'my_projects_list') %>
-</td>
-<td id="RightColumn">
-<%= render_component(:controller => 'milestones', :action => 'milestones_calendar') %>
-
-<% unless @stories.empty? %>
-  <h3>My Stories (all projects):</h3>
-  <%= render( :partial => 'stories/story_list_table',
-              :locals => { :stories => @stories,
-                           :hide_cols => [ :checkbox, :owner, :action] } ) %>
-<% end %>
-</td>
-</tr>
+    <td id="SmallLeftColumn">
+        <%= render_component(:controller => 'projects', :action => 'my_projects_list') %>
+    </td>
+    <td id="RightColumn">
+        <%= render_component(:controller => 'milestones', :action => 'milestones_calendar') %>
+        <br>
+        <% unless @stories.empty? %>
+            <h3>My Stories (all projects):</h3>
+            <%= render( :partial => 'stories/story_list_table',
+                      :locals => { :stories => @stories,
+                                   :hide_cols => [ :checkbox, :owner, :action] } ) %>
+        <% end %>
+        <br>
+        <% unless @tasks.empty? %>
+            <h3>My Stories (all projects):</h3>
+            <%= render( :partial => 'tasks/task_list_table',
+                        :locals => { :tasks => @tasks,
+                                     :hide_cols => [:owner, :action ]}) %>
+        <% end %>
+    </td>
+    </tr>
 </table>
