@@ -33,11 +33,11 @@
           </td>
       <% end %>
       
-      <td><%= popup_link(task.name, "story_#{task.story.id}",
-               'width=600,height=600,scrollbars,resizable',
-               :controller => 'stories',
+      <td><%= popup_link(task.name, "story_#{task.id}",
+               'width=525,height=325,scrollbars,resizable',
+               :controller => 'tasks',
                :action => 'show',
-               :id => task.story.id,
+               :id => task.id,
                :project_id => task.story.project.id)%>
              <% if task.description? %>
                      <%= image_tag( 'info-icon.gif', :alt => task.description ) %>
