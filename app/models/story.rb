@@ -46,6 +46,11 @@ class Story < ActiveRecord::Base
   has_many :tasks, :dependent => :destroy
   has_many :acceptancetests, :dependent => :destroy
 
+  
+  def self.find_by_user_and_project(user_id, project_id)
+  	Story.find(:all, :include => [:project, :owner], :conditions => "stories.project_id = #{project_id} and stories.user_id = #{user_id}")
+  end
+
   # The collection of defined Status objects
   Statuses = []
 
