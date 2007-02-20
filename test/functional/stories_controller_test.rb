@@ -87,10 +87,10 @@ class StoriesControllerTest < Test::Unit::TestCase
     assert_raise( ActiveRecord::RecordNotFound ) { Story.find @story_one.id }
   end
 
-  def test_new
-    get :new, :project_id => @project_one.id
+  def test_new_single
+    get :new_single, :project_id => @project_one.id
     assert_response :success
-    assert_template 'new'
+    assert_template 'new_single'
   end
 
   def test_create_with_sub_project
