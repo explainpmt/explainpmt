@@ -1,12 +1,18 @@
 <% story = story_list_item %>
-     <tr id="story_card_<%= story.id -%>" class="odd_row">
+     <tr>
      <td nowrap>
        <% unless hide_cols.include?( :checkbox ) %>
             <input type="checkbox" name="selected_stories[]"
             value=<%= story.id %> id=SC_Check_<%= story.id %> />&nbsp;
        <%end%>
-       <label for=SC_Check_<%= story.id %>>SC<%= story.scid %></label></td>
-     <% unless hide_cols.include?( :project ) %><td><%= @project.name %></td><% end %>
+       
+     <label for=SC_Check_<%= story.id %>>SC<%= story.scid %></label></td>
+     
+     <% unless hide_cols.include?( :project ) %>
+       <td><%= link_to(story.project.name, :controller => 'dashboard',
+            :action => 'index', :project_id => story.project.id) %></td>
+     <% end %>
+     
      <td><% if story.sub_project_id? %><%= story.sub_project.name %> <%else%> Not Assigned <%end%></td>
      <td><%= popup_link(story.title, "story_#{story.id}",
                'width=600,height=600,scrollbars,resizable',
@@ -35,6 +41,7 @@
                        :project_id => story.project.id) + ')'%>
   		  <% end %></td>
       <%end%>
+      
       <% unless hide_cols.include?( :action ) %>
           <td>
             <select id="choices" onchange="handleSelect(this)">
