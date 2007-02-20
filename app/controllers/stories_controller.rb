@@ -41,13 +41,13 @@ class StoriesController < ApplicationController
   def export
     headers['Content-Type'] = "application/vnd.ms-excel" 
     @stories = Story.find_all_by_project(params[:project_id])
-    render_without_layout
+    render :layout => false
   end
 
   def export_tasks
     headers['Content-Type'] = "application/vnd.ms-excel" 
     @stories = Story.find_all_by_project(params[:project_id])
-    render_without_layout
+    render :layout => false
   end
 
   # Displays a form for creating a new story card.

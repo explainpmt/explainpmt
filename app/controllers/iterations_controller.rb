@@ -157,7 +157,7 @@ class IterationsController < ApplicationController
     headers['Content-Type'] = "application/vnd.ms-excel" 
     @iteration = Iteration.find(params[:id])
     @stories = Iteration.find_stories(params[:id])
-    render_without_layout
+    render :layout => false
   end
   
   #Exports tasks for given iteration to Microsoft Excel
@@ -165,7 +165,7 @@ class IterationsController < ApplicationController
     headers['Content-Type'] = "application/vnd.ms-excel" 
     @iteration = Iteration.find(params[:id])
     @stories = Iteration.find_stories(params[:id])
-    render_without_layout
+    render :layout => false
   end
 
   private
