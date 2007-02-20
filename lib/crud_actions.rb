@@ -49,4 +49,10 @@ module CrudActions
     flash[:status] = "#{mymodel.name} \"#{object_selected.name}\" has been deleted."
     redirect_to :action => 'index', :project_id => @project.id
   end
+  
+  def export
+    headers['Content-Type'] = "application/vnd.ms-excel" 
+    @list = mymodel.find(:all, :conditions => [ "project_id = ?", @project.id] )
+    render :layout => false
+  end
 end

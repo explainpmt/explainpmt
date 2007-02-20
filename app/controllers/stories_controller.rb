@@ -19,9 +19,14 @@
 
 
 class StoriesController < ApplicationController
+  include CrudActions
+
   before_filter :require_current_project
   popups :show, :edit, :new_bulk, :assign_owner, :clone_story, :new_story_for_iteration, :new_single
 
+  def mymodel
+    Story
+  end
   # Lists all of the stories in the project 'Backlog' (stories that have no
   # iteration). Stories with a "cancelled" status are hidden by default. They
   # can be displayed by passing the request parameter 'show_cancelled' (with any
@@ -36,18 +41,9 @@ class StoriesController < ApplicationController
       }
     end
   end
-  
-    #exports the stories into an excel document format
-  def export
-    headers['Content-Type'] = "application/vnd.ms-excel" 
-    @stories = Story.find_all_by_project(params[:project_id])
-    render :layout => false
-  end
 
   def export_tasks
-    headers['Content-Type'] = "application/vnd.ms-excel" 
-    @stories = Story.find_all_by_project(params[:project_id])
-    render :layout => false
+    export
   end
 
   # Displays a form for creating a new story card.

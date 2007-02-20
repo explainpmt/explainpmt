@@ -23,12 +23,6 @@ class AcceptancetestsController < ApplicationController
     @page_title = "Acceptance Tests"
   end
   
-  def export
-    headers['Content-Type'] = "application/vnd.ms-excel" 
-    @list = @project.acceptancetests
-    render :layout => false
-  end
-  
   def new_acceptance_for_story
     @object = session[:object] || Acceptancetest.new
     session[:object] = nil
