@@ -49,6 +49,9 @@
 </table>
 <%= textilize(@story.description) %>
 <br><br>
-<%= render :partial => 'tasks/task_list' %>
+<%= render( :partial => 'tasks/task_list_table',
+                :locals => { :tasks => @tasks,
+                             :hide_cols => [ :project, :story, :iteration ],
+                             :base_path => '../../'}) %>
 <br><br>
 <%= render :partial => 'acceptancetests/acceptancetests_short_list' %>
