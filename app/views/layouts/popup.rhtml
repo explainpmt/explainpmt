@@ -12,6 +12,11 @@
   </head>
   <body>
     <div id="WrapPage">
+    <% if flash[:error] %>
+      <div id="SystemError">
+        <%= textilize_without_paragraph( flash[ :error ] ) %>
+      </div>
+    <% end %>
       <%= @content_for_layout %>
     </div>
   </body>
