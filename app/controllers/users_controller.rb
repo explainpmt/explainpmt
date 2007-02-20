@@ -50,7 +50,7 @@ class UsersController < ApplicationController
 
   # Displays the form to edit a user account.
   def edit
-    @user = User.find(params['id'])
+    @user = User.find(params[:id])
     @page_title = @user.full_name
     if session[:edit_user]
       @user = session[:edit_user]
@@ -63,7 +63,7 @@ class UsersController < ApplicationController
   # Creates a new user account based o information submitted from the #new
   # action.
   def create
-    user = User.new(params['user'])
+    user = User.new(params[:user])
     if user.valid?
       user.save
       flash[:status] = "User account for #{user.full_name} has been created."
@@ -90,10 +90,10 @@ class UsersController < ApplicationController
 
   # Updates a user account with the information submitted from the #edit action.
   def update
-    user = User.find(params['id'])
+    user = User.find(params[:id])
     original_password = user.password
-    user.attributes = params['user']
-    if params['user']['password'] == ''
+    user.attributes = params[:user]
+    if params[:user][:password] == ''
       user.password = user.password_confirmation = original_password
     end
     if user == session[:current_user] and !user.admin? and
@@ -116,7 +116,7 @@ class UsersController < ApplicationController
 
   # Deletes the user account identified by the 'id' request parameter.
   def delete
-    user = User.find(params['id'])
+    user = User.find(params[:id])
     if user == session[:current_user]
       flash[:error] = "You can not delete your own account."
     else
@@ -171,7 +171,7 @@ class UsersController < ApplicationController
   def require_admin_privileges
     case action_name
     when 'edit','update'
-      super if params['id'].to_i != session[:current_user].id
+      super if params[:id].to_i != session[:current_user].id
     else
       super
     end
