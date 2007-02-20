@@ -1,0 +1,47 @@
+<% hide_cols ||= [] %>
+<table class="sort-table" id="task-table" cellspacing="0" cellpadding="3" border="0" width="100%">
+  <thead>
+    <% unless hide_cols.include?( :project ) %><td>Project</td><% end %>
+    <% unless hide_cols.include?( :iteration ) %><td>Iteration</td><% end %>
+    <% unless hide_cols.include?( :story ) %><td>SCID</td>
+    <td width="30%">Story</td><% end %>
+    <td>Task</td>
+    <td>Complete</td>
+    <% unless hide_cols.include?( :owner ) %><td>Owner</td><% end %>
+    <% unless hide_cols.include?( :action ) %><td>Action</td><% end %>
+  </thead>
+  <tbody>
+  
+      <%= render( :partial => 'tasks/task_list_item', :collection => tasks,
+        :locals => { :hide_cols => hide_cols } ) %>
+  </tbody>
+</table>
+<script type="text/javascript">
+var st2 = new SortableTable(document.getElementById("task-table"),
+	[<% unless hide_cols.include?( :project ) %>"CaseInsensitiveString",<% end %>
+	<% unless hide_cols.include?( :iteration )%>"CaseInsensitiveString",<% end %>
+	<% unless hide_cols.include?( :story )%> "SCID", "CaseInsensitiveString",<% end %>
+	"CaseInsensitiveString","CaseInsensitiveString",
+	<% unless hide_cols.include?( :owner )%>"CaseInsensitiveString",<% end %>
+	<% unless hide_cols.include?( :action ) %>",None"<% end %>]);
+	MaintainSort(st2);
+	
+function OpenNew(selectValue, action, w, h){
+	window.open("<%=base_path%>tasks/" + action + "/" + selectValue , action + "_story","width=" + w + ",height=" + h + ",scrollbars,resizable");
+}
+
+function handleSelect(select){
+	selectValue = select.value;
+	if (select.selectedIndex == 1){OpenNew(selectValue, "edit", "525", "325");}
+
+	else if (select.selectedIndex == 2){
+		var x = confirm("Are you sure you want to delete?");
+		if (x){
+			window.location.href = "<%=base_path%>tasks/delete/" + select.value
+	    }
+	}
+	select.value = "";
+	return false;
+}
+</script>
+  

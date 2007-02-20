@@ -1,0 +1,74 @@
+<% task = task_list_item %>
+     <tr>
+	 <% unless hide_cols.include?( :project ) %>
+	   <td><%= link_to(task.story.project.name, :controller => 'dashboard',
+            :action => 'index', :project_id => task.story.project.id) %></td>
+     <% end %>
+      
+     <% unless hide_cols.include?( :iteration ) %>
+      <td><% if task.story.iteration_id? %>
+		<%=link_to(task.story.iteration.name,
+         {:controller => 'iterations',
+         :action => 'show',
+         :id => task.story.iteration_id,
+         :project_id => task.story.project.id })%><%else%>Not Assigned<%end%></td>
+     <% end %>
+     
+    <% unless hide_cols.include?( :story ) %>
+          <td><%= popup_link('SC' + task.story.scid.to_s, "story_#{task.story.id}",
+                   'width=600,height=600,scrollbars,resizable',
+                   :controller => 'stories',
+                   :action => 'show',
+                   :id => task.story.id,
+                   :project_id => task.story.project.id)%></td>
+          <td><%= popup_link(task.story.title, "story_#{task.story.id}",
+                   'width=600,height=600,scrollbars,resizable',
+                   :controller => 'stories',
+                   :action => 'show',
+                   :id => task.story.id,
+                   :project_id => task.story.project.id)%>
+               <% if task.story.description? %>
+                     <%= image_tag( 'info-icon.gif', :alt => task.story.description ) %>
+               <% end %>
+          </td>
+      <% end %>
+      
+      <td><%= popup_link(task.name, "story_#{task.story.id}",
+               'width=600,height=600,scrollbars,resizable',
+               :controller => 'stories',
+               :action => 'show',
+               :id => task.story.id,
+               :project_id => task.story.project.id)%>
+             <% if task.description? %>
+                     <%= image_tag( 'info-icon.gif', :alt => task.description ) %>
+              <% end %>         
+      </td>
+      <td><%if task.complete == true %>Yes<%else%>No<% end %></td>
+
+      <% unless hide_cols.include?( :owner ) %>
+          <td><% if task.owner %>
+        		<%= task.owner.full_name %> 
+        		<%= '(' + link_to('release', 
+        			:controller => 'tasks', :action => 'release_ownership',
+                    :id => task.id, :project_id => @project.id, :story_id => @story.id) + ')' %>
+     		  <% else %>
+        		<%='None (' + link_to('take', :controller => 'tasks', 
+        			:action => 'take_ownership', :id => task.id,
+                    :project_id => @project.id, :story_id => @story.id) + '/' +
+                   popup_link('assign', 'edit_story', 'width=250,height=500,scrollbars,resizable',
+                   		   :controller => 'tasks',
+                           :action => 'assign_owner', :id => task.id,
+                           :project_id => @project.id) + ')'%>
+      		  <% end %></td>
+      <% end %>
+      
+     <% unless hide_cols.include?( :action ) %>
+          <td>
+            <select id="choices" onchange="handleSelect(this)">
+                  	<option value="" selected="selected" ></option>
+                  	<option value="<%= task.id %>">Edit</option>
+                  	<option value="<%= task.id %>">Delete</option>
+            </select>
+         </td>
+     <% end %>
+     </tr>
