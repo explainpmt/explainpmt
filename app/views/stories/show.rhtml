@@ -49,9 +49,14 @@
 </table>
 <%= textilize(@story.description) %>
 <br><br>
+<h3>Tasks</h3>
+<% unless @tasks.empty?%>
 <%= render( :partial => 'tasks/task_list_table',
                 :locals => { :tasks => @tasks,
                              :hide_cols => [ :project, :story, :iteration ],
                              :base_path => '../../'}) %>
+<% else %>
+No tasks have been defined for this story.
+<% end %>
 <br><br>
 <%= render :partial => 'acceptancetests/acceptancetests_short_list' %>
