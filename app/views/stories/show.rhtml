@@ -63,7 +63,7 @@ No tasks have been defined for this story.
 <% unless @acceptancetests.empty?%>
 <%= render( :partial => 'acceptancetests/acceptancetest_list_table',
                 :locals => { :acceptancetests => @acceptancetests,
-                             :hide_cols => [ :story, :iteration ],
+                             :hide_cols => [ :checkbox, :story, :iteration ],
                              :base_path => '../../'}) %>
 <% else %>
 No acceptance tests have been defined for this story.
