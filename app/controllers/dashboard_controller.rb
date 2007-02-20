@@ -29,13 +29,13 @@ class DashboardController < ApplicationController
     if @project
       project = @project.id
       @page_title = "Dashboard"
-      @stories = Story.find_by_user_and_project(user.id, project)
+      @stories = Story.find_all_by_user_and_project(user.id, project)
       @stories = @stories.select { |s| !s.status.closed? }
-      @tasks = Task.find_by_user_and_project(user.id, project)
+      @tasks = Task.find_all_by_user_and_project(user.id, project)
       render :action => 'project'
     else
       @page_title = 'Overview'
-      @tasks = Task.find_by_user(user.id)
+      @tasks = Task.find_all_by_user(user.id)
       @projects = user.projects
       if @projects.size == 1
         redirect_to :controller => 'dashboard', :action => 'index',

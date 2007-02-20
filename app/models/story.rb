@@ -47,7 +47,7 @@ class Story < ActiveRecord::Base
   has_many :acceptancetests, :dependent => :destroy
 
   
-  def self.find_by_user_and_project(user_id, project_id)
+  def self.find_all_by_user_and_project(user_id, project_id)
   	Story.find(:all, :include => [:project, :owner], :conditions => "stories.project_id = #{project_id} and stories.user_id = #{user_id}")
   end
 
