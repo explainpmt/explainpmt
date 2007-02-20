@@ -64,7 +64,7 @@ class StoriesController < ApplicationController
   def create_many
     if params[:story_card_titles].empty?
       flash[:error] = 'Please enter at least one story card title.'
-      redirect_to :controller => 'stories', :action => 'new', :project_id => @project
+      redirect_to :controller => 'stories', :action => 'new_bulk', :project_id => @project
     else
       unless params[ :sub_project ].empty?
         sub_project = SubProject.find params[ :sub_project ]
@@ -93,7 +93,7 @@ class StoriesController < ApplicationController
             redirect_to :controller => 'stories', :action => 'new_story_for_iteration',
                   :project_id => @project.id, :iteration_id => params[:iteration_id]
       else
-      redirect_to :controller => 'stories', :action => 'new',
+      redirect_to :controller => 'stories', :action => 'new_single',
                   :project_id => @project.id
       end           
     end
