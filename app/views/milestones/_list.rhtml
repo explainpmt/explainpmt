@@ -15,18 +15,13 @@
                           :controller => 'milestones',
                           :action => 'show', :id => m.id,
                           :project_id => @project.id) %></td>
-       <td><%= popup_link('Edit', 'edit_milestone',
-                          'width=500,height=500,resizable,scrollbars',
-                          :controller => 'milestones', :action => 'edit',
-                          :id => m.id, :project_id => @project.id) %>
-       <%= link_to('Delete', { :controller => 'milestones',
-                                   :action => 'delete',
-                                   :project_id => m.project.id,
-                                   :id => m.id },
-                       { :confirm => "Are you sure you want to delete " +
-                                     "milestone #{m.name} on " +
-                                     "#{m.date}? This action can not " +
-                                     "be undone." }) %></td>
+       <td>
+        <select id="milestone_choices" onchange="handleMilestoneSelect(this)">
+              	<option value="" selected="selected" ></option>
+              	<option value="<%= m.id %>">Edit</option>
+              	<option value="<%= m.id %>">Delete</option>
+        </select>
+         </td>
      </tr>
   <% end %>
   </tbody>
@@ -37,4 +32,22 @@ var st = new SortableTable(document.getElementById("<%= params[ :table_id ]%>"),
 
 // Maintain sort and restore the class names
 MaintainSort(st);
+
+function OpenMilestoneNew(selectValue, action, w, h){
+	window.open("milestones/" + action + "/" + selectValue , action + "_milestone","width=" + w + ",height=" + h + ",scrollbars,resizable");
+}
+
+function handleMilestoneSelect(select){
+	selectValue = select.value;
+	if (select.selectedIndex == 1){OpenMilestoneNew(selectValue, "edit", "500", "500");}
+
+	else if (select.selectedIndex == 2){
+		var x = confirm("Are you sure you want to delete?");
+		if (x){
+		window.location.href = "milestones/delete/" + select.value
+	    }
+	}
+	select.value = "";
+	return false;
+}
 </script>
