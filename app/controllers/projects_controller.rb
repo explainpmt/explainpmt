@@ -21,14 +21,17 @@
 # All actions on this controller require the user to have administrative
 # privileges.
 class ProjectsController < ApplicationController
-  before_filter :require_admin_privileges, :only => [ :new, :create,
-                                                      :edit,:delete, :index, :update ]
+  before_filter :require_admin_privileges, :only => [:delete]
   popups :add_users, :update_users, :new, :edit
 
   # Lists all of the projects that exist on the system.
   def index
     @page_title = "Projects"
-    @projects = Project.find( :all, :order => 'name ASC' )
+    if session[:current_user].admin?
+        @projects = Project.find(:all, :order => 'name ASC')
+    else
+     	@projects = session[:current_user].projects
+    end
   end
   
   # Displays a form for creating a new project.

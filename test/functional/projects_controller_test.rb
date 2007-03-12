@@ -29,7 +29,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
   POPUPS = [:add_users,:update_users]
   NO_RENDERS = [:remove_user,:delete, :create, :update]
   ALL_ACTIONS = FULL_PAGES + POPUPS + NO_RENDERS
-  REQUIRED = [:new, :edit, :index, :delete, :create, :update]
+  REQUIRED = [:delete]
   fixtures ALL_FIXTURES
   
   def setup

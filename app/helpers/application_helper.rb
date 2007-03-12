@@ -65,11 +65,11 @@ module ApplicationHelper
             @project.nil? and controller.controller_name == 'users'
           }
         end
+      end
         xml.li(:class => 'right') do
           xml << main_menu_link('Projects', :controller => 'projects',
                                 :action => 'index')
         end
-      end
     end
   end
 
