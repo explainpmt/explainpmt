@@ -28,5 +28,14 @@ class AcceptancetestsController < ApplicationController
     session[:object] = nil
     @story = Story.find(params[:story_id])
   end
+  
+  def delete_from_story
+    myobject = mymodel.find(params[:id])
+    myobject.destroy
+    flash[:status] = "#{mymodel.name} \"#{myobject.name}\" has been deleted."
+    redirect_to :controller => 'stories', :action => 'show', 
+                  :id => myobject.story_id,
+                  :project_id => @project.id
+  end
 
 end

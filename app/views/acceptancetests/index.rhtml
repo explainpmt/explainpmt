@@ -21,8 +21,7 @@
     <input type="submit" name="submit" value="Go" /></br></br>
   </div>
     <%= render( :partial => 'acceptancetest_list_table',
-                :locals => { :acceptancetests => @acceptancetests,
-                             :hide_cols => [:test] } ) %>
+                :locals => { :acceptancetests => @acceptancetests} ) %>
 <% else %>
     <p>This project does not have any Acceptance Tests yet.</p>
     <p><%= popup_link('New Acceptance Test', 'new_acceptancetest',

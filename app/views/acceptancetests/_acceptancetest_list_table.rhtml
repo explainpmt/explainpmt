@@ -47,7 +47,11 @@ function handleAcceptanceSelect(select){
 	else if (select.selectedIndex == 4){
 		var x = confirm("Are you sure you want to delete? This action can not be undone.");
 		if (x){
+		  if(window.location.href.indexOf('/stories/') > 0){
+		   window.location.href = "<%=base_path%>acceptancetests/delete_from_story/" + select.value
+		  }else{
 			window.location.href = "<%=base_path%>acceptancetests/delete/" + select.value
+		  }
 	    }
 	}
 	select.value = "";
