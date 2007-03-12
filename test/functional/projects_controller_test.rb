@@ -29,7 +29,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
   POPUPS = [:add_users,:update_users]
   NO_RENDERS = [:remove_user,:delete, :create, :update]
   ALL_ACTIONS = FULL_PAGES + POPUPS + NO_RENDERS
-
+  REQUIRED = [:new, :edit, :index, :delete, :create, :update]
   fixtures ALL_FIXTURES
   
   def setup
@@ -55,7 +55,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
 
   def test_admin_required
     @request.session[:current_user] = @user_one
-    ALL_ACTIONS.each do |a|
+    REQUIRED.each do |a|
       process a
       assert_redirected_to :controller => 'error', :action => 'index'
       assert_equal "You must be logged in as an administrator to " +

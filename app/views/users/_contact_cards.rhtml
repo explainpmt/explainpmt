@@ -11,7 +11,7 @@
               <dt>Email:</dt>
               <dd><a href="mailto:<%= user.email %>"><%= user.email %></a></dd>
             </dl>
-            <% if is_admin? %>
+
               <ul class="action_links">
                 <% if @project %>
                   <li>
@@ -20,6 +20,7 @@
                                 :project_id => @project.id, :id => user.id) if @project %>
                   </li>
                 <% else %>
+                <% if is_admin? %>
                   <li><%= link_to('Edit', :controller => 'users', :action => 'edit',
                                           :id => user.id) %></li>
                   <li>

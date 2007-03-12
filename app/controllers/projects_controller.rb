@@ -21,10 +21,8 @@
 # All actions on this controller require the user to have administrative
 # privileges.
 class ProjectsController < ApplicationController
-  before_filter :require_admin_privileges, :only => [ :new, :create, :add_users,
-                                                     :update_users, :edit,
-                                                     :update, :remove_user,
-                                                     :delete, :index ]
+  before_filter :require_admin_privileges, :only => [ :new, :create,
+                                                      :edit,:delete, :index, :update ]
   popups :add_users, :update_users, :new, :edit
 
   # Lists all of the projects that exist on the system.

@@ -19,7 +19,7 @@
 
 
 class UsersController < ApplicationController
-  before_filter :require_admin_privileges, :except => [ :index, :project,
+  before_filter :require_admin_privileges, :except => [:new, :create, :index, :project,
     :authenticate, :login, :logout ]
   skip_before_filter :check_authentication, :only => [ :authenticate, :login ]
 

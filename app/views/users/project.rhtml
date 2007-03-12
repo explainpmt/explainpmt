@@ -5,7 +5,6 @@
       <p>The users shown here are part of the project team for
         <strong><%= @project.name %></strong>.</p>
       <p>Admin accounts are marked with <%= image_tag('admin_dot.gif') %>.</p>
-      <% if is_admin? %>
         <p><strong><%= popup_link('Add Users to Project', 'add_users',
                                   'width=600,height=400,resizable,scrollbars',
                                   :controller => 'projects',
@@ -14,7 +13,6 @@
         <p><strong><%= link_to('Create New User',
                                 :controller => 'users', :action => 'new',
                                 :project_id => @project.id) %></strong></p>
-      <% end %>
     </td>
     <td id="RightColumn" valign="top">
       <%= render_partial 'contact_cards' %>

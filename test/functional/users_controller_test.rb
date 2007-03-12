@@ -50,7 +50,7 @@ class UsersControllerTest < Test::Unit::TestCase
   end
 
   def test_admin_required
-    actions = [ :new, :create, :edit, :update, :delete ]
+    actions = [ :edit, :update, :delete ]
     actions.each do |a|
       process a
       assert_redirected_to :controller => 'error', :action => 'index'
