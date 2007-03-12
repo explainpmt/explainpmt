@@ -37,7 +37,11 @@ function handleSelect(select){
 	else if (select.selectedIndex == 2){
 		var x = confirm("Are you sure you want to delete?");
 		if (x){
-			window.location.href = "<%=base_path%>tasks/delete/" + select.value
+			if(window.location.href.indexOf('/stories/') < 0){
+			 window.location.href = "<%=base_path%>tasks/delete_from_dashboard/" + select.value
+			}else{
+			 window.location.href = "<%=base_path%>tasks/delete/" + select.value
+			 }
 	    }
 	}
 	select.value = "";

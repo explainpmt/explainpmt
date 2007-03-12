@@ -34,6 +34,14 @@ class TasksController < ApplicationController
                   :id => myobject.story_id,
                   :project_id => @project.id
   end
+  
+  def delete_from_dashboard
+    myobject = mymodel.find(params[:id])
+    myobject.destroy
+    flash[:status] = "#{mymodel.name} \"#{myobject.name}\" has been deleted."
+    redirect_to :controller => 'dashboard', :action => 'index', 
+                  :project_id => @project.id
+  end
  
   def take_ownership
     story = Story.find(params[:story_id])

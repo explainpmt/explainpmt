@@ -176,7 +176,8 @@ end
 <%= render( :partial => 'stories/story_list_table',
             :locals => { :stories =>  @stories,
                          :hide_cols => [ :project ],
-                         :base_path => '../../'} ) %>
+                         :base_path => '../../'},
+                         :iteration_id => @iteration.id ) %>
 </form>
 <% else %>
 <p>No stories have been assigned to this iteration.</p>

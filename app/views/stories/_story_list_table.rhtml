@@ -27,22 +27,30 @@ var st = new SortableTable(document.getElementById("t9"),
 
 MaintainSort(st);
 <% end %>
-function OpenNew(selectValue, action, w, h){
+function OpenStoryNew(selectValue, action, w, h){
 	window.open("<%=base_path%>stories/" + action + "/" + selectValue , action + "_story","width=" + w + ",height=" + h + ",scrollbars,resizable");
 }
 
-function handleSelect(select){
+function handleStorySelect(select){
 	selectValue = select.value;
-	if (select.selectedIndex == 1){OpenNew(selectValue, "show", "600", "600");}
+	if (select.selectedIndex == 1){OpenStoryNew(selectValue, "show", "600", "600");}
 	
-	else if (select.selectedIndex == 2){OpenNew(selectValue, "edit", "600", "600");}
+	else if (select.selectedIndex == 2){OpenStoryNew(selectValue, "edit", "600", "600");}
 	
-	else if (select.selectedIndex == 3){OpenNew(selectValue, "clone_story", "600", "600");}
+	else if (select.selectedIndex == 3){OpenStoryNew(selectValue, "clone_story", "600", "600");}
 	
 	else if (select.selectedIndex == 4){
 		var x = confirm("Are you sure you want to delete?");
 		if (x){
-			window.location.href = "stories/delete/" + select.value
+		  if(window.location.href.indexOf('/stories') < 0 && window.location.href.indexOf('/iterations') < 0){
+		    window.location.href = "<%=@project.id%>/stories/delete_from_dashboard/" + select.value
+		  }else{
+		      if(window.location.href.indexOf('/iterations') > 0){
+		          window.location.href = "<%=base_path%>stories/delete_from_iteration/" + select.value + "?iteration_id=<%= @iteration.id %>"
+		      }else{
+			     window.location.href = "stories/delete/" + select.value
+			     }
+		  }
 	    }
 	}
 	select.value = "";

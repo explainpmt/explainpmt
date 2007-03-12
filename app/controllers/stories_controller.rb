@@ -150,14 +150,29 @@ class StoriesController < ApplicationController
   end
 
   # Destroys the story card identified by the 'id' request parameter.
-  def delete
-    register_referer
+  def delete_common
     Story.destroy(params[:id])
     flash[:status] = 'The story card was deleted.'
-    unless redirect_to_referer
-      redirect_to :controller => 'stories', :action => 'index',
+  end
+  
+  def delete_from_backlog
+    delete_common
+    redirect_to :controller => 'stories', :action => 'index',
                   :project_id => @project.id.to_s
-    end
+    
+  end
+  
+  def delete_from_dashboard
+    delete_common
+    redirect_to :controller => 'dashboard', :action => 'index',
+                  :project_id => @project.id
+  end
+  
+  def delete_from_iteration
+    delete_common
+    redirect_to :controller => 'iterations', :action => 'show',
+                  :id => (params[:iteration_id]),
+                  :project_id => @project.id
   end
 
   # Displays the details for the story card identified by the 'id' request
