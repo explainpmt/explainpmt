@@ -27,7 +27,7 @@ var st2 = new SortableTable(document.getElementById("task-table"),
 	MaintainSort(st2);
 	
 function OpenNew(selectValue, action, w, h){
-	window.open("<%=base_path%>tasks/" + action + "/" + selectValue , action + "_story","width=" + w + ",height=" + h + ",scrollbars,resizable");
+	window.open("<%=base_path%>tasks/" + action + "/" + selectValue , action + "_task","width=" + w + ",height=" + h + ",scrollbars,resizable");
 }
 
 function handleSelect(select){
