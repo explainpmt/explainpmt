@@ -46,7 +46,7 @@ function handleStorySelect(select){
 		    window.location.href = "<%=@project.id%>/stories/delete_from_dashboard/" + select.value
 		  }else{
 		      if(window.location.href.indexOf('/iterations') > 0){
-		          window.location.href = "<%=base_path%>stories/delete_from_iteration/" + select.value + "?iteration_id=<%= @iteration.id %>"
+		          window.location.href = "<%=base_path%>stories/delete_from_iteration/" + select.value + "<%if @iteration %>?iteration_id=<%= @iteration.id %><% end %>"
 		      }else{
 			     window.location.href = "stories/delete_from_backlog/" + select.value
 			     }
