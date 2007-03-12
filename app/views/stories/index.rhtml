@@ -45,7 +45,7 @@
     </div>
     <%= render( :partial => 'story_list_table',
                 :locals => { :stories => @stories,
-                             :hide_cols => [ :owner, :project ] } ) %>
+                             :hide_cols => [ :owner, :project ]} ) %>
   </form>
 <% else %>
   <p>No stories are in the project backlog.</p>
