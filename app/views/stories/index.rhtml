@@ -1,52 +1,16 @@
 <h3>Story Cards in Project Backlog</h3>
-<%= popup_link('New Story Card', "create",'width=550,height=575,resizable,scrollbars',
-             :controller => 'stories', :action => 'new_single',
-             :project_id => @project.id) %>&nbsp;&nbsp;&nbsp;
-<%= popup_link('Bulk Create', "bulk_create",'width=650,height=425,resizable,scrollbars',
-             :controller => 'stories', :action => 'new_bulk',
-             :project_id => @project.id) %>
-&nbsp;&nbsp;&nbsp;
-<% if params['show_cancelled'] %>
-  <%= link_to('Hide Cancelled Stories', :controller => 'stories', :action => 'index', :project_id => @project.id) %>
-<% else %>
-  <%= link_to('Show Cancelled Stories', :controller => 'stories', :action => 'index', :project_id => @project.id,
-    :show_cancelled => 1) %>
-<% end %>
-&nbsp;&nbsp;&nbsp;
-<%= link_to('Export All Stories', :controller => 'stories',
-              :action => 'export', :project_id => @project.id) %> &nbsp;&nbsp;&nbsp;
-<%= link_to('Export All Tasks', :controller => 'stories',
-              :action => 'export_tasks', :project_id => @project.id) %> 
+<%= render :partial => 'story_links' %>
 <% unless @stories.empty? %>
-  <%= form_tag(:controller => 'iterations', :action => 'move_stories',
-    :project_id => @project.id) %>
-  
-    <div style="text-align: right;">
-  	<% if @project.iterations.current %>
-        &nbsp;&nbsp;&nbsp;Move Selected Story Cards to:
-    <select id="select1" name="select1" onchange="document.getElementById('move_to').value = this.value">
-    <option vlaue="0">Not Assigned</option>
-      <% iteration_options = @project.iterations
-         if @project.iterations.current
-           iteration_options.unshift(@project.iterations.current)
-           iteration_options.delete_at(0)
-         end
-         iteration_options.reverse_each do |i|
-           %>
-           <option value="<%= i.id %>"><%= i.name %></option>
-           <%
-         end
-      %>
-    </select>
-        <input type="submit" name="submit" value="Go" />
-  	<% else %>
-  		<span style="color: #FF0000;">No iterations to move story cards to.</span>
-  	<% end %>
-    </div>
-    <%= render( :partial => 'story_list_table',
-                :locals => { :stories => @stories,
-                             :hide_cols => [ :owner, :project ]} ) %>
-  </form>
+    <%= render :partial => 'move_stories_div', :selected_id => 1 %>
+        <%= render( :partial => 'story_list_table',
+                    :locals => { :stories => @stories,
+                                 :hide_cols => [ :owner, :project ]} ) %>
+        <% if @stories.size > 10%>
+            <br>
+            <%= render :partial => 'story_links' %>
+            <%= render :partial => 'move_stories_div', :selected_id => 2 %>
+        <% end %>
+</form>
 <% else %>
   <p>No stories are in the project backlog.</p>
 <% end %>

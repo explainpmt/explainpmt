@@ -1,0 +1,18 @@
+<%= popup_link('New Story Card', "create",'width=550,height=575,resizable,scrollbars',
+             :controller => 'stories', :action => 'new_single',
+             :project_id => @project.id) %>&nbsp;&nbsp;&nbsp;
+<%= popup_link('Bulk Create', "bulk_create",'width=650,height=425,resizable,scrollbars',
+             :controller => 'stories', :action => 'new_bulk',
+             :project_id => @project.id) %>
+&nbsp;&nbsp;&nbsp;
+<% if params['show_cancelled'] %>
+  <%= link_to('Hide Cancelled Stories', :controller => 'stories', :action => 'index', :project_id => @project.id) %>
+<% else %>
+  <%= link_to('Show Cancelled Stories', :controller => 'stories', :action => 'index', :project_id => @project.id,
+    :show_cancelled => 1) %>
+<% end %>
+&nbsp;&nbsp;&nbsp;
+<%= link_to('Export All Stories', :controller => 'stories',
+              :action => 'export', :project_id => @project.id) %> &nbsp;&nbsp;&nbsp;
+<%= link_to('Export All Tasks', :controller => 'stories',
+              :action => 'export_tasks', :project_id => @project.id) %> 

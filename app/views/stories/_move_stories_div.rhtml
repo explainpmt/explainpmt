@@ -1,0 +1,25 @@
+  <%= form_tag(:controller => 'iterations', :action => 'move_stories',
+    :project_id => @project.id) %>
+    <input id="move_to" type="hidden" name="move_to">
+    <div style="text-align: right;">
+  	<% if @project.iterations.current %>
+        &nbsp;&nbsp;&nbsp;Move Selected Story Cards to:
+    <select id=<%= params[:selected_id] %> name=<%= params[:selected_id] %> onchange="document.getElementById('move_to').value = this.value">
+    <option vlaue="0">Not Assigned</option>
+      <% iteration_options = @project.iterations
+         if @project.iterations.current
+           iteration_options.unshift(@project.iterations.current)
+           iteration_options.delete_at(0)
+         end
+         iteration_options.reverse_each do |i|
+           %>
+           <option value="<%= i.id %>"><%= i.name %></option>
+           <%
+         end
+      %>
+    </select>
+        <input type="submit" name="submit" value="Go" onclick="document.getElementById('move_to').value = document.getElementById('<%= params[:selected_id] %>').value"/>
+  	<% else %>
+  		<span style="color: #FF0000;">No iterations to move story cards to.</span>
+  	<% end %>
+    </div>
