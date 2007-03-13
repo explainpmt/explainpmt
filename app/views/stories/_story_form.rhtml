@@ -8,11 +8,13 @@
     </tr>
     <tr>
       <th><label for="sub_project">Sub-Project:</label></th>
-      <td><select id="sub_project" name="sub_project">
-      <option value=""></option>
-      <%= options_from_collection_for_select @project.sub_projects,
-        :id, :name %>
-    </select></td>
+      <td><%= collection_select_with_current('story','sub_project_id',@project.sub_projects,
+                    'id','name',@story.sub_project_id) %></td>
+    </tr>
+    <tr>
+      <th><label for="story_initiative">Initiative:</label></th>
+      <td><%= collection_select_with_current('story','initiative_id',@project.initiatives,
+                    'id','name',@story.initiative_id) %></td>
     </tr>
     <tr>
       <th><label for="story_status">Status:</label></th>

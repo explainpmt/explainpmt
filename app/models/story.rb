@@ -42,6 +42,7 @@ class Story < ActiveRecord::Base
   belongs_to :sub_project
   before_save :check_project_and_sub_project_match
   belongs_to :iteration
+  belongs_to :initiative
   belongs_to :owner, :class_name => 'User', :foreign_key => 'user_id'
   has_many :tasks, :dependent => :destroy
   has_many :acceptancetests, :dependent => :destroy

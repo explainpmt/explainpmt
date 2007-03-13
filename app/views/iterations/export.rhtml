@@ -6,6 +6,7 @@
     <td><b>SCID</b></td>
     <td><b>Title</b></td>
     <td><b>Description</b></td>
+    <td><b>Initiative</b></td>
     <td><b>Points</b></td>
     <td><b>Value</b></td>
     <td><b>Risk</b></td>
@@ -18,6 +19,8 @@
      <td><%= m.scid %></td>
      <td><%= m.title%></td>
      <td><%= m.description%></td>
+     <td><% if m.initiative_id? %>
+		<%=m.initiative.name%><%else%>Not Assigned<%end%></td>
       <td><%= m.points %></td>
       <td><%= m.value.name %></td>
       <td><%= m.risk.name %></td>

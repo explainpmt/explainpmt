@@ -1,4 +1,9 @@
 module CrudActions
+  def index
+    @list = mymodel.find(:all, :order => mymodel.editlist_order, 
+                         :conditions => [ "project_id = (?)", @project.id] )
+  end
+
   def edit
     @object = session[:edit_object] || mymodel.find(params[:id])
     session[:edit_object] = nil

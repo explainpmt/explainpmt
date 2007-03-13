@@ -39,7 +39,7 @@
 #
 class Project < ActiveRecord::Base
   has_many :sub_projects, :order => 'name', :dependent => :destroy
-  
+  has_many :initiatives, :order => 'id DESC', :dependent => :destroy
   has_many :iterations, :order => 'start_date ASC', :dependent => :destroy do
     def past
       self.reverse.select { |i| i.past? }

@@ -94,6 +94,11 @@ module ApplicationHelper
                                 :project_id => @project.id)
         end
         xml.li do
+          xml << main_menu_link('Initiatives', :controller => 'initiatives',
+                                :action => 'index',
+                                :project_id => @project.id)
+        end
+        xml.li do
           xml << main_menu_link('Acceptance Tests', :controller => 'acceptancetests',
                                 :action => 'index',
                                 :project_id => @project.id)
@@ -168,4 +173,23 @@ module ApplicationHelper
   def numeric_date(date)
     "#{date.mon}/#{date.day}/#{date.year}"
   end
+  
+  def collection_select_with_current(object, method, collection, value_method, text_method, current_value)
+  result = "<select name='#{object}[#{method}]'>\n" 
+  if current_value == nil 
+    result << "<option value=''selected='selected'></option>"
+  else
+    result << "<option value=''></option>"
+  end
+  for element in collection
+    if current_value == element.send(value_method)
+      result << "<option value='#{element.send(value_method)}' selected='selected'>#{element.send(text_method)}</option>\n" 
+    else
+      result << "<option value='#{element.send(value_method)}'>#{element.send(text_method)}</option>\n" 
+    end
+  end
+  result << "</select>\n" 
+  return result
+end
+  
 end

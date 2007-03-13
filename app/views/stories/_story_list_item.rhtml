@@ -22,6 +22,13 @@
                :project_id => story.project.id)%><% if story.description? %>
     <%= image_tag( 'info-icon.gif', :alt => story.description ) %>
     <% end %></td>
+    <td><% if story.initiative_id? %>
+		<%=popup_link(story.initiative.name, "initiative_#{story.initiative_id}",
+		 'width=500,height=325,scrollbars,resizable',
+         {:controller => 'initiatives',
+         :action => 'show',
+         :id => story.initiative_id,
+         :project_id => story.project.id })%><%else%>Not Assigned<%end%></td>
       <td><%= story.points %></td>
       <td><%= story.risk.name %></td>
       <td><%= story.status.name %></td>

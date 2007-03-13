@@ -5,6 +5,7 @@
     <% unless hide_cols.include?( :project ) %><td>Project</td><%end%>
     <td nowrap>Sub-Project</td>
     <td>Title</td>
+    <td>Initiative</td>
     <td>Points</td>
     <td>Risk</td>
     <td>Status</td>
@@ -21,7 +22,7 @@
 var st = new SortableTable(document.getElementById("t9"),
     ["SCID", "CaseInsensitiveString",
     <% unless hide_cols.include?( :project ) %>"CaseInsensitiveString",<%end%>
-    "CaseInsensitiveString","Number","CaseInsensitiveString","CaseInsensitiveString",
+    "CaseInsensitiveString", "CaseInsensitiveString","Number","CaseInsensitiveString","CaseInsensitiveString",
     <% unless hide_cols.include?( :owner ) %>"CaseInsensitiveString",<%end%>
     <% unless hide_cols.include?( :action ) %> "None" <%end%>]);
 

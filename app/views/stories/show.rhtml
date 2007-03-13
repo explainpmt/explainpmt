@@ -24,6 +24,12 @@
       <td><%= @story.sub_project.name %></td>
     </tr>
   <% end %>
+  <% if @story.initiative %>
+    <tr>
+      <th>Initiative:</th>
+      <td><%= @story.initiative.name %></td>
+    </tr>
+  <% end %>
   <tr>
     <th>Value:</th>
     <td><%= @story.value.name %></td>

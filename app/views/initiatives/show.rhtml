@@ -1,0 +1,28 @@
+<p>
+  (<%= link_to('Edit', :controller => 'initiatives', :action => 'edit',
+               :id => @object.id, :project_id => @project.id) %>)
+  &nbsp;&nbsp;&nbsp;
+  (<a href="javascript:window.close();">Close Window</a>)
+</p>
+<table cellspacing="0" cellpadding="3" border="0"> 
+  <tr>
+      <th>Name:</th>
+      <td><%= @object.name %></td>
+  </tr>
+  <tr>
+      <th>Planned Start:</th>
+      <td><%= @object.start_date %></td>
+  </tr>
+  <tr>
+      <th>Planned Finish:</th>
+      <td><%= @object.end_date %></td>
+  </tr>
+  <tr>
+      <th>Customer:</th>
+      <td><%= @object.customer %></td>
+  </tr>
+  <tr>
+      <th>Product Owner:</th>
+      <td><%= @object.product_owner %></td>
+  </tr> 
+</table>
