@@ -1,7 +1,7 @@
 <h3>Story Cards in Project Backlog</h3>
 <%= render :partial => 'story_links' %>
 <% unless @stories.empty? %>
-    <%= render :partial => 'move_stories_div', :selected_id => 'select1' %>
+    <%= render :partial => 'move_stories_div', :selected_id => 'select1' %><br>
         <%= render( :partial => 'story_list_table',
                     :locals => { :stories => @stories,
                                  :hide_cols => [ :owner, :project ]} ) %>
