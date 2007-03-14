@@ -19,7 +19,7 @@
                :controller => 'stories',
                :action => 'show',
                :id => story.id,
-               :project_id => story.project.id)%><% if story.description? %>
+               :project_id => story.project_id)%><% if story.description? %>
     <%= image_tag( 'info-icon.gif', :alt => story.description ) %>
     <% end %></td>
     <td><% if story.initiative_id? %>
@@ -41,11 +41,11 @@
  		  <% else %>
     		<%='None (' + link_to('take', :controller => 'stories', 
     			:action => 'take_ownership', :id => story.id,
-                :project_id => story.project.id) + '/' +
+                :project_id => story.project_id) + '/' +
                popup_link('assign', 'edit_story', 'width=250,height=500,scrollbars,resizable',
                		   :controller => 'stories',
                        :action => 'assign_owner', :id => story.id,
-                       :project_id => story.project.id) + ')'%>
+                       :project_id => story.project_id) + ')'%>
   		  <% end %></td>
       <%end%>
       <td> <%= story.position %> </td>
