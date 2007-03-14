@@ -4,7 +4,8 @@
     <%= render :partial => 'move_stories_div', :selected_id => 'select1' %><br>
         <%= render( :partial => 'story_list_table',
                     :locals => { :stories => @stories,
-                                 :hide_cols => [ :owner, :project ]} ) %>
+                                 :hide_cols => [ :owner, :project ], 
+                                 :base_path => ''} ) %>
         <% if @stories.size > 10%>
             <br>
             <%= render :partial => 'story_links' %>

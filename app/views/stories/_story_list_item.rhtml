@@ -48,7 +48,7 @@
                        :project_id => story.project.id) + ')'%>
   		  <% end %></td>
       <%end%>
-      
+      <td> <%= story.position %> </td>
       <% unless hide_cols.include?( :action ) %>
           <td>
             <select id="story_choices" onchange="handleStorySelect(this)">
@@ -57,6 +57,10 @@
               	<option value="<%= story.id %>">Edit</option>
               	<option value="<%= story.id %>">Clone</option>
               	<option value="<%= story.id %>">Delete</option>
+              	<option value="nothing">-----------</option>
+      	        <option value="<%= story.id %>">Move Up</option>
+      	        <option value="<%= story.id %>">Move Down</option>
+      	        <option value="<%=story.id %>">Insert At</option>
             </select>
            </td>
      <%end%>

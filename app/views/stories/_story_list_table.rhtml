@@ -10,6 +10,7 @@
     <td>Risk</td>
     <td>Status</td>
     <% unless hide_cols.include?( :owner ) %><td>Owner</td><%end%>
+    <td>#</td>
     <% unless hide_cols.include?( :action ) %><td>Action</td><%end%>
   </thead>
   <tbody>
@@ -24,6 +25,7 @@ var st = new SortableTable(document.getElementById("t9"),
     <% unless hide_cols.include?( :project ) %>"CaseInsensitiveString",<%end%>
     "CaseInsensitiveString", "CaseInsensitiveString","Number","CaseInsensitiveString","CaseInsensitiveString",
     <% unless hide_cols.include?( :owner ) %>"CaseInsensitiveString",<%end%>
+    "Number",
     <% unless hide_cols.include?( :action ) %> "None" <%end%>]);
 
 MaintainSort(st);
@@ -54,6 +56,16 @@ function handleStorySelect(select){
 		  }
 	    }
 	}
+	else if (select.selectedIndex == 6){
+		window.location.href = "<%=base_path%>stories/increase_numeric_priority/" + select.value
+	}
+	
+	else if (select.selectedIndex == 7){
+		window.location.href = "<%=base_path%>stories/decrease_numeric_priority/" + select.value
+	}
+	
+	else if (select.selectedIndex == 8){OpenStoryNew(selectValue, "edit_numeric_priority", "400", "130");}
+	
 	select.value = "";
 	return false;
 }

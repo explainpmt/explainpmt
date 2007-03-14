@@ -22,7 +22,8 @@ class StoriesController < ApplicationController
   include CrudActions
 
   before_filter :require_current_project
-  popups :show, :edit, :new_bulk, :assign_owner, :clone_story, :new_story_for_iteration, :new_single
+  popups :show, :edit, :new_bulk, :assign_owner, :clone_story, :new_story_for_iteration, 
+    :new_single, :edit_numeric_priority
 
   def mymodel
     Story
@@ -238,6 +239,45 @@ class StoriesController < ApplicationController
     flash[:status] = successes.join("\n\n") unless successes.empty?
     flash[:error] = failures.join("\n\n") unless failures.empty?
   end
+  
+  def increase_numeric_priority
+  	story = Story.find(params[:id])
+	story.move_higher
+ 	redirect_to :controller => 'stories', :action => 'index',
+                  :project_id => @project.id
+  end
+  
+  def decrease_numeric_priority
+  	story = Story.find(params[:id])
+  	story.move_lower
+ 	redirect_to :controller => 'stories', :action => 'index',
+                  :project_id => @project.id
+  end
+  
+  def edit_numeric_priority
+  	@story = Story.find(params[:id])
+  end
+  
+  def set_numeric_priority
+  	newPos = params[:story][:position]
+  	if (newPos.to_i.to_s.length == newPos.length)
+	  	lastStory = Story.find(:first, :conditions => "project_id = #{@project.id}", :order => "position DESC")
+	  	if(newPos.to_i <= lastStory.position)
+	  		story = Story.find(params[:id])
+	  		story.insert_at(newPos)
+	 		flash[:status] = 'The changes to the story card have been saved.'
+	     	render 'layouts/refresh_parent_close_popup'
+	    else
+	     	flash[:error] = 'Position was not updated.  Value can not be greater than last position.'
+ 		    render 'layouts/refresh_parent_close_popup'
+	    end
+ 	else
+ 		flash[:error] = 'Position was not updated.  You must specify a numeric value.'
+ 		      render 'layouts/refresh_parent_close_popup'
+    end
+  end
+  
+  
 
   protected
 
