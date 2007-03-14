@@ -3,7 +3,7 @@
   <%= link_to('Edit', :controller => 'stories', :action => 'edit',
                :id => @story.id, :project_id => @project.id) %>
   &nbsp;&nbsp;&nbsp;
-  (<a href="javascript:window.close();">Close Window</a>)
+  (<a href="javascript:window.close();window.opener.location.href = window.opener.location.href;">Close Window</a>)
     &nbsp;&nbsp;&nbsp;
   (<%= popup_link('Add Task', "task", 'width=525,height=300,resizable,scrollbars',
   			   :controller => 'tasks', :action => 'new',
