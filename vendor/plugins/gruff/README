@@ -1,0 +1,15 @@
+== Gruff Plugin
+
+Make pretty graphs.
+
+Also has a "gruff" generator for copying a controller and functional test to your app.
+
+  ./script/generate gruff Reports
+
+See examples at http://nubyonrails.com/pages/gruff
+
+== Author
+
+Geoffrey Grosenbach boss@topfunky.com http://nubyonrails.com
+
+

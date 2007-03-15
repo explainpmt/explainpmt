@@ -1,0 +1,7 @@
+author: topfunky
+summary: Make graphs. Requires RMagick. Includes a generator for a graphics controller, and tests.
+homepage: http://nubyonrails.com/pages/gruff
+plugin: http://topfunky.net/svn/plugins/gruff
+license: MIT
+version: 0.1.2
+rails_version: 1.0+

@@ -1,0 +1,61 @@
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<td valign="top"><table>
+<h3>Project Summary</h3>
+<table cellspacing="0" cellpadding="3" border="0"
+        style="float: left; margin-right: 20px;">
+<tr class="even_row">
+<td><strong>Points Completed:</strong></td>
+<td align="right"><%= @pointsCompletedForProjectTotal %> points</td>
+</tr>
+<tr class="odd_row">
+<td><strong>Points Remaining:</strong></td>
+<td align="right"><%=@pointsNotCompletedForProjectTotal %> points</td>
+</tr>
+<tr class="even_row">
+<td><strong>First Iteration:</strong></td>
+<td align="right"><%=@startdate %> </td>
+</tr>
+<tr class="odd_row">
+<td><strong>Today:</strong></td>
+<td align="right"><%= Date.today %></td>
+</tr>
+<tr class="even_row">
+<td><strong>Velocity:</strong></td>
+<td align="right"><%=sprintf("%.2f", @velocity) %> per Iteration</td>
+</tr>
+<tr class="even_row">
+<td><strong>Planned Iterations:</strong></td>
+<% if @plannedIterationsForProject != nil%>
+<td align="right"><%=@plannedIterationsForProject %> Iterations</td>
+<%else%>
+<td align="right">N/A</td>
+<%end%>
+</tr>
+<tr class="odd_row">
+<td><strong>Planned Velocity:</strong></td>
+<% if @wantedVelocityForProject != nil%>
+<td align="right"><%=sprintf("%.2f", @wantedVelocityForProject) %> per Iteration</td>
+<%else%>
+<td align="right">N/A</td>
+<%end%>
+</tr>
+<tr class="even_row">
+<td><strong>Remaining Iterations:</strong></td>
+<td align="right"><%=@remainingiterations %></td>
+</tr>
+<tr class="odd_row">
+<td><strong>Iteration Gap:</strong></td>
+<% if @gapiterations != nil%>
+<%if @gapiterations > 0%>
+<td align="right"><%=@gapiterations %></td>
+<%else%>
+<td align="right">Ahead of Schedule</td>
+<%end%>
+<%else%>
+<td align="right">N/A</td>
+<%end%>
+</tr>
+</table></td>
+<td align="right"><table align="right"><%= image_tag(@project.name + 'burndown.png') %></table> </td>
+
+</table>

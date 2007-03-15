@@ -113,6 +113,11 @@ module ApplicationHelper
                                 :action => 'index',
                                 :project_id => @project.id)
         end
+        xml.li do
+          xml << main_menu_link('Stats', :controller => 'stats',
+                                :action => 'index',
+                                :project_id => @project.id)
+        end
       end
     end
   end

@@ -1,5 +1,5 @@
 <p><strong>
-  <%= popup_link 'Create New Project', "create_project", 'width=525,height=325,resizable,scrollbars', :controller => 'projects', :action => 'new' %>
+  <%= popup_link 'Create New Project', "create_project", 'width=525,height=350,resizable,scrollbars', :controller => 'projects', :action => 'new' %>
 </strong></p>
 
 <% unless @projects.empty? %>
@@ -13,7 +13,7 @@
           (<%= link_to('Team', :controller => 'users', :action => 'index',
                        :project_id => p.id) %>)
           &nbsp;&nbsp;
-          (<%= popup_link('Edit', "edit_project", 'width=525,height=300,resizable,scrollbars', :controller => 'projects', :action => 'edit', :id => p.id) %>)
+          (<%= popup_link('Edit', "edit_project", 'width=525,height=350,resizable,scrollbars', :controller => 'projects', :action => 'edit', :id => p.id) %>)
           &nbsp;&nbsp;
           (<%= link_to('Delete',
                        {

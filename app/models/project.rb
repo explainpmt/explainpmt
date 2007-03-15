@@ -41,6 +41,10 @@ class Project < ActiveRecord::Base
   has_many :sub_projects, :order => 'name', :dependent => :destroy
   has_many :initiatives, :order => 'id DESC', :dependent => :destroy
   has_many :iterations, :order => 'start_date ASC', :dependent => :destroy do
+    def first
+      self[0]
+    end
+    
     def past
       self.reverse.select { |i| i.past? }
     end
@@ -80,6 +84,31 @@ class Project < ActiveRecord::Base
     def backlog
       self.select { |s| s.iteration.nil? }
     end
+    
+    def uncompleted
+      self.select { |s|
+        s.status != Story::Status::Complete and
+        s.status != Story::Status::Accepted and
+        s.status != Story::Status::Cancelled }
+    end
+    
+    def completed
+        self.select { |s|
+        s.status == Story::Status::Complete or
+        s.status == Story::Status::Accepted  }
+    end
+    
+    def points_completed
+      self.completed.inject(0) {|total, completed_story| total + completed_story.points.to_f}
+    end
+    
+    def points_not_completed
+      self.uncompleted.inject(0) {|total, uncompleted_story| total + uncompleted_story.points.to_f}
+    end
+     
+    def total_points
+      self.uncompleted.inject(0) {|total, uncompleted_story| total + uncompleted_story.points.to_f} + self.points_completed
+    end
   end
   
   has_and_belongs_to_many :users, :order => 'last_name ASC, first_name ASC'
@@ -87,5 +116,10 @@ class Project < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 100
+  
+  def current_velocity
+    self.stories.points_completed/self.iterations.past.size
+  end
+  
 end
 
