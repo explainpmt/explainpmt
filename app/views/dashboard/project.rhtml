@@ -1,5 +1,6 @@
+<% if @project.description? %>
 <div id="ProjectDescription"><strong>Description:</strong><%= textilize(@project.description) %></div>
-
+<% end %>
 <%= render_component(:controller => 'milestones',
                      :action => 'milestones_calendar',
                      :params => {:project_id => @project.id}) %>
