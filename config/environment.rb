@@ -52,5 +52,3 @@ end
 
 # Include your application configuration below
 require 'array_each_slice'
-require 'RMagick'
-require 'gruff'

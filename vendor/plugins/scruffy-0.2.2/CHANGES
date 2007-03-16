@@ -1,0 +1,96 @@
+= Scruffy Changelog
+
+== Version 0.2.2
+(August 19th, 2006)
+
+* Removed all font-family and text-rendering attributes from elements.
+	- These were causing issues with Batik and Adobe Viewer.  Horrible font problems.
+* Added require 'builder' to renderers/base.rb
+* Added minor shadows to most graph types.  Adds some depth perception.
+* Added graph.layout as an alias of renderer.  (graph.layout looks nicer).
+* Added markers, values, grid options.
+
+== Version 0.2.1
+(August 18th, 2006)
+
+* Mostly documentation.
+* Added Builder 2.0 dependency to gem spec.
+* Removed minimum size hack in RMagickRasterizer, for now.
+
+
+== Version 0.2.0
+(August 14th, 2006)
+
+- Lots of changes, hold on tight:
+
+* Redesigned rendering system to a component-based design.
+  All objects on the canvas are components that can be re-arranged via renderers.
+* Created default renderer for basic Gruff-like layout.
+* Added Reversed and Cubed renderers to demonstrate the customization abilities (plus, they're cool).
+* Added Split renderer.
+* Created Viewport component to help with Cubed.
+	- Viewport lets you scale it's inner components and move around the
+	  graph.  Its components' sizes and positions are relative to the viewport,
+	  not the graph.
+* Set title to respect marker color if available.
+* Respects :to option in Graph#render for SVG output to file.
+* Stacked layer type -- accepts layers which it then uses to create a stacked graph.  Such as Bar graphs
+  and Area graphs.
+* Abstracted out layer_container functionality to helper module (for stacked graph)
+* Renamed value_transformers to value_formatters.
+* Refined Value Formatters.
+	- Created default: Number.
+	- Respects float precision
+	- Allows for "auto-precision", which will use the largest precision (up to a customizable limit)
+	  necessary to portray the values correctly.  ie: 5.1, 6.32, 7.142  becomes   '5.100', '6.320', '7.142'
+* Modified Legend component, Layers, and Graph component to respect categories.
+	- ie:  Creating a Bar layer with :category => :sales and a Graph with :category => :qa will result in
+	  the Bay layer not being displayed.  Allows for more than one Graph viewport on a screen with different
+	  layers.
+* Improved rasterizing at smaller sizes( < 300px) by rasterizing the image at a larger size first, then
+  allowing RMagick to resize the image with specific filtering/blurring.  Actually looks better than just
+  rasterizing the SVG at the small size from the beginning.
+* Fixed Opacity on stacked graphs.
+* Added Style (invisible) components to allow for CSS styling. (Not recommended, however.)
+* Added Label component for arbitrary text.
+* Created Theme object in place of theme hash.
+
+== Version 0.1.0
+(August 11th, 2006)
+
+* First public release!
+* Legend rendering
+* Rasterizing graph to multiple image types (graph.render :as => 'PNG')
+
+== Version 0.0.12
+(August 10th, 2006)
+This is not a public release.
+
+* Rearranged Layers into a better class/module arrangement.
+
+== Version 0.0.11
+(August 10th, 2006)
+This is not a public release.
+
+* Fixed gem issue.
+
+== Version 0.0.10
+(August 10th, 2006)
+
+This is not a public release.
+
+
+* Removed bogus changelog.
+
+
+== Version 0.0.9
+(August 10th, 2006)
+
+This is not a public release.
+
+* Initial release.
+* Standard renderer.
+* Marker transformers: currency, percentages.
+* Basic Graphs: Area, Bar, Line.
+* Advanced Graphs: Average, AllSmiles.
+* Initial documentation.

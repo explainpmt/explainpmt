@@ -56,6 +56,9 @@
 <%end%>
 </tr>
 </table></td>
-<td align="right"><table align="right"><%= image_tag(@project.name + 'burndown.png') %></table> </td>
+<td align="right"><table align="right">
+<embed src=/images/<%= @project.name + 'burndown.svg'%> type="image/svg+xml"
+      width="600" height="375"
+      pluginspage="http://www.adobe.com/svg/viewer/install/" /></table> </td>
 
 </table>

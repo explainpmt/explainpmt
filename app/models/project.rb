@@ -118,6 +118,7 @@ class Project < ActiveRecord::Base
   validates_length_of :name, :maximum => 100
   
   def current_velocity
+    return 0 if self.iterations.past.size == 0
     self.stories.points_completed/self.iterations.past.size
   end
   

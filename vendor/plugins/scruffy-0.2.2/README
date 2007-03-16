@@ -1,0 +1,9 @@
+==Scruffy Graphs
+
+Author:: Brasten Sager (brasten@nagilum.com)
+Date:: August 5th, 2006
+
+Scruffy is a Ruby library for generating high quality, good looking graphs.  It is designed
+to be easy to use and highly customizable.
+
+For basic usage instructions, refer to the documentation for Scruffy::Graph.
