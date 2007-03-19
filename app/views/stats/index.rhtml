@@ -1,64 +1,63 @@
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
-<tr>
-    <td valign="top">
+<tr border="1">
+    <td>
         <h3>Project Summary</h3>
-        <table cellspacing="0" cellpadding="3" border="1"
-                style="float: left; margin-right: 20px;">
-            <tr class="even_row">
+        <table cellspacing="0" cellpadding="3" border="0">
+            <tr class="even_row" >
                 <td><strong>Points Completed:</strong></td>
-                <td align="right"><%= @pointsCompletedForProjectTotal %> points</td>
+                <td><%= @pointsCompletedForProjectTotal %> points</td>
             </tr>
             <tr class="odd_row">
                 <td><strong>Points Remaining:</strong></td>
-                <td align="right"><%=@pointsNotCompletedForProjectTotal %> points</td>
+                <td ><%=@pointsNotCompletedForProjectTotal %> points</td>
             </tr>
             <tr class="even_row">
                 <td><strong>First Iteration:</strong></td>
-                <td align="right"><%=@startdate %> </td>
+                <td ><%=@startdate %> </td>
             </tr>
             <tr class="odd_row">
                 <td><strong>Today:</strong></td>
-                <td align="right"><%= Date.today %></td>
+                <td ><%= Date.today %></td>
             </tr>
             <tr class="even_row">
                 <td><strong>Velocity:</strong></td>
-                <td align="right"><%=sprintf("%.2f", @velocity) %> per Iteration</td>
+                <td ><%=sprintf("%.2f", @velocity) %> per Iteration</td>
             </tr>
             <tr class="even_row">
                 <td><strong>Planned Iterations:</strong></td>
                 <% if @plannedIterationsForProject != nil%>
-                    <td align="right"><%=@plannedIterationsForProject %> Iterations</td>
+                    <td ><%=@plannedIterationsForProject %> Iterations</td>
                 <%else%>
-                <td align="right">N/A</td>
+                <td >N/A</td>
                 <%end%>
             </tr>
             <tr class="odd_row">
                 <td><strong>Planned Velocity:</strong></td>
                 <% if @wantedVelocityForProject != nil%>
-                 <td align="right"><%=sprintf("%.2f", @wantedVelocityForProject) %> per Iteration</td>
+                 <td ><%=sprintf("%.2f", @wantedVelocityForProject) %> per Iteration</td>
                 <%else%>
-                <td align="right">N/A</td>
+                <td >N/A</td>
                 <%end%>
             </tr>
             <tr class="even_row">
                 <td><strong>Remaining Iterations:</strong></td>
-                <td align="right"><%=@remainingiterations %></td>
+                <td ><%=@remainingiterations %></td>
             </tr>
             <tr class="odd_row">
                 <td><strong>Iteration Gap:</strong></td>
                 <% if @gapiterations != nil%>
                     <%if @gapiterations > 0%>
-                        <td align="right"><%=@gapiterations %></td>
+                        <td ><%=@gapiterations %></td>
                     <%else%>
-                        <td align="right">Ahead of Schedule</td>
+                        <td >Ahead of Schedule</td>
                 <%end%>
                 <%else%>
-                    <td align="right">N/A</td>
+                    <td >N/A</td>
                 <%end%>
             </tr>
         </table>
     </td>
-    <td align="right">
+    <td>
         <embed type="image/svg+xml" src="/images/<%= @project.name + 'burndown.svg'%>" 
             width="600" height="375">
         </embed>
