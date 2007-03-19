@@ -1,12 +1,14 @@
 <% hide_cols ||= [] %>
 <table class="sort-table" id="acceptance-table" cellspacing="0" cellpadding="0" border="0" width="100%">
   <thead>
-    <td>Test Name</td>
-    <% unless hide_cols.include?(:story)%><td>Story</td><% end %>
-    <% unless hide_cols.include?(:iteration)%><td>Iteration</td><% end %>
-    <td>Automated</td>
-    <td>Pass</th>
-    <% unless hide_cols.include?(:action)%><td>Action</td><% end %>
+    <tr>
+        <td>Test Name</td>
+        <% unless hide_cols.include?(:story)%><td>Story</td><% end %>
+        <% unless hide_cols.include?(:iteration)%><td>Iteration</td><% end %>
+        <td>Automated</td>
+        <td>Pass</th>
+        <% unless hide_cols.include?(:action)%><td>Action</td><% end %>
+    </tr>
   </thead>
   <tbody>
         <%= render( :partial => 'acceptancetests/acceptancetest_list_item', :collection => acceptancetests,
