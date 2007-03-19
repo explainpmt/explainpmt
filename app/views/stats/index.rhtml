@@ -23,7 +23,7 @@
                 <td><strong>Velocity:</strong></td>
                 <td ><%=sprintf("%.2f", @velocity) %> per Iteration</td>
             </tr>
-            <tr class="even_row">
+            <tr class="odd_row">
                 <td><strong>Planned Iterations:</strong></td>
                 <% if @plannedIterationsForProject != nil%>
                     <td ><%=@plannedIterationsForProject %> Iterations</td>
@@ -31,7 +31,7 @@
                 <td >N/A</td>
                 <%end%>
             </tr>
-            <tr class="odd_row">
+            <tr class="even_row">
                 <td><strong>Planned Velocity:</strong></td>
                 <% if @wantedVelocityForProject != nil%>
                  <td ><%=sprintf("%.2f", @wantedVelocityForProject) %> per Iteration</td>
@@ -39,11 +39,11 @@
                 <td >N/A</td>
                 <%end%>
             </tr>
-            <tr class="even_row">
+            <tr class="odd_row">
                 <td><strong>Remaining Iterations:</strong></td>
                 <td ><%=@remainingiterations %></td>
             </tr>
-            <tr class="odd_row">
+            <tr class="even_row">
                 <td><strong>Iteration Gap:</strong></td>
                 <% if @gapiterations != nil%>
                     <%if @gapiterations > 0%>
