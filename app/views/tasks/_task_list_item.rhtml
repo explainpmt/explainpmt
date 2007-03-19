@@ -1,5 +1,6 @@
 <% task = task_list_item %>
-     <tr>
+<% row_class = task_list_item_counter%2 == 0 ? "odd_row" : "even_row" %>
+     <tr class="<%= row_class %>">
 	 <% unless hide_cols.include?( :project ) %>
 	   <td><%= link_to(task.story.project.name, :controller => 'dashboard',
             :action => 'index', :project_id => task.story.project.id) %></td>
