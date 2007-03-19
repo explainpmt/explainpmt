@@ -290,6 +290,13 @@ SortableTable.prototype.sort = function (nColumn, bDescending, sSortType) {
 
 	if (typeof this.onsort == "function")
 		this.onsort();
+		
+    var rows = this.tBody.rows;
+	var l = rows.length;
+	for (var i = 0; i < l; i++) {
+		removeClassName(rows[i], i % 2 ? "odd_row" : "even_row");
+		addClassName(rows[i], i % 2 ? "even_row" : "odd_row");
+}
 };
 
 SortableTable.prototype.asyncSort = function (nColumn, bDescending, sSortType) {
