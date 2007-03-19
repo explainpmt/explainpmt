@@ -1,8 +1,10 @@
 <table class="sort-table" id=<%= params[ :table_id ]%> cellspacing="0" cellpadding="3" border="0" width="100%">
   <thead>
-    <td width="100">Date</td>
-    <td>Name</td>
-    <td>Action</td>
+    <tr>
+        <td width="100">Date</td>
+        <td>Name</td>
+        <td>Action</td>
+    </tr>
   </thead>
   <tbody>
   <% @milestones.each_with_index do |m,i|
