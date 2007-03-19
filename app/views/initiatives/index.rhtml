@@ -5,17 +5,19 @@
                  'width=500,height=280,resizable,scrollbars',
                  :controller => 'initiatives', :action => 'new',
                  :project_id => @project.id) %></br></br></br></br>
-       <table class="sort-table" id="table" cellspacing="0" cellpadding="0" border="0" width="100%">
+       <table class="sort-table" id="initiative_table" cellspacing="0" cellpadding="0" border="0" width="100%">
   <thead>
-    <td>Initiative Name</td>
-    <td>Start Date</td>
-    <td>End Date</td>
-    <td>Customer</td>
-    <td>Action</td>
+    <tr>
+        <td>Initiative Name</td>
+        <td>Start Date</td>
+        <td>End Date</td>
+        <td>Customer</td>
+        <td>Action</td>
+    </tr>
   </thead>
   <tbody>
-  <% @list.each_with_index do |m,i| row_class = (i%2 == 0) ? 'odd_row' : 'even_row' %>
-    <tr class="<%= row_class %>">
+  <% @list.each do |m|%>
+    <tr>
    	  <td>
      		<%= popup_link(m.name, "initiative_#{m.id}",
                           'width=500,height=325,resizable,scrollbars',
@@ -52,7 +54,7 @@
 
 <script type="text/javascript">
 <% unless @list.empty? %>
-var st = new SortableTable(document.getElementById("table"),
+var st = new SortableTable(document.getElementById("initiative_table"),
 	["CaseInsensitiveString", "Date", "Date", "CaseInsensitiveString", "None"]);
 
 // Maintain sort and restore the class names
