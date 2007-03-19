@@ -1,6 +1,5 @@
 <% story = story_list_item %>
-<% row_class = story_list_item_counter%2 == 0 ? "odd_row" : "even_row" %>
-     <tr class="<%=row_class%>">
+     <tr>
      <td nowrap>
        <% unless hide_cols.include?( :checkbox ) %>
             <input type="checkbox" name="selected_stories[]"

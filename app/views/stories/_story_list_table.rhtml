@@ -1,18 +1,20 @@
 <% hide_cols ||= [] %>
-<table class="sort-table" id="t9" cellspacing="0" cellpadding="0" border="0" width="100%">
+<table class="sort-table" id="backlog_stories" cellspacing="0" cellpadding="0" border="0" width="100%">
   <thead>
-    <td>SCID</td>
-    <% unless hide_cols.include?( :project ) %><td>Project</td><%end%>
-    <td nowrap>Sub-Project</td>
-    <td>Title</td>
-    <td>Initiative</td>
-    <td>Points</td>
-    <td>Risk</td>
-    <td>Status</td>
-    <% unless hide_cols.include?( :owner ) %><td>Owner</td><%end%>
-    <td>#</td>
-    <% unless hide_cols.include?( :action ) %><td>Action</td><%end%>
-  </thead>
+    <tr>
+        <td>SCID</td>
+        <% unless hide_cols.include?( :project ) %><td>Project</td><%end%>
+        <td nowrap>Sub-Project</td>
+        <td>Title</td>
+        <td>Initiative</td>
+        <td>Points</td>
+        <td>Risk</td>
+        <td>Status</td>
+        <% unless hide_cols.include?( :owner ) %><td>Owner</td><%end%>
+        <td>#</td>
+        <% unless hide_cols.include?( :action ) %><td>Action</td><%end%>
+    </tr>
+    </thead>
   <tbody>
     <%= render( :partial => 'stories/story_list_item', :collection => stories,
                 :locals => { :hide_cols => hide_cols } ) %>
@@ -20,7 +22,7 @@
 </table>
 <script type="text/javascript">
 <% unless @stories.empty? %>
-var st = new SortableTable(document.getElementById("t9"),
+var st = new SortableTable(document.getElementById("backlog_stories"),
     ["SCID", "CaseInsensitiveString",
     <% unless hide_cols.include?( :project ) %>"CaseInsensitiveString",<%end%>
     "CaseInsensitiveString", "CaseInsensitiveString","Number","CaseInsensitiveString","CaseInsensitiveString",
