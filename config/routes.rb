@@ -15,7 +15,7 @@ map.connect 'project/:project_id/stories',
             :controller => 'stories', :action => 'index'
             
 map.connect 'project/:project_id/stories/show_cancelled',
-            :controller => 'stories', :action => 'index', :show_cancelled => '1'
+            :controller => 'stories', :action => 'index', :show_cancelled => 1
             
 map.connect 'project/:project_id/:controller/:action/:id',
             :controller => 'dashboard'

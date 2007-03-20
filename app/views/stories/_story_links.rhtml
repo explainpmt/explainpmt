@@ -5,7 +5,7 @@
              :controller => 'stories', :action => 'new_bulk',
              :project_id => @project.id) %>
 &nbsp;&nbsp;&nbsp;
-<% if params['show_cancelled'] %>
+<% if params[:show_cancelled]%>
   <%= link_to('Hide Cancelled Stories', :controller => 'stories', :action => 'index', :project_id => @project.id) %>
 <% else %>
   <%= link_to('Show Cancelled Stories', :controller => 'stories', :action => 'index', :project_id => @project.id,
