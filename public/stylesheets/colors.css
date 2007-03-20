@@ -4,18 +4,18 @@ a, a:visited {
 }
 
 .odd_row td {
-  background-color: #FFFFCC;
-  border-color: #FFFFFF;
+  background-color: #F0EFED;
+  border-color: #F0EFED;
 }
 
 .even_row td {
-  background-color: #FFFFAA;
-  border-color: #FFFFFF;
+  background-color: #DFDCD5;
+  border-color: #DFDCD5;
 }
 
 .odd_row:hover td,
 .even_row:hover td {
-  background-color: #DDDDFF;
+  background-color: #99FF99;
 }
 
 div.contact_card {
