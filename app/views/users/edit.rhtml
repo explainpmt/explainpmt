@@ -1,4 +1,4 @@
-<%= form_tag(:controller => 'users', :action => 'update', :id => @user.id) %>
+<%= form_tag( user_url( @user.id ), :method => :put ) %>
 <%= render_partial('user_form', :user => @user) %>
 </form>
 
