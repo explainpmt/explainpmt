@@ -243,15 +243,25 @@ class StoriesController < ApplicationController
   def increase_numeric_priority
   	story = Story.find(params[:id])
 	story.move_higher
+	if params[:iteration_id]
+	  	redirect_to :controller => 'iterations', :action => 'show',
+                  :project_id => @project.id, :id => params[:iteration_id]
+	else
  	redirect_to :controller => 'stories', :action => 'index',
                   :project_id => @project.id
+    end
   end
   
   def decrease_numeric_priority
   	story = Story.find(params[:id])
   	story.move_lower
+	if params[:iteration_id]
+	  	redirect_to :controller => 'iterations', :action => 'show',
+                  :project_id => @project.id, :id => params[:iteration_id]
+	else
  	redirect_to :controller => 'stories', :action => 'index',
                   :project_id => @project.id
+    end
   end
   
   def edit_numeric_priority

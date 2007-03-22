@@ -59,11 +59,11 @@ function handleStorySelect(select){
 	    }
 	}
 	else if (select.selectedIndex == 6){
-		window.location.href = "<%=base_path%>stories/increase_numeric_priority/" + select.value
+		window.location.href = "<%=base_path%>stories/increase_numeric_priority/" + select.value + "<%if @iteration %>?iteration_id=<%= @iteration.id %><% end %>"
 	}
 	
 	else if (select.selectedIndex == 7){
-		window.location.href = "<%=base_path%>stories/decrease_numeric_priority/" + select.value
+		window.location.href = "<%=base_path%>stories/decrease_numeric_priority/" + select.value + "<%if @iteration %>?iteration_id=<%= @iteration.id %><% end %>"
 	}
 	
 	else if (select.selectedIndex == 8){OpenStoryNew(selectValue, "edit_numeric_priority", "400", "130");}
