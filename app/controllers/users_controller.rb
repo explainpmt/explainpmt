@@ -22,6 +22,7 @@ class UsersController < ApplicationController
   before_filter :require_admin_privileges, :except => [:new, :create, :index, :project,
     :authenticate, :login, :logout ]
   skip_before_filter :check_authentication, :only => [ :authenticate, :login ]
+  popups :new, :edit
 
   # If the 'project_id' request parameter is set, this will display the
   # project's team members. Otherwise, it shows all users on the system.
@@ -73,10 +74,7 @@ class UsersController < ApplicationController
         flash[:status] = "User account for #{user.full_name} has been " +
                           "created and added to the project team."
       end
-      
-      unless redirect_to_referer
-        redirect_to :controller => 'dashboard'
-      end
+      render :template => 'layouts/refresh_parent_close_popup'
     else
       session[:new_user] = user
       if @project
@@ -105,9 +103,7 @@ class UsersController < ApplicationController
     if user.valid?
       user.save
       flash[:status] = "User account for #{user.full_name} has been updated."
-      unless redirect_to_referer
-        redirect_to :controller => 'dashboard'
-      end
+      render :template => 'layouts/refresh_parent_close_popup'
     else
       session[:edit_user] = user
       redirect_to(:controller => 'users', :action => 'edit', :id => user.id)

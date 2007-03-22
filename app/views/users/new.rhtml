@@ -2,5 +2,5 @@
 <% if @project %>
 <input type="hidden" name="project_id" value="<%= @project.id %>" />
 <% end %>
-<%= render_partial('user_form', :user => @user) %>
+<%= render :partial => 'user_form'%>
 </form>

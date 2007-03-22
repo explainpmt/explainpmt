@@ -41,7 +41,10 @@
           :controller => 'users',
           :action => 'edit',
           :id => session[:current_user].id)%> &nbsp; | &nbsp; 
-        <%= link_to( 'Log-out', logout_users_url ) %>
+        <%= popup_link('Edit Profile', "edit_user",
+                            'width=375,height=300,resizable,scrollbars',
+                            :controller => 'users', :action => 'edit', 
+                            :id => session[:current_user].id) %>
       </div>
       <% end %>
     </div>

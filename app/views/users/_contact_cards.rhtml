@@ -21,8 +21,9 @@
                   </li>
                 <% else %>
                 <% if is_admin? %>
-                  <li><%= link_to('Edit', :controller => 'users', :action => 'edit',
-                                          :id => user.id) %></li>
+                  <li><%= popup_link('Edit', "edit_user",
+                            'width=375,height=300,resizable,scrollbars',
+                            :controller => 'users', :action => 'edit', :id => user.id) %></li>
                   <li>
                     <%= link_to('Delete',
                                 {

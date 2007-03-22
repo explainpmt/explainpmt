@@ -6,7 +6,8 @@
       <p>Admin accounts are marked with <%= image_tag('admin_dot.gif') %></p>
       <% if is_admin? %>
         <p><strong>
-          <%= link_to('Create New User', :controller => 'users', :action => 'new') %>
+          <%= popup_link('Create New User', "create_user",'width=375,height=300,resizable,scrollbars',
+             :controller => 'users', :action => 'new') %>
         </strong></p>
       <% end %>
     </td>
