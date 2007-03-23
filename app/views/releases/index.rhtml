@@ -73,7 +73,7 @@ function handleSelect(select){
 </script>
 <% else %>
 <tr><td> No Releases have been defined for this project</td></tr>
-<tr><td><%= popup_link('Add a Release', 'new_release',
+<tr><td><br><br><%= popup_link('Add a Release', 'new_release',
             'width=500,height=250,resizable,scrollbars',
             :controller => 'releases', :action => 'new',
             :project_id => @project.id) %></td></tr>
