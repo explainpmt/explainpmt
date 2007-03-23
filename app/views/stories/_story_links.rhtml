@@ -6,11 +6,17 @@
              :project_id => @project.id) %>
 &nbsp;&nbsp;&nbsp;
 <% if params[:show_cancelled]%>
-  <%= link_to('Hide Cancelled Stories', :controller => 'stories', :action => 'index', :project_id => @project.id) %>
+  <%= link_to('Hide Cancelled Stories', :controller => 'stories', 
+            :action => 'index', :project_id => @project.id) %>
 <% else %>
-  <%= link_to('Show Cancelled Stories', :controller => 'stories', :action => 'index', :project_id => @project.id,
-    :show_cancelled => 1) %>
+  <%= link_to('Show Cancelled', :controller => 'stories', 
+            :action => 'index', :project_id => @project.id,
+            :show_cancelled => 1) %>
 <% end %>
+&nbsp;&nbsp;&nbsp;
+<%= link_to('Show All', :controller => 'stories',
+            :action => 'index', :project_id => @project.id,
+            :show_all => 1) %>
 &nbsp;&nbsp;&nbsp;
 <%= link_to('Export All Stories', :controller => 'stories',
               :action => 'export', :project_id => @project.id) %> &nbsp;&nbsp;&nbsp;

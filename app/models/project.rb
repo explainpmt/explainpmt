@@ -122,5 +122,16 @@ class Project < ActiveRecord::Base
     self.stories.points_completed/self.iterations.past.size
   end
   
+  def self.find_all_stories(project_id)
+   Story.find(:all, :include => [:iteration, :initiative, :project], :conditions => "stories.project_id = #{project_id}")
+  end
+  
+  def self.find_all_stories_not_assigned_to_an_iteration(project_id)
+   Story.find(:all, :include => [:iteration, :initiative,  :project], :conditions => "stories.project_id = #{project_id} and stories.iteration_id is null")
+  end
+  
+  def self.find_all_stories_not_cancelled_and_not_assigned_to_an_iteration(project_id)
+   Story.find(:all, :include => [:iteration, :initiative,  :project], :conditions => "stories.project_id = #{project_id} and status != 8 and stories.iteration_id is null")
+  end
 end
 

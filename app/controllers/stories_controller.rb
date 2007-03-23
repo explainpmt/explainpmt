@@ -35,11 +35,11 @@ class StoriesController < ApplicationController
   def index
     @page_title = "Backlog"
     if params[:show_cancelled]
-      @stories = @project.stories.backlog
+      @stories = Project.find_all_stories_not_assigned_to_an_iteration(@project.id)
+    elsif params[:show_all]
+      @stories = Project.find_all_stories(@project.id)
     else
-      @stories = @project.stories.backlog.select { |s|
-        s.status != Story::Status::Cancelled
-      }
+      @stories = Project.find_all_stories_not_cancelled_and_not_assigned_to_an_iteration(@project.id)
     end
   end
 
