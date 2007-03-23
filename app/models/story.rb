@@ -43,6 +43,8 @@ class Story < ActiveRecord::Base
   before_save :check_project_and_sub_project_match
   belongs_to :iteration
   belongs_to :initiative
+  belongs_to :creator, :class_name => 'User', :foreign_key => 'creator_id'
+  belongs_to :updater, :class_name => 'User', :foreign_key => 'updater_id'
   belongs_to :owner, :class_name => 'User', :foreign_key => 'user_id'
   has_many :tasks, :dependent => :destroy
   has_many :acceptancetests, :dependent => :destroy
@@ -196,6 +198,24 @@ class Story < ActiveRecord::Base
         read_attribute('risk')
       end
     EOF
+  end
+  
+  def audit_story
+    if !self.new_record?
+      story = Story.find(self.id)
+      audit = Audit.new
+      audit.object_id = self.id
+      audit.object = "Story"
+      audit.project_id = self.project_id
+      audit.user = User.find(self.updater_id).full_name
+       self.attributes.each do |key, value|
+        if story.attributes[key] != value && key != "updater_id"
+            audit.before =  key + "[" + story.attributes[key].to_s + "]\n"
+            audit.after = key + "[" + value.to_s + "]\n"
+        end
+       end
+      audit.save
+    end
   end
 
   protected

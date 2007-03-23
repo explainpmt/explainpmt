@@ -23,7 +23,7 @@ class StoriesController < ApplicationController
 
   before_filter :require_current_project
   popups :show, :edit, :new_bulk, :assign_owner, :clone_story, :new_story_for_iteration, 
-    :new_single, :edit_numeric_priority
+    :new_single, :edit_numeric_priority, :audit_story
 
   def mymodel
     Story
@@ -139,7 +139,9 @@ class StoriesController < ApplicationController
     modify_risk_status_and_value_params
     story = Story.find(params[:id])
     story.attributes = params[:story]
+    story.updater_id = session[:current_user].id
     if story.valid?
+      story.audit_story
       story.save
       flash[:status] = 'The changes to the story card have been saved.'
       render :template => 'layouts/refresh_parent_close_popup'
@@ -287,7 +289,9 @@ class StoriesController < ApplicationController
     end
   end
   
-  
+  def audit_story
+    @changes = Audit.find(:all, :conditions => ["project_id = #{@project.id} AND object_id = #{@params[:id]} AND object = 'Story'"], :order => "created_at DESC")
+  end
 
   protected
 

@@ -2,20 +2,24 @@
 <p>
   <%= link_to('Edit', :controller => 'stories', :action => 'edit',
                :id => @story.id, :project_id => @project.id) %>
-  &nbsp;&nbsp;&nbsp;
+  &nbsp;
   (<a href="javascript:window.close();window.opener.location.href = window.opener.location.href;">Close Window</a>)
-    &nbsp;&nbsp;&nbsp;
+    &nbsp;
   (<%= popup_link('Add Task', "task", 'width=525,height=300,resizable,scrollbars',
   			   :controller => 'tasks', :action => 'new',
                :id => @story.id, :project_id => @project.id) %>)
-  &nbsp;&nbsp;&nbsp;
+  &nbsp;
     (<%= popup_link('Add Acceptance', 'new_acceptance',
                'width=550,height=550,scrollbars,resizable',
                :controller => 'acceptancetests',
                :action => 'new_acceptance_for_story', :story_id => @story.id,
                :project_id => @project.id) %>)
-      &nbsp;&nbsp;&nbsp;
-               
+      &nbsp;
+    (<%= popup_link('View History', 'audit_acceptance',
+               'width=800,height=550,scrollbars,resizable',
+               :controller => 'stories',
+               :action => 'audit_story', :id => @story.id,
+               :project_id => @project.id) %>)               
 </p>
 <table cellspacing="0" cellpadding="3" border="0">
   <% if @story.created_at? %>
