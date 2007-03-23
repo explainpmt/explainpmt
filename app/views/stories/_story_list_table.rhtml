@@ -12,6 +12,7 @@
         <td>Status</td>
         <% unless hide_cols.include?( :owner ) %><td>Owner</td><%end%>
         <% unless hide_cols.include? ( :iteration ) %><td>Iteration</td><%end%>
+        <td>Customer</td>
         <td>#</td>
         <% unless hide_cols.include?( :action ) %><td>Action</td><%end%>
     </tr>
@@ -29,7 +30,7 @@ var st = new SortableTable(document.getElementById("backlog_stories"),
     "CaseInsensitiveString", "CaseInsensitiveString","Number","CaseInsensitiveString","CaseInsensitiveString",
     <% unless hide_cols.include?( :owner ) %>"CaseInsensitiveString",<%end%>
     <% unless hide_cols.include?( :iteration ) %>"CaseInsensitiveString",<%end%>
-    "Number",
+    "CaseInsensitiveString","Number",
     <% unless hide_cols.include?( :action ) %> "None" <%end%>]);
 
 MaintainSort(st);
@@ -40,11 +41,11 @@ function OpenStoryNew(selectValue, action, w, h){
 
 function handleStorySelect(select){
 	selectValue = select.value;
-	if (select.selectedIndex == 1){OpenStoryNew(selectValue, "show", "600", "600");}
+	if (select.selectedIndex == 1){OpenStoryNew(selectValue, "show", "550", "640");}
 	
-	else if (select.selectedIndex == 2){OpenStoryNew(selectValue, "edit", "600", "600");}
+	else if (select.selectedIndex == 2){OpenStoryNew(selectValue, "edit", "550", "640");}
 	
-	else if (select.selectedIndex == 3){OpenStoryNew(selectValue, "clone_story", "600", "600");}
+	else if (select.selectedIndex == 3){OpenStoryNew(selectValue, "clone_story", "550", "640");}
 	
 	else if (select.selectedIndex == 4){
 		var x = confirm("Are you sure you want to delete?");

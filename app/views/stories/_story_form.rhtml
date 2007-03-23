@@ -17,6 +17,10 @@
                     'id','name',@story.initiative_id) %></td>
     </tr>
     <tr>
+      <th><label for="story_customer">Customer:</label></th>
+      <td><%= input('story', 'customer') %></td>
+    </tr>
+    <tr>
       <th><label for="story_status">Status:</label></th>
       <td><%= collection_select('story', 'status', Story::Statuses, 'order',
                                 'name') %></td>

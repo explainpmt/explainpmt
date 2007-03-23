@@ -15,7 +15,7 @@
      
      <td><% if story.sub_project_id? %><%= story.sub_project.name %> <%else%> Not Assigned <%end%></td>
      <td><%= popup_link(story.title, "story_#{story.id}",
-               'width=600,height=600,scrollbars,resizable',
+               'width=550,height=640,scrollbars,resizable',
                :controller => 'stories',
                :action => 'show',
                :id => story.id,
@@ -56,6 +56,7 @@
          :id => story.iteration_id,
          :project_id => story.project.id })%><%else%>Not Assigned<%end%></td>
       <% end %>
+      <td> <% if story.customer %> <%= story.customer %> <%end%></td>
       <td> <%= story.position %> </td>
       <% unless hide_cols.include?( :action ) %>
           <td>

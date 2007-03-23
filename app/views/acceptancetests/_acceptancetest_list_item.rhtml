@@ -18,7 +18,7 @@
     <% unless hide_cols.include?(:story)%>
   		<% if acceptancetest.story_id? %>
      		<td><%= popup_link("SC#{acceptancetest.story.scid}", "story_#{acceptancetest.story_id}",
-                      'width=600,height=600,resizable,scrollbars',
+                      'width=550,height=640,resizable,scrollbars',
                       :controller => 'stories',
                       :action => 'show', :id => acceptancetest.story_id,
                       :project_id => @project.id) %>  (<%= acceptancetest.story.title[0,30] %>...)
