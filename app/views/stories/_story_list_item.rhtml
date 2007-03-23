@@ -30,11 +30,13 @@
          :id => story.initiative_id,
          :project_id => story.project.id })%><%else%>Not Assigned<%end%></td>
       <td><%= story.points %></td>
+      <td><%= story.value.name %></td>
       <td><%= story.risk.name %></td>
       <td><%= story.status.name %></td>
       <% unless hide_cols.include?( :owner ) %>
         <td><%if story.owner%>
     		<%= story.owner.full_name %>
+    		<%if story.owner.team?%><%= '- ' + story.owner.team %><%end%>
     		<%= '(' + link_to('release', 
     			:controller => 'stories', :action => 'release_ownership',
                 :id => story.id, :project_id => story.project.id) + ')' %>

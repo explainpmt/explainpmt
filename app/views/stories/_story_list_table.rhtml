@@ -8,6 +8,7 @@
         <td>Title</td>
         <td>Initiative</td>
         <td>Points</td>
+        <td>Value</td>
         <td>Risk</td>
         <td>Status</td>
         <% unless hide_cols.include?( :owner ) %><td>Owner</td><%end%>
@@ -27,7 +28,7 @@
 var st = new SortableTable(document.getElementById("backlog_stories"),
     ["SCID", "CaseInsensitiveString",
     <% unless hide_cols.include?( :project ) %>"CaseInsensitiveString",<%end%>
-    "CaseInsensitiveString", "CaseInsensitiveString","Number","CaseInsensitiveString","CaseInsensitiveString",
+    "CaseInsensitiveString", "CaseInsensitiveString","Number","CaseInsensitiveString","CaseInsensitiveString","CaseInsensitiveString",
     <% unless hide_cols.include?( :owner ) %>"CaseInsensitiveString",<%end%>
     <% unless hide_cols.include?( :iteration ) %>"CaseInsensitiveString",<%end%>
     "CaseInsensitiveString","Number",
