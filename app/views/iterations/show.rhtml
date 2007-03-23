@@ -80,6 +80,13 @@
             },
             :confirm => 'Are you sure you want to delete this iteration?') %>
 )
+(
+<%= popup_link('Allocation', 'view_allocation',
+               'width=400,height=500,scrollbars,resizable',
+               :controller => 'iterations',
+               :action => 'allocation_for_iteration', :id => @iteration.id,
+               :project_id => @project.id) %>
+)
 </div>
 
 <h2><%= @iteration.name %>&nbsp;(<%= numeric_date(@iteration.start_date) %> -

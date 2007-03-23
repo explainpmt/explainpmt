@@ -77,6 +77,14 @@ class Iteration < ActiveRecord::Base
     (budget || 0) - stories.total_points
   end
 
+  # The number of story points by user
+  def points_by_user
+      stories.inject( Hash.new( 0 ) ) do |hsh, story|
+            hsh[ story.user_id ] += story.points      
+            hsh    
+     end  
+  end
+  
   def current?
     today = Time.now.at_midnight
     ( start_date.to_time <= today ) and ( stop_date.to_time >= today ) 

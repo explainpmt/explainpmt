@@ -22,7 +22,7 @@ class IterationsController < ApplicationController
   include CrudActions
 
   before_filter :require_current_project
-  popups :select_stories, :assign_stories, :edit, :new
+  popups :select_stories, :assign_stories, :edit, :new, :allocation_for_iteration
 
   def mymodel
     Iteration
@@ -106,6 +106,12 @@ class IterationsController < ApplicationController
     render :layout => false
   end
 
+  def allocation_for_iteration
+    @iteration = Iteration.find(params[:id])
+    @allocations = @iteration.points_by_user
+    @users = @project.users
+  end
+  
   private
 
   # Does the actual work of changing the iteration assignment for #move_stories
