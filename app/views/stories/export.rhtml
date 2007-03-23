@@ -12,6 +12,7 @@
     <td><b>Risk</b></td>
     <td><b>Status</b></td>
     <td><b>Iteration</b></td>
+    <td><b>Customer</b></td>
     <td><b>Owner</b></td>
   </thead>
   <tbody>
@@ -28,6 +29,7 @@
       <td><%= m.status.name %></td>
       <td><% if m.iteration_id? %>
 		<%= m.iteration.name%><%else%>Not Assigned<%end%></td>
+      <td><%= m.customer %></td>
 	  <td><% if m.has_owner? %>
     		<%= m.owner.full_name %>
     		<%else%>Not Assigned<%end%></td>

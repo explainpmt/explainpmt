@@ -8,9 +8,10 @@
     <td><b>Description</b></td>
     <td><b>Initiative</b></td>
     <td><b>Points</b></td>
-    <td><b>Value</b></td>
+    <td><b>Priority</b></td>
     <td><b>Risk</b></td>
     <td><b>Status</b></td>
+    <td><b>Customer</b></td>
     <td><b>Owner</b></td>
   </thead>
   <tbody>
@@ -25,6 +26,7 @@
       <td><%= m.value.name %></td>
       <td><%= m.risk.name %></td>
       <td><%= m.status.name %></td>
+      <td><%= m.customer %></td>
       <td><%if m.has_owner?%>
     		<%= m.owner.full_name %>
   		  <% end %>
