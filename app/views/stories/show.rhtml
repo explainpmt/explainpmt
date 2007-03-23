@@ -18,6 +18,18 @@
                
 </p>
 <table cellspacing="0" cellpadding="3" border="0">
+  <% if @story.created_at? %>
+    <tr>
+      <th>Created:</th>
+      <td><%= short_date(@story.created_at) %></td>
+    </tr>
+  <% end %>
+    <% if @story.updated_at? %>
+    <tr>
+      <th>Last Updated:</th>
+      <td><%= short_date(@story.updated_at) %></td>
+    </tr>
+  <% end %>
   <% if @story.sub_project %>
     <tr>
       <th>Sub-Project:</th>
