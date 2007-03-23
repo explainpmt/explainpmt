@@ -175,7 +175,7 @@ end
 </div><br>
 <%= render( :partial => 'stories/story_list_table',
             :locals => { :stories =>  @stories,
-                         :hide_cols => [ :project ],
+                         :hide_cols => [ :project, :iteration ],
                          :base_path => '../../'},
                          :iteration_id => @iteration.id ) %>
 </form>
