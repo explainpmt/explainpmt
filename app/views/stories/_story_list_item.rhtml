@@ -48,7 +48,7 @@
                        :project_id => story.project_id) + ')'%>
   		  <% end %></td>
       <%end%>
-      <% unless hide_cols.include? ( :iteration ) %>
+      <% unless hide_cols.include?( :iteration ) %>
       <td><% if story.iteration_id? %>
 		<%=link_to(story.iteration.name,
          {:controller => 'iterations',
