@@ -80,7 +80,7 @@ class StoriesController < ApplicationController
         sub_project = SubProject.find params[ :sub_project ]
       end
       params[:story_card_titles].each_line do |title|
-        story = @project.stories.create(:title => title)
+        story = @project.stories.create(:title => title, :creator_id => session[:current_user].id)
         sub_project.stories << story if sub_project
       end
       flash[:status] = 'New story cards created.'
@@ -93,6 +93,7 @@ class StoriesController < ApplicationController
     story = Story.new(params[:story])
     story.project = @project
     story.iteration_id = params[:iteration_id]
+    story.creator_id = session[:current_user].id
     if story.valid?
       story.save
       flash[:status] = 'The new story card has been saved.'
