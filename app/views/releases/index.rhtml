@@ -1,0 +1,80 @@
+<!-- BEGIN releases/index.rhtml -->
+<% unless @project.releases.empty? %>
+  <h3>All Releases for <%= @project.name %> </h3>
+        <%= popup_link('Add a Release', 'new_release',
+                     'width=500,height=250,resizable,scrollbars',
+                     :controller => 'releases', :action => 'new',
+                     :project_id => @project.id) %></br></br>
+<table class="sort-table" id="releasesTable" cellspacing="0" cellpadding="3" border="0" width="100%">
+  <thead>
+    <tr>
+        <td>Name</td>
+        <td>Date</td>
+        <td>Action</td>
+    </tr>
+  </thead>
+  <tbody>
+  <%
+  @list.each_with_index do |m,i|
+     row_class = (i%2 == 0) ? 'odd_row' : 'even_row'
+     %>
+     <tr class="<%= row_class %>">
+       <td><%= popup_link(m.name, "release_#{m.id}",
+                          'width=500,height=250,resizable,scrollbars',
+                          :controller => 'releases',
+                          :action => 'show', :id => m.id,
+                          :project_id => @project.id) %></td>
+       <td><strong><%= numeric_date(m.date) %></strong></td>
+      <td>
+       	   <select id="choices" onchange="handleSelect(this)">
+		      	<option value="" selected="selected" ></option>
+		      	<option value= "<%= m.id %>" >Show</option>
+		      	<option value="<%= m.id %>">Edit</option>
+		      	<option value="<%= m.id %>">Delete</option>
+		   </select>
+	   </td>
+     </tr>
+  <% end %>
+  </tbody>
+</table>
+
+      </div>
+    </td>
+    </tr>
+
+<!-- END releases/index.rhtml -->
+<script type="text/javascript">
+var st = new SortableTable(document.getElementById("releasesTable"),
+	["CaseInsensitiveString", "Date","None"]);
+
+// Maintain sort and restore the class names
+MaintainSort(st);
+
+function OpenNew(selectValue, action, w, h){
+	window.open("releases/" + action + "/" + selectValue + "'", action + "_release","width=" + w + ",height=" + h + ",scrollbars,resizable");
+}
+
+function handleSelect(select){
+	selectValue = select.value;
+	if (select.selectedIndex == 1){OpenNew(selectValue, "show", "500", "250");}
+	
+	else if (select.selectedIndex == 2){OpenNew(selectValue, "edit", "500", "250");}
+	
+	else if (select.selectedIndex == 3){
+		var x = confirm("Are you sure you want to delete? This action can not be undone.");
+		if (x){
+			window.location.href = "releases/delete/" + select.value
+	    }
+	}
+	select.value = "";
+	return false;
+}
+
+</script>
+<% else %>
+<tr><td> No Releases have been defined for this project</td></tr>
+<tr><td><%= popup_link('Add a Release', 'new_release',
+            'width=500,height=250,resizable,scrollbars',
+            :controller => 'releases', :action => 'new',
+            :project_id => @project.id) %></td></tr>
+<% end %> 

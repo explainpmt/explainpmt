@@ -1,0 +1,29 @@
+<fieldset>
+<legend>Release Information</legend>
+<%= error_messages_for('object') %>
+<table class="form_layout">
+<tr>
+<th><label for="edit_date">Date:</label></th>
+<td><%= input('object', 'date') %></td>
+</tr>
+
+<tr>
+<th><label for="edit_name">Name:</label></th>
+<td><%= input('object', 'name') %></td>
+</tr>
+
+<tr>
+<th><label for="edit_description">Description:</label></th>
+<td><%= text_area('object', 'description', "cols" => 40, "rows" => 3) %></td>
+</tr>
+
+<tr>
+<td colspan="2" class="form_actions">
+<input type="submit" name="submit"
+  value="<%= @object.new_record? ? 'Create' : 'Update' %> Release" />
+&nbsp;&nbsp;
+<a href="javascript:window.close();">Cancel</a>
+</td>
+</tr>
+</table>
+</fieldset>

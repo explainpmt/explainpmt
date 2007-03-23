@@ -1,0 +1,5 @@
+<%= form_tag(:controller => 'releases', :action => 'update',
+				   :id => @object.id,
+                   :project_id => @project.id) %>
+<%= render :partial => 'release_form' %>
+</form>
