@@ -3,8 +3,4 @@ class Initiative < ActiveRecord::Base
   has_many :stories, :dependent => :nullify
   validates_presence_of :name
   validates_length_of :name, :maximum => 100
-  
-  def self.editlist_order
-    'id DESC'
-  end
 end

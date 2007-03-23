@@ -1,7 +1,6 @@
 module CrudActions
   def index
-    @list = mymodel.find(:all, :order => mymodel.editlist_order, 
-                         :conditions => [ "project_id = (?)", @project.id] )
+    @list = mymodel.find(:all, :conditions => [ "project_id = (?)", @project.id] )
   end
 
   def edit
