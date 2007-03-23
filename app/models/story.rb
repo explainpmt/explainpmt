@@ -143,6 +143,7 @@ class Story < ActiveRecord::Base
     Statuses << Complete = create(6, 'Complete', true)
     Statuses << Accepted = create(7, 'Accepted', true, true)
     Statuses << Cancelled = create(8, 'Cancelled', false, true)
+    Statuses << Obstacle = create(9, 'Obstacle')
   end
 
   class Value < RankedValue
@@ -170,6 +171,7 @@ class Story < ActiveRecord::Base
     Risks << High = create(1, 'High')
     Risks << Normal = create(2, 'Normal')
     Risks << Low = create(3, 'Low')
+    Risks << NA = create(4,'')
   end
 
   # When determining the current value for an aggregation, we need to use the
