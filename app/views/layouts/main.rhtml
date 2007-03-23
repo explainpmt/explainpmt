@@ -36,11 +36,7 @@
 
       <% if session[:current_user] %>
       <div id="StatusRight">
-        Welcome back <%= session[:current_user].full_name %> &nbsp; | &nbsp; 
-        <%= link_to('Edit Profile',
-          :controller => 'users',
-          :action => 'edit',
-          :id => session[:current_user].id)%> &nbsp; | &nbsp; 
+        Welcome back <%= session[:current_user].full_name %> &nbsp; | &nbsp;
         <%= popup_link('Edit Profile', "edit_user",
                             'width=375,height=300,resizable,scrollbars',
                             :controller => 'users', :action => 'edit', 
