@@ -54,7 +54,7 @@ class StoryTest < Test::Unit::TestCase
       [ Story::Status::New, Story::Status::Defined, Story::Status::InProgress,
         Story::Status::Rejected, Story::Status::Blocked,
         Story::Status::Complete, Story::Status::Accepted,
-        Story::Status::Cancelled ],
+        Story::Status::Cancelled, Story::Status::Obstacle ],
       Story::Statuses
     )
   end
@@ -70,7 +70,8 @@ class StoryTest < Test::Unit::TestCase
 
   def test_risk_collection
     assert_equal(
-      [ Story::Risk::High, Story::Risk::Normal, Story::Risk::Low ],
+      [ Story::Risk::High, Story::Risk::Normal, Story::Risk::Low,
+        Story::Risk::NA ],
       Story::Risks
     )
   end
@@ -389,7 +390,7 @@ class StoryStatusTest < Test::Unit::TestCase
   end
 
   def test_invalid_order
-    assert_raise(Story::Status::InvalidOrder) { Story::Status.new(9) }
+    assert_raise(Story::Status::InvalidOrder) { Story::Status.new(10) }
   end
 
   def test_constants
