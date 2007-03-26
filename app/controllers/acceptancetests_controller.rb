@@ -19,7 +19,7 @@ class AcceptancetestsController < ApplicationController
   
   def index
     @stories = @project.stories
-    @acceptancetests = mymodel.find(:all, :conditions => [ "project_id = (?)", @project.id] )
+    @acceptancetests = mymodel.find_all_acceptance_tests(@project.id)
     @page_title = "Acceptance Tests"
   end
   
