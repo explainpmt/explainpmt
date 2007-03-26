@@ -51,7 +51,7 @@ function handleStorySelect(select){
 		var x = confirm("Are you sure you want to delete?");
 		if (x){
 		  if(window.location.href.indexOf('/stories') < 0 && window.location.href.indexOf('/iterations') < 0){
-		    window.location.href = "<%=@project.id%>/stories/delete_from_dashboard/" + select.value
+		    window.location.href = "<% if @project %><%=@project.id%><% end %>/stories/delete_from_dashboard/" + select.value
 		  }else{
 		      if(window.location.href.indexOf('/iterations') > 0){
 		          window.location.href = "<%=base_path%>stories/delete_from_iteration/" + select.value + "<%if @iteration %>?iteration_id=<%= @iteration.id %><% end %>"
