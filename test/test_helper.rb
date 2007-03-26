@@ -17,7 +17,6 @@ class Test::Unit::TestCase
                    :projects,
                    :stories,
                    :users,
-                   :sub_projects,
                    :tasks,
                    :acceptancetests ]
     

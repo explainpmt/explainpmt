@@ -152,23 +152,4 @@ class ProjectsController < ApplicationController
     @projects = session[:current_user].projects
     render :partial => 'my_projects_list'
   end
-  
-  def create_sub_project
-    project = Project.find params[ :project_id ]
-    @sub_project = project.sub_projects.create params[ :sub_project ]
-    if @sub_project.new_record?
-      render :partial => 'sub_project_error', :status => 500
-    else
-      render :partial => 'sub_project_new'
-    end
-  end
-  
-  def destroy_sub_project
-    @sub_project = SubProject.find params[ :id ]
-    @sub_project.destroy
-    render :partial => 'destroy_sub_project_success'
-  rescue Exception => e
-    @message = e.message
-    render :partial => 'destroy_sub_project_error', :status => 500
-  end
 end

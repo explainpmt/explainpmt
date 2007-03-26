@@ -39,8 +39,6 @@
 #
 class Story < ActiveRecord::Base
   belongs_to :project
-  belongs_to :sub_project
-  before_save :check_project_and_sub_project_match
   belongs_to :iteration
   belongs_to :initiative
   belongs_to :creator, :class_name => 'User', :foreign_key => 'creator_id'
@@ -280,12 +278,6 @@ class Story < ActiveRecord::Base
 
     if status == Status::New and is_defined?
       self.status = Status::Defined
-    end
-  end
-  
-  def check_project_and_sub_project_match
-    unless sub_project.nil? or sub_project.project == project
-      raise SubProject::ProjectMismatchError
     end
   end
 end

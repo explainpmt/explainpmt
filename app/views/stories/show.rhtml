@@ -34,12 +34,6 @@
       <td><%= short_date(@story.updated_at) %><% if @story.updater %>(<%= @story.updater.full_name %>) <% end %></td>
     </tr>
   <% end %>
-  <% if @story.sub_project %>
-    <tr>
-      <th>Sub-Project:</th>
-      <td><%= @story.sub_project.name %></td>
-    </tr>
-  <% end %>
   <% if @story.initiative %>
     <tr>
       <th>Initiative:</th>

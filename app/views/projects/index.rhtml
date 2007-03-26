@@ -1,64 +1,79 @@
 <p><strong>
-  <%= popup_link 'Create New Project', "create_project", 'width=525,height=350,resizable,scrollbars', :controller => 'projects', :action => 'new' %>
+	<%= popup_link('Create New Project', 'new_project',
+	               'width=500,height=600,scrollbars,resizable',
+	               :controller => 'projects', :action => 'new') %>
 </strong></p>
 
 <% unless @projects.empty? %>
-  <dl>
-    <% @projects.each do |p| %>
-      <dt class="project_header">
-        <%= link_to(p.name, :controller => 'dashboard', :action => 'index',
-                    :project_id => p.id) %>
-        <small>
-          &nbsp;&nbsp;
-          (<%= link_to('Team', :controller => 'users', :action => 'index',
-                       :project_id => p.id) %>)
-          &nbsp;&nbsp;
-          (<%= popup_link('Edit', "edit_project", 'width=525,height=350,resizable,scrollbars', :controller => 'projects', :action => 'edit', :id => p.id) %>)
-          &nbsp;&nbsp;
-          (<%= link_to('Delete',
-                       {
-                         :controller => 'projects', :action => 'delete',
-                         :id => p.id
-                       },
-                       :confirm => 'Are you sure you want to delete the ' +
-                                   'project "' + p.name + '"? This will ' +
-                                   'delete all information associated with ' +
-                                   'the project and can not be undone!') %>)
-        </small>
-      </dt>
-      <dd>
-        <h4>
-          Sub-Projects:
-          <small><%= link_to_function 'show/hide', "Element.toggle('SubProjectForm_#{p.id}')" %></small>
-        </h4>
-        
-        <%= form_remote_tag :url => { :controller => 'projects', :action => 'create_sub_project' },
-          :html => { :id => "SubProjectForm_#{p.id}", :style => 'display: none;' },
-          :loading => "Element.toggle('SubProjectFormSpinner_#{p.id}')",
-          :complete => "Element.toggle('SubProjectFormSpinner_#{p.id}');" +
-            "$('SubProjectForm_#{p.id}').reset();" %>
-        
-          <table cellspacing="0" cellpadding="3" border="0">
-            <tbody id="SubProjectList_<%= p.id -%>">
-              <%= render :partial => 'sub_project', :collection => p.sub_projects %>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td><input type="text" name="sub_project[name]" /></td>
-                <td><%= submit_tag '+' %></td>
-                <td><%= image_tag 'spinner.gif', :id => "SubProjectFormSpinner_#{p.id}",
-                  :style => 'display: none' -%></td>
-              </tr>
-            </tfoot>
-          </table>
-          <input type="hidden" name="project_id" value="<%= p.id %>" />
-        </form>
 
-        <%= textilize(p.description) %>
-      </dd>
-    <% end %>
-  </dl>
+<table class="sort-table" id="projectsTable" cellspacing="0" cellpadding="3" border="0" width="100%">
+  <thead>
+    <tr>
+        <td>Projects</td>
+        <td>Action</td>
+    </tr>
+  </thead>
+  <tbody>
+  <%
+  @projects.each_with_index do |m,i|
+     row_class = (i%2 == 0) ? 'odd_row' : 'even_row'
+     %>
+     <tr class="<%= row_class %>">
+    <td>
+       <%= link_to(m.name, :controller => 'dashboard', :action => 'index',
+                    :project_id => m.id) %>
+       <br><% unless m.description == nil %><%=m.description %><% end %></td>
+       <td> 
+	       <select id="choices" onchange="handleSelect(this)">
+		      	<option value="" selected="selected" ></option>
+		      	<option value= "<%= m.id %>" >Team</option>
+		      	<option value="<%= m.id %>">Edit</option>
+		      	<option value="<%= m.id %>">Delete</option>
+		   </select>       
+     </tr>
+     
+  <% end %>
+  </tbdody>
+</table>
+
 <% else %>
-  <p>There are currently no projects.</p>
+You have no projects defined.
 <% end %>
+
+<script type="text/javascript">
+<% unless @projects.empty? %>
+var st = new SortableTable(document.getElementById("projectsTable"),
+	["CaseInsensitiveString", "None"]);
+
+// Maintain sort and restore the class names
+MaintainSort(st);
+<% end %>
+
+function OpenNew(selectValue, action, w, h){
+	window.open("projects/" + action + "/" + selectValue + "'", action + "_project","width=" + w + ",height=" + h + ",scrollbars,resizable");
+}
+
+function handleSelect(select){
+	selectValue = select.value;
+	if (select.selectedIndex == 1){
+		window.location.href = "project/" + select.value + "/users"
+	}
+	
+	else if (select.selectedIndex == 2){OpenNew(selectValue, "edit", "500", "325");}
+	
+	else if (select.selectedIndex == 3){
+		var x = confirm("Are you sure you want to delete? All associated data will also be deleted. This action can not be undone.");
+		if (x){
+			window.location.href = "projects/delete/" + select.value
+	    }
+	}
+	select.value = "";
+	return false;
+}
+</script>
+
+
+
+
+
 

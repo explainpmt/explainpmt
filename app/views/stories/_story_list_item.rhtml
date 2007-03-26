@@ -13,7 +13,6 @@
             :action => 'index', :project_id => story.project.id) %></td>
      <% end %>
      
-     <td><% if story.sub_project_id? %><%= story.sub_project.name %> <%else%> Not Assigned <%end%></td>
      <td><%= popup_link(story.title, "story_#{story.id}",
                'width=550,height=640,scrollbars,resizable',
                :controller => 'stories',

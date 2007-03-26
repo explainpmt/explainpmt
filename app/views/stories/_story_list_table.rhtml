@@ -4,7 +4,6 @@
     <tr>
         <td>SCID</td>
         <% unless hide_cols.include?( :project ) %><td>Project</td><%end%>
-        <td nowrap>Sub-Project</td>
         <td>Title</td>
         <td>Initiative</td>
         <td>Points</td>
@@ -12,7 +11,7 @@
         <td>Risk</td>
         <td>Status</td>
         <% unless hide_cols.include?( :owner ) %><td>Owner</td><%end%>
-        <% unless hide_cols.include?( :iteration ) %><td>Iteration</td><%end%>
+        <% unless hide_cols.include? ( :iteration ) %><td>Iteration</td><%end%>
         <td>Customer</td>
         <td>#</td>
         <% unless hide_cols.include?( :action ) %><td>Action</td><%end%>
@@ -26,7 +25,7 @@
 <script type="text/javascript">
 <% unless @stories.empty? %>
 var st = new SortableTable(document.getElementById("backlog_stories"),
-    ["SCID", "CaseInsensitiveString",
+    ["SCID",
     <% unless hide_cols.include?( :project ) %>"CaseInsensitiveString",<%end%>
     "CaseInsensitiveString", "CaseInsensitiveString","Number","CaseInsensitiveString","CaseInsensitiveString","CaseInsensitiveString",
     <% unless hide_cols.include?( :owner ) %>"CaseInsensitiveString",<%end%>

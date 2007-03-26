@@ -35,7 +35,6 @@ class StoriesControllerTest < Test::Unit::TestCase
     @story_two = Story.find 2
     @story_three = Story.find 3
     @story_six = Story.find 6
-    @sub_project_one = sub_projects( :first )
 
     @controller = StoriesController.new
     @request    = ActionController::TestRequest.new
@@ -93,24 +92,10 @@ class StoriesControllerTest < Test::Unit::TestCase
     assert_template 'new_single'
   end
 
-  def test_create_with_sub_project
-    num_a = @project_one.stories.backlog.size
-    num_b = @sub_project_one.stories.size
-    post :create_many, :project_id => @project_one.id,
-      :story_card_titles => "New Story One\nNew Story Two\nNew Story Three",
-      :sub_project => @sub_project_one.id
-    assert_response :success
-    assert_template 'layouts/refresh_parent_close_popup'
-    assert_equal num_a + 3, @project_one.stories( true ).backlog.size
-    assert_equal num_b + 3, @sub_project_one.stories( true ).size
-    assert_equal "New story cards created.", flash[:status]
-  end
-
-  def test_create_without_sub_project
+  def test_create_many
     num = @project_one.stories.backlog.size
     post :create_many, :project_id => @project_one.id,
-      :story_card_titles => "New Story One\nNew Story Two\nNew Story Three",
-      :sub_project => ''
+      :story_card_titles => "New Story One\nNew Story Two\nNew Story Three"
     assert_response :success
     assert_template 'layouts/refresh_parent_close_popup'
     assert_equal num + 3, @project_one.stories( true ).backlog.size

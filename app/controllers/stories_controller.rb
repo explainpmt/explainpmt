@@ -76,12 +76,8 @@ class StoriesController < ApplicationController
       flash[:error] = 'Please enter at least one story card title.'
       redirect_to :controller => 'stories', :action => 'new_bulk', :project_id => @project
     else
-      unless params[ :sub_project ].empty?
-        sub_project = SubProject.find params[ :sub_project ]
-      end
       params[:story_card_titles].each_line do |title|
         story = @project.stories.create(:title => title, :creator_id => session[:current_user].id)
-        sub_project.stories << story if sub_project
       end
       flash[:status] = 'New story cards created.'
       render :template => 'layouts/refresh_parent_close_popup'

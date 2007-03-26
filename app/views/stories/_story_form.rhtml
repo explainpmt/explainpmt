@@ -7,11 +7,6 @@
       <td><%= input('story', 'title') %></td>
     </tr>
     <tr>
-      <th><label for="sub_project">Sub-Project:</label></th>
-      <td><%= collection_select_with_current('story','sub_project_id',@project.sub_projects,
-                    'id','name',@story.sub_project_id) %></td>
-    </tr>
-    <tr>
       <th><label for="story_initiative">Initiative:</label></th>
       <td><%= collection_select_with_current('story','initiative_id',@project.initiatives,
                     'id','name',@story.initiative_id) %></td>

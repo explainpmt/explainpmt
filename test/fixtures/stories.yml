@@ -2,7 +2,6 @@ first:
   id: 1
   scid: 1
   project_id: 1
-  sub_project_id: 1
   iteration_id: 1
   user_id: 1
   title: 'First Story'
@@ -14,7 +13,6 @@ second:
   id: 2
   scid: 2
   project_id: 1
-  sub_project_id: 1
   iteration_id: 1
   title: 'Second Story'
   status: 6
