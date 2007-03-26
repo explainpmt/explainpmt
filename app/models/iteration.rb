@@ -102,7 +102,7 @@ class Iteration < ActiveRecord::Base
 
   #custom finder for stories in an iteration. Prevents active record from performing multiple queries per result.
   def self.find_stories(iteration_id)
-  	Story.find(:all, :include => [:project, :owner], :conditions => "stories.iteration_id = #{iteration_id}")
+  	Story.find(:all, :include => [:initiative, :project, :owner], :conditions => "stories.iteration_id = #{iteration_id}")
   end
   
   protected
