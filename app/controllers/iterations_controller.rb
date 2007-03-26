@@ -52,7 +52,8 @@ class IterationsController < ApplicationController
   def show
     @iteration = Iteration.find(params[:id])
     @page_title = "Iteration: #{@iteration.start_date} - #{@iteration.stop_date}"
-    @stories = @iteration.stories
+    @stories = Story.find_all_by_iteration_and_project(@iteration.id, @project.id)
+    @projectIterations = @project.iterations
   end
 
   # Used to move stories between iterations and the backlog. A list of id

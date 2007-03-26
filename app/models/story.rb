@@ -56,6 +56,10 @@ class Story < ActiveRecord::Base
   def self.find_all_by_project(project_id)
    Story.find(:all, :include => [:iteration, :project], :conditions => "stories.project_id = #{project_id}")
   end
+  
+  def self.find_all_by_iteration_and_project(iteration_id, project_id)
+   Story.find(:all, :include => [:owner, :iteration, :project], :conditions => "stories.project_id = #{project_id} and stories.iteration_id = #{iteration_id}")
+  end
 
   # The collection of defined Status objects
   Statuses = []
