@@ -95,7 +95,15 @@ SortableTable.msie = /msie/i.test(navigator.userAgent);
 // an orphaned element. MSIE is not
 SortableTable.removeBeforeSort = SortableTable.gecko;
 
-SortableTable.prototype.onsort = function () {};
+SortableTable.prototype.onsort = function () {
+		
+    var rows = this.tBody.rows;
+	var l = rows.length;
+	for (var i = 0; i < l; i++) {
+		removeClassName(rows[i], i % 2 ? "odd_row" : "even_row");
+		addClassName(rows[i], i % 2 ? "even_row" : "odd_row");
+}
+};
 
 // default sort order. true -> descending, false -> ascending
 SortableTable.prototype.defaultDescending = false;
@@ -290,13 +298,6 @@ SortableTable.prototype.sort = function (nColumn, bDescending, sSortType) {
 
 	if (typeof this.onsort == "function")
 		this.onsort();
-		
-    var rows = this.tBody.rows;
-	var l = rows.length;
-	for (var i = 0; i < l; i++) {
-		removeClassName(rows[i], i % 2 ? "odd_row" : "even_row");
-		addClassName(rows[i], i % 2 ? "even_row" : "odd_row");
-}
 };
 
 SortableTable.prototype.asyncSort = function (nColumn, bDescending, sSortType) {

@@ -65,15 +65,9 @@ function MaintainSort(sortableTable1){
 	sort=getCookie('exPlainPMTSort' + sortableTable1.name);
 	desc=getCookie('exPlainPMTSortDirection' + sortableTable1.name);
 	test = desc == "false" ? false : true
-
 	if (sort!=null){
 		sortableTable1.sort(sort, test)
-	}
-	var rows = sortableTable1.tBody.rows;
-	var l = rows.length;
-	for (var i = 0; i < l; i++) {
-		removeClassName(rows[i], i % 2 ? "odd_row" : "even_row");
-		addClassName(rows[i], i % 2 ? "even_row" : "odd_row");
-}
-
+	}else{
+	   sortableTable1.onsort();
+	   }
 }
