@@ -6,6 +6,6 @@ class AddCreateAndUpdateAtToStories < ActiveRecord::Migration
 
   def self.down
     remove_column "stories", "created_at"
-    remvoe_column "stories", "updated_at"
+    remove_column "stories", "updated_at"
   end
 end
