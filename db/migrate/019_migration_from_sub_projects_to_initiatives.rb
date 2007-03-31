@@ -1,4 +1,7 @@
 class MigrationFromSubProjectsToInitiatives < ActiveRecord::Migration
+  class SubProject < ActiveRecord::Base
+  end
+  
   def self.up
     subProjects = SubProject.find(:all)
     subProjects.each do |sub|
