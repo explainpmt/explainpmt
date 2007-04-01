@@ -21,7 +21,7 @@
 class UsersController < ApplicationController
   before_filter :require_admin_privileges, :except => [:new, :create, :index, :project,
     :authenticate, :login, :logout ]
-  skip_before_filter :check_authentication, :only => [ :authenticate, :login ]
+  skip_before_filter :check_authentication, :only => [ :authenticate, :login, :new, :create ]
   popups :new, :edit
 
   # If the 'project_id' request parameter is set, this will display the

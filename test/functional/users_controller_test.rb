@@ -39,7 +39,7 @@ class UsersControllerTest < Test::Unit::TestCase
 
   def test_authentication_required
     @request.session[ :current_user ] = nil
-    actions = [ :index, :new, :create, :edit, :update, :delete ]
+    actions = [ :index, :edit, :update, :delete ]
     actions.each do |a|
       process a
       assert_redirected_to :controller => 'users', :action => 'login'

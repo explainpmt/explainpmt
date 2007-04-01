@@ -37,7 +37,7 @@
         %></div>
       <% end %>
       <form action="<%= authenticate_users_url %>" method="post">
-                  <table class="form_layout">
+                  <table class="form_layout" align="center">
                         <tr>
                                 <th><label for="Username">Username:</label></th>
                                 <td><input size= "20" type="text" name="username" id="Username" /></td>
@@ -49,6 +49,10 @@
                         <tr>
                                 <td colspan="2" class="form_actions">
                                         <input type="submit" name="submit" value="Log In" />
+                                        &nbsp;
+                                        <%= popup_link('Register', "create_user",
+                                            'width=375,height=375,resizable,scrollbars',
+                                            :controller => 'users', :action => 'new') %>
                                 </td>
                         </tr>
                   </table>

@@ -25,7 +25,11 @@ module ApplicationHelper
   # Used to determine if the currently logged in user has administrative
   # privileges
   def is_admin?
-    session[:current_user].admin?
+    if session[:current_user]
+      session[:current_user].admin?
+    else
+      false
+    end
   end
 
   # Returns an array of projects other than the currently active project which
