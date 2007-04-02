@@ -136,5 +136,11 @@ class Project < ActiveRecord::Base
   def self.find_all_stories_not_cancelled_and_not_assigned_to_an_iteration(project_id)
    Story.find(:all, :include => [:iteration, :initiative,  :project], :conditions => "stories.project_id = #{project_id} and status != 8 and stories.iteration_id is null")
   end
+  
+  def validate
+    if self.planned_iterations
+      errors.add(:planned_iterations, "must be a positive integer") if self.planned_iterations < 1
+    end
+  end
 end
 
