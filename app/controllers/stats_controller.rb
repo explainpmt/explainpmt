@@ -11,8 +11,8 @@ def index
   if projectIterations.size > 0  
   	@startdate = projectIterations.first.start_date
   end
-  @pointsCompletedForProjectTotal = projectStories.points_completed
-  @pointsNotCompletedForProjectTotal = projectStories.points_not_completed
+  @pointsCompletedForProjectTotal = @project.points_completed_for_velocity
+  @pointsNotCompletedForProjectTotal = @project.points_not_completed_for_velocity
   pointsCompletedPerIteration = Array.new()
   pointsNotCompletedPerIteration = Array.new()
   plannedCompletedPerIteration = Array.new()

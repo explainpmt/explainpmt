@@ -122,7 +122,24 @@ class Project < ActiveRecord::Base
   
   def current_velocity
     return 0 if self.iterations.past.size == 0
-    self.stories.points_completed/self.iterations.past.size
+    current = points_completed_for_velocity
+    current/self.iterations.past.size
+  end
+  
+  def points_completed_for_velocity
+    points_to_subtract = 0
+    if self.iterations.current
+      points_to_subtract = self.iterations.current.stories.completed_points
+    end
+    self.stories.points_completed - points_to_subtract
+  end
+  
+  def points_not_completed_for_velocity
+    points_to_add = 0
+    if self.iterations.current
+      points_to_add = self.iterations.current.stories.completed_points
+    end
+    self.stories.points_not_completed + points_to_add
   end
   
   def self.find_all_stories(project_id)
