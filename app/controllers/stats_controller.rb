@@ -4,6 +4,7 @@ require 'builder'
 def index 
   projectIterations = @project.iterations
   projectStories = @project.stories
+  @num_non_estimated_stories = Project.find_all_stories_not_estimated_and_not_cancelled(@project.id).size
   completedIterations = projectIterations.past
   numCompletedIterations = completedIterations.size
   @velocity = @project.current_velocity

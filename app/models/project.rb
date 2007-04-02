@@ -129,6 +129,10 @@ class Project < ActiveRecord::Base
    Story.find(:all, :include => [:iteration, :initiative, :project], :conditions => "stories.project_id = #{project_id}")
   end
   
+  def self.find_all_stories_not_estimated_and_not_cancelled(project_id)
+    Story.find(:all, :include => [:iteration, :initiative,  :project], :conditions => "stories.project_id = #{project_id} and status != 8 and stories.points is null")
+  end
+  
   def self.find_all_stories_not_assigned_to_an_iteration(project_id)
    Story.find(:all, :include => [:iteration, :initiative,  :project], :conditions => "stories.project_id = #{project_id} and stories.iteration_id is null")
   end
