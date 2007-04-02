@@ -25,7 +25,7 @@ def index
   pointsNotCompletedPerIteration.push(totalPointsForProject)
   plannedCompletedPerIteration.push(totalPointsForProject)
   currentPointsForBurndown = totalPointsForProject
-  completedIterations.each do |i| 
+  completedIterations.reverse.each do |i| 
     currentPointsForBurndown = currentPointsForBurndown - i.stories.completed_points
     pointsCompletedPerIteration = pointsCompletedPerIteration.push(currentPointsForBurndown)
    	pointsNotCompletedPerIteration =  pointsNotCompletedPerIteration.push(currentPointsForBurndown)
