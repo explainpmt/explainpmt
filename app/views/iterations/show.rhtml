@@ -40,8 +40,8 @@
 <h3>Upcoming Iterations:</h3>
 <ul>
 <% @projectIterations.future.each do |i| %>
-<li>
-<%= link_to_unless_current(numeric_date(i.start_date),
+<li class="show-iteration-bullet">
+<%= link_to_unless_current(i.name + " " + numeric_date(i.start_date),
                            :controller => 'iterations', :action => 'show',
                            :id => i.id, :project_id => @project.id) %>
 </li>
@@ -53,8 +53,8 @@
 <h3>Completed Iterations:</h3>
 <ul>
 <% @projectIterations.past.each do |i| %>
-<li>
-<%= link_to_unless_current(numeric_date(i.start_date),
+<li class="show-iteration-bullet">
+<%= link_to_unless_current(i.name + " (" + numeric_date(i.start_date) + ")",
                            :controller => 'iterations', :action => 'show',
                            :id => i.id, :project_id => @project.id) %>
 </li>
