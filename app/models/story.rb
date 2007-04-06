@@ -206,14 +206,16 @@ class Story < ActiveRecord::Base
     if !self.new_record?
       story = Story.find(self.id)
       audit = Audit.new
-      audit.object_id = self.id
+      audit.audited_object_id = self.id
       audit.object = "Story"
       audit.project_id = self.project_id
       audit.user = User.find(self.updater_id).full_name
        self.attributes.each do |key, value|
         if story.attributes[key] != value && key != "updater_id"
-            audit.before =  key + "[" + story.attributes[key].to_s + "]\n"
-            audit.after = key + "[" + value.to_s + "]\n"
+            audit.before = "" unless audit.before
+            audit.after = "" unless audit.after
+            audit.before << key + "[" + story.attributes[key].to_s + "]\n"
+            audit.after << key + "[" + value.to_s + "]\n"
         end
        end
       audit.save

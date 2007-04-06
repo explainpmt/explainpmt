@@ -1,0 +1,25 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.rss(:version => "2.0") do
+ 
+xml.channel do
+  xml.title("Story Audits for #{@project.name}")
+    
+    xml.link("#{url_for :only_path => false, :controller => 'users', :action => 'login'}")
+    xml.description("Audited Stories")
+    xml.pubDate()
+    
+    for audit in @audits do  
+    if Story.exists?(audit.audited_object_id)
+    story = Story.find(audit.audited_object_id)
+      xml.item do
+        xml.title("(SC-#{audit.audited_object_id.to_s}) #{story.title}")
+        xml.link("#{url_for :only_path => false, :controller => 'stories', :action => 'audit_story', :project_id => Project.find(audit.project_id), :id => audit.audited_object_id}")
+        xml.description("<b>Changes Made At #{audit.created_at} by #{audit.user}</b><br>" +
+        "<p><b>Before</b><br>" + audit.before.gsub("\n", "<br>") + "</p>" +
+        "<p><b>After</b><br>" + audit.after.gsub("\n", "<br>") + "</p>")
+        xml.pubDate(audit.created_at)
+      end
+     end
+    end
+  end
+end

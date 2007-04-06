@@ -22,7 +22,9 @@
 # privileges.
 class ProjectsController < ApplicationController
   before_filter :require_admin_privileges, :only => [:delete]
+  skip_before_filter :check_authentication, :only => :audits
   popups :add_users, :update_users, :new, :edit
+  
 
   # Lists all of the projects that exist on the system.
   def index
@@ -34,6 +36,12 @@ class ProjectsController < ApplicationController
     end
   end
   
+  def audits
+    @audits = Audit.find(:all, :conditions => ["project_id = #{params[:id]} AND object = 'Story'"], :order => "created_at DESC")
+    @project = Project.find(params[:id])
+     render(:layout => false)
+    @headers["Content-Type"] = "application/xml; charset=utf-8"
+  end
   # Displays a form for creating a new project.
   def new
     @page_title = "New Project"

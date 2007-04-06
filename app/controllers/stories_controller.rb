@@ -287,7 +287,7 @@ class StoriesController < ApplicationController
   end
   
   def audit_story
-    @changes = Audit.find(:all, :conditions => ["project_id = #{@project.id} AND object_id = #{@params[:id]} AND object = 'Story'"], :order => "created_at DESC")
+    @changes = Audit.find(:all, :conditions => ["project_id = #{@project.id} AND audited_object_id = #{@params[:id]} AND object = 'Story'"], :order => "created_at DESC")
   end
 
   protected
