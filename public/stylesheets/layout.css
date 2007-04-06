@@ -17,6 +17,10 @@ a, a:visited {
   border-bottom: 1px dotted;
 }
 
+a.image {
+    border-bottom: 0px;
+}
+
 p {
   margin: 0.5em 0 1em 0;
 }

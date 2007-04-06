@@ -21,7 +21,7 @@
      %>
      <tr class="<%= row_class %>">
     <td>
-       <a href="/projects/audits/<%= m.id%>"><%= image_tag('xml.gif') %></a>
+       <a class="image" href="/projects/audits/<%= m.id%>"><%= image_tag('xml.gif') %></a>
     </td>
     <td>
        <%= link_to(m.name, :controller => 'dashboard', :action => 'index',
