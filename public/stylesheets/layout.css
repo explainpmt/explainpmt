@@ -327,6 +327,10 @@ a.story_description_icon img {
   padding: 0;
 }
 
+#IterationsMenu li.show-iteration-bullet{
+    list-style: square;
+}
+
 #IterationSummary table {
   float: left;
   padding: 3px;
