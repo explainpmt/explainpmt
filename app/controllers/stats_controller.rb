@@ -67,7 +67,9 @@ def index
   
   #Begin building burndown chart using completed, trended, and planned data.
     graph = Scruffy::Graph.new
-    graph.title = "#{@project.name} Project Burndown"
+    graph.title = "#{@project.name[0,23]}"
+    unless @project.name.size < 23; graph.title << "..." end
+    graph.title << " Project Burndown"
     set_theme(graph)
     if (pointsCompletedPerIteration.length > 1 || pointsNotCompletedPerIteration.length > 1 || plannedCompletedPerIteration.length > 1)
       num_points = [plannedCompletedPerIteration.size, pointsNotCompletedPerIteration.size,
