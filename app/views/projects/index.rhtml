@@ -9,6 +9,7 @@
 <table class="sort-table" id="projectsTable" cellspacing="0" cellpadding="3" border="0" width="100%">
   <thead>
     <tr>
+        <td></td>
         <td>Projects</td>
         <td>Action</td>
     </tr>
@@ -19,6 +20,9 @@
      row_class = (i%2 == 0) ? 'odd_row' : 'even_row'
      %>
      <tr class="<%= row_class %>">
+    <td>
+       <a href="/projects/audits/<%= m.id%>"><%= image_tag('xml.gif') %></a>
+    </td>
     <td>
        <%= link_to(m.name, :controller => 'dashboard', :action => 'index',
                     :project_id => m.id) %>
@@ -43,7 +47,7 @@ You have no projects defined.
 <script type="text/javascript">
 <% unless @projects.empty? %>
 var st = new SortableTable(document.getElementById("projectsTable"),
-	["CaseInsensitiveString", "None"]);
+	["None","CaseInsensitiveString", "None"]);
 
 // Maintain sort and restore the class names
 MaintainSort(st);
