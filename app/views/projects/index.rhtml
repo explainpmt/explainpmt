@@ -26,7 +26,7 @@
     <td>
        <%= link_to(m.name, :controller => 'dashboard', :action => 'index',
                     :project_id => m.id) %>
-       <br><% unless m.description == nil %><%=m.description %><% end %></td>
+       <br><% unless m.description == nil %><%= textilize(m.description) %><% end %></td>
        <td> 
 	       <select id="choices" onchange="handleSelect(this)">
 		      	<option value="" selected="selected" ></option>
