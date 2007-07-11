@@ -67,8 +67,8 @@ class UsersController < ApplicationController
     if params[:user][:password] == ''
       user.password = user.password_confirmation = original_password
     end
-    if user == session[:current_user] and !user.admin? and
-      session[:current_user].admin?
+    if user == current_user and !user.admin? and
+      current_user.admin?
 
       user.admin = 1
       flash[:error] = "You can not remove admin privileges from yourself."
@@ -85,7 +85,7 @@ class UsersController < ApplicationController
 
   def delete
     user = User.find(params[:id])
-    if user == session[:current_user]
+    if user == current_user
       flash[:error] = "You can not delete your own account."
     else
       user.destroy
@@ -137,7 +137,7 @@ class UsersController < ApplicationController
   def require_admin_privileges
     case action_name
     when 'edit','update'
-      super if params[:id].to_i != session[:current_user].id
+      super if params[:id].to_i != current_user.id
     else
       super
     end

@@ -26,11 +26,11 @@ class AcceptancetestsController < ApplicationController
   end
   
   def delete_from_story
-    myobject = mymodel.find params[:id]
-    myobject.destroy
-    flash[:status] = "#{mymodel.name} \"#{myobject.name}\" has been deleted."
+    acceptance = mymodel.find params[:id]
+    acceptance.destroy
+    flash[:status] = "#{mymodel.name} \"#{acceptance.name}\" has been deleted."
     redirect_to :controller => 'stories', :action => 'show', 
-                  :id => myobject.story_id,
+                  :id => acceptance.story_id,
                   :project_id => @project.id
   end
 

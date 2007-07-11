@@ -1,6 +1,3 @@
-
-
-
 require File.dirname(__FILE__) + '/../test_helper'
 require 'milestones_controller'
 
@@ -89,32 +86,12 @@ class MilestonesControllerTest < Test::Unit::TestCase
     assert_equal before_count + 1, Milestone.count
   end
 
-  def test_create_invalid
-    before_count = Milestone.count
-    post :create, 'project_id' => @project_one.id,
-         'object' => { 'name' => 'test_create_invalid', 'date' => '' }
-    assert_redirected_to :controller => 'milestones', :action => 'new'
-    assert_kind_of Milestone, session[:new_object]
-    assert_equal 'test_create_invalid', session[:new_object].name
-  end
-
   def test_edit
     get :edit, 'id' => @future_milestone1.id,
         'project_id' => @future_milestone1.project.id
     assert_response :success
     assert_template 'edit'
     assert_equal @future_milestone1, assigns(:object)
-  end
-
-  def test_edit_from_invalid
-    @request.session[:edit_object] = @future_milestone1
-    get :edit, 'id' => @future_milestone1.id,
-        'project_id' => @future_milestone1.project.id
-    assert_response :success
-    assert_template 'edit'
-    assert_kind_of Milestone, assigns(:object)
-    assert_equal @future_milestone1.id, assigns(:object).id
-    assert_nil session[:edit_object]
   end
 
   def test_update
@@ -126,18 +103,6 @@ class MilestonesControllerTest < Test::Unit::TestCase
     m = Milestone.find(@future_milestone1.id)
     assert_equal 'Fooooo!', m.name
     assert flash[:status]
-  end
-
-  def test_update_invalid
-    post :update, 'id' => @future_milestone1.id,
-         'project_id' => @future_milestone1.project.id,
-         'object' => { 'name' => '' }
-    assert_redirected_to :controller => 'milestones', :action => 'edit',
-                         :id => @future_milestone1.id,
-                         :project_id => @future_milestone1.project.id
-    m = Milestone.find(@future_milestone1.id)
-    m.name = ''
-    assert_equal m, session[:edit_object]
   end
 
   def test_delete

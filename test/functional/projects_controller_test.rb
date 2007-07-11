@@ -1,6 +1,3 @@
-
-
-
 require File.dirname(__FILE__) + '/../test_helper'
 require 'projects_controller'
 
@@ -59,19 +56,8 @@ class ProjectsControllerTest < Test::Unit::TestCase
     get :new
     assert_response :success
     assert_template 'new'
-    assert_kind_of Project, assigns(:new_project)
-    assert assigns(:new_project).new_record?
-  end
-
-  def test_new_from_error
-    project = Project.create
-    assert !project.valid?
-    @request.session[:new_project] = project
-    get :new
-    assert_response :success
-    assert_template 'new'
-    assert_equal project, assigns(:new_project)
-    assert_nil session[:new_project]
+    assert_kind_of Project, assigns(:project)
+    assert assigns(:project).new_record?
   end
 
   def test_create_no_membership
@@ -94,14 +80,6 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_template 'layouts/refresh_parent_close_popup'
     assert_equal num_before_create + 1, Project.count
     assert_equal mem_num_before_create + 1, current_user.projects.size
-  end
-
-  def test_create_with_errors
-    num_before_create = Project.count
-    post :create
-    assert_redirected_to :controller => 'projects', :action => 'new'
-    assert session[:new_project]
-    assert_equal num_before_create, Project.count
   end
 
   def test_add_users
@@ -148,14 +126,6 @@ class ProjectsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'edit'
     assert_equal @project_one, assigns( :project )
-  end
-
-  def test_edit_from_invalid
-    @request.session[ :edit_project ] = @project_one
-    get :edit, 'id' => @project_one.id
-    assert_kind_of Project, assigns( :project )
-    assert_equal @project_one.id, assigns( :project ).id
-    assert_nil session[ :edit_project ]
   end
 
   def test_update

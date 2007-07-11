@@ -31,7 +31,7 @@ class MilestonesController < ApplicationController
     if @project
       milestones = @project.milestones
     else
-      milestones = session[:current_user].projects.collect{|p| p.milestones}
+      milestones = current_user.projects.collect{|p| p.milestones}
       @calendar_title.gsub!(':', ' (all projects):')
     end
     milestones = milestones.flatten.select { |m|

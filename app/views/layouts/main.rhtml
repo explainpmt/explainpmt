@@ -34,13 +34,13 @@
       </div>
       <% end%>
 
-      <% if session[:current_user] %>
+      <% if current_user %>
       <div id="StatusRight">
-        Welcome back <%= session[:current_user].full_name %> &nbsp; | &nbsp;
+        Welcome back <%= current_user.full_name %> &nbsp; | &nbsp;
         <%= popup_link('Edit Profile', "edit_user",
                             'width=375,height=300,resizable,scrollbars',
                             :controller => 'users', :action => 'edit', 
-                            :id => session[:current_user].id) %> &nbsp; | &nbsp;
+                            :id => current_user.id) %> &nbsp; | &nbsp;
         <%= link_to( 'Log-out', :controller => 'users', :action => 'logout' ) %>
       </div>
       <% end %>

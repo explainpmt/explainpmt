@@ -12,11 +12,11 @@ class StoriesController < ApplicationController
   def index
     @page_title = "Backlog"
     if params[:show_cancelled]
-      @stories = Project.find_all_stories_not_assigned_to_an_iteration(@project.id)
+      @stories = Project.find_all_stories_not_assigned_to_an_iteration @project.id
     elsif params[:show_all]
-      @stories = Project.find_all_stories(@project.id)
+      @stories = Project.find_all_stories @project.id
     else
-      @stories = Project.find_all_stories_not_cancelled_and_not_assigned_to_an_iteration(@project.id)
+      @stories = Project.find_all_stories_not_cancelled_and_not_assigned_to_an_iteration @project.id
     end
   end
 
@@ -25,21 +25,20 @@ class StoriesController < ApplicationController
   end
 
   def new_bulk
-	newcommon
+    newcommon
   end
   
   def new_single
-	newcommon
+    newcommon
   end
 
   def new_story_for_iteration
-	newcommon
-    @iteration = Iteration.find(params[:iteration_id])
+    newcommon
+    @iteration = Iteration.find params[:iteration_id]
   end
   
   def newcommon
-  	@story = session[:new_story] || Story.new
-    session[:new_story] = nil
+  	@story = Story.new
     @story.return_ids_for_aggregations
   end
 
@@ -47,11 +46,11 @@ class StoriesController < ApplicationController
   def create_many
     if params[:story_card_titles].empty?
       flash[:error] = 'Please enter at least one story card title.'
-      redirect_to :controller => 'stories', :action => 'new_bulk', :project_id => @project
+      render :action => "new_bulk", :layout => "popup"
     else
       params[:story_card_titles].each_line do |title|
-        story = @project.stories.create(:title => title, :creator_id => session[:current_user].id)
-      end
+      story = @project.stories.create(:title => title, :creator_id => current_user.id)
+    end
       flash[:status] = 'New story cards created.'
       render :template => 'layouts/refresh_parent_close_popup'
     end
@@ -59,42 +58,37 @@ class StoriesController < ApplicationController
   
   def create
     modify_risk_status_and_value_params
-    story = Story.new(params[:story])
-    story.project = @project
-    story.iteration_id = params[:iteration_id]
-    story.creator_id = session[:current_user].id
-    if story.valid?
-      story.save
+    @story = Story.new params[:story]
+    @story.project = @project
+    @story.iteration_id = params[:iteration_id]
+    @story.creator_id = current_user.id
+    if @story.valid?
+      @story.save
       flash[:status] = 'The new story card has been saved.'
       render 'layouts/refresh_parent_close_popup'
     else
-      session[:new_story] = story
-      if(story.iteration_id?)
+      if @story.iteration_id?
             redirect_to :controller => 'stories', :action => 'new_story_for_iteration',
                   :project_id => @project.id, :iteration_id => params[:iteration_id]
       else
-      redirect_to :controller => 'stories', :action => 'new_single',
-                  :project_id => @project.id
+        render :action => "new_single", :layout => "popup"
       end           
     end
   end
 
   def clone_story
-	editcommon
-	@story.title = "Clone Of: " + @story.title
-	if(@story.iteration_id?)
-	 @iterationid = @story.iteration_id
-	end
+  	editcommon
+  	@story.title = "Clone Of: " + @story.title
+    @iterationid = @story.iteration_id if @story.iteration_id?
   end
   
   def edit
-	editcommon
+	  editcommon
     @page_title = "Edit story card"
   end
   
   def editcommon
-  	@story = session[:story] || Story.find(params[:id])
-    session[:story] = nil
+  	@story = Story.find params[:id]
     @story.return_ids_for_aggregations
   end
 
@@ -102,23 +96,21 @@ class StoriesController < ApplicationController
     @page_title = "Edit story card"
     @selected_main_menu_link = :none
     modify_risk_status_and_value_params
-    story = Story.find(params[:id])
+    story = Story.find params[:id]
     story.attributes = params[:story]
-    story.updater_id = session[:current_user].id
+    story.updater_id = current_user.id
     if story.valid?
       story.audit_story
       story.save
       flash[:status] = 'The changes to the story card have been saved.'
       render :template => 'layouts/refresh_parent_close_popup'
     else
-      session[:edit_story] = story
-      redirect_to :controller => 'stories', :action => 'edit',
-                  :id => story.id.to_s, :project_id => @project.id.to_s
+      render :action => "edit", :layout => "popup"
     end
   end
 
   def delete_common
-    Story.destroy(params[:id])
+    Story.destroy params[:id]
     flash[:status] = 'The story card was deleted.'
   end
   
@@ -143,34 +135,34 @@ class StoriesController < ApplicationController
   end
 
   def show
-    @story = Story.find(params[:id])
+    @story = Story.find params[:id]
     @tasks = @story.tasks
     @acceptancetests = @story.acceptancetests
     @page_title = @story.title
   end
 
   def take_ownership
-    story = Story.find(params[:id])
-    story.owner = session[:current_user]
+    story = Story.find params[:id]
+    story.owner = current_user
     story.save
-    session[:current_user].reload
+    current_user.reload
     flash[:status] = "SC#{story.scid} has been updated."
     redirect_to :controller => 'iterations', :action => 'show',
                 :id => story.iteration.id.to_s, :project_id => @project.id.to_s
   end
 
   def release_ownership
-    story = Story.find(params[:id])
+    story = Story.find params[:id]
     story.owner = nil
     story.save
-    session[:current_user].reload    
+    current_user.reload    
     flash[:status] = "SC#{story.scid} has been updated."
     redirect_to :controller => 'iterations', :action => 'show',
                 :id => story.iteration.id.to_s, :project_id => @project.id.to_s
   end
   
   def assign_owner
-    @story = Story.find(params[:id])
+    @story = Story.find params[:id]
     @users = @project.users
   end
     
@@ -203,31 +195,31 @@ class StoriesController < ApplicationController
   end
   
   def increase_numeric_priority
-  	story = Story.find(params[:id])
-	story.move_higher
-	if params[:iteration_id]
-	  	redirect_to :controller => 'iterations', :action => 'show',
-                  :project_id => @project.id, :id => params[:iteration_id]
-	else
- 	redirect_to :controller => 'stories', :action => 'index',
-                  :project_id => @project.id
+    story = Story.find params[:id]
+  	story.move_higher
+  	if params[:iteration_id]
+  	  redirect_to :controller => 'iterations', :action => 'show',
+                    :project_id => @project.id, :id => params[:iteration_id]
+  	else
+      redirect_to :controller => 'stories', :action => 'index',
+                    :project_id => @project.id
     end
   end
   
   def decrease_numeric_priority
-  	story = Story.find(params[:id])
-  	story.move_lower
-	if params[:iteration_id]
-	  	redirect_to :controller => 'iterations', :action => 'show',
-                  :project_id => @project.id, :id => params[:iteration_id]
-	else
- 	redirect_to :controller => 'stories', :action => 'index',
-                  :project_id => @project.id
+    story = Story.find params[:id]
+    story.move_lower
+  	if params[:iteration_id]
+      redirect_to :controller => 'iterations', :action => 'show',
+                    :project_id => @project.id, :id => params[:iteration_id]
+  	else
+   	  redirect_to :controller => 'stories', :action => 'index',
+                    :project_id => @project.id
     end
   end
   
   def edit_numeric_priority
-  	@story = Story.find(params[:id])
+  	@story = Story.find params[:id]
   end
   
   def set_numeric_priority

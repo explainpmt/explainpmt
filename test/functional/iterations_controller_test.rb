@@ -1,6 +1,3 @@
-
-
-
 require File.dirname(__FILE__)  + '/../test_helper'
 require 'iterations_controller'
 
@@ -70,12 +67,6 @@ class IterationsControllerTest < Test::Unit::TestCase
     assert assigns( :object ).new_record?
   end
 
-  def test_new_from_invalid
-    @request.session[ :new_object ] = Iteration.new
-    test_new
-    assert_nil session[ :new_object ]
-  end
-
   def test_create
     Iteration.destroy_all
     post :create, 'project_id' => @project_one.id,
@@ -90,22 +81,6 @@ class IterationsControllerTest < Test::Unit::TestCase
     assert_equal 1, Iteration.count
     assert_response :success
     assert_template 'layouts/refresh_parent_close_popup'
-  end
-
-  def test_create_invalid
-    it_count = Iteration.count
-    post :create, 'project_id' => @project_one.id,
-      'object' => {
-        'start_date(1i)' => Date.today.year.to_s,
-        'start_date(2i)' => Date.today.mon.to_s,
-        'start_date(3i)' => Date.today.day.to_s,
-        'length' => 'foo',
-        'budget' => 'bar'
-      }
-    assert_redirected_to :controller => 'iterations', :action => 'new',
-      :project_id => @project_one.id.to_s
-    assert session[ :new_object ]
-    assert_equal it_count, Iteration.count
   end
 
   def test_delete
@@ -126,24 +101,12 @@ class IterationsControllerTest < Test::Unit::TestCase
     assert_equal @iteration_one, assigns( :object )
   end
 
-  def test_edit_invalid
-    @request.session[ :edit_object ] = @iteration_one
-    test_edit
-    assert_nil session[ :edit_object ]
-  end
-
   def test_update
     post :update, 'id' => 1, 'project_id' => 1,
       'iteration' => { 'length' => '10' }
     assert Iteration.find(1).length = '10'
     assert_response :success
     assert_template 'layouts/refresh_parent_close_popup'
-  end
-
-  def test_update_invalid
-    post :update, 'id' => 1, 'project_id' => 1,
-      'object' => { 'length' => 'foo' }
-    assert_not_nil session[ :edit_object ]
   end
 
   def test_move_stories_to_backlog

@@ -1,6 +1,3 @@
-
-
-
 require File.dirname(__FILE__) + '/../test_helper'
 require 'stories_controller'
 
@@ -88,8 +85,6 @@ class StoriesControllerTest < Test::Unit::TestCase
   def test_create_empty
     num = Story.count
     post :create_many, :project_id => @project_one.id, :story_card_titles => ''
-    assert_redirected_to :controller => 'stories', :action => 'new_bulk',
-      :project_id => @project_one.id
     assert_equal 'Please enter at least one story card title.', flash[:error]
   end
 
@@ -104,21 +99,12 @@ class StoriesControllerTest < Test::Unit::TestCase
     @story_one.title = nil
     @request.session[ :story ] = @story_one
     test_edit
-    assert_nil session[ :story ]
   end
 
   def test_update
     post :update, 'project_id' => @project_one.id, 'id' => @story_one.id,
       'story' => { 'title' => 'Test Update', 'status' => 1 }
     assert_template 'layouts/refresh_parent_close_popup'
-  end
-
-  def test_update_invalid
-    post :update, 'project_id' => @project_one.id, 'id' => @story_one.id,
-      'story' => { 'title' => '' }
-    assert_redirected_to :controller => 'stories', :action => 'edit',
-      :project_id => @project_one.id.to_s, :id => @story_one.id.to_s
-    assert session[ :edit_story ]
   end
 
   def test_take_ownership

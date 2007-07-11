@@ -1,6 +1,6 @@
 <fieldset>
   <legend>Details</legend>
-  <%= error_messages_for('object') %>
+    <%= error_messages_for('object') %>
   <table class="form_layout">
   <% if @story%>
   <tr><td><%= hidden_field('object', 'story_id',"value" => "#{@story.id}") %></td></tr>

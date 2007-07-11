@@ -1,6 +1,6 @@
 class DashboardController < ApplicationController
   def index
-    user = session[:current_user]
+    user = current_user
     if @project
       project = @project.id
       @page_title = "Dashboard"

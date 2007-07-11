@@ -2,15 +2,15 @@ module ApplicationHelper
   VERSION = 'dev trunk'
   
   def is_admin?
-    if session[:current_user]
-      session[:current_user].admin?
+    if current_user
+      current_user.admin?
     else
       false
     end
   end
 
   def other_projects
-    can_access = User.find(session[:current_user].id).projects
+    can_access = User.find(current_user.id).projects
     can_access.select { |p| p != @project }
   end
 

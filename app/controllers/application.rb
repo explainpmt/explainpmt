@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   layout :choose_layout
+  include CurrentUser
   before_filter :check_authentication
   before_filter :set_selected_project
   before_filter :require_team_membership
@@ -11,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
   
   def check_authentication
-    unless session[:current_user].kind_of?(User)
+    unless current_user.kind_of?(User)
       session[:return_to] = request.request_uri
       flash[:status] = "Please log in, and we'll send you right along."
       redirect_to :controller => 'users', :action => 'login'
@@ -20,7 +21,7 @@ class ApplicationController < ActionController::Base
   end
   
   def require_admin_privileges
-    unless session[:current_user].admin?
+    unless current_user.admin?
       flash[:error] = "You must be logged in as an administrator to perform " +
                       "the requested action."
       redirect_to :controller => 'error', :action => 'index'
@@ -29,8 +30,8 @@ class ApplicationController < ActionController::Base
   end
   
   def require_team_membership
-    if @project and !session[:current_user].admin?
-      unless User.find(session[:current_user].id).projects.include?(@project)
+    if @project and !current_user.admin?
+      unless User.find(current_user.id).projects.include?(@project)
         flash[:error] = 'You do not have permission to access the project, ' +
                         'because you are not part of the project team.'
         redirect_to :controller => 'error', :action => 'index'
