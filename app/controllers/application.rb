@@ -47,9 +47,6 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  # Chooses whether to use the regular page layout or the popup page layout
-  # depending on whether the action is listed as one of the controller's popup
-  # views.
   def choose_layout
     @@popups ||= {}
     @@popups[controller_name] ||= []
@@ -60,8 +57,6 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  # Used as a before_filter to ensure that a project is selected. If no project
-  # is selected, the user is sent to an error page.
   def require_current_project
     unless @project
       @@popups ||= {}
@@ -78,17 +73,12 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  # Saves the HTTP_REFERER into the session
-  # Used in conjunction with #return_to_referer
   def register_referer
     unless request.env['HTTP_REFERER'].blank?
       session[:referer] = request.env['HTTP_REFERER']
     end
   end
   
-  # Redirects the user back to the registered referer, and deletes the referer
-  # Returns false if no referer was registered
-  # Used in conjunction with #register_referer
   def redirect_to_referer
     if session[:referer]
       redirect_to session[:referer]
