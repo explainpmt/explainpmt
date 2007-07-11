@@ -45,13 +45,6 @@ class AcceptancetestsControllerTest < Test::Unit::TestCase
     assert_equal @at_two, assigns(:object)
   end
   
-  def test_clone_acceptance_with_existing_acceptance_in_session
-    @request.session[:object] = @at_two
-    get :clone_acceptancetest, :id => @at_one.id, :project_id => @project_one.id
-    assert_kind_of Acceptancetest, assigns(:object)
-    assert_equal @at_two, assigns(:object)
-  end
-  
   def test_export
      get :export, :project_id => @project_one.id
      assert_equal 2, assigns(:list).size
