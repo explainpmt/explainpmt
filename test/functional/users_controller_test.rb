@@ -86,8 +86,8 @@ class UsersControllerTest < Test::Unit::TestCase
 
   def test_new_from_invalid
     @request.session[ :current_user ] = @admin
-    @request.session[ :new_user ] = User.new :last_name => 'Foo'
     get :new
+    assigns(:user).last_name = 'Foo'
     assert_kind_of User, assigns( :user )
     assert assigns( :user ).new_record?
     assert_equal 'Foo', assigns( :user ).last_name
@@ -123,9 +123,7 @@ class UsersControllerTest < Test::Unit::TestCase
     @request.session[ :current_user ] = @admin
     num_users = User.count
     post :create, 'user' => {}
-    assert_redirected_to :controller => 'users', :action => 'new'
-    assert_kind_of User, session[ :new_user ]
-    assert session[ :new_user ].new_record?
+    assert assigns(:user).new_record?
     assert_equal num_users, User.count
   end
 
@@ -150,10 +148,8 @@ class UsersControllerTest < Test::Unit::TestCase
     @request.session[ :current_user ] = @admin
     num_users = User.count
     post :create, 'user' => {}, 'project_id' => @project_one.id
-    assert_redirected_to :controller => 'users', :action => 'new',
-      :project_id => @project_one.id
-    assert_kind_of User, session[ :new_user ]
-    assert session[ :new_user ].new_record?
+    assert_kind_of User, assigns(:user)
+    assert assigns(:user).new_record?
     assert_equal num_users, User.count
   end
 
@@ -171,7 +167,6 @@ class UsersControllerTest < Test::Unit::TestCase
     @request.session[ :edit_user ] = @user_one
     get :edit, 'id' => @user_one.id
     assert_equal @user_one, assigns( :user )
-    assert_nil session[ :edit_user ]
   end
 
   def test_update
@@ -185,10 +180,8 @@ class UsersControllerTest < Test::Unit::TestCase
   def test_update_invalid
     @request.session[ :current_user ] = @admin
     post :update, 'id' => @user_one.id, 'user' => { 'username' => '' }
-    assert_redirected_to :controller => 'users', :action => 'edit',
-      :id => @user_one.id
     @user_one.username = ''
-    assert_equal @user_one, session[ :edit_user ]
+    assert_equal @user_one, assigns(:user)
   end
 
   def test_delete

@@ -17,76 +17,59 @@ class UsersController < ApplicationController
 
   def new
     @page_title = "New User"
-    if session[:new_user]
-      @user = session[:new_user]
-      session[:new_user] = nil
-    else
-      register_referer
-      @user = User.new
-    end
+    @user = User.new
   end
 
   def edit
-    @user = User.find(params[:id])
+    @user = User.find params[:id]
     @page_title = @user.full_name
-    if session[:edit_user]
-      @user = session[:edit_user]
-      session[:edit_user] = nil
-    else
-      register_referer
-    end
   end
 
   def create
-    user = User.new(params[:user])
-    if user.valid?
-      user.save
-      flash[:status] = "User account for #{user.full_name} has been created."
-
+    @user = User.new params[:user]
+    if @user.valid?
+      @user.save
+      flash[:status] = "User account for #{@user.full_name} has been created."
       if @project
-        @project.users << user
-        flash[:status] = "User account for #{user.full_name} has been " +
+        @project.users << @user
+        flash[:status] = "User account for #{@user.full_name} has been " +
                           "created and added to the project team."
       end
       render :template => 'layouts/refresh_parent_close_popup'
     else
-      session[:new_user] = user
       if @project
-        redirect_to(:controller => 'users', :action => 'new',
-                    :project_id => @project.id)
+        render :action => "new", :layout => "popup", :locals => {:project_id => @project.id}
       else
-        redirect_to :controller => 'users', :action => 'new'
+        render :action => "new", :layout => "popup"
       end
     end
   end
 
   def update
-    user = User.find(params[:id])
-    original_password = user.password
-    user.attributes = params[:user]
+    @user = User.find params[:id]
+    original_password = @user.password
+    @user.attributes = params[:user]
     if params[:user][:password] == ''
-      user.password = user.password_confirmation = original_password
+      @user.password = @user.password_confirmation = original_password
     end
-    if user == current_user and !user.admin? and
+    if @user == current_user and !@user.admin? and
       current_user.admin?
-
-      user.admin = 1
+      @user.admin = 1
       flash[:error] = "You can not remove admin privileges from yourself."
     end
-    if user.valid?
-      user.save
-      flash[:status] = "User account for #{user.full_name} has been updated."
+    if @user.valid?
+      @user.save
+      flash[:status] = "User account for #{@user.full_name} has been updated."
       render :template => 'layouts/refresh_parent_close_popup'
     else
-      session[:edit_user] = user
-      redirect_to(:controller => 'users', :action => 'edit', :id => user.id)
+      render :action => "edit", :layout => "popup"
     end
   end
 
   def delete
-    user = User.find(params[:id])
+    user = User.find params[:id]
     if user == current_user
-      flash[:error] = "You can not delete your own account."
+      flash[:error] = "You can not delete your own account." if user == current_user
     else
       user.destroy
       flash[:status] = "User account for #{user.full_name} has been deleted."
