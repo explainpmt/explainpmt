@@ -24,7 +24,7 @@ class IterationsController < ApplicationController
   end
 
   def show
-    @iteration = Iteration.find(params[:id])
+    @iteration = Iteration.find params[:id]
     @page_title = "Iteration: #{@iteration.start_date} - #{@iteration.stop_date}"
     @stories = Story.find_all_by_iteration_and_project(@iteration.id, @project.id)
     @projectIterations = @project.iterations
@@ -47,7 +47,7 @@ class IterationsController < ApplicationController
       s.status != Story::Status::New and
       s.status != Story::Status::Cancelled
     }
-    @iteration = Iteration.find(params[:id])
+    @iteration = Iteration.find params[:id]
   end
 
   def assign_stories
@@ -57,20 +57,20 @@ class IterationsController < ApplicationController
   
   def export
     headers['Content-Type'] = "application/vnd.ms-excel" 
-    @iteration = Iteration.find(params[:id])
-    @stories = Iteration.find_stories(params[:id])
+    @iteration = Iteration.find params[:id]
+    @stories = Iteration.find_stories params[:id]
     render :layout => false
   end
   
   def export_tasks
     headers['Content-Type'] = "application/vnd.ms-excel" 
-    @iteration = Iteration.find(params[:id])
-    @stories = Iteration.find_stories(params[:id])
+    @iteration = Iteration.find params[:id] 
+    @stories = Iteration.find_stories params[:id]
     render :layout => false
   end
 
   def allocation_for_iteration
-    @iteration = Iteration.find(params[:id])
+    @iteration = Iteration.find params[:id]
     @allocations = @iteration.points_by_user
     @users = @project.users
   end
@@ -87,7 +87,7 @@ class IterationsController < ApplicationController
       if params[:move_to].to_i == 0
         s.iteration = nil
       else
-        s.iteration = Iteration.find(params[:move_to].to_i)
+        s.iteration = Iteration.find params[:move_to].to_i
       end
       if s.save
         successes << "SC#{s.scid} has been moved."
