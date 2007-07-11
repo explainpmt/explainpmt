@@ -13,8 +13,6 @@ class UserTest < Test::Unit::TestCase
   def test_full_name
     assert_equal("#{@user_one.first_name} #{@user_one.last_name}",
                  @user_one.full_name)
-    assert_equal("#{@user_one.last_name}, #{@user_one.first_name}",
-                 @user_one.full_name(User::LastFirst))
   end
 
   def test_authenticate
