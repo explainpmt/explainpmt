@@ -7,11 +7,7 @@ class ApplicationController < ActionController::Base
   protected
   
   def set_selected_project
-    if params[:project_id]
-      @project = Project.find(params[:project_id])
-    else
-      @project = nil
-    end
+    @project = params[:project_id] ? Project.find(params[:project_id]) : nil
   end
   
   def check_authentication
