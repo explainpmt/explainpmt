@@ -1,6 +1,3 @@
-
-
-
 class IterationsController < ApplicationController
   include CrudActions
 

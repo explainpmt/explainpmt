@@ -8,7 +8,6 @@ class MilestonesController < ApplicationController
     Milestone
   end
   
-  # Lists the milestones for the project.
   def index
     @page_title = "Milestones"
     if params['show_all'] == '1'
