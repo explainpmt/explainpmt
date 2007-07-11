@@ -1,28 +1,4 @@
-##############################################################################
-# eXPlain Project Management Tool
-# Copyright (C) 2005  John Wilger <johnwilger@gmail.com>
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-##############################################################################
-
-
-# The filters added to this controller will be run for all controllers in the application.
-# Likewise will all the methods added be available for all controllers.
 class ApplicationController < ActionController::Base
-  helper :sort
-  
   layout :choose_layout
   before_filter :check_authentication
   before_filter :set_selected_project
@@ -30,10 +6,6 @@ class ApplicationController < ActionController::Base
   
   protected
   
-  # Used as a before_filter to instantiate the @project instance variable based
-  # on the 'project_id' request parameter. This ensures that @project is always
-  # available when performing actions that should occur within the context of a
-  # single project.
   def set_selected_project
     if params[:project_id]
       @project = Project.find(params[:project_id])
@@ -42,11 +14,6 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  # Used as a before_filter to ensure that the 'current_user' session variable
-  # contians a valid User (or descendent class) object. Otherwise the user is
-  # redirected to the login page. If redirected, the 'return-to' session
-  # variable will contain the path to the page the user was originally trying to
-  # access.
   def check_authentication
     unless session[:current_user].kind_of?(User)
       session[:return_to] = request.request_uri
@@ -56,11 +23,6 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  # This method can be used as a before_filter for actions which should require
-  # admin privileges to perform. If the user tries to perform an action which
-  # triggers this filter, and they do not have admin privileges, they will be
-  # redirected to the error page with an error message saying that they must log
-  # in as an administrator to perform the requested action.
   def require_admin_privileges
     unless session[:current_user].admin?
       flash[:error] = "You must be logged in as an administrator to perform " +
@@ -70,9 +32,6 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  # Used as a before_filter to ensure that the currently logged in user is
-  # allowed to access the current project by determining whether he is an
-  # administrator or if he is on the project team.
   def require_team_membership
     if @project and !session[:current_user].admin?
       unless User.find(session[:current_user].id).projects.include?(@project)
@@ -84,8 +43,6 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  # Used in the controller class definitions to specify which actions should be
-  # rendered using the popup layout.
   def self.popups(*popup_actions)
     @@popups ||= {}
     @@popups[controller_name] ||= []

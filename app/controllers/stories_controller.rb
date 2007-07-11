@@ -1,23 +1,3 @@
-##############################################################################
-# eXPlain Project Management Tool
-# Copyright (C) 2005  John Wilger <johnwilger@gmail.com>
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-##############################################################################
-
-
 class StoriesController < ApplicationController
   include CrudActions
 
@@ -28,10 +8,7 @@ class StoriesController < ApplicationController
   def mymodel
     Story
   end
-  # Lists all of the stories in the project 'Backlog' (stories that have no
-  # iteration). Stories with a "cancelled" status are hidden by default. They
-  # can be displayed by passing the request parameter 'show_cancelled' (with any
-  # non-blank value).
+
   def index
     @page_title = "Backlog"
     if params[:show_cancelled]
@@ -47,7 +24,6 @@ class StoriesController < ApplicationController
     export
   end
 
-  # Displays a form for creating a new story card.
   def new_bulk
 	newcommon
   end
@@ -61,7 +37,6 @@ class StoriesController < ApplicationController
     @iteration = Iteration.find(params[:iteration_id])
   end
   
-  # Common logic used for new and new for iteration
   def newcommon
   	@story = session[:new_story] || Story.new
     session[:new_story] = nil
@@ -69,8 +44,6 @@ class StoriesController < ApplicationController
   end
 
 
-  # Creates new story cards based on the story titles posted form the #new
-  # action.
   def create_many
     if params[:story_card_titles].empty?
       flash[:error] = 'Please enter at least one story card title.'
@@ -106,7 +79,6 @@ class StoriesController < ApplicationController
     end
   end
 
- #Displays the form for cloning a story
   def clone_story
 	editcommon
 	@story.title = "Clone Of: " + @story.title
@@ -115,21 +87,17 @@ class StoriesController < ApplicationController
 	end
   end
   
-  # Displays the form for editing a story card's information.
   def edit
 	editcommon
     @page_title = "Edit story card"
   end
   
-  # Common logic used for edit and cloning
   def editcommon
   	@story = session[:story] || Story.find(params[:id])
     session[:story] = nil
     @story.return_ids_for_aggregations
   end
 
-
-  # Updates a story card with the information posted from the #edit action.
   def update
     @page_title = "Edit story card"
     @selected_main_menu_link = :none
@@ -149,7 +117,6 @@ class StoriesController < ApplicationController
     end
   end
 
-  # Destroys the story card identified by the 'id' request parameter.
   def delete_common
     Story.destroy(params[:id])
     flash[:status] = 'The story card was deleted.'
@@ -175,8 +142,6 @@ class StoriesController < ApplicationController
                   :project_id => @project.id
   end
 
-  # Displays the details for the story card identified by the 'id' request
-  # parameter.
   def show
     @story = Story.find(params[:id])
     @tasks = @story.tasks
@@ -184,7 +149,6 @@ class StoriesController < ApplicationController
     @page_title = @story.title
   end
 
-  # Sets the storycard's Story#owner attribute to the currently logged in user.
   def take_ownership
     story = Story.find(params[:id])
     story.owner = session[:current_user]
@@ -195,7 +159,6 @@ class StoriesController < ApplicationController
                 :id => story.iteration.id.to_s, :project_id => @project.id.to_s
   end
 
-  # Sets the story's owner to nil
   def release_ownership
     story = Story.find(params[:id])
     story.owner = nil
@@ -292,9 +255,6 @@ class StoriesController < ApplicationController
 
   protected
 
-  # Sets the parameter values for a story's status, value and risk to the
-  # actual objects that need to be assigned based on the integer value
-  # originally passed in that parameter.
   def modify_risk_status_and_value_params
     if params[:story]
       if params[:story][:status]

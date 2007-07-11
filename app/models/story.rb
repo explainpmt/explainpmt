@@ -1,42 +1,3 @@
-##############################################################################
-# eXPlain Project Management Tool
-# Copyright (C) 2005  John Wilger <johnwilger@gmail.com>
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-##############################################################################
-
-
-# Story is the basic planning unit of the eXPlainPMT system (as in the eXtreme
-# Programming methodology). Story cards are defined and estimated and then
-# assigned to an Iteration to schedule them for completion.
-#
-# Story has the following associations:
-#   belongs_to :project
-#   belongs_to :iteration
-#   belongs_to :owner, :class_name => 'User'
-#
-# And the following data validations:
-#   validates_presence_of :title, :project, :status
-#   validates_inclusion_of :points, :in => 1..99, :allow_nil => true
-#   validates_uniqueness_of :scid, :scope => 'project_id'
-#
-# As well as the following aggregations:
-#   composed_of :status, :mapping => %w(status order)
-#   composed_of :value, :mapping => %w(value order)
-#   composed_of :risk, :mapping => %w(risk order)
-#
 class Story < ActiveRecord::Base
   belongs_to :project
   belongs_to :iteration
@@ -61,13 +22,8 @@ class Story < ActiveRecord::Base
    Story.find(:all, :include => [:initiative, :owner, :iteration, :project], :conditions => "stories.project_id = #{project_id} and stories.iteration_id = #{iteration_id}")
   end
 
-  # The collection of defined Status objects
   Statuses = []
-
-  # The collection of defined Value objects
   Values = []
-
-  # The collection of defined Risk objects
   Risks = []
 
   validates_presence_of :title, :project, :status
@@ -127,14 +83,10 @@ class Story < ActiveRecord::Base
       @closed = closed
     end
     
-    # Returns +true+ if the status represents a story where the work is
-    # complete.
     def complete?
       @complete
     end
 
-    # Returns +true+ if the status represents a story that is closed, meaning no
-    # further work is required.
     def closed?
       @closed
     end
@@ -178,16 +130,6 @@ class Story < ActiveRecord::Base
     Risks << NA = create(4,'')
   end
 
-  # When determining the current value for an aggregation, we need to use the
-  # "id" of the item in the HTML forms, but the aggregate methods return the
-  # actual object. By calling this method, the aggregate methods are overridden
-  # to provide this id value, i.e.:
-  #
-  #   story = Story.new
-  #   story.return_ids_for_aggregations
-  #   story.status                        => 1
-  #   story.value                      => 6
-  #   story.risk                          => 4
   def return_ids_for_aggregations
     self.instance_eval <<-EOF
       def status
@@ -231,8 +173,6 @@ class Story < ActiveRecord::Base
     validate_points
   end
 
-  # The after_initialize callback is used to set the default values for #status,
-  # #value and #risk.
   def after_initialize
     self.status = Status::New unless self.status
     self.value = Value::NA unless self.value

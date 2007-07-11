@@ -1,57 +1,16 @@
-##############################################################################
-# eXPlain Project Management Tool
-# Copyright (C) 2005  John Wilger <johnwilger@gmail.com>
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-##############################################################################
-
-
-# An Iteration is a planning unit that identifies a period of time with a
-# starting date, a length (in days) and a budget of story points. An iteration
-# can have 0 or more Story objects associated with it, and this is how the user
-# plans which story cards will be completed in a given iteration.
-#
-# The following associations are defined for the Iteration class:
-#   belongs_to :project
-#   has_many :stories
-#
-# And the following validations are performed on the data:
-#   validates_inclusion_of :length, :in => 1..99,
-#                          :message => 'must be a number between 1 and 99'
-#   validates_inclusion_of :budget, :in => 1..999, :allow_nil => true,
-#                          :message => 'must be a number between 1 and 999 ' +
-#                                      '(or blank)'
-#   validates_presence_of :start_date
-#
 class Iteration < ActiveRecord::Base
   belongs_to :project
   has_many :stories do
-    # The sum of the points of all Story objects assigned to the iteration
+
     def total_points
       self.inject(0) { |res,s| res + s.points }
     end
 
-    # The sum of the story points from completed Story objects assigned to the
-    # iteration.
     def completed_points
       completed_stories = self.select { |s| s.status.complete? }
       completed_stories.inject(0) { |res,s| res + s.points }
     end
 
-    # The sum of the story points from incomplete Story objects assigned to the
-    # iteration
     def remaining_points
       total_points - completed_points
     end
@@ -67,17 +26,14 @@ class Iteration < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => "project_id"
 
-  # The last date of the iteration
   def stop_date
     start_date + length.to_i - 1
   end
 
-  # The number of unallocated budget points
   def remaining_resources
     (budget || 0) - stories.total_points
   end
 
-  # The number of story points by user
   def points_by_user
       stories.inject( Hash.new( 0 ) ) do |hsh, story|
             hsh[ story.user_id ] += story.points      
@@ -100,15 +56,12 @@ class Iteration < ActiveRecord::Base
     stop_date.to_time < today
   end
 
-  #custom finder for stories in an iteration. Prevents active record from performing multiple queries per result.
   def self.find_stories(iteration_id)
   	Story.find(:all, :include => [:initiative, :project, :owner], :conditions => "stories.iteration_id = #{iteration_id}")
   end
   
   protected
 
-  # Ensures that all associated Story objects are placed back in the project
-  # backlog if the iteration they are assigned to is deleted.
   def after_destroy
     Story.update_all("iteration_id = NULL", ["iteration_id = ?",self.id])
   end

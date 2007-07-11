@@ -1,31 +1,9 @@
-##############################################################################
-# eXPlain Project Management Tool
-# Copyright (C) 2005  John Wilger <johnwilger@gmail.com>
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-##############################################################################
-
-
 class UsersController < ApplicationController
   before_filter :require_admin_privileges, :except => [:new, :create, :index, :project,
     :authenticate, :login, :logout ]
   skip_before_filter :check_authentication, :only => [ :authenticate, :login, :new, :create ]
   popups :new, :edit
 
-  # If the 'project_id' request parameter is set, this will display the
-  # project's team members. Otherwise, it shows all users on the system.
   def index
     if @project
       @page_title = "Project Team"
@@ -37,7 +15,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # Displays the form to create a new user account.
   def new
     @page_title = "New User"
     if session[:new_user]
@@ -49,7 +26,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # Displays the form to edit a user account.
   def edit
     @user = User.find(params[:id])
     @page_title = @user.full_name
@@ -61,8 +37,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # Creates a new user account based o information submitted from the #new
-  # action.
   def create
     user = User.new(params[:user])
     if user.valid?
@@ -86,7 +60,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # Updates a user account with the information submitted from the #edit action.
   def update
     user = User.find(params[:id])
     original_password = user.password
@@ -110,7 +83,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # Deletes the user account identified by the 'id' request parameter.
   def delete
     user = User.find(params[:id])
     if user == session[:current_user]
@@ -162,8 +134,6 @@ class UsersController < ApplicationController
 
   protected
 
-  # Overrides the ApplicationController#require_admin_privileges method so that
-  # a non-admin user can edit their own account details.
   def require_admin_privileges
     case action_name
     when 'edit','update'

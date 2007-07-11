@@ -59,7 +59,6 @@ class TasksController < ApplicationController
     @users = @project.users
   end
   
-    # Sets the story's owner to nil
   def release_ownership
     story = Story.find(params[:story_id])
     task = Task.find(params[:id])
