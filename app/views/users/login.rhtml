@@ -52,11 +52,11 @@ input {
 <div id="form">
 <form action="<%= authenticate_users_url %>" method="post">
 	<div class="user">
-		<input onfocus="this.value=''" type="text" name="username" id="Username" value="Username" />
+		<input onfocus="if(this.value=='Username'){this.value=''}" type="text" name="username" id="Username" value="Username" />
 
     </div>
     <div class="pass">
-	    <input onfocus="this.value=''" type="password" name="password" id="Password" value="Password" />
+	    <input onfocus="if(this.value=='Password'){this.value=''}" type="password" name="password" id="Password" value="Password" />
     </div>
     <input type="image" name="submit" src="images/btn_login.gif" class="btn" /> 
     <%= popup_link('Register', "create_user", 'width=375,height=375,resizable,scrollbars',
