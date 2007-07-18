@@ -1,10 +1,10 @@
 <% form_remote_tag :url => {:controller => 'users', :action => 'register'} do -%>
   <%= error_messages_for('user') %>
-      <%= text_field_tag 'user[first_name]', 'First Name', :onfocus => "resetValue(this,'First Name')" %>
-      <%= text_field_tag 'user[last_name]', 'Last Name', :onfocus => "resetValue(this,'Last Name')" %>
-      <%= text_field_tag 'user[username]', 'Username', :onfocus => "resetValue(this,'Username')" %>
-      <%= text_field_tag 'user[email]', 'Email', :onfocus => "resetValue(this,'Email')" %>
-      <input onfocus="resetValue(this,'Password');this.type='password'" type="text" name="user[password]" id="Password" value="Password" />
-      <input onfocus="resetValue(this,'Confirm Password');this.type='password'" type="text" name="user[password_confirmation]" id="Password_confirmation" value="Confirm Password" />
+      <%= text_field_tag 'user[first_name]', 'First Name', :onfocus => "resetValue(this,'First Name')", :onblur => "resetValue(this,'First Name')" %>
+      <%= text_field_tag 'user[last_name]', 'Last Name', :onfocus => "resetValue(this,'Last Name')" ,:onblur => "resetValue(this,'Last Name')" %>
+      <%= text_field_tag 'user[username]', 'Username', :onfocus => "resetValue(this,'Username')",:onblur => "resetValue(this,'Username')" %>
+      <%= text_field_tag 'user[email]', 'Email', :onfocus => "resetValue(this,'Email')",:onblur => "resetValue(this,'Email')" %>
+      <input onblur="if(this.value == ''){this.type='text'};resetValue(this,'Password')" onfocus="resetValue(this,'Password');this.type='password'" type="text" name="user[password]" id="Password" value="Password" />
+      <input onblur="if(this.value == ''){this.type='text'};resetValue(this,'Confirm Password')" onfocus="resetValue(this,'Confirm Password');this.type='password'" type="text" name="user[password_confirmation]" id="Password_confirmation" value="Confirm Password" />
       <br><input type="submit" name="submit" value="Register" /><a href="/">Cancel</a>
 <%end%>
