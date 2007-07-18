@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_filter :require_admin_privileges, :except => [:new, :create, :index, :project,
-    :authenticate, :login, :logout ]
-  skip_before_filter :check_authentication, :only => [ :authenticate, :login, :new, :create ]
+    :authenticate, :login, :logout, :register ]
+  skip_before_filter :check_authentication, :only => [ :authenticate, :login, :new, :create, :register ]
   popups :new, :edit
 
   def index
@@ -16,8 +16,21 @@ class UsersController < ApplicationController
   end
 
   def new
-    @page_title = "New User"
     @user = User.new
+    respond_to do |format|
+      format.html{@page_title = "New User"}
+      format.js{
+      render :update do |page|
+      page[:SystemError].hide
+      page[:SystemStatus].hide
+      page[:form].visual_effect :fade, :duration => 0.5
+      page.delay 1 do
+        page[:form].replace_html :partial => 'users/register_form', :locals => {:user => @user}
+        page[:form].visual_effect :appear
+      end
+      end
+      }
+    end
   end
 
   def edit
@@ -43,6 +56,29 @@ class UsersController < ApplicationController
         render :action => "new", :layout => "popup"
       end
     end
+  end
+
+  def register
+    user = User.new params[:user]
+    puts user.valid?
+    puts params
+      render :update do |page|
+         page[:SystemError].hide
+         if user.save
+          page[:form].visual_effect :fade, :duration => 0.5
+          page.delay 1 do
+            page[:form].replace_html :partial => 'users/login_form'
+            page[:form].visual_effect :appear
+          end
+          page.delay 2 do
+            page[:SystemStatus].replace_html "User account for #{user.full_name} has been created."
+            page[:SystemStatus].show
+          end
+        else
+          page[:SystemError].replace_html  "Failed"
+          page[:SystemError].show
+      end
+    end    
   end
 
   def update

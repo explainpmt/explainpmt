@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%= javascript_include_tag :defaults %>
 <title>Explain PMT - Login</title>
 <style type="text/css">
 body {
@@ -40,6 +41,14 @@ input {
 	position:relative;
 	top:80px;
 	}
+#SystemError{
+	position:relative;
+	top:140px;
+}
+#SystemStatus{
+	position:relative;
+	top:140px;
+}
 .btn {
 	vertical-align:middle;
 	padding:3px;
@@ -49,26 +58,9 @@ input {
 
 <body>
 <div id="login">
-<div id="form">
-<form action="<%= authenticate_users_url %>" method="post">
-	<div class="user">
-		<input onfocus="if(this.value=='Username'){this.value=''}" type="text" name="username" id="Username" value="Username" />
-
-    </div>
-    <div class="pass">
-	    <input onfocus="if(this.value=='Password'){this.value=''}" type="password" name="password" id="Password" value="Password" />
-    </div>
-    <input type="image" name="submit" src="images/btn_login.gif" class="btn" /> 
-    <%= popup_link('Register', "create_user", 'width=375,height=375,resizable,scrollbars',
-                                            :controller => 'users', :action => 'new') %>
-
-</form>
-<% if flash[:error] %>
-    <div id="SystemError"><%= textilize_without_paragraph(flash[:error])%></div>
-<% elsif flash[:status] %>
-    <div id="SystemStatus"><%= textilize_without_paragraph(flash[:status]) %></div>
-<% end %>
-</div>
+<div id="form"><%=render :partial => 'login_form'%>
+<div id="SystemError"><%= textilize_without_paragraph(flash[:error])%></div>
+<div id="SystemStatus"><%= textilize_without_paragraph(flash[:status]) %></div>
 </div>
 </body>
 </html>
