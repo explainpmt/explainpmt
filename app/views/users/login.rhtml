@@ -1,69 +1,71 @@
-<!DOCTYPE html
-     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-  <head>
-    <title>eXPlainPMT &raquo; Please Log In</title>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
-    <style type="text/css">
-      #Login {
-        text-align: left;
-        position: relative;
-        width: 400px;
-        margin: 10% auto 0 auto;
-        padding: 10px;
-        color: #333333;
-        background-color: white;
-        border: 10px solid #666666;
-      }
 
-      #Login.login_error {
-        border-color: #CC0000;
-      }
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Explain PMT - Login</title>
+<style type="text/css">
+body {
+	margin:0;
+	font:12px Arial, Helvetica, sans-serif;
+	color:#666;
+	background:#fff;
+	}
+a {
+	color:black;
+	text-decoration:none;
+	border-bottom:1px dotted #669933;
+	}
+.user {
+	padding:3px;
+	color:#666;
+	}
+.pass {
+	padding:3px;
+	color:#666;
+	}
+input {
+	color:#666;
+	}
+#login {
+	margin-top:100px;
+	margin-left:auto;
+	margin-right:auto;
+	width:440px;
+	height:221px;
+	text-align:center;
+	background:url('images/login_bg.gif') no-repeat;
+	}
+#form {
+	position:relative;
+	top:80px;
+	}
+.btn {
+	vertical-align:middle;
+	padding:3px;
+	}
+</style>
+</head>
 
-      h1 {
-        font-size: 20px;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="Login" <%= 'class="login_error"' if flash['error'] %>>
-      <h1>eXPlain Project Management Tool</h1><br>
-      <% if flash[:error] %>
-      <div id="SystemError"><%= textilize_without_paragraph(flash[:error])
-        %></div>
-      <% elsif flash[:status] %>
-      <div id="SystemStatus"><%= textilize_without_paragraph(flash[:status])
-        %></div>
-      <% end %>
-      <form action="<%= authenticate_users_url %>" method="post">
-                  <table class="form_layout" align="center">
-                        <tr>
-                                <th><label for="Username">Username:</label></th>
-                                <td><input size= "20" type="text" name="username" id="Username" /></td>
-                        </tr>
-                        <tr>
-                                <th><label for="Password">Password:</label></th>
-                                <td><input size= "22" type="password" name="password" id="Password" /></td>
-                        </tr>
-                        <tr>
-                                <td colspan="2" class="form_actions">
-                                        <input type="submit" name="submit" value="Log In" />
-                                        &nbsp;
-                                        <%= popup_link('Register', "create_user",
-                                            'width=375,height=375,resizable,scrollbars',
-                                            :controller => 'users', :action => 'new') %>
-                                </td>
-                        </tr>
-                  </table>
-      </form>
-      <script type="text/javascript">
-      <!--
-      document.getElementById('Username').focus();
-      //-->
-      </script>
+<body>
+<div id="login">
+<div id="form">
+<form action="<%= authenticate_users_url %>" method="post">
+	<div class="user">
+		<input type="text" name="username" id="Username" value="Username" />
+
     </div>
-  </body>
+    <div class="pass">
+	    <input type="password" name="password" id="Password" value="Password" />
+    </div>
+    <input type="image" name="submit" src="images/btn_login.gif" class="btn" /> 
+    <%= popup_link('Register', "create_user", 'width=375,height=375,resizable,scrollbars',
+                                            :controller => 'users', :action => 'new') %>
+</form>
+<script type="text/javascript">
+    document.getElementById('Username').focus();
+</script> 
+</div>
+</div>
+</body>
 </html>
-
-
