@@ -52,19 +52,22 @@ input {
 <div id="form">
 <form action="<%= authenticate_users_url %>" method="post">
 	<div class="user">
-		<input type="text" name="username" id="Username" value="Username" />
+		<input onfocus="this.value=''" type="text" name="username" id="Username" value="Username" />
 
     </div>
     <div class="pass">
-	    <input type="password" name="password" id="Password" value="Password" />
+	    <input onfocus="this.value=''" type="password" name="password" id="Password" value="Password" />
     </div>
     <input type="image" name="submit" src="images/btn_login.gif" class="btn" /> 
     <%= popup_link('Register', "create_user", 'width=375,height=375,resizable,scrollbars',
                                             :controller => 'users', :action => 'new') %>
+
 </form>
-<script type="text/javascript">
-    document.getElementById('Username').focus();
-</script> 
+<% if flash[:error] %>
+    <div id="SystemError"><%= textilize_without_paragraph(flash[:error])%></div>
+<% elsif flash[:status] %>
+    <div id="SystemStatus"><%= textilize_without_paragraph(flash[:status]) %></div>
+<% end %>
 </div>
 </div>
 </body>
