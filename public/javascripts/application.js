@@ -2,6 +2,9 @@ function resetValue(el,text){
     if(el.value == text){
         el.value='';
     }
+    else if(el.value == ''){
+    	el.value=text
+    }
 }
 
 
