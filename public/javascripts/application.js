@@ -1,9 +1,13 @@
 function resetValue(el,text){
     if(el.value == text){
         el.value='';
+        el.title=text;
     }
     else if(el.value == ''){
-    	el.value=text
+    	el.value=text;
+    }
+    else{
+    	el.title=text;
     }
 }
 
