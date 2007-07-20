@@ -2,24 +2,16 @@ module ApplicationHelper
   VERSION = 'dev trunk'
   
   def is_admin?
-    if current_user
-      current_user.admin?
-    else
-      false
-    end
+    current_user.admin
   end
 
   def other_projects
-    can_access = User.find(current_user.id).projects
+    can_access = current_user.projects
     can_access.select { |p| p != @project }
   end
 
   def page_title
-    if @project
-      "#{@project.name} &raquo; #{@page_title}"
-    else
-      @page_title
-    end
+    @project ? "#{@project.name} &raquo; #{@page_title}" : @page_title
   end
 
   def top_menu

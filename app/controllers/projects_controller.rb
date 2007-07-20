@@ -25,7 +25,7 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @project = Project.new params[:new_project]
+    @project = Project.new params[:project]
     if @project.valid?
       @project.save
       current_user.projects << @project if params[:add_me] == '1'

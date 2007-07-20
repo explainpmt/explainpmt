@@ -6,7 +6,7 @@
       <rect height="360.0" width="600.0" x="0" fill="#E6E6E6" y="0"/>
     </g>
     <g transform="translate(30.0, 7.2)" id="title">
-      <text class="title" font-size="25.2" stroke="none" text-anchor="middle" x="270.0" fill="black" stroke-width="0" y="25.2">Project One Project Burndown</text>
+      <text stroke="none" class="title" font-size="25.2" text-anchor="middle" x="270.0" fill="black" stroke-width="0" y="25.2">Project One Project Burndown</text>
     </g>
     <g transform="translate(12.0, 93.6)" id="view">
       <g>
@@ -18,11 +18,11 @@
           <text font-size="16.91712" text-anchor="end" x="96.12" fill="black" y="0.0">14</text>
         </g>
         <g transform="translate(106.8, 0.0)" id="grid">
-          <line style="stroke: black; stroke-width: 2;" x1="0" y1="0.0" x2="427.2" y2="0.0"/>
-          <line style="stroke: black; stroke-width: 2;" x1="0" y1="52.866" x2="427.2" y2="52.866"/>
-          <line style="stroke: black; stroke-width: 2;" x1="0" y1="105.732" x2="427.2" y2="105.732"/>
-          <line style="stroke: black; stroke-width: 2;" x1="0" y1="158.598" x2="427.2" y2="158.598"/>
-          <line style="stroke: black; stroke-width: 2;" x1="0" y1="211.464" x2="427.2" y2="211.464"/>
+          <line x1="0" y1="0.0" style="stroke: black; stroke-width: 2;" x2="427.2" y2="0.0"/>
+          <line x1="0" y1="52.866" style="stroke: black; stroke-width: 2;" x2="427.2" y2="52.866"/>
+          <line x1="0" y1="105.732" style="stroke: black; stroke-width: 2;" x2="427.2" y2="105.732"/>
+          <line x1="0" y1="158.598" style="stroke: black; stroke-width: 2;" x2="427.2" y2="158.598"/>
+          <line x1="0" y1="211.464" style="stroke: black; stroke-width: 2;" x2="427.2" y2="211.464"/>
         </g>
         <g transform="translate(106.8, 218.592)" id="labels">
           <text font-size="17.1072" text-anchor="middle" x="0.0" fill="black" y="19.008">I0</text>
@@ -32,35 +32,35 @@
         <g transform="translate(106.8, 0.0)" id="graphs">
           <g class="graph_layer" id="component_graphs_graph_0">
             <g class="shadow" transform="translate(1.05732, 1.05732)">
-              <polyline style="fill-opacity: 0; stroke-opacity: 0.35" stroke="black" fill="transparent" stroke-width="4.22928" points="0.0,0.0"/>
-              <circle cx="0.0" cy="1.903176" style="stroke-width: 4.22928; stroke: black; opacity: 0.35;" r="4.22928"/>
+              <polyline stroke="black" style="fill-opacity: 0; stroke-opacity: 0.35" fill="transparent" stroke-width="4.22928" points="0.0,0.0"/>
+              <circle style="stroke-width: 4.22928; stroke: black; opacity: 0.35;" r="4.22928" cx="0.0" cy="1.903176"/>
             </g>
             <polyline stroke="#333399" fill="none" stroke-width="4.22928" points="0.0,0.0"/>
-            <circle cx="0.0" cy="0.0" style="stroke-width: 4.22928; stroke: #333399; fill: #333399" r="4.22928"/>
+            <circle style="stroke-width: 4.22928; stroke: #333399; fill: #333399" r="4.22928" cx="0.0" cy="0.0"/>
           </g>
           <g class="graph_layer" id="component_graphs_graph_1">
             <g class="shadow" transform="translate(1.05732, 1.05732)">
-              <polyline style="fill-opacity: 0; stroke-opacity: 0.35" stroke="black" fill="transparent" stroke-width="4.22928" points="0.0,0.0 213.6,0.0 427.2,0.0"/>
-              <circle cx="0.0" cy="1.903176" style="stroke-width: 4.22928; stroke: black; opacity: 0.35;" r="4.22928"/>
-              <circle cx="213.6" cy="1.903176" style="stroke-width: 4.22928; stroke: black; opacity: 0.35;" r="4.22928"/>
-              <circle cx="427.2" cy="1.903176" style="stroke-width: 4.22928; stroke: black; opacity: 0.35;" r="4.22928"/>
+              <polyline stroke="black" style="fill-opacity: 0; stroke-opacity: 0.35" fill="transparent" stroke-width="4.22928" points="0.0,0.0 213.6,0.0 427.2,0.0"/>
+              <circle style="stroke-width: 4.22928; stroke: black; opacity: 0.35;" r="4.22928" cx="0.0" cy="1.903176"/>
+              <circle style="stroke-width: 4.22928; stroke: black; opacity: 0.35;" r="4.22928" cx="213.6" cy="1.903176"/>
+              <circle style="stroke-width: 4.22928; stroke: black; opacity: 0.35;" r="4.22928" cx="427.2" cy="1.903176"/>
             </g>
             <polyline stroke="#FDD84E" fill="none" stroke-width="4.22928" points="0.0,0.0 213.6,0.0 427.2,0.0"/>
-            <circle cx="0.0" cy="0.0" style="stroke-width: 4.22928; stroke: #FDD84E; fill: #FDD84E" r="4.22928"/>
-            <circle cx="213.6" cy="0.0" style="stroke-width: 4.22928; stroke: #FDD84E; fill: #FDD84E" r="4.22928"/>
-            <circle cx="427.2" cy="0.0" style="stroke-width: 4.22928; stroke: #FDD84E; fill: #FDD84E" r="4.22928"/>
+            <circle style="stroke-width: 4.22928; stroke: #FDD84E; fill: #FDD84E" r="4.22928" cx="0.0" cy="0.0"/>
+            <circle style="stroke-width: 4.22928; stroke: #FDD84E; fill: #FDD84E" r="4.22928" cx="213.6" cy="0.0"/>
+            <circle style="stroke-width: 4.22928; stroke: #FDD84E; fill: #FDD84E" r="4.22928" cx="427.2" cy="0.0"/>
           </g>
           <g class="graph_layer" id="component_graphs_graph_2">
             <g class="shadow" transform="translate(1.05732, 1.05732)">
-              <polyline style="fill-opacity: 0; stroke-opacity: 0.35" stroke="black" fill="transparent" stroke-width="4.22928" points="0.0,0.0 213.6,0.0 427.2,0.0"/>
-              <circle cx="0.0" cy="1.903176" style="stroke-width: 4.22928; stroke: black; opacity: 0.35;" r="4.22928"/>
-              <circle cx="213.6" cy="1.903176" style="stroke-width: 4.22928; stroke: black; opacity: 0.35;" r="4.22928"/>
-              <circle cx="427.2" cy="1.903176" style="stroke-width: 4.22928; stroke: black; opacity: 0.35;" r="4.22928"/>
+              <polyline stroke="black" style="fill-opacity: 0; stroke-opacity: 0.35" fill="transparent" stroke-width="4.22928" points="0.0,0.0 213.6,0.0 427.2,0.0"/>
+              <circle style="stroke-width: 4.22928; stroke: black; opacity: 0.35;" r="4.22928" cx="0.0" cy="1.903176"/>
+              <circle style="stroke-width: 4.22928; stroke: black; opacity: 0.35;" r="4.22928" cx="213.6" cy="1.903176"/>
+              <circle style="stroke-width: 4.22928; stroke: black; opacity: 0.35;" r="4.22928" cx="427.2" cy="1.903176"/>
             </g>
             <polyline stroke="#006600" fill="none" stroke-width="4.22928" points="0.0,0.0 213.6,0.0 427.2,0.0"/>
-            <circle cx="0.0" cy="0.0" style="stroke-width: 4.22928; stroke: #006600; fill: #006600" r="4.22928"/>
-            <circle cx="213.6" cy="0.0" style="stroke-width: 4.22928; stroke: #006600; fill: #006600" r="4.22928"/>
-            <circle cx="427.2" cy="0.0" style="stroke-width: 4.22928; stroke: #006600; fill: #006600" r="4.22928"/>
+            <circle style="stroke-width: 4.22928; stroke: #006600; fill: #006600" r="4.22928" cx="0.0" cy="0.0"/>
+            <circle style="stroke-width: 4.22928; stroke: #006600; fill: #006600" r="4.22928" cx="213.6" cy="0.0"/>
+            <circle style="stroke-width: 4.22928; stroke: #006600; fill: #006600" r="4.22928" cx="427.2" cy="0.0"/>
           </g>
         </g>
       </g>
