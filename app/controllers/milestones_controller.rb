@@ -27,13 +27,14 @@ class MilestonesController < ApplicationController
   end
   
   def milestones_calendar
+    days_to_render = 14
     title_prefix = 'Upcoming Milestones:'
     @calendar_title = @project ? title_prefix : title_prefix.gsub(':', ' (all projects):')
     milestones = (@project ? @project.milestones : current_user.milestones).select { |m|
-      m.date >= Date.today && m.date < Date.today + 14
+      m.date >= Date.today && m.date < Date.today + days_to_render
     }  
     days = []
-    14.times do |i|
+    days_to_render.times do |i|
       current_day = Date.today + i
       days << {
         :date => current_day,
