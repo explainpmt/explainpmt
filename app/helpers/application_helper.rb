@@ -6,8 +6,7 @@ module ApplicationHelper
   end
 
   def other_projects
-    can_access = current_user.projects
-    can_access.select { |p| p != @project }
+    current_user.projects.select { |p| p != @project }
   end
 
   def page_title
