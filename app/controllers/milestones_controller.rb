@@ -33,16 +33,14 @@ class MilestonesController < ApplicationController
     milestones = (@project ? @project.milestones : current_user.milestones).select { |m|
       m.date >= Date.today && m.date < Date.today + days_to_render
     }  
-    days = []
-    days_to_render.times do |i|
-      current_day = Date.today + i
-      days << {
-        :date => current_day,
+    
+    @days = Array.new(days_to_render) {|index|
+      current_day = Date.today + index
+      {:date => current_day,
         :name => Date::DAYNAMES[current_day.wday],
-        :milestones => milestones.select { |m| m.date == current_day }
+        :milestones => milestones.select { |m| m.date == current_day }}
       }
-    end
-    @days = days
+    
     render :partial => 'milestones_calendar'
   end
   
