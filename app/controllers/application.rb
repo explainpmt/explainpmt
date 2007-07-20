@@ -51,11 +51,7 @@ class ApplicationController < ActionController::Base
   def choose_layout
     @@popups ||= {}
     @@popups[controller_name] ||= []
-    if @@popups[controller_name].include?(action_name.to_sym)
-      'layouts/popup'
-    else
-      'layouts/main'
-    end
+    @@popups[controller_name].include?(action_name.to_sym) ? 'layouts/popup' : 'layouts/main'
   end
   
   def require_current_project
