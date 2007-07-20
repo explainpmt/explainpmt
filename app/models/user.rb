@@ -18,4 +18,8 @@ class User < ActiveRecord::Base
   def self.authenticate(username, password)
     find_by_username_and_password(username, password)
   end
+  
+  def milestones
+    @project.nil? ? self.projects.inject( [] ) { |m,p| m + p.milestones } : @project.milestones
+  end
 end

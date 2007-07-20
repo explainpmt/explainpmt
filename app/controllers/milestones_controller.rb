@@ -28,15 +28,9 @@ class MilestonesController < ApplicationController
   
   def milestones_calendar
     @calendar_title = 'Upcoming Milestones:'
-    if @project
-      milestones = @project.milestones
-    else
-      milestones = current_user.projects.collect{|p| p.milestones}
-      @calendar_title.gsub!(':', ' (all projects):')
-    end
-    milestones = milestones.flatten.select { |m|
+    milestones = current_user.milestones.select { |m|
       m.date >= Date.today && m.date < Date.today + 14
-    }
+    }  
     days = []
     14.times do |i|
       current_day = Date.today + i
