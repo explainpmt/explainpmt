@@ -13,7 +13,7 @@ class Test::Unit::TestCase
 
   ALL_FIXTURES = [ :iterations,
                    :milestones,
-                   :projects_users,
+                   :project_memberships,
                    :projects,
                    :stories,
                    :users,
