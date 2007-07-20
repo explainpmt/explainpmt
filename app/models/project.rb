@@ -85,8 +85,7 @@ class Project < ActiveRecord::Base
   
   def current_velocity
     return 0 if self.iterations.past.size == 0
-    current = points_completed_for_velocity
-    current/self.iterations.past.size
+    points_completed_for_velocity/self.iterations.past.size
   end
   
   def points_completed_for_velocity
