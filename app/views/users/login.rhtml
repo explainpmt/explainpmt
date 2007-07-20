@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -41,14 +40,15 @@ input {
 	position:relative;
 	top:80px;
 	}
-#SystemError{
-	position:relative;
-	top:140px;
-}
 #SystemStatus{
 	position:relative;
-	top:140px;
+	top:120px;
+	width:440px;
+	margin:auto;
+	text-align:left;
+	padding:20px;
 }
+
 .btn {
 	vertical-align:middle;
 	padding:3px;
@@ -59,8 +59,7 @@ input {
 <body>
 <div id="login">
 <div id="form"><%=render :partial => 'login_form'%>
-<div id="SystemError"><%= textilize_without_paragraph(flash[:error])%></div>
-<div id="SystemStatus"><%= textilize_without_paragraph(flash[:status]) %></div>
+<div id="SystemStatus"><%= textilize_without_paragraph(flash[:error] || flash[:status])%></div>
 </div>
 </body>
 </html>

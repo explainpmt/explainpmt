@@ -21,7 +21,6 @@ class UsersController < ApplicationController
       format.html{@page_title = "New User"}
       format.js{
       render :update do |page|
-      page[:SystemError].hide
       page[:SystemStatus].hide
       page[:form].visual_effect :fade, :duration => 0.5
       page.delay 1 do
@@ -59,24 +58,22 @@ class UsersController < ApplicationController
   end
 
   def register
-    user = User.new params[:user]
-    puts user.valid?
-    puts params
+    @user = User.new params[:user]
       render :update do |page|
-         page[:SystemError].hide
-         if user.save
+         page[:SystemStatus].hide
+         if @user.save
           page[:form].visual_effect :fade, :duration => 0.5
           page.delay 1 do
             page[:form].replace_html :partial => 'users/login_form'
             page[:form].visual_effect :appear
           end
-          page.delay 2 do
+          page.delay 1 do
             page[:SystemStatus].replace_html "User account for #{user.full_name} has been created."
-            page[:SystemStatus].show
+            page[:SystemStatus].visual_effect :appear
           end
         else
-          page[:SystemError].replace_html  "Failed"
-          page[:SystemError].show
+          page[:SystemStatus].replace_html error_messages_for(:user)
+          page[:SystemStatus].visual_effect :appear
       end
     end    
   end
