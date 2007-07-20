@@ -75,7 +75,9 @@ class Project < ActiveRecord::Base
     end
   end
   
-  has_and_belongs_to_many :users, :order => 'last_name ASC, first_name ASC'
+  has_many :users, :through => :project_memberships, :order => 'last_name ASC, first_name ASC'
+  has_many :project_memberships
+  
   has_many :acceptancetests, :dependent => :destroy
   validates_presence_of :name
   validates_uniqueness_of :name

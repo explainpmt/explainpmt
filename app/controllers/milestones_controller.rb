@@ -28,7 +28,8 @@ class MilestonesController < ApplicationController
   
   def milestones_calendar
     @calendar_title = 'Upcoming Milestones:'
-    milestones = current_user.milestones.select { |m|
+    milestones = @project ? @project.milestones : current_user.milestones
+    milestones = milestones.select { |m|
       m.date >= Date.today && m.date < Date.today + 14
     }  
     days = []
