@@ -47,13 +47,11 @@ class Iteration < ActiveRecord::Base
   end
 
   def future?
-    tomorrow = Time.now.tomorrow.at_midnight
-    start_date.to_time >= tomorrow
+    start_date.to_time >= Time.now.tomorrow.at_midnight
   end
 
   def past?
-    today = Time.now.at_midnight
-    stop_date.to_time < today
+    stop_date.to_time < Time.now.at_midnight
   end
 
   def self.find_stories(iteration_id)
