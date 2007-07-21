@@ -116,17 +116,15 @@ module ApplicationHelper
   end
 
   def long_date(date)
-    "#{Date::DAYNAMES[date.wday]} #{Date::MONTHNAMES[date.mon]} #{date.day}, " +
-    "#{date.year}"
+    date.strftime('%A %B %d %Y')
   end
 
   def short_date(date)
-    "#{Date::ABBR_DAYNAMES[date.wday]} #{Date::ABBR_MONTHNAMES[date.mon]} " +
-    "#{date.day}, '#{date.year.to_s.slice(-2,2)}"
+    date.strftime('%a %b %d, %y')
   end
 
   def numeric_date(date)
-    "#{date.mon}/#{date.day}/#{date.year}"
+    date.strftime('%m/%d/%Y')
   end
   
   def collection_select_with_current(object, method, collection, value_method, text_method, current_value)
