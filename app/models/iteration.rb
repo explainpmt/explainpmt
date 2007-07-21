@@ -35,10 +35,10 @@ class Iteration < ActiveRecord::Base
   end
 
   def points_by_user
-      stories.inject( Hash.new( 0 ) ) do |hsh, story|
-            hsh[ story.user_id ] += story.points      
-            hsh    
-     end  
+    stories.inject( Hash.new( 0 ) ) do |hsh, story|
+          hsh[ story.user_id ] += story.points      
+          hsh    
+    end  
   end
   
   def current?
@@ -72,43 +72,13 @@ class Iteration < ActiveRecord::Base
   end
 
   def ensure_iteration_belongs_to_project
-    if project.nil?
-      errors.add_to_base('The iteration is not assigned to a project!')
-    end
+    errors.add_to_base('The iteration is not assigned to a project!') if project.nil?
   end
 
   def ensure_no_overlap
-    found_overlap = false
-    overlaps = nil
-    set_overlap_found = Proc.new { |i|
-      found_overlap = true
-      overlaps = i
+    project.iterations.each { |iteration|
+        errors.add(:start_date, "causes an overlap with #{iteration.length}-day iteration starting on " +
+                   "#{iteration.start_date.strftime('%m/%d/%Y')}.") unless id==iteration.id or (stop_date<iteration.start_date or start_date>iteration.stop_date)
     }
-    project.iterations(true).each do |iteration|
-      unless iteration.id == id
-        if iteration.stop_date <= stop_date &&
-          iteration.stop_date >= start_date
-          set_overlap_found.call(iteration)
-          break
-        elsif iteration.start_date >= start_date &&
-          iteration.start_date <= stop_date
-          set_overlap_found.call(iteration)
-          break
-        elsif iteration.start_date >= start_date &&
-          iteration.stop_date <= stop_date
-          set_overlap_found.call(iteration)
-          break
-        elsif iteration.start_date <= start_date &&
-          iteration.stop_date >= stop_date
-          set_overlap_found.call(iteration)
-          break
-        end
-      end
-    end
-    if found_overlap
-      errors.add(:start_date, "causes an overlap with #{overlaps.length}-day " +
-                 "iteration starting on " +
-                 "#{overlaps.start_date.strftime("%m/%d/%Y")}.")
-    end
   end
 end
