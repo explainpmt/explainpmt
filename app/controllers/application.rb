@@ -1,9 +1,13 @@
 class ApplicationController < ActionController::Base
   layout :choose_layout
-  include CurrentUser
+  helper_method :current_user
   before_filter :check_authentication
   before_filter :set_selected_project
   before_filter :require_team_membership
+  
+  def current_user
+    session[:current_user]
+  end
   
   protected
   
