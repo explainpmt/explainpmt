@@ -1,6 +1,6 @@
 class Iteration < ActiveRecord::Base
   belongs_to :project
-  has_many :stories do
+  has_many :stories , :dependent => :nullify do
 
     def total_points
       self.inject(0) { |res,s| res + s.points }
@@ -59,10 +59,6 @@ class Iteration < ActiveRecord::Base
   end
   
   protected
-
-  def after_destroy
-    Story.update_all("iteration_id = NULL", ["iteration_id = ?",self.id])
-  end
 
   def validate
     ensure_iteration_belongs_to_project
