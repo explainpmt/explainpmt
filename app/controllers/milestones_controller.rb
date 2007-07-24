@@ -10,19 +10,21 @@ class MilestonesController < ApplicationController
   
   def index
     @page_title = "Milestones"
-    if params['show_all'] == '1'
-      @past_milestones = 'all_past'
-      @past_link_opts = [ 'show only recent', { :controller => 'milestones',
-                                                :action => 'index',
-                                                :project_id => @project.id } ]
-      @past_title = "All Past Milestones"
-    else
-      @past_milestones = 'recent'
-      @past_link_opts = [ 'show all', { :controller => 'milestones',
-                                        :action => 'index', 
-                                        :project_id => @project.id,
-                                        :show_all => '1' } ]
-      @past_title = "Recent Milestones"
+    @future = @project.milestones.future
+    @recent = @project.milestones.recent
+  end
+
+  def show_all
+    render :update do |page|
+      page.replace_html 'recent', :partial => 'list', :locals => {:milestones => @project.milestones.past, :table_id => 'past_milestones'}
+      page.replace_html 'recent_title', "All Milesones <small>(#{link_to_remote 'show recent', :url => {:action => 'show_recent', :controller => 'milestones', :project_id => @project.id}})</small>"
+    end
+  end
+  
+  def show_recent
+    render :update do |page|
+      page.replace_html 'recent', :partial => 'list', :locals => {:milestones => @project.milestones.recent, :table_id => 'recent_milestones'}
+      page.replace_html 'recent_title', "Recent Milesones <small>(#{link_to_remote 'show all', :url => {:action => 'show_all', :controller => 'milestones', :project_id => @project.id}})</small>"
     end
   end
   
@@ -45,16 +47,11 @@ class MilestonesController < ApplicationController
   end
   
   def list
-    case params['include']
-    when 'future'
-      @milestones = @project.milestones.future
-    when 'recent'
-      @milestones = @project.milestones.recent
-    when 'all_past'
-      @milestones = @project.milestones.past
-    else
-      @milestones = []
-    end
+    milestones_to_show = params[:include]
+    @milestones = []
+    @milestones = @project.milestones.future if milestones_to_show == 'future'
+    @milestones = @project.milestones.recent  if milestones_to_show == 'recent'
+    @milestones = @project.milestones.past  if milestones_to_show == 'all_past'
     unless @milestones.empty?
       render :partial => 'list'
     else

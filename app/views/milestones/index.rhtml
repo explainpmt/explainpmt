@@ -11,17 +11,12 @@
     <td id="RightColumn">
       <div class="milestone_list">
         <h3>Future Milestones</h3>
-        <%= render_component :controller => 'milestones', :action => 'list',
-                           :params => { :project_id => @project.id,
-                                        :include => 'future', :table_id => "future_milestones" } %>
+            <%= render :partial => 'list', :locals => {:milestones => @future, :table_id => "future_milestones" }%>
       </div>
       <hr>
       <div class="milestone_list">
-        <% past_link = link_to(*@past_link_opts) %>
-        <h3><%= @past_title %> <small>(<%= past_link %>)</small></h3>
-        <%= render_component :controller => 'milestones', :action => 'list',
-                           :params => { :project_id => @project.id,
-                                        :include => @past_milestones, :table_id => "past_milestones" } %>
+        <h3 id='recent_title'>Recent Milesones <small>(<%=link_to_remote 'show all', :url => {:action => 'show_all', :controller => 'milestones', :project_id => @project.id}%>)</small></h3>
+            <div id="recent"><%= render :partial => 'list', :locals => {:milestones => @recent, :table_id => "past_milestones" }%></div>
       </div>
     </td>
   </tr>

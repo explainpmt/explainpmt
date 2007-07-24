@@ -63,7 +63,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
   def test_create_no_membership
     num_before_create = Project.count
     mem_num_before_create = current_user.projects.size
-    post :create, 'new_project' => { 'name' => 'Test Create',
+    post :create, 'project' => { 'name' => 'Test Create',
                                  'description' => '' }
     assert_response :success
     assert_template 'layouts/refresh_parent_close_popup'
@@ -74,7 +74,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
   def test_create_add_membership
     num_before_create = Project.count
     mem_num_before_create = current_user.projects.size
-    post :create, 'add_me' => '1', 'new_project' => { 'name' => 'Test Create',
+    post :create, 'add_me' => '1', 'project' => { 'name' => 'Test Create',
                                                   'description' => '' }
     assert_response :success
     assert_template 'layouts/refresh_parent_close_popup'

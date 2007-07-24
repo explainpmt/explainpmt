@@ -39,18 +39,6 @@ class MilestonesControllerTest < Test::Unit::TestCase
     end
   end
 
-  def test_index
-    get :index, :project_id => @project_one.id
-    assert_response :success
-    assert_equal 'recent', assigns(:past_milestones)
-  end
-  
-  def test_index_all_past
-    get :index, :project_id => @project_one.id, :show_all => '1'
-    assert_response :success
-    assert_equal 'all_past', assigns(:past_milestones)
-  end
-
   def test_no_project_id
     (FULL_PAGES + NO_RENDERS).each do |a|
       process a
@@ -150,39 +138,6 @@ class MilestonesControllerTest < Test::Unit::TestCase
     assert_tag :tag => "li", :content =>"Milestone Seven"
   end
   
-  def test_list_future
-    process :list, :project_id => @project_one.id, :include => 'future'
-    assert_response :success
-    assert_template '_list'
-    assert_equal [ @future_milestone1, @future_milestone3, @future_milestone2 ],
-                 assigns(:milestones)
-  end
-  
-  def test_list_recent
-    process :list, :project_id => @project_one.id, :include => 'recent'
-    assert_response :success
-    assert_template '_list'
-    assert_equal [ @recent_milestone2, @recent_milestone1 ],
-                 assigns(:milestones)
-  end
-  
-  def test_list_all_past
-    process :list, :project_id => @project_one.id, :include => 'all_past'
-    assert_response :success
-    assert_template '_list'
-    assert_equal [ @recent_milestone2, @recent_milestone1, @past_milestone2, 
-                   @past_milestone1 ], assigns(:milestones)
-  end
-  
-  def test_list_nothing_to_show
-    @project_one.milestones.clear
-    [ 'future', 'recent', 'all_past' ].each do |type|
-      process :list, :project_id => @project_one.id, :include => type
-      assert_response :success
-      assert_equal '<p>Nothing to show.</p>', @response.body
-    end
-  end
-
   private
 
   def empty_milestones_days_array

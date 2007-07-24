@@ -1,4 +1,4 @@
-<table class="sort-table" id=<%= params[ :table_id ]%> cellspacing="0" cellpadding="3" border="0" width="100%">
+<table class="sort-table" id="<%= table_id %>" cellspacing="0" cellpadding="3" border="0" width="100%">
   <thead>
     <tr>
         <td width="100">Date</td>
@@ -7,7 +7,7 @@
     </tr>
   </thead>
   <tbody>
-  <% @milestones.each_with_index do |m,i|
+  <% milestones.each_with_index do |m,i|
      row_class = (i%2 == 0) ? 'odd_row' : 'even_row'
      %>
      <tr class="<%= row_class %>">
@@ -29,7 +29,7 @@
   </tbody>
 </table>
 <script type="text/javascript">
-var st = new SortableTable(document.getElementById("<%= params[ :table_id ]%>"),
+var st = new SortableTable(document.getElementById("<%=table_id%>"),
 	["Date", "CaseInsensitiveString", "None"]);
 
 // Maintain sort and restore the class names
