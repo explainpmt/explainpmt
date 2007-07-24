@@ -48,16 +48,4 @@ class MilestonesController < ApplicationController
     render :partial => 'milestones_calendar'
   end
   
-  def list
-    milestones_to_show = params[:include]
-    @milestones = []
-    @milestones = @project.milestones.future if milestones_to_show == 'future'
-    @milestones = @project.milestones.recent  if milestones_to_show == 'recent'
-    @milestones = @project.milestones.past  if milestones_to_show == 'all_past'
-    unless @milestones.empty?
-      render :partial => 'list'
-    else
-      render :text => '<p>Nothing to show.</p>'
-    end
-  end
 end
