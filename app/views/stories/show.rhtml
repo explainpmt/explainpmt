@@ -7,7 +7,7 @@
     &nbsp;
   (<%= popup_link('Add Task', "task", 'width=525,height=300,resizable,scrollbars',
   			   :controller => 'tasks', :action => 'new',
-               :id => @story.id, :project_id => @project.id) %>)
+               :story_id => @story.id, :project_id => @project.id) %>)
   &nbsp;
     (<%= popup_link('Add Acceptance', 'new_acceptance',
                'width=550,height=550,scrollbars,resizable',

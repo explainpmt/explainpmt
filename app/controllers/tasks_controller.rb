@@ -8,16 +8,15 @@ class TasksController < ApplicationController
   end
   
   def new
-    @story = Story.find params[:id]
+    @story = Story.find params[:story_id]
     super 
   end
   
   def create
-    @object_to_create = mymodel.new params[:object]
-    @object_to_create.story = Story.find params[:story_id]
-    if @object_to_create.valid?
-      @object_to_create.save
-      flash[:status] = "#{mymodel} \"#{@object_to_create.name}\" has been saved."
+    @object = mymodel.new params[:object]
+    @object.story = @story = Story.find(params[:story_id])
+    if @object.save
+      flash[:status] = "#{mymodel} \"#{@object.name}\" has been saved."
       render :template => 'layouts/refresh_parent_close_popup'
     else
       render :action => "new", :layout => "popup"
