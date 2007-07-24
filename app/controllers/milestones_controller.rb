@@ -16,14 +16,16 @@ class MilestonesController < ApplicationController
 
   def show_all
     render :update do |page|
-      page.replace_html 'recent', :partial => 'list', :locals => {:milestones => @project.milestones.past, :table_id => 'past_milestones'}
+      milestones = @project.milestones.past
+      milestones.empty? ? page.replace_html('recent', "<p>Nothing To Show</p>") : page.replace_html('recent', :partial => 'list', :locals => {:milestones => milestones, :table_id => 'past_milestones'})
       page.replace_html 'recent_title', "All Milesones <small>(#{link_to_remote 'show recent', :url => {:action => 'show_recent', :controller => 'milestones', :project_id => @project.id}})</small>"
     end
   end
   
   def show_recent
     render :update do |page|
-      page.replace_html 'recent', :partial => 'list', :locals => {:milestones => @project.milestones.recent, :table_id => 'recent_milestones'}
+      milestones = @project.milestones.recent
+      milestones.empty? ? page.replace_html('recent', "<p>Nothing To Show</p>") : page.replace_html('recent', :partial => 'list', :locals => {:milestones => milestones, :table_id => 'recent_milestones'})
       page.replace_html 'recent_title', "Recent Milesones <small>(#{link_to_remote 'show all', :url => {:action => 'show_all', :controller => 'milestones', :project_id => @project.id}})</small>"
     end
   end

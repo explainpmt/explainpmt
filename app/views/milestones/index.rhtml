@@ -11,12 +11,18 @@
     <td id="RightColumn">
       <div class="milestone_list">
         <h3>Future Milestones</h3>
+            <%if !@future.empty? %>
             <%= render :partial => 'list', :locals => {:milestones => @future, :table_id => "future_milestones" }%>
+            <%else%><p>Nothing To Show</p><%end%>
       </div>
       <hr>
       <div class="milestone_list">
         <h3 id='recent_title'>Recent Milesones <small>(<%=link_to_remote 'show all', :url => {:action => 'show_all', :controller => 'milestones', :project_id => @project.id}%>)</small></h3>
-            <div id="recent"><%= render :partial => 'list', :locals => {:milestones => @recent, :table_id => "past_milestones" }%></div>
+            <div id="recent">
+                <%if !@recent.empty?%>
+                    <%= render :partial => 'list', :locals => {:milestones => @recent, :table_id => "past_milestones" }%>
+                <%else%><p>Nothing To Show</p><%end%>
+            </div>
       </div>
     </td>
   </tr>
