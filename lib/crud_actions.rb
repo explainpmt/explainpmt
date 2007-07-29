@@ -49,7 +49,7 @@ module CrudActions
   
   def export
     headers['Content-Type'] = "application/vnd.ms-excel" 
-    @list = mymodel.find(:all, :conditions => [ "project_id = ?", @project.id] )
+    @list = mymodel.find_all_by_project_id(@project.id)
     render :layout => false
   end
 end
