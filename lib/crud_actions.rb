@@ -18,9 +18,7 @@ module CrudActions
     @object.project = @project if @object.has_attribute?(:project_id)
     if @object.valid?
       @object.save
-      if mymodel.name == "Project" && params[:add_me] == '1'
-        current_user.projects << object_to_create
-      end
+      current_user.projects << object_to_create if mymodel.name == "Project" && params[:add_me] == '1'
       flash[:status] = "#{mymodel} \"#{@object.name}\" has been saved."
       render :template => 'layouts/refresh_parent_close_popup'
     else
