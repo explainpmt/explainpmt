@@ -1,6 +1,3 @@
-
-
-
 require File.dirname(__FILE__) + '/../test_helper'
 
 class IterationTest < Test::Unit::TestCase
@@ -56,13 +53,6 @@ class IterationTest < Test::Unit::TestCase
       assert iteration_three.valid?
       assert_nil iteration_three.errors.on( :start_date )
     end
-  end
-
-  def test_iteration_must_belong_to_project
-    assert @iteration_one.valid?
-    @iteration_one.project = nil
-    assert !@iteration_one.valid?
-    assert @iteration_one.errors.on( :base )
   end
 
   def test_current_eh
