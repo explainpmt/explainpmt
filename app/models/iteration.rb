@@ -59,11 +59,7 @@ class Iteration < ActiveRecord::Base
   protected
 
   def validate
-    ensure_iteration_belongs_to_project && ensure_no_overlap
-  end
-
-  def ensure_iteration_belongs_to_project
-    errors.add_to_base('The iteration is not assigned to a project!') if project.nil?
+    ensure_no_overlap
   end
 
   def ensure_no_overlap
