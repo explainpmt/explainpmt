@@ -62,8 +62,7 @@ class StoriesController < ApplicationController
     @story.project = @project
     @story.iteration_id = params[:iteration_id]
     @story.creator_id = current_user.id
-    if @story.valid?
-      @story.save
+    if @story.save
       flash[:status] = 'The new story card has been saved.'
       render 'layouts/refresh_parent_close_popup'
     else
