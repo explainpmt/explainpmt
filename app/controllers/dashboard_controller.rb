@@ -2,8 +2,7 @@ class DashboardController < ApplicationController
   def index
     if @project
       @page_title = "Dashboard"
-      @stories = current_user.stories_for(@project)
-      @stories = @stories.select { |s| !s.status.closed? }
+      @stories = current_user.stories_for(@project).select { |s| !s.status.closed? }
       @tasks = current_user.tasks_for(@project)
       render :action => 'project'
     else
@@ -16,8 +15,7 @@ class DashboardController < ApplicationController
       elsif @projects.empty?
         render :action => 'index_no_projects'
       else
-        @stories = current_user.stories
-        @stories = @stories.select { |s| !s.status.closed? }
+        @stories = current_user.stories.select { |s| !s.status.closed? }
       end
     end
   end
