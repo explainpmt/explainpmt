@@ -5,17 +5,13 @@ class ProjectsController < ApplicationController
   
   def index
     @page_title = "Projects"
-    if current_user.admin?
-        @projects = Project.find(:all, :order => 'name ASC')
-    else
-     	@projects = current_user.projects
-    end
+    @projects = current_user.admin? ? Project.find(:all, :order => 'name ASC') : current_user.projects
   end
   
   def audits
     @audits = Audit.find(:all, :conditions => ["project_id = #{params[:id]} AND object = 'Story'"], :order => "created_at DESC")
     @project = Project.find params[:id]
-     render :layout => false
+    render :layout => false
     @headers["Content-Type"] = "application/xml; charset=utf-8"
   end
 
@@ -26,8 +22,7 @@ class ProjectsController < ApplicationController
 
   def create
     @project = Project.new params[:project]
-    if @project.valid?
-      @project.save
+    if @project.save
       current_user.projects << @project if params[:add_me] == '1'
       flash[:status] = "New project \"#{@project.name}\" has been created."
       render :template => 'layouts/refresh_parent_close_popup'
@@ -93,8 +88,7 @@ class ProjectsController < ApplicationController
   def update
     @project = Project.find params[:id]
     @project.attributes = params[:project]
-    if @project.valid?
-      @project.save
+    if @project.save
       flash[:status] = "Project \"#{@project.name}\" has been updated."
       render :template => 'layouts/refresh_parent_close_popup'
     else
