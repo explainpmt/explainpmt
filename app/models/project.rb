@@ -43,10 +43,24 @@ class Project < ActiveRecord::Base
 
   has_many :backlog, :class_name => 'Story',
            :conditions => "iteration_id IS NULL"
-
-  has_many :stories, :dependent => :destroy do
+  
+  has_many :stories, :include => [:iteration, :initiative, :project], :dependent => :destroy do
     def backlog
       self.select { |s| s.iteration.nil? }
+    end
+    
+    def not_estimated_and_not_cancelled
+      self.select { |s| 
+        s.status != Story::Status::Cancelled and
+        s.points.nil?
+      }
+    end
+    
+    def not_cancelled_and_not_assigned_to_an_iteration
+      self.select{ |s| 
+        s.status != Story::Status::Cancelled and
+        s.iteration.nil?
+      }
     end
     
     def uncompleted
@@ -102,22 +116,6 @@ class Project < ActiveRecord::Base
       points_to_add = self.iterations.current.stories.completed_points
     end
     self.stories.points_not_completed + points_to_add
-  end
-  
-  def self.find_all_stories(project_id)
-   Story.find(:all, :include => [:iteration, :initiative, :project], :conditions => "stories.project_id = #{project_id}")
-  end
-  
-  def self.find_all_stories_not_estimated_and_not_cancelled(project_id)
-    Story.find(:all, :include => [:iteration, :initiative,  :project], :conditions => "stories.project_id = #{project_id} and status != 8 and stories.points is null")
-  end
-  
-  def self.find_all_stories_not_assigned_to_an_iteration(project_id)
-   Story.find(:all, :include => [:iteration, :initiative,  :project], :conditions => "stories.project_id = #{project_id} and stories.iteration_id is null")
-  end
-  
-  def self.find_all_stories_not_cancelled_and_not_assigned_to_an_iteration(project_id)
-   Story.find(:all, :include => [:iteration, :initiative,  :project], :conditions => "stories.project_id = #{project_id} and status != 8 and stories.iteration_id is null")
   end
   
   def validate
