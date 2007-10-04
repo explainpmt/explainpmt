@@ -9,8 +9,12 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/
   
-  def find_all_stories_by_project(project_id)
-    Story.find(:all, :include => [:initiative, :iteration, :project, :owner], :conditions => "stories.project_id = #{project_id} and stories.user_id = #{id}")
+  def stories_for(project)
+    Story.find(:all, :include => [:initiative, :iteration, :project, :owner], :conditions => "stories.project_id = #{project.id} and stories.user_id = #{id}")
+  end
+  
+  def tasks_for(project)
+    Task.find_by_sql ["SELECT * FROM tasks where user_id = #{id} AND story_id in (select id from stories where project_id = ? AND status not in (7,8))", project.id]
   end
 
   def full_name(last_first = false)

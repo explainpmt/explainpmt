@@ -1,24 +1,22 @@
 class DashboardController < ApplicationController
   def index
-    user = current_user
     if @project
-      project = @project.id
       @page_title = "Dashboard"
-      @stories = user.find_all_stories_by_project(project)
+      @stories = current_user.stories_for(@project)
       @stories = @stories.select { |s| !s.status.closed? }
-      @tasks = Task.find_all_by_user_and_project(user.id, project)
+      @tasks = current_user.tasks_for(@project)
       render :action => 'project'
     else
       @page_title = 'Overview'
-      @tasks = user.tasks
-      @projects = user.projects
+      @tasks = current_user.tasks
+      @projects = current_user.projects
       if @projects.size == 1
         redirect_to :controller => 'dashboard', :action => 'index',
                     :project_id => @projects.first.id
       elsif @projects.empty?
         render :action => 'index_no_projects'
       else
-        @stories = user.stories
+        @stories = current_user.stories
         @stories = @stories.select { |s| !s.status.closed? }
       end
     end
