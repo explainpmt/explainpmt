@@ -9,15 +9,12 @@ class IterationsController < ApplicationController
   end
 
   def index
-    iteration = @project.iterations.current
-    iteration = @project.iterations.previous if iteration.nil?
-    iteration = @project.iterations.next if iteration.nil?
-
+    iterations = @project.iterations
+    iteration = iterations.current || iterations.previous || iterations.next
     unless iteration.nil?
       flash.keep
       redirect_to :controller => 'iterations', :action => 'show',
-                  :id => iteration.id.to_s,
-                  :project_id => @project.id.to_s
+                  :id => iteration.id, :project_id => @project.id
     else
       @page_title = 'Iterations'
     end
