@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/
   
-  def find_all_by_stories_by_project(project_id)
+  def find_all_stories_by_project(project_id)
     Story.find(:all, :include => [:initiative, :iteration, :project, :owner], :conditions => "stories.project_id = #{project_id} and stories.user_id = #{id}")
   end
 
