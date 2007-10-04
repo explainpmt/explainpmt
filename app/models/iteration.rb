@@ -52,6 +52,10 @@ class Iteration < ActiveRecord::Base
     stop_date.to_time < Time.now.at_midnight
   end
   
+  def stories_for(project)
+    Story.find(:all, :include => [:initiative, :owner, :iteration, :project], :conditions => "stories.project_id = #{project.id} and stories.iteration_id = #{id}")
+  end
+  
   protected
 
   def validate

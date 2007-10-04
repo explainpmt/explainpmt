@@ -26,7 +26,7 @@ class IterationsController < ApplicationController
   def show
     @iteration = Iteration.find params[:id]
     @page_title = "Iteration: #{@iteration.start_date} - #{@iteration.stop_date}"
-    @stories = Story.find_all_by_iteration_and_project(@iteration.id, @project.id)
+    @stories = @iteration.stories_for(@project)
     @projectIterations = @project.iterations
   end
 

@@ -9,10 +9,6 @@ class Story < ActiveRecord::Base
   has_many :acceptancetests, :dependent => :destroy
   acts_as_list :scope => :project_id
 
-  def self.find_all_by_iteration_and_project(iteration_id, project_id)
-   Story.find(:all, :include => [:initiative, :owner, :iteration, :project], :conditions => "stories.project_id = #{project_id} and stories.iteration_id = #{iteration_id}")
-  end
-
   Statuses = []
   Values = []
   Risks = []
