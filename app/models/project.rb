@@ -1,6 +1,13 @@
 class Project < ActiveRecord::Base
+  validates_presence_of :name
+  validates_uniqueness_of :name
+  validates_length_of :name, :maximum => 100
+  
   has_many :releases, :dependent => :destroy
   has_many :initiatives, :order => 'id DESC', :dependent => :destroy
+  has_many :users, :through => :project_memberships, :order => 'last_name ASC, first_name ASC'
+  has_many :project_memberships
+  has_many :acceptancetests, :include => [{:story => :iteration}], :dependent => :destroy
   has_many :iterations, :order => 'start_date ASC', :dependent => :destroy do
     def first
       self[0]
@@ -85,14 +92,6 @@ class Project < ActiveRecord::Base
       self.uncompleted.inject(0) {|total, uncompleted_story| total + uncompleted_story.points.to_f} + self.points_completed
     end
   end
-  
-  has_many :users, :through => :project_memberships, :order => 'last_name ASC, first_name ASC'
-  has_many :project_memberships
-  
-  has_many :acceptancetests, :include => [{:story => :iteration}], :dependent => :destroy
-  validates_presence_of :name
-  validates_uniqueness_of :name
-  validates_length_of :name, :maximum => 100
   
   def current_velocity
     return 0 if self.iterations.past.size == 0
