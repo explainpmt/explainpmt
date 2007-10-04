@@ -105,7 +105,7 @@ class Project < ActiveRecord::Base
   def points_completed_for_velocity
     points_to_subtract = 0
     if self.iterations.current
-      points_to_subtract = self.iterations.current.stories.completed_points
+      points_to_subtract = self.iterations.current.stories.total_points
     end
     self.stories.points_completed - points_to_subtract
   end
@@ -113,7 +113,7 @@ class Project < ActiveRecord::Base
   def points_not_completed_for_velocity
     points_to_add = 0
     if self.iterations.current
-      points_to_add = self.iterations.current.stories.completed_points
+      points_to_add = self.iterations.current.stories.total_points
     end
     self.stories.points_not_completed + points_to_add
   end
