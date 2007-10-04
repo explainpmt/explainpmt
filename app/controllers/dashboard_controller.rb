@@ -10,7 +10,7 @@ class DashboardController < ApplicationController
       render :action => 'project'
     else
       @page_title = 'Overview'
-      @tasks = Task.find_all_by_user(user.id)
+      @tasks = user.tasks
       @projects = user.projects
       if @projects.size == 1
         redirect_to :controller => 'dashboard', :action => 'index',
