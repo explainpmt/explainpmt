@@ -8,7 +8,7 @@ class Iteration < ActiveRecord::Base
   validates_presence_of :start_date
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => "project_id"
-  has_many :stories, :include => [:initiative, :project, :owner], :dependent => :nullify do
+  has_many :stories, :include => [:initiative, :project, :owner, :iteration], :dependent => :nullify do
 
     def total_points
       self.inject(0) { |res,s| res + s.points }
@@ -53,7 +53,7 @@ class Iteration < ActiveRecord::Base
   end
   
   def stories_for(project)
-    Story.find(:all, :include => [:initiative, :owner, :iteration, :project], :conditions => "stories.project_id = #{project.id} and stories.iteration_id = #{id}")
+    self.stories.find(:all, :conditions => "stories.project_id = #{project.id}")
   end
   
   protected
