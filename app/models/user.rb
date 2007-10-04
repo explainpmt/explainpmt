@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   has_many :project_memberships
   has_many :projects, :through => :project_memberships
-  has_many :stories
+  has_many :stories, :include => [:initiative, :iteration, :project, :owner]
   has_many :milestones, :through => :projects
   has_many :tasks, :finder_sql => "SELECT * FROM tasks where user_id = #{id} AND story_id in (select id from stories where status not in (7,8))"
   validates_presence_of :first_name, :last_name, :email, :username, :password
@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/
   
   def stories_for(project)
-    Story.find(:all, :include => [:initiative, :iteration, :project, :owner], :conditions => "stories.project_id = #{project.id} and stories.user_id = #{id}")
+    self.stories.find(:all, :conditions => "stories.project_id = #{project.id}")
   end
   
   def tasks_for(project)
