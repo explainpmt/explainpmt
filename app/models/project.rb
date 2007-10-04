@@ -78,7 +78,7 @@ class Project < ActiveRecord::Base
   has_many :users, :through => :project_memberships, :order => 'last_name ASC, first_name ASC'
   has_many :project_memberships
   
-  has_many :acceptancetests, :dependent => :destroy
+  has_many :acceptancetests, :include => [{:story => :iteration}], :dependent => :destroy
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 100
