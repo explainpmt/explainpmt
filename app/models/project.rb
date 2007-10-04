@@ -41,9 +41,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-  has_many :backlog, :class_name => 'Story',
-           :conditions => "iteration_id IS NULL"
-  
   has_many :stories, :include => [:iteration, :initiative, :project], :dependent => :destroy do
     def backlog
       self.select { |s| s.iteration.nil? }
