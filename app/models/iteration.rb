@@ -8,7 +8,7 @@ class Iteration < ActiveRecord::Base
   validates_presence_of :start_date
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => "project_id"
-  has_many :stories , :dependent => :nullify do
+  has_many :stories, :include => [:initiative, :project, :owner], :dependent => :nullify do
 
     def total_points
       self.inject(0) { |res,s| res + s.points }
@@ -50,10 +50,6 @@ class Iteration < ActiveRecord::Base
 
   def past?
     stop_date.to_time < Time.now.at_midnight
-  end
-
-  def self.find_stories(iteration_id)
-  	Story.find(:all, :include => [:initiative, :project, :owner], :conditions => "stories.iteration_id = #{iteration_id}")
   end
   
   protected

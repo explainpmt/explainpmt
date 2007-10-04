@@ -58,14 +58,14 @@ class IterationsController < ApplicationController
   def export
     headers['Content-Type'] = "application/vnd.ms-excel" 
     @iteration = Iteration.find params[:id]
-    @stories = Iteration.find_stories params[:id]
+    @stories = @iteration.stories
     render :layout => false
   end
   
   def export_tasks
     headers['Content-Type'] = "application/vnd.ms-excel" 
     @iteration = Iteration.find params[:id] 
-    @stories = Iteration.find_stories params[:id]
+    @stories = @iteration.stories
     render :layout => false
   end
 
