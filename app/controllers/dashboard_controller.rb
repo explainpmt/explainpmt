@@ -4,7 +4,7 @@ class DashboardController < ApplicationController
     if @project
       project = @project.id
       @page_title = "Dashboard"
-      @stories = Story.find_all_by_user_and_project(user.id, project)
+      @stories = user.find_all_by_stories_by_project(project)
       @stories = @stories.select { |s| !s.status.closed? }
       @tasks = Task.find_all_by_user_and_project(user.id, project)
       render :action => 'project'
