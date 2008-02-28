@@ -71,6 +71,8 @@ class StoriesController < ApplicationController
       end
     end
   end
+
+
   
 
   def index

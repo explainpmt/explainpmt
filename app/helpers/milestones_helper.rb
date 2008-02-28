@@ -22,4 +22,8 @@ module MilestonesHelper
   def milestone_list_for(milestones, table_id)
     render :partial => 'milestones', :locals => {:milestones => milestones, :table_id => table_id }
   end
+  
+  def link_to_show_milestone(milestone, options={})
+    link_to_remote(options[:value] || milestone.name, :url => project_milestone_path(milestone.project, milestone), :method => :get)
+  end
 end

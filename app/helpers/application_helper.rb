@@ -1,4 +1,12 @@
 module ApplicationHelper
+  include AcceptancetestsHelper
+  include DashboardsHelper
+  include InitiativesHelper
+  include IterationsHelper
+  include MilestonesHelper
+  include ProjectsHelper
+  include ReleasesHelper
+  include StoriesHelper
   
   def admin_content(&block)
     yield if is_admin?
@@ -11,99 +19,7 @@ module ApplicationHelper
   def empty_collection_content(collection, &block)
     yield if collection.size == 0
   end
-  
-  def link_to_new_story
-    link_to_remote('Create Story Card', :url => new_project_story_path(@project), :method => :get)
-  end
-  
-  def link_to_new_acceptancetest
-    link_to_remote('New Acceptance Test', :url => new_project_acceptancetest_path(@project), :method => :get)
-  end
-  
-  def link_to_story_with_sc(story)
-    link_to("SC#{story.scid}", project_story_path(@project, story)) + '(' + truncate(story.title, 30) + ')'
-  end
-  
-  def link_to_story(story)
-    link_to(story.title, project_story_path(@project, story))
-  end
 
-  def link_to_edit_story(story, options={})
-    link_to_remote(options[:value] || story.title, :url => edit_project_story_path(@project, story), :method => :get)
-  end
-  
-  def link_to_iteration(iteration)
-    link_to iteration.name, project_iteration_path(@project, iteration)
-  end
-  
-  def milestones_calendar
-    days_to_render = 14
-    title_prefix = 'Upcoming Milestones:'
-    @calendar_title = @project ? title_prefix : title_prefix.gsub(':', ' (all projects):')
-    milestones = (@project ? @project.milestones : current_user.milestones).select { |m|
-      m.date >= Date.today && m.date < Date.today + days_to_render
-    }  
-    
-    @days = Array.new(days_to_render) {|index|
-      current_day = Date.today + index
-      {:date => current_day,
-        :name => Date::DAYNAMES[current_day.wday],
-        :milestones => milestones.select { |m| m.date == current_day }}
-    }
-    
-    render :partial => 'milestones/milestones_calendar'
-  end
-  
-  def link_to_show_milestone(milestone, options={})
-    link_to_remote(options[:value] || milestone.name, :url => project_milestone_path(milestone.project, milestone), :method => :get)
-  end
-  
-  def story_select_list_for(stories)
-    options = ""
-    stories.each do |i|
-      options << "<option value='#{i.id}'>SC#{i.scid}  (#{truncate(i.title,30)})</option>"
-    end
-    options
-  end
-  
-  def iteration_select_list_for(iterations)
-    options = "<option vlaue='0'>Not Assigned</option>"
-    iterations.unshift(iterations.current) if iterations.current
-    iterations.delete_at(0)
-    iterations.reverse_each do |i|
-      options << "<option value='#{i.id}'>#{i.name}</option>"
-    end  
-    options
-  end
-  
-  def link_to_edit_acceptancetest(acceptancetest, options={})
-    link_to_remote(options[:value] || acceptancetest.name, :url => edit_project_acceptancetest_path(@project, acceptancetest), :method => :get)
-  end
-  
-  def link_to_edit_task(task, options={})
-    link_to_remote(options[:value] || task.name, :url => edit_project_story_task_path(@project, task.story, task), :method => :get)
-  end
-
-  def link_to_delete_task(task, options={})
-     link_to_remote "Delete", :url => project_story_task_path(@project, task.story, task), :method => :delete, :confirm => "Are you sure you want to delete?"
-  end
-  
-  def link_to_task(task, options={})
-    link_to_remote(options[:value] || task.name, :url => project_story_task_path(@project, task.story, task), :method => :get)
-  end
-  
-  def link_to_delete_acceptancetest(acceptancetest)
-    link_to_remote "Delete", :url => project_acceptancetest_path(@project, acceptancetest), :method => :delete, :confirm => "Are you sure you want to delete?"
-  end
-  
-  def link_to_clone_acceptancetest(acceptancetest)
-    link_to_remote("Clone", :url => clone_acceptance_project_acceptancetest_path(@project, acceptancetest), :method => :get) unless acceptancetest.story_id.blank?
-  end
-  
-  def link_to_acceptancetest(acceptancetest, options={})
-    link_to_remote(options[:value] || acceptancetest.name, :url => project_acceptancetest_path(@project, acceptancetest), :method => :get)
-  end
-  
   def column_content_for(cols, column, &block)
     yield unless cols.include?(column)
   end

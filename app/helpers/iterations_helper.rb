@@ -3,6 +3,10 @@ module IterationsHelper
     link_to_remote 'New Iteration', :url => new_project_iteration_path(@project), :method => :get
   end
   
+  def link_to_iteration(iteration)
+    link_to iteration.name, project_iteration_path(@project, iteration)
+  end
+  
   def link_to_current_iteration_in(iterations)
     link_to_unless_current 'Current Iteration', project_iteration_path(@project, iterations.current) if iterations.current
   end
@@ -29,6 +33,16 @@ module IterationsHelper
   
   def header_for(iteration)
     "#{iteration.name} (#{numeric_date(iteration.start_date)} - #{numeric_date(@iteration.stop_date)})"
+  end
+  
+  def iteration_select_list_for(iterations)
+    options = "<option vlaue='0'>Not Assigned</option>"
+    iterations.unshift(iterations.current) if iterations.current
+    iterations.delete_at(0)
+    iterations.reverse_each do |i|
+      options << "<option value='#{i.id}'>#{i.name}</option>"
+    end  
+    options
   end
   
 end
