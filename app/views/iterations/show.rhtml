@@ -3,193 +3,81 @@
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
 <td id="SmallLeftColumn">
-<div id="IterationsMenu">
-	<h3><%= popup_link('New Iteration', 'new_iteration',
-               'width=400,height=225,scrollbars,resizable',
-               :controller => 'iterations',
-               :action => 'new', :project_id => @project.id) %></h3>
-
-<ul>
-<% if @projectIterations.current %>
-<li>
-<%= link_to_unless_current('Current Iteration',:controller => 'iterations',
-                           :action => 'show',
-                           :id => @projectIterations.current.id,
-                           :project_id => @project.id) %>
-</li>
-<% end %>
-<% if @projectIterations.next %>
-<li>
-<%= link_to_unless_current('Next Iteration', :controller => 'iterations',
-                           :action => 'show',
-                           :id => @projectIterations.next.id,
-                           :project_id => @project.id) %>
-</li>
-<% end %>
-<% if @projectIterations.previous %>
-<li>
-<%= link_to_unless_current('Previous Iteration', :controller => 'iterations',
-                           :action => 'show',
-                           :id => @projectIterations.previous.id,
-                           :project_id => @project.id) %>
-</li>
-<% end %>
-</ul>
-
-<% if @projectIterations.future.size > 0 %>
-<h3>Upcoming Iterations:</h3>
-<ul>
-<% @projectIterations.future.each do |i| %>
-<li class="show-iteration-bullet">
-<%= link_to_unless_current(i.name + " " + numeric_date(i.start_date),
-                           :controller => 'iterations', :action => 'show',
-                           :id => i.id, :project_id => @project.id) %>
-</li>
-<% end %>
-</ul>
-<% end %>
-
-<% if @projectIterations.past.size > 0 %>
-<h3>Completed Iterations:</h3>
-<ul>
-<% @projectIterations.past.each do |i| %>
-<li class="show-iteration-bullet">
-<%= link_to_unless_current(i.name + " (" + numeric_date(i.start_date) + ")",
-                           :controller => 'iterations', :action => 'show',
-                           :id => i.id, :project_id => @project.id) %>
-</li>
-<% end %>
-</ul>
-<% end %>
+  <div id="IterationsMenu">
+    <h3><%= link_to_new_iteration %></h3>
+    
+    <ul>
+      <li><%= link_to_current_iteration_in @project_iterations%></li>
+      <li><%= link_to_next_iteration_in @project_iterations%></li>
+      <li><%= link_to_previous_iteration_in @project_iterations%></li>
+    </ul>
+    
+    <%= render :partial => 'iteration_link_list', :locals => {:iterations => @project_iterations.future} %>
+    <%= render :partial => 'iteration_link_list', :locals => {:iterations => @project_iterations.past} %>
+  </div>
 </td>
 
 <td id="RightColumn">
-<div style="float: right;">
-(
-<%= popup_link('Edit', 'edit_iteration',
-               'width=400,height=225,scrollbars,resizable',
-               :controller => 'iterations',
-               :action => 'edit', :id => @iteration.id,
-               :project_id => @project.id) %>
-)
-(
-<%= link_to('Delete',
-            {
-              :controller => 'iterations', :action => 'delete',
-              :id => @iteration.id, :project_id => @project.id
-            },
-            :confirm => 'Are you sure you want to delete this iteration?') %>
-)
-(
-<%= popup_link('Allocation', 'view_allocation',
-               'width=400,height=500,scrollbars,resizable',
-               :controller => 'iterations',
-               :action => 'allocation_for_iteration', :id => @iteration.id,
-               :project_id => @project.id) %>
-)
-</div>
-
-<h2><%= @iteration.name %>&nbsp;(<%= numeric_date(@iteration.start_date) %> -
-<%= numeric_date(@iteration.stop_date) %>)</h2>
-
-<div id="IterationSummary">
-<h3>Summary</h3>
-<table cellspacing="0" cellpadding="3" border="0"
-        style="float: left; margin-right: 20px;">
-<tr class="even_row">
-<td><strong>Length</strong></td>
-<td align="right"><%= @iteration.length %> days</td>
-</tr>
-<tr class="odd_row">
-<td><strong>Velocity:</strong></td>
-<td align="right"><%=@iteration.budget %> points</td>
-</tr>
-<% if @iteration.stop_date + 1 > Date.today %>
-<tr class="even_row">
-<td><strong>Planned:</strong></td>
-<td align="right"><%= @iteration.stories.total_points %> points</td>
-</tr>
-<tr class="odd_row">
-<td><strong>Available:</strong></td>
-<td align="right"><%= @iteration.remaining_resources %> points</td>
-</tr>
-<% end %>
-</table>
-<% if @iteration.start_date <= Date.today %>
-<table cellspacing="0" cellpadding="3" border="0" style="float: left;">
-<tr class="odd_row">
-<td><strong>Completed:</strong></td>
-<td align="right"><%= @iteration.stories.completed_points %> points</td>
-</tr>
-<% if (@iteration.stop_date + 1) > Date.today %>
-<tr class="even_row">
-<td><strong>Remaining:</strong></td>
-<td align="right"><%= @iteration.stories.remaining_points %> points</td>
-</tr>
-<tr class="odd_row">
-<td><strong>Time Remaining:</strong></td>
-<td align="right">
-<%= distance_of_time_in_words(Time.now,
-                              Time.parse((@iteration.stop_date + 1).to_s)) %>
-</td>
-</tr>
-<% end %>
-</table>
-<% end %>
-
-<p class="clear_both"></p>
-
-<h3>Story Cards</h3>
-<%= popup_link('Create Story Card', 'new_story',
-               'width=550,height=640,scrollbars,resizable',
-               :controller => 'stories',
-               :action => 'new_story_for_iteration', :iteration_id => @iteration.id,
-               :project_id => @project.id) %>&nbsp;
-<% if @project.stories.backlog.size > 0 and @iteration.stop_date + 1 > Date.today %>
-<%= popup_link('Assign Story Cards', 'assign_stories',
-               'width=650,height=500,scrollbars,resizable',
-               :controller => 'iterations',
-               :action => 'select_stories', :id => @iteration.id,
-               :project_id => @project.id) %>
-<% end %>&nbsp;
-<%= link_to('Export Stories', :controller => 'iterations',
-              :action => 'export', :project_id => @project.id, :id => @iteration.id) %>&nbsp;&nbsp;
-<%= link_to('Export Tasks', :controller => 'iterations',
-              :action => 'export_tasks', :project_id => @project.id, :id => @iteration.id) %> 
-<% if @stories.size > 0 %>
-<%= form_tag(:controller => 'iterations', :action => 'move_stories',
-                   :id => @iteration.id, :project_id => @project.id) %>
-<div style="text-align: right;">
-&nbsp;&nbsp;&nbsp;Move Selected Story Cards to:
-<select name="move_to">
-<option vlaue="0">Backlog</option>
-<%
-iteration_options = @projectIterations
-if @projectIterations.current
-  iteration_options.unshift(@projectIterations.current)
-  iteration_options.delete_at(0)
-end
-iteration_options.reverse_each do |i|
-  unless i == @iteration
-%>
-<option value="<%= i.id %>"><%= i.name %></option>
-<%
-  end
-end
-%>
-</select>
-<input type="submit" name="submit" value="Go" />
-</div><br>
-<%= render( :partial => 'stories/story_list_table',
-            :locals => { :stories =>  @stories,
-                         :hide_cols => [ :project, :iteration ],
-                         :base_path => '../../'},
-                         :iteration_id => @iteration.id ) %>
-</form>
-<% else %>
-<p>No stories have been assigned to this iteration.</p>
-<% end %>
+  <div style="float: right;">
+    (<%= link_to_edit_iteration(@iteration, :value => "Edit") %>)
+    (<%= link_to_delete_iteration(@iteration) %>)
+    (<%= link_to_allocation(@iteration)%>)
+  </div>
+  <h2><%= header_for(@iteration) %></h2>
+  
+  <div id="IterationSummary">
+    <%= render :partial => 'iteration_summary' %>
+  </div>
+  
+  <h3>Story Cards</h3>
+  <%= link_to_new_story %>&nbsp;
+  <% if @project.stories.backlog.size > 0 and @iteration.stop_date + 1 > Date.today %>
+    <%= popup_link('Assign Story Cards', 'assign_stories',
+      'width=650,height=500,scrollbars,resizable',
+      :controller => 'iterations',
+      :action => 'select_stories', :id => @iteration.id,
+      :project_id => @project.id) %>
+  <% end %>&nbsp;
+  <%= link_to('Export Stories', :controller => 'iterations',
+    :action => 'export', :project_id => @project.id, :id => @iteration.id) %>&nbsp;&nbsp;
+  <%= link_to('Export Tasks', :controller => 'iterations',
+    :action => 'export_tasks', :project_id => @project.id, :id => @iteration.id) %> 
+  
+  <% empty_collection_content(@stories) do%>
+    <p>No stories have been assigned to this iteration.</p>
+  <% end %>
+  
+  <% collection_content(@stories) do %>
+    <%= form_tag(:controller => 'iterations', :action => 'move_stories',
+      :id => @iteration.id, :project_id => @project.id) %>
+    <div style="text-align: right;">
+      &nbsp;&nbsp;&nbsp;Move Selected Story Cards to:
+      <select name="move_to">
+        <option vlaue="0">Backlog</option>
+        <%
+        iteration_options = @project_iterations
+        if @project_iterations.current
+          iteration_options.unshift(@project_iterations.current)
+          iteration_options.delete_at(0)
+        end
+        iteration_options.reverse_each do |i|
+          unless i == @iteration
+          %>
+            <option value="<%= i.id %>"><%= i.name %></option>
+          <%
+          end
+        end
+      %>
+      </select>
+      <input type="submit" name="submit" value="Go" />
+    </div><br>
+    <%= render( :partial => 'stories/story_list_table',
+      :locals => { :stories =>  @stories,
+        :hide_cols => [ :project, :iteration ],
+        :base_path => '../../'},
+      :iteration_id => @iteration.id ) %>
+    </form>
+  <% end %>
 </td>
 </tr>
 </table>
-<!-- END iterations/show.rhtml -->

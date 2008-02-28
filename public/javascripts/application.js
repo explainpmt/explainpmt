@@ -11,6 +11,16 @@ function resetValue(el,text){
     }
 }
 
+function showPopup() {
+	if (typeof(arguments[0])!='string') arguments[0] = arguments[0].innerHTML.replace(/id="([^"]+)"/,'id="popup_$1"')
+	if (arguments.length == 1) var arguments = [arguments[0], FULLHTML, MODAL, STICKY, MIDX, 0, MIDY, 0, CLOSECLICK];
+	overlib.apply(null, arguments);
+}
+
+function sortAllocation(){
+  var st = new SortableTable(document.getElementById("allocation"), ["CaseInsensitiveString", "Number"]);
+  MaintainSort(st);
+}
 
 
 // Place your application-specific JavaScript functions and classes here

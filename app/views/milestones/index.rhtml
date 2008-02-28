@@ -1,32 +1,23 @@
-<!-- BEGIN milestones/index.rhtml -->
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
   <tr>
     <td id="SmallLeftColumn">
       <h2>Milestones</h2>
-      <%= popup_link('Add Milestone', 'new_milestone',
-                     'width=500,height=500,resizable,scrollbars',
-                     :controller => 'milestones', :action => 'new',
-                     :project_id => @project.id) %>
+      <%= link_to_new_milestone %>
     </td>
     <td id="RightColumn">
       <div class="milestone_list">
         <h3>Future Milestones</h3>
-            <%if !@future.empty? %>
-            <%= render :partial => 'list', :locals => {:milestones => @future, :table_id => "future_milestones" }%>
-            <%else%><p>Nothing To Show</p><%end%>
+        <%= milestone_list_for @future, "future_milestones" %>
       </div>
       <hr>
       <div class="milestone_list">
-        <h3 id='recent_title'>Recent Milesones <small>(<%=link_to_remote 'show all', :url => {:action => 'show_all', :controller => 'milestones', :project_id => @project.id}%>)</small></h3>
-            <div id="recent">
-                <%if !@recent.empty?%>
-                    <%= render :partial => 'list', :locals => {:milestones => @recent, :table_id => "past_milestones" }%>
-                <%else%><p>Nothing To Show</p><%end%>
-            </div>
+        <h3 id='recent_title'>Recent Milesones <small>(<%= link_to_show_all_milestones %>)</small></h3>
+        <div id="recent">
+          <%= milestone_list_for @recent, "past_milestones" %>
+        </div>
       </div>
     </td>
   </tr>
 </table>
-<!-- END milestones/index.rhtml -->
 
 

@@ -52,10 +52,6 @@ class Iteration < ActiveRecord::Base
     stop_date.to_time < Time.now.at_midnight
   end
   
-  def stories_for(project)
-    self.stories.find(:all, :conditions => "stories.project_id = #{project.id}")
-  end
-  
   protected
 
   def validate

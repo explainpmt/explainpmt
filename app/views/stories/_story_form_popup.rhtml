@@ -1,0 +1,22 @@
+<% remote_form_for :story, :url => url, :method => (@story ? :put : :post) do |f| %>
+  <a href="javascript:void(0);" onclick="cClick();">close</a>
+  <h2>Story Card Details</h2>
+  <label>Title</label>
+  <%= f.text_field :title %>
+  <label>Initiative</label>
+  <%= collection_select('story','initiative_id', @project.initiatives, 'id','name') %>
+  <label>Customer</label>
+  <%= f.text_field :customer%>
+  <label>Status</label>
+  <%= collection_select('story', 'status', Story::Statuses, 'order', 'name') %>
+  <label>Value</label>
+  <%= collection_select('story', 'value', Story::Values, 'order', 'name') %>
+  <label>Risks</label>
+  <%= collection_select('story', 'risk', Story::Risks, 'order', 'name') %>
+  <label>Points</label>
+  <%= f.text_field :points, :size => 2%>
+  <label>Description</label>
+  <%= f.text_area :description, :cols => 40, :rows => 8%>
+  <%=submit_tag @story ? "Update" : "Create" %>
+<% end %>
+<div id="flash_notice"></div>

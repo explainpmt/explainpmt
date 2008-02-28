@@ -1,11 +1,59 @@
 class ReleasesController < ApplicationController
-  include CrudActions
-  
   before_filter :require_current_project
-  popups :new, :create, :show, :edit, :update
+  before_filter :find_release, :except => [:index, :create, :new]
   
-  def mymodel
-    Release
+  def index
+    @releases = @project.releases
+  end
+  
+  def new
+    common_popup(project_releases_path(@project))
+  end
+  
+  def edit
+    common_popup(project_release_path(@project, @release))
+  end
+  
+  def create
+    release = Release.new params[:release]
+    release.project = @project
+    render :update do |page|
+      if release.save
+        flash[:status] = "New Release \"#{release.name}\" has been created."
+        page.redirect_to project_releases_path(@project)
+      else
+        page[:flash_notice].replace_html release.errors.full_messages[0]
+      end
+    end    
+  end
+  
+  def update
+    render :update do |page|
+      if @release.update_attributes(params[:release])
+        flash[:status] = "Release \"#{@release.name}\" has been updated."
+        page.redirect_to project_releases_path(@project)
+      else
+        page[:flash_notice].replace_html @release.errors.full_messages[0]
+      end
+    end
+  end
+     
+  def destroy
+    @release.destroy
+    flash[:status] = "#{@release.name} has been deleted."
+    redirect_to project_releases_path(@project)
+  end
+  
+  protected
+  def common_popup(url)
+    render :update do |page|
+      page.call 'showPopup', render(:partial => 'release_popup', :locals => {:url => url})
+      page.call 'autoFocus', "project_name", 500
+    end 
+  end
+  
+  def find_release
+    @release = Release.find params[:id]
   end
   
 end

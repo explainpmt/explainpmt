@@ -1,0 +1,16 @@
+<% remote_form_for :initiative, :url => url, :method => (@initiative ? :put : :post) do |f| %>
+  <a href="javascript:void(0);" onclick="cClick();">close</a>
+  <h2>Initiative Information</h2>
+  <label>Name</label>
+  <%=f.text_field :name%>
+  <label>Planned Start</label>
+  <%=f.date_select :start_date%>
+  <label>Planned End</label>
+  <%=f.date_select :end_date%>
+  <label>Customer</label>
+  <%=f.text_field :customer%>
+  <label>Product Owner</label>
+  <%=f.text_field :product_owner%>
+  <%=submit_tag @initiative ? "Update" : "Create" %>
+<% end %>
+<div id="flash_notice"></div>

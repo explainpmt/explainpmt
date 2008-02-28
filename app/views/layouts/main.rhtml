@@ -1,6 +1,6 @@
 <!DOCTYPE html 
-     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <title>eXPlainPMT &raquo; <%= page_title %></title>
@@ -9,86 +9,79 @@
     <script src="/javascripts/sortabletable.js"></script>
     <script src="/javascripts/scidtype.js"></script>
     <script src="/javascripts/application.js"></script>
+    <%= javascript_include_tag 'overlib/overlibmws.js' %>
+    <%= javascript_include_tag 'overlib/overlibmws_modal.js' %>
   </head>
   <body>
-  <div id="Header">
-    <div id="topbar">
-      <% if @project %>
-      <div id="StatusLeft">
-        <% if other_projects.size > 0 %>   
-        <form action="<%=url_for(:controller => 'dashboard',
-          :action => 'index')%>" method="get">
-          <label for="SwitchTo">Switch project to:</label>
-          <select name="project_id" id="SwitchTo">
-            <option value="">Select Project</option>
-            <% other_projects.each do |p| %>
-            <option value="<%=p.id%>"><%=p.name%></option>
+    <div id="Header">
+      <div id="topbar">
+        <% if @project %>
+          <div id="StatusLeft">
+            <% if other_projects.size > 0 %>   
+              <form action="<%=dashboards_path%>" method="get">
+                <label style="display:inline" for="SwitchTo">Switch project to:</label>
+                <select name="project_id" id="SwitchTo">
+                  <option value="">Select Project</option>
+                  <% other_projects.each do |p| %>
+                    <option value="<%=p.id%>"><%=p.name%></option>
+                  <% end %>
+                </select>
+                <input type="submit" name="submit" value="go" /> &nbsp; | &nbsp;
+            
+              <%=link_to('Projects Overview', dashboards_path)%>
+              </form>
             <% end %>
-          </select>
-          <input type="submit" name="submit" value="go" /> &nbsp; | &nbsp;
-
-          <%=link_to('Projects Overview', :controller => 'dashboard',
-                                  :action => 'index')%>
-        </form>
+          </div>
+        <% end%>
+        
+        <% if current_user %>
+          <div id="StatusRight">
+            Welcome back <%= current_user.full_name %> &nbsp; | &nbsp;
+            <%= link_to('Edit Profile', edit_user_path(current_user)) %> &nbsp; | &nbsp;
+            <%= link_to( 'Log-out', logout_users_path) %>
+          </div>
         <% end %>
       </div>
-      <% end%>
-
-      <% if current_user %>
-      <div id="StatusRight">
-        Welcome back <%= current_user.full_name %> &nbsp; | &nbsp;
-        <%= popup_link('Edit Profile', "edit_user",
-                            'width=375,height=300,resizable,scrollbars',
-                            :controller => 'users', :action => 'edit', 
-                            :id => current_user.id) %> &nbsp; | &nbsp;
-        <%= link_to( 'Log-out', :controller => 'users', :action => 'logout' ) %>
-      </div>
+      
+      <h1><%= link_to image_tag('/images/logo.png'), dashboards_path%></h1>
+    </div>
+    
+    <div id="TopMenu">
+      <%= top_menu %>
+    </div>
+    
+    <div id="SectionTitle">
+      <% if @project %>
+        <h1><%= link_to(@project.name, project_dashboard_path(@project))%></h1>
+        <% else %>
+        <h1><a href="/">eXPlain Project Management Tool</a></h1>
       <% end %>
     </div>
     
-    <h1><%= link_to image_tag('/images/logo.png'), :controller => 'dashboard',
-      :action => 'index' %></h1>
-  </div>
-
-  <div id="TopMenu">
-    <%= top_menu %>
-  </div>
-
-  <div id="SectionTitle">
-      <% if @project %>
-      <h1><%= link_to(@project.name,
-                      :controller => 'dashboard',
-                      :action => 'index',
-                      :project_id => @project.id) %></h1>
-      <% else %>
-      <h1><a href="/">eXPlain Project Management Tool</a></h1>
-      <% end %>
-  </div>
-
-  <div id="SectionMenu">
-    <%= main_menu %>
-  </div>
-
+    <div id="SectionMenu">
+      <%= main_menu %>
+    </div>
+    
     <div id="Main">
       <% if flash[:error] %>
-      <div id="SystemError">
-        <%= textilize_without_paragraph( flash[ :error ] ) %>
-      </div>
+        <div id="SystemError">
+          <%= textilize_without_paragraph( flash[ :error ] ) %>
+        </div>
       <% end %>
       <% if flash[:status] %>
-      <div id="SystemStatus">
-        <%= textilize_without_paragraph( flash[ :status ] ) %>
-      </div>
+        <div id="SystemStatus">
+          <%= textilize_without_paragraph( flash[ :status ] ) %>
+        </div>
       <% end %>
-
+        
       <%= yield %>
     </div>
-
+    
     <div id="Footer">
       <p><strong>eXPlain Project Management Tool</strong> - <%= ApplicationHelper::VERSION %> (<a href="/user_guide.doc">User Guide</a>)</p>
       <p>This software is licensed under the <a
         href="http://www.gnu.org/copyleft/gpl.html">terms of the GPL.</a></p>
     </div>
-
-</body>
+    
+  </body>
 </html>

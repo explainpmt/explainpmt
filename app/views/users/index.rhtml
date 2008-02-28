@@ -4,10 +4,9 @@
       <h2>System Users</h2>
       <p>This screen lists all of the user accounts that have been created.</p>
       <p>Admin accounts are marked with <%= image_tag('admin_dot.gif') %></p>
-      <% if is_admin? %>
+      <% admin_content do %>
         <p><strong>
-          <%= popup_link('Create New User', "create_user",'width=375,height=375,resizable,scrollbars',
-             :controller => 'users', :action => 'new') %>
+          <%= link_to('Create New User', new_user_path) %>
         </strong></p>
       <% end %>
     </td>

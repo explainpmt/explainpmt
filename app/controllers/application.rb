@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
     unless current_user.kind_of?(User)
       session[:return_to] = request.request_uri
       flash[:status] = "Please log in, and we'll send you right along."
-      redirect_to :controller => 'users', :action => 'login'
+      redirect_to login_users_path
       return false
     end
   end

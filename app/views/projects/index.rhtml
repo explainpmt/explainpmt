@@ -1,83 +1,37 @@
-<p><strong>
-	<%= popup_link('Create New Project', 'new_project',
-	               'width=520,height=400,scrollbars,resizable',
-	               :controller => 'projects', :action => 'new') %>
-</strong></p>
+<p><strong><%= link_to_remote('Create New Project', :url => new_project_path, :method => :get) %></strong></p>
 
-<% unless @projects.empty? %>
+<% empty_projects_content do %>
+  You have no projects defined.
+<% end %>
 
-<table class="sort-table" id="projectsTable" cellspacing="0" cellpadding="3" border="0" width="100%">
-  <thead>
-    <tr>
-        <td width=30px></td>
+<% collection_content(@projects) do %>
+  <table class="sort-table" id="projectsTable" cellspacing="0" cellpadding="3" border="0" width="100%">
+    <thead>
+      <tr>
+        <td>&nbsp;</td>
         <td>Projects</td>
         <td>Action</td>
-    </tr>
-  </thead>
-  <tbody>
-  <%
-  @projects.each_with_index do |m,i|
-     row_class = (i%2 == 0) ? 'odd_row' : 'even_row'
-     %>
-     <tr class="<%= row_class %>">
-    <td>
-       <a class="image" href="/projects/audits/<%= m.id%>"><%= image_tag('xml.gif') %></a>
-    </td>
-    <td>
-       <%= link_to(m.name, :controller => 'dashboard', :action => 'index',
-                    :project_id => m.id) %>
-       <br><% unless m.description == nil %><%= textilize(m.description) %><% end %></td>
-       <td> 
-	       <select id="choices" onchange="handleSelect(this)">
-		      	<option value="" selected="selected" ></option>
-		      	<option value= "<%= m.id %>" >Team</option>
-		      	<option value="<%= m.id %>">Edit</option>
-		      	<option value="<%= m.id %>">Delete</option>
-		   </select>       
-     </tr>
-     
-  <% end %>
-  </tbdody>
-</table>
-
-<% else %>
-You have no projects defined.
+      </tr>
+    </thead>
+    <tbody>
+      <% @projects.each do |project| %>
+        <tr class="<%= cycle("even_row", "odd_row") %>">
+          <td width="4%"><%= project_audit_image(project) %></td>
+          <td>
+            <%= project_dashboard_link(project) %><br>
+            <%= textilize(project.description) %>
+          </td>
+          <td width="8%"> 
+            <%=link_to "Team", project_users_path(project)%> 
+            <%=link_to_remote "Edit", :url => edit_project_path(project), :method => :get%>  
+            <%=link_to "Delete", project_path(project), :method => :delete, :confirm => "Are you sure you want to delete?\r\nAll associated data will also be deleted. This action can not be undone."%>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <script>
+    var st = new SortableTable(document.getElementById("projectsTable"),["None","CaseInsensitiveString", "None"]);
+    MaintainSort(st);
+  </script>
 <% end %>
-
-<script type="text/javascript">
-<% unless @projects.empty? %>
-var st = new SortableTable(document.getElementById("projectsTable"),
-	["None","CaseInsensitiveString", "None"]);
-
-// Maintain sort and restore the class names
-MaintainSort(st);
-<% end %>
-
-function OpenNew(selectValue, action, w, h){
-	window.open("projects/" + action + "/" + selectValue + "'", action + "_project","width=" + w + ",height=" + h + ",scrollbars,resizable");
-}
-
-function handleSelect(select){
-	selectValue = select.value;
-	if (select.selectedIndex == 1){
-		window.location.href = "project/" + select.value + "/users"
-	}
-	
-	else if (select.selectedIndex == 2){OpenNew(selectValue, "edit", "500", "325");}
-	
-	else if (select.selectedIndex == 3){
-		var x = confirm("Are you sure you want to delete? All associated data will also be deleted. This action can not be undone.");
-		if (x){
-			window.location.href = "projects/delete/" + select.value
-	    }
-	}
-	select.value = "";
-	return false;
-}
-</script>
-
-
-
-
-
-

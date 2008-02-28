@@ -1,35 +1,31 @@
 class TasksController < ApplicationController
-  include CrudActions
-  
-  popups :new, :create, :edit, :show, :assign_owner
-
-  def mymodel
-   Task
-  end
   
   def new
     @story = Story.find params[:story_id]
-    super 
+    render :update do |page|
+      page.call 'showPopup', render(:partial => 'story_task_form', :locals => {:url => project_story_tasks_path(@project)})
+      page.call 'autoFocus', "task_name", 500
+    end 
   end
   
   def create
-    @object = mymodel.new params[:object]
-    @object.story = @story = Story.find(params[:story_id])
-    if @object.save
-      flash[:status] = "#{mymodel} \"#{@object.name}\" has been saved."
-      render :template => 'layouts/refresh_parent_close_popup'
-    else
-      render :action => "new", :layout => "popup"
-    end
+    task = Task.new params[:task]
+    task.story = Story.find(params[:story_id])
+    render :update do |page|
+      if task.save
+        flash[:status] = "New Task \"#{task.name}\" has been created."
+        page.call 'location.reload'
+      else
+        page[:flash_notice].replace_html task.errors.full_messages[0]
+      end
+    end  
   end
  
   def delete
-    myobject = mymodel.find params[:id]
-    myobject.destroy
-    flash[:status] = "#{mymodel.name} \"#{myobject.name}\" has been deleted."
-    redirect_to :controller => 'stories', :action => 'show', 
-                  :id => myobject.story_id,
-                  :project_id => @project.id
+    task = Task.find params[:id]
+    task.destroy
+    flash[:status] = "Task \"#{task.name}\" has been deleted."
+    redirect_to project_story_path(@project, task.story)
   end
   
   def delete_from_dashboard
@@ -37,7 +33,7 @@ class TasksController < ApplicationController
     myobject.destroy
     flash[:status] = "#{mymodel.name} \"#{myobject.name}\" has been deleted."
     redirect_to :controller => 'dashboard', :action => 'index', 
-                  :project_id => @project.id
+      :project_id => @project.id
   end
  
   def take_ownership
@@ -48,7 +44,7 @@ class TasksController < ApplicationController
     current_user.reload
     flash[:status] = "SC#{story.scid} has been updated."
     redirect_to :controller => 'stories', :action => 'show',
-                :id => story.id, :project_id => @project.id
+      :id => story.id, :project_id => @project.id
   end
 
   def assign_owner
@@ -64,6 +60,6 @@ class TasksController < ApplicationController
     current_user.reload
     flash[:status] = "SC#{story.scid} has been updated."
     redirect_to :controller => 'stories', :action => 'show',
-                :id => story.id, :project_id => @project.id
+      :id => story.id, :project_id => @project.id
   end
 end

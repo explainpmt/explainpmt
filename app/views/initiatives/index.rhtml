@@ -1,84 +1,37 @@
-<!-- BEGIN initiatives/index.rhtml -->
-<% unless @project.initiatives.empty? %> 
-<h3>All initiatives For Project <%= @project.name %></h3> 
-<%= popup_link('New Initiative', 'new_initiative',
-                 'width=500,height=280,resizable,scrollbars',
-                 :controller => 'initiatives', :action => 'new',
-                 :project_id => @project.id) %></br></br></br></br>
-       <table class="sort-table" id="initiative_table" cellspacing="0" cellpadding="0" border="0" width="100%">
-  <thead>
-    <tr>
+<% empty_collection_content(@initiatives) do %>
+  <p>This project does not have any Initiates yet.</p>
+  <p><%= link_to_new_initiative %></p>
+<% end %>
+
+<% collection_content(@initiatives) do %> 
+  <%= link_to_new_initiative %><br /><br />
+  <table class="sort-table" id="initiative_table" cellspacing="0" cellpadding="0" border="0" width="100%">
+    <thead>
+      <tr>
         <td>Initiative Name</td>
         <td>Start Date</td>
         <td>End Date</td>
         <td>Customer</td>
         <td>Action</td>
-    </tr>
-  </thead>
-  <tbody>
-  <% @list.each do |m|%>
-    <tr>
-   	  <td>
-     		<%= popup_link(m.name, "initiative_#{m.id}",
-                          'width=500,height=325,resizable,scrollbars',
-                          :controller => 'initiatives',
-                          :action => 'show', :id => m.id,
-                          :project_id => @project.id) %></td>
-	   <td><%= m.start_date%></td>
-	   <td><%= m.end_date%></td>
-	   <td><%= m.customer%></td>
-       <td>
-       	   <select id="choices" onchange="handleSelect(this)">
-		      	<option value="" selected="selected" ></option>
-		      	<option value= "<%= m.id %>" >Show</option>
-		      	<option value="<%= m.id %>">Edit</option>
-		      	<option value="<%= m.id %>">Delete</option>
-		   </select>
-        </td>
-     </tr>
-  <% end %>
-  </tbody>
-</table>
-    </td>
-  </tr>
-<% else %>
-    <p>This project does not have any Initiates yet.</p>
-    <p><%= popup_link('New Initiative', 'new_initiative',
-                     'width=500,height=280,resizable,scrollbars',
-                     :controller => 'initiatives', :action => 'new',
-                     :project_id => @project.id) %></p>
+      </tr>
+    </thead>
+    <tbody>
+      <% @initiatives.each do |initiative|%>
+        <tr>
+          <td><%= link_to_edit_initiative(initiative) %></td>
+          <td><%= initiative.start_date%></td>
+          <td><%= initiative.end_date%></td>
+          <td><%= initiative.customer%></td>
+          <td width="8%"> 
+            <%= link_to_edit_initiative(initiative, :value => "Edit") %> 
+            <%= link_to_delete_initiative(initiative) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <script type="text/javascript">
+    var st = new SortableTable(document.getElementById("initiative_table"), ["CaseInsensitiveString", "Date", "Date", "CaseInsensitiveString", "None"]);
+    MaintainSort(st);
+  </script>
 <% end %>
-    </td>
-  </tr>
-</table>
-
-<script type="text/javascript">
-<% unless @list.empty? %>
-var st = new SortableTable(document.getElementById("initiative_table"),
-	["CaseInsensitiveString", "Date", "Date", "CaseInsensitiveString", "None"]);
-
-// Maintain sort and restore the class names
-MaintainSort(st);
-<% end %>
-
-function OpenNew(selectValue, action, w, h){
-	window.open("initiatives/" + action + "/" + selectValue + "'", action + "_initiative","width=" + w + ",height=" + h + ",scrollbars,resizable");
-}
-
-function handleSelect(select){
-	selectValue = select.value;
-	if (select.selectedIndex == 1){OpenNew(selectValue, "show", "500", "280");}
-	
-	else if (select.selectedIndex == 2){OpenNew(selectValue, "edit", "500", "280");}
-	
-	else if (select.selectedIndex == 3){
-		var x = confirm("Are you sure you want to delete? All Stories associted with this Initiative will be deleted. This action can not be undone.");
-		if (x){
-			window.location.href = "initiatives/delete/" + select.value
-	    }
-	}
-	select.value = "";
-	return false;
-}
-</script>
-<!-- END initiatives/index.rhtml -->

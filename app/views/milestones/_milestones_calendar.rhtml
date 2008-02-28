@@ -22,13 +22,7 @@
 								  <% milestone_popup_name = "#{milestone.project.name}: " +
 								 														"#{milestone.name}" -%>
 								<% end -%>								
-                <%= popup_link( milestone_popup_name,
-                               "milestone_#{milestone.id}",
-                               'width=500,height=500,resizable,scrollbars',
-                               :controller => 'milestones',
-                               :action => 'show',
-                               :id => milestone.id,
-                               :project_id => milestone.project.id) %>
+                <%= link_to_show_milestone(milestone) %>
               </li>
             <% end %>
           </ul>

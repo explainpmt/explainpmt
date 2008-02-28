@@ -1,0 +1,15 @@
+<%= iterations = @project.iterations%>
+  
+<%= form_tag move_stories_project_iterations_path(@project) %>
+<div style="text-align: right;">
+  <% empty_collection_content(iterations) do %>
+    <span style="color: #FF0000;">No iterations to move story cards to.</span>
+  <% end %>
+    
+  <% collection_content(iterations) do %>
+    <%= hidden_field_tag :move_to %>
+    Move Selected Story Cards to:
+    <%= select_tag selected_id, iteration_select_list_for(iterations), :onchange => "$('move_to').value = this.value" %>
+    <%= submit_tag "Go" %>
+  <% end %>
+</div>

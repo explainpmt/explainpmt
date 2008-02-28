@@ -1,0 +1,9 @@
+<% collection_content(iterations) do |iters|%>
+  <ul>
+    <% iters.each do |i| %>
+      <li class="show-iteration-bullet">
+        <%= link_to_unless_current(i.name + " " + numeric_date(i.start_date), project_iteration_path(@project, i)) %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

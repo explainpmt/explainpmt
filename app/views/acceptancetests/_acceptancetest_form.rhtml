@@ -1,54 +1,25 @@
-<fieldset>
-  <legend>Details</legend>
-    <%= error_messages_for('acceptancetest') %>
-  <table class="form_layout">
-  <% if @story%>
-  <tr><td><%= hidden_field('acceptancetest', 'story_id',"value" => "#{@story.id}") %></td></tr>
-  <% end %>
-  <tr>
-      <th><label for="edit_name">Name:</label></th>
-      <td><%= text_area('acceptancetest', 'name',"cols" => 40, "rows" => 2) %></td>
-  </tr>
-  <tr>
-      <th><label for="edit_description">Description:</label></th>
-      <td><%= text_area('acceptancetest', 'description',"cols" => 40, "rows" => 3) %></td>
-    </tr>
-   <tr>
-      <th><label for="edit_pre_condition">Pre Condition:</label></th>
-      <td><%= text_area('acceptancetest', 'pre_condition',"cols" => 40, "rows" => 3) %></td>
-    </tr>
-     <tr>
-      <th><label for="edit_post_condition">Post Condition:</label></th>
-      <td><%= text_area('acceptancetest', 'post_condition',"cols" => 40, "rows" => 3) %></td>
-    </tr>
-    <tr>
-      <th><label for="edit_expected_result">Expected Result:</label></th>
-      <td><%= text_area('acceptancetest', 'expected_result',"cols" => 40, "rows" => 3) %></td>
-    </tr>
-    <tr>
-  <tr>
-    <th><label for="edit_autmated">Automated:</label></th>
-    <td><%= radio_button('acceptancetest', 'automated', true) %></td>
-  </tr>
-  <tr>
-    <th><label for="edit_manual">Manual:</label></th>
-    <td><%= radio_button('acceptancetest', 'automated', false) %></td>
-  </tr>
-  <tr>
-    <th><label for="edit_pass">Pass:</label></th>
-    <td><%= radio_button('acceptancetest', 'pass', true) %></td>
-  </tr>
-  <tr>
-    <th><label for="edit_fail">Fail:</label></th>
-    <td><%= radio_button('acceptancetest', 'pass', false) %></td>
-  </tr>
-    <tr>
-      <td colspan="2" class="form_actions">
-        <input type="submit" name="submit"
-  value="<%= @acceptancetest.new_record? ? 'Create' : 'Update' %> Acceptance Test" />
-        &nbsp;&nbsp;
-        <a href="javascript:window.close();">Cancel</a>
-      </td>
-    </tr>
-  </table>
-</fieldset>
+<% remote_form_for :acceptancetest, :url => url, :method => (@acceptancetest ? :put : :post) do |f| %>
+  <a href="javascript:void(0);" onclick="cClick();">close</a>
+  <%= f.hidden_field( :story_id , :value => @story.id) if @story %>
+  <h2>Acceptance Test Information</h2>
+  <label>Name</label>
+  <%= f.text_area :name, :cols => 40, :rows => 2 %>
+  <label>Description</label>
+  <%= f.text_area :description, :cols => 40, :rows => 2%>
+  <label>Pre Condition</label>
+  <%= f.text_area :pre_condition, :cols => 40, :rows => 2%>
+  <label>Post Condition</label>
+  <%= f.text_area :post_condition, :cols => 40, :rows => 2%>
+  <label>Expected Result</label>
+  <%= f.text_area :expected_result, :cols => 40, :rows => 2%>
+  <label>Automated</label>
+  <%= f.radio_button :automated, true %>
+  <label>Manual</label>
+  <%= f.radio_button :automated, false %>
+  <label>Pass</label>
+  <%= f.radio_button :pass, true %>
+  <label>Fail</label>
+  <%= f.radio_button :pass, false %>
+  <%= submit_tag @acceptancetest ? "Update" : "Create" %>
+<% end %>
+<div id="flash_notice"></div>

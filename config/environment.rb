@@ -15,7 +15,7 @@ Rails::Initializer.run do |config|
 
   # Add additional load paths for your own custom dirs
   config.load_paths += %W( #{RAILS_ROOT}/vendor/RedCloth/lib )
-
+  config.action_controller.session = { :session_key => "_explainpmt_session", :secret => "e1f30e5837b480c29a3edf2554fe18f8302586f62c50a75ad475dfcef3c0484721d87d883823d9758e65ff67ad4fb2eb82ef888b4de3759781e35c68b21e9421" }
   # Force all environments to use the same logger level 
   # (by default production uses :info, the others :debug)
   # config.log_level = :debug

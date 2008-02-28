@@ -1,17 +1,15 @@
-<h3>Story Cards in Project Backlog</h3>
 <%= render :partial => 'story_links' %>
-<% unless @stories.empty? %>
-    <%= render :partial => 'move_stories_div', :selected_id => 'select1' %><br>
-        <%= render( :partial => 'story_list_table',
-                    :locals => { :stories => @stories,
-                                 :hide_cols => [ :owner, :project ], 
-                                 :base_path => ''} ) %>
-        <% if @stories.size > 10%>
-            <br>
-            <%= render :partial => 'story_links' %>
-            <%= render :partial => 'move_stories_div', :selected_id => 'select2' %>
-        <% end %>
-</form>
-<% else %>
+<% empty_collection_content(@stories) do %>
   <p>No stories are in the project backlog.</p>
+<% end %>
+
+<% collection_content(@stories) do %>
+  <%= render :partial => 'move_stories_form', :locals => {:selected_id => 'select1'} %><br>
+  <%= render :partial => 'stories' %>
+  <% if @stories.size > 10 %>
+    <br>
+    <%= render :partial => 'story_links' %>
+    <%= render :partial => 'move_stories_form', :locals => {:selected_id => 'select2'} %>
+  <% end %>
+  </form>
 <% end %>

@@ -1,0 +1,22 @@
+<% empty_collection_content(milestones) do %>
+  <p>Nothing to Show</p>
+<% end %>
+
+<% collection_content(milestones) do %>
+  <table class="sort-table" id="<%= table_id %>" cellspacing="0" cellpadding="3" border="0" width="100%">
+    <thead>
+      <tr>
+        <td width="100">Date</td>
+        <td>Name</td>
+        <td>Action</td>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render :partial => milestones%>
+    </tbody>
+  </table>
+  <script type="text/javascript">
+    var st = new SortableTable(document.getElementById("<%=table_id%>"), ["Date", "CaseInsensitiveString", "None"]);
+    MaintainSort(st);
+  </script>
+<% end %>

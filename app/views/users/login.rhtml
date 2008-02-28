@@ -34,7 +34,7 @@ input {
 	width:440px;
 	height:221px;
 	text-align:center;
-	background:url('images/login_bg.gif') no-repeat;
+	background:url('/images/login_bg.gif') no-repeat;
 	}
 #form {
 	position:relative;
@@ -58,7 +58,18 @@ input {
 
 <body>
 <div id="login">
-<div id="form"><%=render :partial => 'login_form'%>
+  <div id="form">
+    <form action="<%= authenticate_users_url %>" method="post">
+      <div class="user">
+        <input onfocus="resetValue(this,'Username')" type="text" name="username" id="Username" value="Username" />
+      </div>
+      <div class="pass">
+        <input onfocus="resetValue(this,'Password')" type="password" name="password" id="Password" value="Password" />
+      </div>
+      <input type="image" name="submit" src="/images/btn_login.gif" class="btn" />
+      <%= link_to_remote 'Register', :url => {:controller => 'users', :action => 'new' }%>
+    </form>
+  </div>
 <div id="SystemStatus"><%= textilize_without_paragraph(flash[:error] || flash[:status])%></div>
 </div>
 </body>

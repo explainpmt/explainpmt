@@ -7,7 +7,7 @@ class Story < ActiveRecord::Base
   belongs_to :owner, :class_name => 'User', :foreign_key => 'user_id'
   has_many :tasks, :dependent => :destroy
   has_many :acceptancetests, :dependent => :destroy
-  acts_as_list :scope => :project_id
+#  acts_as_list :scope => :project_id
 
   Statuses = []
   Values = []
@@ -19,9 +19,9 @@ class Story < ActiveRecord::Base
   
   validates_length_of :title, :maximum => 255
   
-  composed_of :status, :mapping => %w(status order)
-  composed_of :value, :mapping => %w(value order)
-  composed_of :risk, :mapping => %w(risk order)
+  composed_of :status, :mapping => %w(status order), :class_name => 'Story::Status'
+  composed_of :value, :mapping => %w(value order), :class_name => 'Story::Value'
+  composed_of :risk, :mapping => %w(risk order), :class_name => 'Story::Risk'
   
   class RankedValue
     class InvalidOrder < Exception;end
@@ -162,8 +162,8 @@ class Story < ActiveRecord::Base
 
   def after_initialize
     self.status = Status::New unless self.status
-    self.value = Value::NA unless self.value
-    self.risk = Risk::Normal unless self.risk
+    self.value = Story::Value::NA unless self.value
+    self.risk = Story::Risk::Normal unless self.risk
   end
 
   def before_create

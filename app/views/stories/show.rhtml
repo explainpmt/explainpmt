@@ -1,86 +1,41 @@
-<h3><%= "SC#{@story.scid}: #{@story.title}" %></h3>
-<p>
-  <%= link_to('Edit', :controller => 'stories', :action => 'edit',
-               :id => @story.id, :project_id => @project.id) %>
-  &nbsp;
-  (<a href="javascript:window.close();window.opener.location.href = window.opener.location.href;">Close Window</a>)
-    &nbsp;
-  (<%= popup_link('Add Task', "task", 'width=525,height=300,resizable,scrollbars',
-  			   :controller => 'tasks', :action => 'new',
-               :story_id => @story.id, :project_id => @project.id) %>)
-  &nbsp;
-    (<%= popup_link('Add Acceptance', 'new_acceptance',
-               'width=550,height=550,scrollbars,resizable',
-               :controller => 'acceptancetests',
-               :action => 'new_acceptance_for_story', :story_id => @story.id,
-               :project_id => @project.id) %>)
-      &nbsp;
-    (<%= popup_link('View History', 'audit_acceptance',
-               'width=800,height=550,scrollbars,resizable',
-               :controller => 'stories',
-               :action => 'audit_story', :id => @story.id,
-               :project_id => @project.id) %>)               
-</p>
-<table cellspacing="0" cellpadding="3" border="0">
-  <% if @story.created_at? %>
-    <tr>
-      <th>Created:</th>
-      <td><%= short_date(@story.created_at) %><% if @story.creator %>(<%= @story.creator.full_name %>) <% end %></td>
-    </tr>
-  <% end %>
-    <% if @story.updated_at? %>
-    <tr>
-      <th>Last Updated:</th>
-      <td><%= short_date(@story.updated_at) %><% if @story.updater %>(<%= @story.updater.full_name %>) <% end %></td>
-    </tr>
-  <% end %>
-  <% if @story.initiative %>
-    <tr>
-      <th>Initiative:</th>
-      <td><%= @story.initiative.name %></td>
-    </tr>
-  <% end %>
-  <tr>
-    <th>Value:</th>
-    <td><%= @story.value.name %></td>
-  </tr>
-  <tr>
-    <th>Risk:</th>
-    <td><%= @story.risk.name %></td>
-  </tr>
-  <tr>
-    <th>Estimate:</th>
-    <td><%= @story.points %> points</td>
-  </tr>
-  <tr>
-    <th>Status:</th>
-    <td><%= @story.status.name %></td>
-  </tr>
-  <% if @story.owner %>
-    <tr>
-      <th>Owner:</th>
-      <td><%= @story.owner.full_name %></td>
-    </tr>
-  <% end %>
-</table>
+(<%= link_to_edit_story(@story, :value => "Edit") %>)
+(<%= link_to_new_task(@story) %>)
+(<%= link_to_new_acceptance_for(@story) %>)
+(<%= link_to_audit(@story) %>)
+<h3><%= "SC#{@story.scid} #{@story.title}" %></h3>
+<strong>Created</strong>
+<%= short_date(@story.created_at) %> <%= "(#{@story.creator.full_name})" if @story.creator %>
+<strong>Updated</strong>
+<%= short_date(@story.updated_at) %> <%= "(#{@story.updater.full_name})" if @story.updater %>
+<strong>Initiative</strong>
+<%= @story.initiative.name  if @story.initiative %>
+<strong>Value</strong>
+<%= @story.value.name if @story.value %>
+<strong>Risk</strong>
+<%= @story.risk.name if @story.risk %>
+<strong>Estimate</strong>
+<%= @story.points if @story.points %>
+<strong>Status</strong>
+<%= @story.status.name if @story.status %>
+<strong>Owner</strong>
+<%= @story.owner.full_name if @story.owner%>
+<p><strong>Description</strong></p>
 <%= textilize(@story.description) %>
 <br><br>
 <h3>Tasks</h3>
-<% unless @tasks.empty?%>
-<%= render( :partial => 'tasks/task_list_table',
-                :locals => { :tasks => @tasks,
-                             :hide_cols => [ :project, :story, :iteration ],
-                             :base_path => '../../'}) %>
-<% else %>
-No tasks have been defined for this story.
+<% empty_collection_content(@tasks) do %>
+  No tasks have been defined for this story.
 <% end %>
+<% collection_content(@tasks) do %>
+  <%= render :partial => 'tasks/tasks', :locals => {:hide_cols => [ :project, :story, :iteration ]} %>
+<% end %>
+
 <br><br>
+
 <h3>Acceptance Tests</h3>
-<% unless @acceptancetests.empty?%>
-<%= render( :partial => 'acceptancetests/acceptancetest_list_table',
-                :locals => { :acceptancetests => @acceptancetests,
-                             :hide_cols => [ :checkbox, :story, :iteration ],
-                             :base_path => '../../'}) %>
-<% else %>
-No acceptance tests have been defined for this story.
+<% empty_collection_content(@acceptancetests) do %>
+  `No acceptance tests have been defined for this story.
+<% end %>
+<% collection_content(@acceptancetests) do %>
+  <%= render( :partial => 'acceptancetests/acceptancetests', :locals => {:hide_cols => [ :checkbox, :story, :iteration ]}) %>
 <% end %>

@@ -1,18 +1,22 @@
 ActionController::Routing::Routes.draw do |map|
+map.home '', :controller => 'users', :action => 'login'
+map.resources :users, :collection => { :login => :get, :authenticate => :post, :logout => :get }
+map.resources :dashboards
 
-map.resources :users,
-  :collection => { :login => :get, :authenticate => :post, :logout => :get }
+map.resources :projects, :member => {:audits => :get} do |project|
+  project.resources :acceptancetests, :member => {:clone_acceptance => :get}, :collection => {:export => :get}
+  project.resource :dashboard
+  project.resources :users
+  project.resources :releases
+  project.resources :initiatives
+  project.resources :stories,  :member => {:audit => :get}, :collection => {:move_acceptancetests => :post} do |story|
+    story.resources :tasks
+    story.resources :acceptancetests
+  end
+  project.resources :milestones, :collection => {:show_all => :get, :show_recent => :get}
+  project.resources :iterations, :member => {:allocation => :get}, :collection => {:move_stories => :post}
+end
 
-map.connect ':controller/:action/:id', :controller => 'dashboard'
-
-map.connect 'project/:project_id/stories',
-            :controller => 'stories', :action => 'index'
-            
-map.connect 'project/:project_id/stories/show_cancelled',
-            :controller => 'stories', :action => 'index', :show_cancelled => 1
-            
-map.connect 'project/:project_id/:controller/:action/:id',
-            :controller => 'dashboard'
 
 # Install the default route as the lowest priority.
 map.connect ':controller/:action/:id'

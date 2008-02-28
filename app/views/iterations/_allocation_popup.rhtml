@@ -1,0 +1,24 @@
+<h3>Allocation for Iteration: <%= @iteration.name %></h3>
+<a href="javascript:void(0);" onclick="cClick();">close</a>
+<b>Not Assigned = <%= @allocations[nil] %> </b>
+<table class="sort-table" id="allocation" cellspacing="0" cellpadding="0" border="0">
+  <thead>
+    <tr>
+      <td>User</td>
+      <td>Points</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |u| %>
+      <% if @allocations[u.id] != 0%>
+        <tr>
+          <td><%= u.full_name %></td>
+          <td><%= @allocations[u.id] %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+<script type="text/javascript">
+
+</script>

@@ -1,40 +1,76 @@
 class IterationsController < ApplicationController
-  include CrudActions
-
   before_filter :require_current_project
-  popups :select_stories, :assign_stories, :edit, :new, :allocation_for_iteration
-
-  def mymodel
-    Iteration
-  end
 
   def index
     iterations = @project.iterations
     iteration = iterations.current || iterations.previous || iterations.next
-    unless iteration.nil?
-      flash.keep
-      redirect_to :controller => 'iterations', :action => 'show',
-                  :id => iteration.id, :project_id => @project.id
-    else
-      @page_title = 'Iterations'
-    end
+    redirect_to project_iteration_path(@project, iteration) unless iteration.nil?
   end
 
   def show
     @iteration = Iteration.find params[:id]
-    @page_title = "Iteration: #{@iteration.start_date} - #{@iteration.stop_date}"
-    @stories = @iteration.stories_for(@project)
-    @projectIterations = @project.iterations
+    @stories = @iteration.stories
+    @project_iterations = @project.iterations
+  end
+  
+  def new
+    render :update do |page|
+      page.call 'showPopup', render(:partial => 'iteration_popup', :locals => {:url => project_iterations_path(@project)})
+      page.call 'autoFocus', "iteration_name", 500
+    end 
+  end
+
+  def edit
+    @iteration = Iteration.find params[:id]
+    render :update do |page|
+      page.call 'showPopup', render(:partial => 'iteration_popup', :locals => {:url => project_iteration_path(@project, @iteration)})
+      page.call 'autoFocus', "iteration_name", 500
+    end 
+  end
+  
+  def create
+    iteration = Iteration.new params[:iteration]
+    iteration.project = @project
+    render :update do |page|
+      if iteration.save
+        flash[:status] = "New Release \"#{iteration.name}\" has been created."
+        page.redirect_to project_iterations_path(@project)
+      else
+        page[:flash_notice].replace_html iteration.errors.full_messages[0]
+      end
+    end    
+  end
+
+  def update
+    iteration = Iteration.find params[:id]
+    render :update do |page|
+      if iteration.update_attributes(params[:iteration])
+        flash[:status] = "Iteration \"#{iteration.name}\" has been updated."
+        page.redirect_to project_iterations_path(@project)
+      else
+        page[:flash_notice].replace_html iteration.errors.full_messages[0]
+      end
+    end
+  end
+
+  def allocation
+    @iteration = Iteration.find params[:id]
+    @allocations = @iteration.points_by_user
+    @users = @project.users
+    render :update do |page|
+      page.call 'showPopup', render(:partial => 'allocation_popup')
+      page.call 'sortAllocation'
+    end 
   end
 
   def move_stories
     change_story_assignment
     if params[:id]
       redirect_to :controller => 'iterations', :action => 'show',
-                  :id => params[:id], :project_id => @project.id.to_s
+        :id => params[:id], :project_id => @project.id.to_s
     else
       redirect_to :controller => 'stories', :action => 'index',
-                  :project_id => @project.id.to_s
+        :project_id => @project.id.to_s
     end
   end
 
@@ -42,7 +78,7 @@ class IterationsController < ApplicationController
     @page_title = "Assign Story Cards"
     @stories = @project.stories.backlog.select { |s|
       s.status != Story::Status::New and
-      s.status != Story::Status::Cancelled
+        s.status != Story::Status::Cancelled
     }
     @iteration = Iteration.find params[:id]
   end
@@ -64,12 +100,6 @@ class IterationsController < ApplicationController
     @iteration = Iteration.find params[:id] 
     @stories = @iteration.stories
     render :layout => false
-  end
-
-  def allocation_for_iteration
-    @iteration = Iteration.find params[:id]
-    @allocations = @iteration.points_by_user
-    @users = @project.users
   end
   
   private

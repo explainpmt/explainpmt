@@ -1,0 +1,36 @@
+<% hide_cols ||= [] %>
+<table class="sort-table" id="backlog_stories" cellspacing="0" cellpadding="0" border="0" width="100%">
+  <thead>
+    <tr>
+      <td>SCID</td>
+      <% unless hide_cols.include?( :project ) %><td>Project</td><%end%>
+      <td>Title</td>
+      <td>Initiative</td>
+      <td>Points</td>
+      <td>Value</td>
+      <td>Risk</td>
+      <td>Status</td>
+      <% unless hide_cols.include?( :owner ) %><td>Owner</td><%end%>
+      <% unless hide_cols.include?( :iteration ) %><td>Iteration</td><%end%>
+      <td>Customer</td>
+      <td>#</td>
+      <% unless hide_cols.include?( :action ) %><td>Action</td><%end%>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render :partial => 'stories/story', :collection => @stories, :locals => { :hide_cols => hide_cols } %>
+  </tbody>
+</table>
+<script type="text/javascript">
+  var st = new SortableTable(document.getElementById("backlog_stories"),
+    ["SCID",
+      <% unless hide_cols.include?( :project ) %>"CaseInsensitiveString",<%end%>
+    "CaseInsensitiveString", "CaseInsensitiveString","Number","CaseInsensitiveString","CaseInsensitiveString","CaseInsensitiveString",
+    <% unless hide_cols.include?( :owner ) %>"CaseInsensitiveString",<%end%>
+    <% unless hide_cols.include?( :iteration ) %>"CaseInsensitiveString",<%end%>
+    "CaseInsensitiveString","Number",
+    <% unless hide_cols.include?( :action ) %> "None" <%end%>]);
+
+MaintainSort(st);
+</script>
+

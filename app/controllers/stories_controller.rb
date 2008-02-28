@@ -1,13 +1,78 @@
 class StoriesController < ApplicationController
-  include CrudActions
 
   before_filter :require_current_project
-  popups :show, :edit, :new_bulk, :assign_owner, :clone_story, :new_story_for_iteration, 
-    :new_single, :edit_numeric_priority, :audit_story
 
-  def mymodel
-    Story
+  def new
+    render :update do |page|
+      page.call 'showPopup', render(:partial => 'stories/story_form_popup', :locals => {:url => project_stories_path(@project)})
+      page.call 'autoFocus', "story_name", 500
+    end 
   end
+
+  def edit
+    @story = Story.find params[:id]
+    render :update do |page|
+      page.call 'showPopup', render(:partial => 'stories/story_form_popup', :locals => {:url => project_story_path(@project, @story)})
+      page.call 'autoFocus', "story_name", 500
+    end 
+  end
+
+  def show
+    @story = Story.find params[:id]
+    @tasks = @story.tasks
+    @acceptancetests = @story.acceptancetests
+  end
+  
+  def create
+    modify_risk_status_and_value_params
+    story = Story.new params[:story]
+    story.project = @project
+    story.iteration_id = params[:iteration_id]
+    story.creator_id = current_user.id
+    render :update do |page|
+      if story.save
+        flash[:status] = 'The new story card has been saved.'
+        page.call 'location.reload'
+      else
+        page[:flash_notice].replace_html story.errors.full_messages[0]        
+      end
+    end
+  end
+  
+  def update
+    modify_risk_status_and_value_params
+    story = Story.find params[:id]
+    story.attributes = params[:story]
+    story.updater_id = current_user.id
+    render :update do |page|
+      if story.valid?
+        story.audit_story
+        story.save
+        flash[:status] = 'The changes to the story card have been saved.'
+        page.call 'location.reload'
+      else
+        page[:flash_notice].replace_html story.errors.full_messages[0]        
+      end
+    end
+  end
+  
+  def modify_risk_status_and_value_params
+    if params[:story]
+      if params[:story][:status]
+        params[:story][:status] =
+          Story::Status.new(params[:story][:status].to_i)
+      end
+      if params[:story][:value]
+        params[:story][:value] =
+          Story::Value.new(params[:story][:value].to_i)
+      end
+      if params[:story][:risk]
+        params[:story][:risk] =
+          Story::Risk.new(params[:story][:risk].to_i)
+      end
+    end
+  end
+  
 
   def index
     @page_title = "Backlog"
@@ -49,31 +114,14 @@ class StoriesController < ApplicationController
       render :action => "new_bulk", :layout => "popup"
     else
       params[:story_card_titles].each_line do |title|
-      story = @project.stories.create(:title => title, :creator_id => current_user.id)
-    end
+        story = @project.stories.create(:title => title, :creator_id => current_user.id)
+      end
       flash[:status] = 'New story cards created.'
       render :template => 'layouts/refresh_parent_close_popup'
     end
   end
   
-  def create
-    modify_risk_status_and_value_params
-    @story = Story.new params[:story]
-    @story.project = @project
-    @story.iteration_id = params[:iteration_id]
-    @story.creator_id = current_user.id
-    if @story.save
-      flash[:status] = 'The new story card has been saved.'
-      render 'layouts/refresh_parent_close_popup'
-    else
-      if @story.iteration_id?
-            redirect_to :controller => 'stories', :action => 'new_story_for_iteration',
-                  :project_id => @project.id, :iteration_id => params[:iteration_id]
-      else
-        render :action => "new_single", :layout => "popup"
-      end           
-    end
-  end
+
 
   def clone_story
   	editcommon
@@ -81,32 +129,14 @@ class StoriesController < ApplicationController
     @iterationid = @story.iteration_id if @story.iteration_id?
   end
   
-  def edit
-	  editcommon
-    @page_title = "Edit story card"
-  end
+
   
   def editcommon
   	@story = Story.find params[:id]
     @story.return_ids_for_aggregations
   end
 
-  def update
-    @page_title = "Edit story card"
-    @selected_main_menu_link = :none
-    modify_risk_status_and_value_params
-    story = Story.find params[:id]
-    story.attributes = params[:story]
-    story.updater_id = current_user.id
-    if story.valid?
-      story.audit_story
-      story.save
-      flash[:status] = 'The changes to the story card have been saved.'
-      render :template => 'layouts/refresh_parent_close_popup'
-    else
-      render :action => "edit", :layout => "popup"
-    end
-  end
+
 
   def delete_common
     Story.destroy params[:id]
@@ -116,29 +146,23 @@ class StoriesController < ApplicationController
   def delete_from_backlog
     delete_common
     redirect_to :controller => 'stories', :action => 'index',
-                  :project_id => @project.id.to_s
+      :project_id => @project.id.to_s
     
   end
   
   def delete_from_dashboard
     delete_common
     redirect_to :controller => 'dashboard', :action => 'index',
-                  :project_id => @project.id
+      :project_id => @project.id
   end
   
   def delete_from_iteration
     delete_common
     redirect_to :controller => 'iterations', :action => 'show',
-                  :id => (params[:iteration_id]),
-                  :project_id => @project.id
+      :id => (params[:iteration_id]),
+      :project_id => @project.id
   end
 
-  def show
-    @story = Story.find params[:id]
-    @tasks = @story.tasks
-    @acceptancetests = @story.acceptancetests
-    @page_title = @story.title
-  end
 
   def take_ownership
     story = Story.find params[:id]
@@ -147,7 +171,7 @@ class StoriesController < ApplicationController
     current_user.reload
     flash[:status] = "SC#{story.scid} has been updated."
     redirect_to :controller => 'iterations', :action => 'show',
-                :id => story.iteration.id.to_s, :project_id => @project.id.to_s
+      :id => story.iteration.id.to_s, :project_id => @project.id.to_s
   end
 
   def release_ownership
@@ -157,7 +181,7 @@ class StoriesController < ApplicationController
     current_user.reload    
     flash[:status] = "SC#{story.scid} has been updated."
     redirect_to :controller => 'iterations', :action => 'show',
-                :id => story.iteration.id.to_s, :project_id => @project.id.to_s
+      :id => story.iteration.id.to_s, :project_id => @project.id.to_s
   end
   
   def assign_owner
@@ -168,7 +192,7 @@ class StoriesController < ApplicationController
   def move_acceptancetests
     change_acceptancetest_assignment
     redirect_to :controller => 'acceptancetests', :action => 'index',
-                  :id => params[:id], :project_id => @project.id 
+      :id => params[:id], :project_id => @project.id 
   end
   
   def change_acceptancetest_assignment
@@ -198,10 +222,10 @@ class StoriesController < ApplicationController
   	story.move_higher
   	if params[:iteration_id]
   	  redirect_to :controller => 'iterations', :action => 'show',
-                    :project_id => @project.id, :id => params[:iteration_id]
+        :project_id => @project.id, :id => params[:iteration_id]
   	else
       redirect_to :controller => 'stories', :action => 'index',
-                    :project_id => @project.id
+        :project_id => @project.id
     end
   end
   
@@ -210,10 +234,10 @@ class StoriesController < ApplicationController
     story.move_lower
   	if params[:iteration_id]
       redirect_to :controller => 'iterations', :action => 'show',
-                    :project_id => @project.id, :id => params[:iteration_id]
+        :project_id => @project.id, :id => params[:iteration_id]
   	else
    	  redirect_to :controller => 'stories', :action => 'index',
-                    :project_id => @project.id
+        :project_id => @project.id
     end
   end
   
@@ -228,15 +252,15 @@ class StoriesController < ApplicationController
 	  	if(newPos.to_i <= lastStory.position)
 	  		story = Story.find(params[:id])
 	  		story.insert_at(newPos)
-	 		flash[:status] = 'The changes to the story card have been saved.'
+        flash[:status] = 'The changes to the story card have been saved.'
 	     	render 'layouts/refresh_parent_close_popup'
 	    else
 	     	flash[:error] = 'Position was not updated.  Value can not be greater than last position.'
  		    render 'layouts/refresh_parent_close_popup'
 	    end
- 	else
- 		flash[:error] = 'Position was not updated.  You must specify a numeric value.'
- 		      render 'layouts/refresh_parent_close_popup'
+    else
+      flash[:error] = 'Position was not updated.  You must specify a numeric value.'
+      render 'layouts/refresh_parent_close_popup'
     end
   end
   
@@ -244,23 +268,6 @@ class StoriesController < ApplicationController
     @changes = Audit.find(:all, :conditions => ["project_id = #{@project.id} AND audited_object_id = #{@params[:id]} AND object = 'Story'"], :order => "created_at DESC")
   end
 
-  protected
 
-  def modify_risk_status_and_value_params
-    if params[:story]
-      if params[:story][:status]
-        params[:story][:status] =
-          Story::Status.new(params[:story][:status].to_i)
-      end
-      if params[:story][:value]
-        params[:story][:value] =
-          Story::Value.new(params[:story][:value].to_i)
-      end
-      if params[:story][:risk]
-        params[:story][:risk] =
-          Story::Risk.new(params[:story][:risk].to_i)
-      end
-    end
-  end
  
 end
