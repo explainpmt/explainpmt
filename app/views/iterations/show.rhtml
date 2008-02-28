@@ -28,7 +28,7 @@
   <div id="IterationSummary">
     <%= render :partial => 'iteration_summary' %>
   </div>
-  
+  <br />
   <h3>Story Cards</h3>
   <%= link_to_new_story %>&nbsp;
   <% if @project.stories.backlog.size > 0 and @iteration.stop_date + 1 > Date.today %>
@@ -71,11 +71,7 @@
       </select>
       <input type="submit" name="submit" value="Go" />
     </div><br>
-    <%= render( :partial => 'stories/story_list_table',
-      :locals => { :stories =>  @stories,
-        :hide_cols => [ :project, :iteration ],
-        :base_path => '../../'},
-      :iteration_id => @iteration.id ) %>
+    <%= render( :partial => 'stories/stories', :locals => {:hide_cols => [ :project, :iteration]}) %>
     </form>
   <% end %>
 </td>
