@@ -2,7 +2,7 @@ ActionController::Routing::Routes.draw do |map|
 map.home '', :controller => 'users', :action => 'login'
 map.resources :users, :collection => { :login => :get, :authenticate => :post, :logout => :get }
 map.resources :dashboards
-
+map.resources :errors
 map.resources :projects, :member => {:audits => :get} do |project|
   project.resources :acceptancetests, :member => {:clone_acceptance => :get}, :collection => {:export => :get}
   project.resource :dashboard

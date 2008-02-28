@@ -27,17 +27,17 @@ class ApplicationController < ActionController::Base
     unless current_user.admin?
       flash[:error] = "You must be logged in as an administrator to perform " +
                       "the requested action."
-      redirect_to :controller => 'error', :action => 'index'
+      redirect_to errors_path
       return false
     end
   end
   
   def require_team_membership
     if @project and !current_user.admin?
-      unless User.find(current_user.id).projects.include?(@project)
+      unless current_user.projects.include?(@project)
         flash[:error] = 'You do not have permission to access the project, ' +
                         'because you are not part of the project team.'
-        redirect_to :controller => 'error', :action => 'index'
+        redirect_to errors_path
         return false
       end
     end
@@ -48,24 +48,9 @@ class ApplicationController < ActionController::Base
       flash[:error] = "You attempted to access a view that requires a " +
                       "project to be selected, but no project id was set in " +
                       "your request."
-      redirect_to :controller => 'error', :action => 'index'
+      redirect_to errors_path
       return false
     end
   end
   
-  def register_referer
-    unless request.env['HTTP_REFERER'].blank?
-      session[:referer] = request.env['HTTP_REFERER']
-    end
-  end
-  
-  def redirect_to_referer
-    if session[:referer]
-      redirect_to session[:referer]
-      session[:referer] = nil
-      true
-    else
-      false
-    end
-  end
 end
