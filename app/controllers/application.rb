@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  layout :choose_layout
   helper_method :current_user
   before_filter :check_authentication
   before_filter :set_selected_project
@@ -44,32 +43,12 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def self.popups(*popup_actions)
-    @@popups ||= {}
-    @@popups[controller_name] ||= []
-    popup_actions.each do |a|
-      @@popups[controller_name] << a.to_sym
-    end
-  end
-  
-  def choose_layout
-    @@popups ||= {}
-    @@popups[controller_name] ||= []
-    @@popups[controller_name].include?(action_name.to_sym) ? 'layouts/popup' : 'layouts/main'
-  end
-  
   def require_current_project
     unless @project
-      @@popups ||= {}
-      @@popups[controller_name] ||= []
-      if @@popups[controller_name].include? action_name.to_sym
-        redirect_to :controller => 'error', :action => 'popup'
-      else
-        redirect_to :controller => 'error', :action => 'index'
-      end
       flash[:error] = "You attempted to access a view that requires a " +
                       "project to be selected, but no project id was set in " +
                       "your request."
+      redirect_to :controller => 'error', :action => 'index'
       return false
     end
   end
