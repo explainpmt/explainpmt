@@ -1,5 +1,4 @@
 class StoriesController < ApplicationController
-
   before_filter :require_current_project
 
   def new

@@ -7,18 +7,11 @@ class MilestonesController < ApplicationController
   end
   
   def new
-    render :update do |page|
-      page.call 'showPopup', render(:partial => 'milestone_form_popup', :locals => {:url => project_milestones_path(@project)})
-      page.call 'autoFocus', "milestone_name", 500
-    end 
+    common_popup(project_milestones_path(@project))
   end
 
   def edit
-    render :update do |page|
-      page.call 'cClick'
-      page.call 'showPopup', render(:partial => 'milestone_form_popup', :locals => {:url => project_milestone_path(@project, @milestone)})
-      page.call 'autoFocus', "milestone_name", 500
-    end 
+    common_popup(project_milestone_path(@project, @milestone))
   end
 
   def show
@@ -74,6 +67,13 @@ class MilestonesController < ApplicationController
   protected
   def find_milestone
     @milestone = Milestone.find params[:id]
+  end
+
+  def common_popup(url)
+    render :update do |page|
+      page.call 'showPopup', render(:partial => 'milestones/milestone_form', :locals => {:url => url})
+      page.call 'autoFocus', "milestone_name", 500
+    end 
   end
   
 end

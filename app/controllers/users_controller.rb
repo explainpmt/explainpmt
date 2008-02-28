@@ -113,7 +113,7 @@ class UsersController < ApplicationController
   def logout
     session[ :current_user ] = nil
     flash[:status] = "You have been logged out."
-    redirect_to :controller => 'users', :action => 'login'
+    redirect_to login_users_path
   end
 
 end
