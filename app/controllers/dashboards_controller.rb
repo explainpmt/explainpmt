@@ -1,6 +1,8 @@
 class DashboardsController < ApplicationController
   def show
-    @stories = current_user.stories_for(@project).select { |s| !s.status.closed? }
+    Story.with_open do 
+      @stories = current_user.stories_for(@project)
+    end
     @tasks = current_user.tasks_for(@project)
     render :action => 'project'
   end

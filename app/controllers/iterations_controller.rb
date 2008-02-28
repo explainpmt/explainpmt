@@ -63,29 +63,31 @@ class IterationsController < ApplicationController
     end 
   end
 
-  def move_stories
-    change_story_assignment
-    if params[:id]
-      redirect_to :controller => 'iterations', :action => 'show',
-        :id => params[:id], :project_id => @project.id.to_s
-    else
-      redirect_to :controller => 'stories', :action => 'index',
-        :project_id => @project.id.to_s
-    end
-  end
-
   def select_stories
-    @page_title = "Assign Story Cards"
     @stories = @project.stories.backlog.select { |s|
       s.status != Story::Status::New and
         s.status != Story::Status::Cancelled
     }
     @iteration = Iteration.find params[:id]
+    render :update do |page|
+      page.call 'showPopup', render(:partial => 'select_stories')
+    end 
   end
 
   def assign_stories
     change_story_assignment
-    render :template => 'layouts/refresh_parent_close_popup'
+    @iteration = Iteration.find params[:id]
+    redirect_to project_iteration_path(@project, @iteration)
+  end  
+
+  def move_stories
+    change_story_assignment
+    if params[:id]
+      @iteration = Iteration.find params[:id]
+      redirect_to project_iteration_path(@project, @iteration)
+    else
+      redirect_to project_stories_path(@project)
+    end
   end
   
   def export
@@ -102,12 +104,12 @@ class IterationsController < ApplicationController
     render :layout => false
   end
   
+  
+  
   private
 
   def change_story_assignment
-    stories = ( params[:selected_stories] || [] ).map do |sid|
-      Story.find(sid)
-    end
+    stories = Story.find(:all, :conditions => [ 'id in (?)', (params[:selected_stories] || [] ).join(',')])
     successes = []
     failures = []
     stories.each do |s|

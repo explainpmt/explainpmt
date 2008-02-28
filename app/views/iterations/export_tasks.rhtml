@@ -1,30 +1,27 @@
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
   <thead>
     <tr>
-  		<td><big><b>Iteration: <%= @iteration.name %></b></big></td>
+      <td><big><b>Iteration: <%= @iteration.name %></b></big></td>
     </tr>
     <td><b>SCID</b></td>
     <td><b>Story Title</b></td>
     <td><b>Task Name</b></td>
     <td><b>Description</b></td>
-	<td><b>Owner</b></td>
+    <td><b>Owner</b></td>
     <td><b>Complete</b></td>
   </thead>
   <tbody>
-  <% @stories.each do |m| %>
-  <% m.tasks.each do |t| %>
-     <tr>
-     <td><%= m.scid %></td>
-     <td><%= m.title %></td>
-     <td><%= t.name %></td>
-     <td><%= t.description%></td>
-     <td><%if t.has_owner?%>
-    		<%= t.owner.full_name %>
-  		 <% end %>
-      </td>
-     <td><% if t.complete  %>Yes<%else%>No<%end%></td>
-     </tr>
-  <% end %>
-  <% end %>
+    <% @stories.each do |story| %>
+      <% story.tasks.each do |task| %>
+        <tr>
+          <td><%= story.scid %></td>
+          <td><%= story.title %></td>
+          <td><%= task.name %></td>
+          <td><%= task.description %></td>
+          <td><% task.owner ? task.owner.full_name : "Not Assigned" %></td>
+          <td><% task.complete ? "Yes" : "Now" %></td>
+        </tr>
+      <% end %>
+    <% end %>
   </tbody>
 </table>

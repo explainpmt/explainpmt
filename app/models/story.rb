@@ -77,7 +77,7 @@ class Story < ActiveRecord::Base
     def closed?
       @closed
     end
-
+       
     Statuses << New = create(1, 'New')
     Statuses << Defined = create(2, 'Defined')
     Statuses << InProgress = create(3, 'In Progress')
@@ -87,6 +87,7 @@ class Story < ActiveRecord::Base
     Statuses << Accepted = create(7, 'Accepted', true, true)
     Statuses << Cancelled = create(8, 'Cancelled', false, true)
     Statuses << Obstacle = create(9, 'Obstacle')
+    
   end
 
   class Value < RankedValue
@@ -117,6 +118,13 @@ class Story < ActiveRecord::Base
     Risks << NA = create(4,'')
   end
 
+  @@open_status_sql = Statuses.select { |s| !s.closed? }.collect { |s| s.order }.join(',')
+  def self.with_open(&block)
+    with_scope(:find => {:conditions => "not status in (#{@@open_status_sql})"}) do
+      yield
+    end
+  end   
+  
   def return_ids_for_aggregations
     self.instance_eval <<-EOF
       def status

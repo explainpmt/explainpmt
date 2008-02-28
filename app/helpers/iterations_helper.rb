@@ -27,6 +27,18 @@ module IterationsHelper
     link_to "Delete", project_iteration_path(@project, iteration), :method => :delete, :confirm => "Are you sure you want to delete?\r\nAll associated data will also be deleted. This action can not be undone."
   end
   
+  def link_to_export_iteration_stories(iteration)
+    link_to 'Export Stories', export_project_iteration_path(@project, iteration)
+  end
+
+  def link_to_export_iteration_tasks(iteration)
+    link_to 'Export Tasks', export_tasks_project_iteration_path(@project, iteration)
+  end
+  
+  def link_to_assign_stories(iteration)
+    link_to_remote('Assign Story Cards', :url => select_stories_project_iteration_path(@project, iteration), :method => :get)
+  end
+  
   def link_to_allocation(iteration)
     link_to_remote 'Allocation', :url => allocation_project_iteration_path(@project, iteration), :method => :get
   end

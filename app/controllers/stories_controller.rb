@@ -1,6 +1,17 @@
 class StoriesController < ApplicationController
   before_filter :require_current_project
 
+  def index
+    @page_title = "Backlog"
+    if params[:show_cancelled]
+      @stories = @project.stories.backlog
+    elsif params[:show_all]
+      @stories = @project.stories
+    else
+      @stories = @project.stories.not_cancelled_and_not_assigned_to_an_iteration
+    end
+  end
+  
   def new
     render :update do |page|
       page.call 'showPopup', render(:partial => 'stories/story_form_popup', :locals => {:url => project_stories_path(@project)})
@@ -73,19 +84,10 @@ class StoriesController < ApplicationController
   end
 
 
+
   
-
-  def index
-    @page_title = "Backlog"
-    if params[:show_cancelled]
-      @stories = @project.stories.backlog
-    elsif params[:show_all]
-      @stories = @project.stories
-    else
-      @stories = @project.stories.not_cancelled_and_not_assigned_to_an_iteration
-    end
-  end
-
+  
+  
   def export_tasks
     export
   end
