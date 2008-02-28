@@ -13,7 +13,7 @@
       <br>
       <% collection_content(@tasks) do %>
         <h3>My Stories (all projects):</h3>
-        <%= render( :partial => 'tasks/task_list_table', :locals => { :tasks => @tasks, :hide_cols => [:owner, :action ]}) %>
+        <%= render( :partial => 'tasks/tasks', :locals => {:hide_cols => [:owner, :action ]}) %>
       <% end %>
     </td>
   </tr>

@@ -80,8 +80,20 @@ module ApplicationHelper
     link_to_remote(options[:value] || acceptancetest.name, :url => edit_project_acceptancetest_path(@project, acceptancetest), :method => :get)
   end
   
+  def link_to_edit_task(task, options={})
+    link_to_remote(options[:value] || task.name, :url => edit_project_story_task_path(@project, task.story, task), :method => :get)
+  end
+
+  def link_to_delete_task(task, options={})
+     link_to_remote "Delete", :url => project_story_task_path(@project, task.story, task), :method => :delete, :confirm => "Are you sure you want to delete?"
+  end
+  
+  def link_to_task(task, options={})
+    link_to_remote(options[:value] || task.name, :url => project_story_task_path(@project, task.story, task), :method => :get)
+  end
+  
   def link_to_delete_acceptancetest(acceptancetest)
-    link_to "Delete", project_acceptancetest_path(@project, acceptancetest), :method => :delete, :confirm => "Are you sure you want to delete?"
+    link_to_remote "Delete", :url => project_acceptancetest_path(@project, acceptancetest), :method => :delete, :confirm => "Are you sure you want to delete?"
   end
   
   def link_to_clone_acceptancetest(acceptancetest)

@@ -5,13 +5,10 @@
 <% collection_content(@stories) do %>
     <br>
     <h3>My Stories:</h3>
-    <%= render( :partial => 'stories/stories', :locals => {:hide_cols => [ :checkbox, :owner, :project ]} ) %>
+    <%= render :partial => 'stories/stories', :locals => {:hide_cols => [ :checkbox, :owner, :project ]} %>
 <% end %>
 <br>
 <% collection_content(@tasks) do %>
     <h3>My Tasks:</h3>
-    <%= render( :partial => 'tasks/task_list_table',
-                :locals => { :tasks => @tasks,
-                             :hide_cols => [ :project, :owner ],
-                             :base_path => @project.id.to_s + '/'}) %>
+    <%= render :partial => 'tasks/tasks', :locals => {:hide_cols => [ :project, :owner ]} %>
 <% end %>

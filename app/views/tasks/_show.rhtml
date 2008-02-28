@@ -1,0 +1,9 @@
+<a href="javascript:void(0);" onclick="cClick();">close</a>
+<h3><%= @task.name %></h3>
+<%= textilize(@task.description) %>
+<strong>Owner</strong>
+<%= @task.owner.full_name if @task.owner %>
+<strong>Complete</strong>
+<%= @task.complete ? "Yes" : "No" %>
+<%= link_to_edit_task(@task, :value => "Edit") %>
+

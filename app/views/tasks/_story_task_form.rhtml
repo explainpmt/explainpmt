@@ -12,7 +12,7 @@
   <label>Complete</label>
   <%= f.radio_button :complete, true %>
   <label>Not Complete</label>
-  <%= f.radio_button :automated, false %>
-  <%=submit_tag @release ? "Update" : "Create" %>
+  <%= f.radio_button :complete, false %>
+  <%=submit_tag @task ? "Update" : "Create" %>
 <% end %>
 <div id="flash_notice"></div>

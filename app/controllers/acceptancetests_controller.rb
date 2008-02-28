@@ -63,9 +63,12 @@ class AcceptancetestsController < ApplicationController
   
   def destroy
     acceptancetest = Acceptancetest.find params[:id]
-    acceptancetest.destroy
-    flash[:status] = "Acceptance Test \"#{acceptancetest.name}\" has been deleted."
-    redirect_to project_acceptancetests_path(@project)
+    render :update do |page|
+      if acceptancetest.destroy
+        flash[:status] = "Acceptance Test \"#{acceptancetest.name}\" has been deleted."
+        page.call 'location.reload'
+      end
+    end
   end
 
   def clone_acceptance
@@ -75,17 +78,6 @@ class AcceptancetestsController < ApplicationController
     render :update do |page|
       page.call 'location.reload'
     end 
-  end
-    
-  
-  
-  def delete_from_story
-    acceptance = Acceptancetest.find params[:id]
-    acceptance.destroy
-    flash[:status] = "#{mymodel.name} \"#{acceptance.name}\" has been deleted."
-    redirect_to :controller => 'stories', :action => 'show', 
-      :id => acceptance.story_id,
-      :project_id => @project.id
   end
 
 end

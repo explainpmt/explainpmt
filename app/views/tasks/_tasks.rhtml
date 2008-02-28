@@ -2,51 +2,26 @@
 <table class="sort-table" id="task-table" cellspacing="0" cellpadding="3" border="0" width="100%">
   <thead>
     <tr>
-        <% unless hide_cols.include?( :project ) %><td>Project</td><% end %>
-        <% unless hide_cols.include?( :iteration ) %><td>Iteration</td><% end %>
-        <% unless hide_cols.include?( :story ) %><td>SCID</td>
-        <td>Story</td><% end %>
-        <td>Task</td>
-        <td>Complete</td>
-        <% unless hide_cols.include?( :owner ) %><td>Owner</td><% end %>
-        <% unless hide_cols.include?( :action ) %><td>Action</td><% end %>
+      <% column_content_for(hide_cols, :project) do %><td>Project</td><% end %>
+      <% column_content_for(hide_cols, :iteration) do %><td>Iteration</td><% end %>
+      <% column_content_for(hide_cols, :story) do %><td>SCID</td><td>Story</td><% end %>
+      <td>Task</td>
+      <td>Complete</td>
+      <% column_content_for(hide_cols, :owner) do %><td>Owner</td><% end %>
+      <% column_content_for(hide_cols, :action) do %><td>Action</td><% end %>
     </tr>
   </thead>
   <tbody>
-  
-      <%= render( :partial => 'tasks/task', :collection => @tasks, :locals => { :hide_cols => hide_cols } ) %>
+    <%= render( :partial => 'tasks/task', :collection => @tasks, :locals => { :hide_cols => hide_cols } ) %>
   </tbody>
 </table>
 <script type="text/javascript">
-var st2 = new SortableTable(document.getElementById("task-table"),
-	[<% unless hide_cols.include?( :project ) %>"CaseInsensitiveString",<% end %>
-	<% unless hide_cols.include?( :iteration )%>"CaseInsensitiveString",<% end %>
-	<% unless hide_cols.include?( :story )%> "SCID", "CaseInsensitiveString",<% end %>
-	"CaseInsensitiveString","CaseInsensitiveString",
-	<% unless hide_cols.include?( :owner )%>"CaseInsensitiveString",<% end %>
-	<% unless hide_cols.include?( :action ) %>",None"<% end %>]);
-	MaintainSort(st2);
-	
-function OpenNew(selectValue, action, w, h){
-	window.open("<%=base_path%>tasks/" + action + "/" + selectValue , action + "_task","width=" + w + ",height=" + h + ",scrollbars,resizable");
-}
-
-function handleSelect(select){
-	selectValue = select.value;
-	if (select.selectedIndex == 1){OpenNew(selectValue, "edit", "525", "325");}
-
-	else if (select.selectedIndex == 2){
-		var x = confirm("Are you sure you want to delete?");
-		if (x){
-			if(window.location.href.indexOf('/stories/') < 0){
-			 window.location.href = "<%=base_path%>tasks/delete_from_dashboard/" + select.value
-			}else{
-			 window.location.href = "<%=base_path%>tasks/delete/" + select.value
-			 }
-	    }
-	}
-	select.value = "";
-	return false;
-}
+  var st2 = new SortableTable(document.getElementById("task-table"),
+    [<% column_content_for(hide_cols, :project) do %>"CaseInsensitiveString",<% end %>
+    <% column_content_for(hide_cols, :iteration) do %>"CaseInsensitiveString",<% end %>
+    <% column_content_for(hide_cols, :story) do %> "SCID", "CaseInsensitiveString",<% end %>
+    "CaseInsensitiveString","CaseInsensitiveString",
+    <% column_content_for(hide_cols, :owner) do %>"CaseInsensitiveString",<% end %>
+    <% column_content_for(hide_cols, :action) do %>",None"<% end %>]);
+  MaintainSort(st2);
 </script>
-  

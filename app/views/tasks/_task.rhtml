@@ -1,73 +1,33 @@
      <tr>
-	 <% unless hide_cols.include?( :project ) %>
-	   <td><%= link_to(task.story.project.name, :controller => 'dashboard',
-            :action => 'index', :project_id => task.story.project.id) %></td>
-     <% end %>
+	 <% column_content_for(hide_cols, :project) do %>
+	   <td><%= link_to(task.story.project.name, project_dashboard_path(task.story.project)) %></td>
+   <% end %>
       
-     <% unless hide_cols.include?( :iteration ) %>
-      <td><% if task.story.iteration_id? %>
-		<%=link_to(task.story.iteration.name,
-         {:controller => 'iterations',
-         :action => 'show',
-         :id => task.story.iteration_id,
-         :project_id => task.story.project.id })%><%else%>Not Assigned<%end%></td>
-     <% end %>
-     
-    <% unless hide_cols.include?( :story ) %>
-          <td><%= popup_link('SC' + task.story.scid.to_s, "story_#{task.story.id}",
-                   'width=600,height=600,scrollbars,resizable',
-                   :controller => 'stories',
-                   :action => 'show',
-                   :id => task.story.id,
-                   :project_id => task.story.project.id)%></td>
-          <td><%= popup_link(task.story.title, "story_#{task.story.id}",
-                   'width=600,height=600,scrollbars,resizable',
-                   :controller => 'stories',
-                   :action => 'show',
-                   :id => task.story.id,
-                   :project_id => task.story.project.id)%>
-               <% if task.story.description? %>
-                     <%= image_tag( 'info-icon.gif', :alt => task.story.description ) %>
-               <% end %>
-          </td>
+   <% column_content_for(hide_cols, :iteration) do %>
+     <td><%= task.story.iteration_id ? link_to(task.story.iteration.name, project_iteration_path(task.story.iteration)) : "Not Assigned" %></td>
+   <% end %>
+   
+    <% column_content_for(hide_cols, :story) do %>
+          <td><%= link_to_story_with_sc(task.story)%></td>
+          <td><%= link_to_story(task.story)%><%=image_tag('info-icon.gif', :alt => truncate(task.story.description, 35)) if task.story.description? %></td>
       <% end %>
       
-      <td><%= popup_link(task.name, "story_#{task.id}",
-               'width=525,height=325,scrollbars,resizable',
-               :controller => 'tasks',
-               :action => 'show',
-               :id => task.id,
-               :project_id => task.story.project.id)%>
-             <% if task.description? %>
-                     <%= image_tag( 'info-icon.gif', :alt => task.description ) %>
-              <% end %>         
-      </td>
+      <td><%= link_to_task(task)%><%= image_tag( 'info-icon.gif', :alt => task.description ) if task.description? %></td>
       <td><%if task.complete == true %>Yes<%else%>No<% end %></td>
 
-      <% unless hide_cols.include?( :owner ) %>
+      <% column_content_for(hide_cols, :owner) do %>
           <td><% if task.owner %>
         		<%= task.owner.full_name %> 
-        		<%= '(' + link_to('release', 
-        			:controller => 'tasks', :action => 'release_ownership',
-                    :id => task.id, :project_id => @project.id, :story_id => @story.id) + ')' %>
+        		<%= "(#{link_to_release_task_ownership(task)})" %>
      		  <% else %>
-        		<%='None (' + link_to('take', :controller => 'tasks', 
-        			:action => 'take_ownership', :id => task.id,
-                    :project_id => @project.id, :story_id => @story.id) + '/' +
-                   popup_link('assign', 'edit_story', 'width=250,height=500,scrollbars,resizable',
-                   		   :controller => 'tasks',
-                           :action => 'assign_owner', :id => task.id,
-                           :project_id => @project.id) + ')'%>
+        		<%='None (' + link_to_take_task_ownership(task) + '/' + link_to_assign_task_ownership(task) + ')'%>
       		  <% end %></td>
       <% end %>
       
-     <% unless hide_cols.include?( :action ) %>
-          <td>
-            <select id="choices" onchange="handleSelect(this)">
-                  	<option value="" selected="selected" ></option>
-                  	<option value="<%= task.id %>">Edit</option>
-                  	<option value="<%= task.id %>">Delete</option>
-            </select>
-         </td>
-     <% end %>
-     </tr>
+     <% column_content_for(hide_cols, :action) do %>
+      <td width="8%"> 
+        <%= link_to_edit_task(task, :value => "Edit")%> 
+        <%= link_to_delete_task(task)%>
+      </td>          
+    <% end %>
+ </tr>

@@ -10,7 +10,7 @@
   <% end %>
          
   <td><%= link_to_story(story) %><% if story.description? %>
-      <%= image_tag( 'info-icon.gif', :alt => story.description[0,350] ) %>
+      <%= image_tag( 'info-icon.gif', :alt => story.description[0,35] ) %>
     <% end %></td>
   <td><% if story.initiative_id? %>
       <%=popup_link(story.initiative.name, "initiative_#{story.initiative_id}",
