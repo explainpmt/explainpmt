@@ -35,7 +35,7 @@ return -1;
 
 var OLmMask=null,OLmIframe=null,OLmMaskOn=0,OLmSelectOK=(OLie55||OLop7||OLgek>=20030624)?1:0,OLmRoot='html',OLmGotSc=0,
 OLmScLeft=0,OLmScTop=0,OLmKDH=null,OLmTI=new Array(),OLmTT=new Array("a","button","iframe","input","select","textarea"),
-OLmEdit=0;	
+OLmEdit=1;
 
 function OLchkModal(){
 if(o3_modal){if(OLsaf&&!o3_modalscroll){o3_modalscroll=1;return;}if(o3_sticky&&!OLns4)OLmInitMask();else o3_modal=0;}

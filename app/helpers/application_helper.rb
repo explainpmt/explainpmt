@@ -7,15 +7,15 @@ module ApplicationHelper
   include ProjectsHelper
   include ReleasesHelper
   include StoriesHelper
-  
+
   def admin_content(&block)
     yield if is_admin?
   end
-  
+
   def collection_content(collection, &block)
     yield collection if collection and collection.size > 0
   end
-  
+
   def empty_collection_content(collection, &block)
     yield if collection.size == 0
   end
@@ -23,19 +23,19 @@ module ApplicationHelper
   def column_content_for(cols, column, &block)
     yield unless cols.include?(column)
   end
-  
+
   def owner_select_list
     options = "<option value=''></option>"
     @project.users.each do |u|
       options << "<option value='#{u.id}'>#{u.full_name}</option"
-    end   
+    end
     options
   end
-  
+
   VERSION = 'dev trunk'
-  
+
   def is_admin?
-    current_user.admin
+    current_user && current_user.admin
   end
 
   def other_projects
@@ -128,7 +128,7 @@ module ApplicationHelper
       @selected_main_menu_link : controller.controller_name
     if (block_given? and yield) or
         (!block_given? and selected_controller.to_s == options[:controller].to_s)
-      
+
       html_options = { 'class' => 'current' }
     else
       html_options = {}
@@ -155,23 +155,23 @@ module ApplicationHelper
   def numeric_date(date)
     date.strftime('%m/%d/%Y')
   end
-  
+
   def collection_select_with_current(object, method, collection, value_method, text_method, current_value)
-    result = "<select name='#{object}[#{method}]'>\n" 
-    if current_value == nil 
+    result = "<select name='#{object}[#{method}]'>\n"
+    if current_value == nil
       result << "<option value=''selected='selected'></option>"
     else
       result << "<option value=''></option>"
     end
     for element in collection
       if current_value == element.send(value_method)
-        result << "<option value='#{element.send(value_method)}' selected='selected'>#{element.send(text_method)}</option>\n" 
+        result << "<option value='#{element.send(value_method)}' selected='selected'>#{element.send(text_method)}</option>\n"
       else
-        result << "<option value='#{element.send(value_method)}'>#{element.send(text_method)}</option>\n" 
+        result << "<option value='#{element.send(value_method)}'>#{element.send(text_method)}</option>\n"
       end
     end
-    result << "</select>\n" 
+    result << "</select>\n"
     return result
   end
-  
+
 end

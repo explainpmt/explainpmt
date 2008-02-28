@@ -1,25 +1,30 @@
-<% remote_form_for :acceptancetest, :url => url, :method => (@acceptancetest ? :put : :post) do |f| %>
-  <a href="javascript:void(0);" onclick="cClick();">close</a>
-  <%= f.hidden_field( :story_id , :value => @story.id) if @story %>
-  <h2>Acceptance Test Information</h2>
-  <label>Name</label>
-  <%= f.text_area :name, :cols => 40, :rows => 2 %>
-  <label>Description</label>
-  <%= f.text_area :description, :cols => 40, :rows => 2%>
-  <label>Pre Condition</label>
-  <%= f.text_area :pre_condition, :cols => 40, :rows => 2%>
-  <label>Post Condition</label>
-  <%= f.text_area :post_condition, :cols => 40, :rows => 2%>
-  <label>Expected Result</label>
-  <%= f.text_area :expected_result, :cols => 40, :rows => 2%>
-  <label>Automated</label>
-  <%= f.radio_button :automated, true %>
-  <label>Manual</label>
-  <%= f.radio_button :automated, false %>
-  <label>Pass</label>
-  <%= f.radio_button :pass, true %>
-  <label>Fail</label>
-  <%= f.radio_button :pass, false %>
-  <%= submit_tag @acceptancetest ? "Update" : "Create" %>
-<% end %>
-<div id="flash_notice"></div>
+<div class="popup">
+	<% remote_form_for :acceptancetest, :url => url, :method => (@acceptancetest ? :put : :post) do |f| %>
+	  <a href="javascript:void(0);" onclick="cClick();">close</a>
+	  <%= f.hidden_field( :story_id , :value => @story.id) if @story %>
+	  <h2>Acceptance Test Information</h2>
+	  <label>Name</label>
+	  <%= f.text_area :name, :cols => 40, :rows => 2 %>
+	  <label>Description</label>
+	  <%= f.text_area :description, :cols => 40, :rows => 2%>
+	  <label>Pre Condition</label>
+	  <%= f.text_area :pre_condition, :cols => 40, :rows => 2%>
+	  <label>Post Condition</label>
+	  <%= f.text_area :post_condition, :cols => 40, :rows => 2%>
+	  <label>Expected Result</label>
+	  <%= f.text_area :expected_result, :cols => 40, :rows => 2%>
+	  <br /><br />
+	  <%= f.radio_button :automated, true %>
+	  <label for="acceptancetest_automated_true" class="inline">Automated</label>
+	  <%= f.radio_button :automated, false %>
+	  <label for="acceptancetest_automated_false" class="inline">Manual</label>
+	  <%= f.radio_button :pass, true %>
+	  <label for="acceptancetest_pass_true" class="inline">Pass</label>
+	  <%= f.radio_button :pass, false %>
+	  <label for="acceptancetest_pass_false" class="inline">Fail</label>
+	  <div class="submit">
+	  	<%= submit_tag @acceptancetest ? "Update" : "Create" %>
+	  </div>
+	<% end %>
+	<div id="flash_notice"></div>
+</div>
