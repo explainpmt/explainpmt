@@ -1,7 +1,7 @@
 (<%= link_to_edit_story(@story, :value => "Edit") %>)
 (<%= link_to_new_task(@story) %>)
 (<%= link_to_new_acceptance_for(@story) %>)
-(<%= link_to_audit(@story) %>)
+(<%= link_to_audit_story(@story) %>)
 <h3><%= "SC#{@story.scid} #{@story.title}" %></h3>
 <strong>Created</strong>
 <%= short_date(@story.created_at) %> <%= "(#{@story.creator.full_name})" if @story.creator %>

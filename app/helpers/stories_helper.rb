@@ -51,7 +51,7 @@ module StoriesHelper
     link_to_remote('Add Acceptance', :url => new_project_story_acceptancetest_path(@project, story), :method => :get)
   end
   
-  def link_to_audit(story)
+  def link_to_audit_story(story)
     link_to_remote('View History', :url => audit_project_story_path(@project, story), :method => :get)
   end
   

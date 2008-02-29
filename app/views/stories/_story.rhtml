@@ -31,28 +31,14 @@
   <td><%= story.customer %></td>
   <td><%= story.position %></td>
   <% column_content_for(hide_cols, :action) do %>
-   <td width="20%"> 
+   <td width="15%"> 
       <%= link_to_edit_story(story, :value => "Edit")%> 
       <%= link_to_clone_story(story)%> 
       <%= link_to_delete_story(story)%>
+      <%= link_to_audit_story(story)%>
       <%= link_to_move_story_up(story)%>
       <%= link_to_move_story_down(story)%>
       <%= link_to_edit_story_position(story)%>
-      <%= link_to_story_history(story)%>
-    </td>
-    <td>
-      <select id="story_choices" onchange="handleStorySelect(this)">
-        <option value="" selected="selected" ></option>
-        <option value= "<%= story.id %>" >Show</option>
-        <option value="<%= story.id %>">Edit</option>
-        <option value="<%= story.id %>">Clone</option>
-        <option value="<%= story.id %>">Delete</option>
-        <option value="nothing">-----------</option>
-        <option value="<%= story.id %>">Move Up</option>
-        <option value="<%= story.id %>">Move Down</option>
-        <option value="<%=story.id %>">Insert At</option>
-        <option value="<%=story.id %>">History</option>
-      </select>
     </td>
   <%end%>
 </tr>
