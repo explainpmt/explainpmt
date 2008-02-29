@@ -12,7 +12,7 @@ map.resources :projects, :member => {:audits => :get} do |project|
   project.resources :stories,  
     :member => {:audit => :get, :take_ownership => :put, :release_ownership => :put, :assign_ownership => :get, :assign => :post, :clone_story => :put,
         :move_up => :put, :move_down => :put, :edit_numeric_priority => :get, :set_numeric_priority => :put},
-    :collection => {:move_acceptancetests => :post} do |story|
+    :collection => {:move_acceptancetests => :post, :export => :get, :export_tasks => :get} do |story|
     story.resources :tasks, :member => {:take_ownership => :put, :release_ownership => :put, :assign_ownership => :get, :assign => :post}
     story.resources :acceptancetests
   end

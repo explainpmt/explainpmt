@@ -55,6 +55,15 @@ module StoriesHelper
     link_to_remote('View History', :url => audit_project_story_path(@project, story), :method => :get)
   end
   
+  def link_to_export_stories
+    link_to 'Export All Stories', export_project_stories_path(@project)
+  end
+
+  def link_to_export_tasks
+    link_to 'Export All Tasks', export_tasks_project_stories_path(@project)
+  end
+  
+  
   def story_select_list_for(stories)
     options = ""
     stories.each do |i|

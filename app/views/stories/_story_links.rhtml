@@ -16,7 +16,5 @@
             :action => 'index', :project_id => @project.id,
             :show_all => 1) %>
 &nbsp;&nbsp;&nbsp;
-<%= link_to('Export All Stories', :controller => 'stories',
-              :action => 'export', :project_id => @project.id) %> &nbsp;&nbsp;&nbsp;
-<%= link_to('Export All Tasks', :controller => 'stories',
-              :action => 'export_tasks', :project_id => @project.id) %> 
+<%= link_to_export_stories %> &nbsp;&nbsp;&nbsp;
+<%= link_to_export_tasks %> 

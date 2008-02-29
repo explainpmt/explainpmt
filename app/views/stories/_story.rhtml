@@ -17,7 +17,8 @@
   <td><%= story.risk.name %></td>
   <td><%= story.status.name %></td>
   <% unless hide_cols.include?( :owner ) %>
-    <td><%if story.owner%>
+    <td>
+      <%if story.owner%>
         <%= story.owner.full_name %><%= '- ' + story.owner.team if story.owner.team? %>
         <%= '(' + link_to_release_story_ownership(story) + ')' %>
       <% else %>

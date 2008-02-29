@@ -197,13 +197,18 @@ class StoriesController < ApplicationController
     end 
   end
   
-  
-  
-  
-  def export_tasks
-    export
+  def export
+    headers['Content-Type'] = "application/vnd.ms-excel" 
+    @stories = @project.stories
+    render :layout => false
   end
+  alias export_tasks export
+  
+  
 
+  
+  
+  
   def new_bulk
     @story = Story.new
     @story.return_ids_for_aggregations
