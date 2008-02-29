@@ -17,6 +17,10 @@ th, td {
   vertical-align: top;
 }
 
+textarea {
+	overflow: auto;
+}
+
 a, a:visited {
   border-bottom: 1px dotted;
 }
@@ -353,6 +357,7 @@ form fieldset {
 
 /* popup */
 div.popup {
+	width: 350px;
 	padding: 10px;
 	background: #fff;
 	border: 1px solid #000;
@@ -386,3 +391,8 @@ div.submit input {
 	color: #fff;
 	cursor: pointer;
 }
+
+a.close {
+	float: right;
+}
+

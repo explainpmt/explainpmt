@@ -1,7 +1,7 @@
 <div class="popup">
 	<% remote_form_for :milestone, :url => url, :method => (@milestone ? :put : :post) do |f| %>
-	  <a href="javascript:void(0);" onclick="cClick();">close</a>
-	  <h2>Iteration Information</h2>
+	  <a href="javascript:void(0);" class="close" onclick="cClick();">close</a>
+	  <h2>Milestone</h2>
 	  <label>Date</label>
 	  <%= f.date_select :date %>
 	  <label>Name</label>
@@ -12,5 +12,7 @@
 	  	<%= submit_tag @milestone ? "Update" : "Create" %>
 	  </div>
 	<% end %>
-	<div id="flash_notice"></div>
+	<div id="SystemError">
+		<div id="flash_notice"></div>
+	</div>
 </div>
