@@ -9,6 +9,12 @@ class ApplicationController < ActionController::Base
     session[:current_user]
   end
   
+  def page_reload
+    render :update do |page|
+      page.call 'location.reload'
+    end
+  end
+  
   protected
   
   def set_selected_project
@@ -27,7 +33,7 @@ class ApplicationController < ActionController::Base
   def require_admin_privileges
     unless current_user.admin?
       flash[:error] = "You must be logged in as an administrator to perform " +
-                      "the requested action."
+        "the requested action."
       redirect_to errors_path
       return false
     end
@@ -37,7 +43,7 @@ class ApplicationController < ActionController::Base
     if @project and !current_user.admin?
       unless current_user.projects.include?(@project)
         flash[:error] = 'You do not have permission to access the project, ' +
-                        'because you are not part of the project team.'
+          'because you are not part of the project team.'
         redirect_to errors_path
         return false
       end
@@ -47,8 +53,8 @@ class ApplicationController < ActionController::Base
   def require_current_project
     unless @project
       flash[:error] = "You attempted to access a view that requires a " +
-                      "project to be selected, but no project id was set in " +
-                      "your request."
+        "project to be selected, but no project id was set in " +
+        "your request."
       redirect_to errors_path
       return false
     end

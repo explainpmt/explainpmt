@@ -1,24 +1,19 @@
 class StoriesController < ApplicationController
-
+  before_filter :find_story, :except => [:index, :new, :create, :audit, :export, :export_tasks, :bulk_create]
+  
   def index
     @stories = @project.stories.backlog
   end
   
   def new
-    render :update do |page|
-      page.call 'showPopup', render(:partial => 'stories/story_form', :locals => {:url => project_stories_path(@project)})
-    end 
+    common_popup(project_stories_path(@project))
   end
 
   def edit
-    @story = Story.find params[:id]
-    render :update do |page|
-      page.call 'showPopup', render(:partial => 'stories/story_form', :locals => {:url => project_story_path(@project, @story)})
-    end 
+    common_popup(project_story_path(@project, @story))
   end
   
   def show
-    @story = Story.find params[:id]
     @tasks = @story.tasks
     @acceptancetests = @story.acceptancetests
   end
@@ -41,7 +36,6 @@ class StoriesController < ApplicationController
   
   def update
     modify_risk_status_and_value_params
-    @story = Story.find params[:id]
     @story.attributes = params[:story]
     @story.updater_id = current_user.id
     render :update do |page|
@@ -55,46 +49,22 @@ class StoriesController < ApplicationController
       end
     end
   end
-  
-  def modify_risk_status_and_value_params
-    if params[:story]
-      if params[:story][:status]
-        params[:story][:status] =
-          Story::Status.new(params[:story][:status].to_i)
-      end
-      if params[:story][:value]
-        params[:story][:value] =
-          Story::Value.new(params[:story][:value].to_i)
-      end
-      if params[:story][:risk]
-        params[:story][:risk] =
-          Story::Risk.new(params[:story][:risk].to_i)
-      end
-    end
-  end
 
   def take_ownership
-    @story = Story.find params[:id]
     @story.owner = current_user
     @story.save
     current_user.reload
-    render :update do |page|
-      page.call 'location.reload'
-    end
+    page_reload
   end
   
   def release_ownership
-    @story = Story.find params[:id]
     @story.owner = nil
     @story.save
     current_user.reload
-    render :update do |page|
-      page.call 'location.reload'
-    end
+    page_reload
   end
 
   def assign_ownership
-    @story = Story.find params[:id]
     @users = @project.users
     render :update do |page|
       page.call 'showPopup', render(:partial => 'assign_owner_form')
@@ -102,29 +72,22 @@ class StoriesController < ApplicationController
   end
   
   def assign
-    @story = Story.find params[:id]
     user = User.find params[:owner][:id]
     @story.owner = user
     @story.save
     current_user.reload
-    render :update do |page|
-      page.call 'location.reload'
-    end
+    page_reload
   end
   
   def clone_story
-    @story = Story.find params[:id]
     story = @story.clone
     story.title = "Clone:" + @story.title
     story.scid = nil
     story.save!
-    render :update do |page|
-      page.call 'location.reload'
-    end 
+    page_reload
   end
   
   def destroy
-    @story = Story.find params[:id]
     render :update do |page|
       if @story.destroy
         flash[:status] = "Story \"#{@story.title}\" has been deleted."
@@ -134,23 +97,16 @@ class StoriesController < ApplicationController
   end
   
   def move_up
-    story = Story.find params[:id]
-    story.move_higher
-    render :update do |page|
-      page.call 'location.reload'
-    end
+    @story.move_higher
+    page_reload
   end
   
   def move_down
-    story = Story.find params[:id]
-    story.move_lower
-    render :update do |page|
-      page.call 'location.reload'
-    end
+    @story.move_lower
+    page_reload
   end  
 
   def edit_numeric_priority
-    @story = Story.find params[:id]
     render :update do |page|
       page.call 'showPopup', render(:partial => 'stories/edit_numeric_priority_form')
     end
@@ -162,8 +118,7 @@ class StoriesController < ApplicationController
       if (new_pos.index(/\D/).nil?)
         last_story = @project.last_story
         if(new_pos.to_i <= last_story.position)
-          story = Story.find(params[:id])
-          story.insert_at(new_pos)
+          @story.insert_at(new_pos)
           flash[:status] = 'The changes to the story card have been saved.'
           page.call 'location.reload'
         else
@@ -210,6 +165,34 @@ class StoriesController < ApplicationController
         end
         flash[:status] = 'New story cards created.'
         page.call 'location.reload'
+      end
+    end
+  end
+  
+  protected
+  def common_popup(url)
+    render :update do |page|
+      page.call 'showPopup', render(:partial => 'stories/story_form', :locals => {:url => url})
+    end 
+  end
+  
+  def find_story
+    @story = Story.find params[:id]
+  end
+  
+  def modify_risk_status_and_value_params
+    if params[:story]
+      if params[:story][:status]
+        params[:story][:status] =
+          Story::Status.new(params[:story][:status].to_i)
+      end
+      if params[:story][:value]
+        params[:story][:value] =
+          Story::Value.new(params[:story][:value].to_i)
+      end
+      if params[:story][:risk]
+        params[:story][:risk] =
+          Story::Risk.new(params[:story][:risk].to_i)
       end
     end
   end

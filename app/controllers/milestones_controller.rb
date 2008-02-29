@@ -1,5 +1,5 @@
 class MilestonesController < ApplicationController
-  before_filter :find_milestone, :only => [:edit, :update, :destroy, :show]
+  before_filter :find_milestone, :only => [:edit, :update, :show, :destroy]
   
   def index
     @future = @project.milestones.future
@@ -46,21 +46,21 @@ class MilestonesController < ApplicationController
   
   def destroy
     @milestone.destroy
-    flash[:status] = "#{milestone.name} has been deleted."
+    flash[:status] = "#{@milestone.name} has been deleted."
     redirect_to project_milestones_path(@project)
   end
   
   def show_all
     render :update do |page|
-      page[:recent].replace_html :inline => "<%= milestone_list_for @project.milestones.past, 'past_milestones' %>"
+      page[:recent].replace_html :inline => "<%= past_milestones %>"
       page[:recent_title].replace_html :inline => "All Milesones <small>(<%= link_to_show_recent_milestones %>)</small>"
     end
   end
   
   def show_recent
     render :update do |page|
-      page[:recent].replace_html :inline => "<%= milestone_list_for @project.milestones.recent, 'recent_milestones' %>"
-      page[:recent_title].replace_html :inline => "All Milesones <small>(<%= link_to_show_all_milestones %>)</small>"
+      page[:recent].replace_html :inline => "<%= recent_milestones %>"
+      page[:recent_title].replace_html :inline => "Recent Milesones <small>(<%= link_to_show_all_milestones %>)</small>"
     end
   end
   

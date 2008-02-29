@@ -23,6 +23,14 @@ module MilestonesHelper
     render :partial => 'milestones', :locals => {:milestones => milestones, :table_id => table_id }
   end
   
+  def past_milestones
+    milestone_list_for @project.milestones.past, 'past_milestones'
+  end
+  
+  def recent_milestones
+    milestone_list_for @project.milestones.recent, 'recent_milestones'
+  end
+  
   def link_to_show_milestone(milestone, options={})
     link_to_remote(options[:value] || milestone.name, :url => project_milestone_path(milestone.project, milestone), :method => :get)
   end

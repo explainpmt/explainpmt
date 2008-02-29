@@ -1,5 +1,10 @@
 class IterationsController < ApplicationController
-
+  before_filter :find_iteration, :except => [:index, :new, :create, :move_stories]
+  
+  def find_iteration
+    @iteration = Iteration.find params[:id]
+  end
+  
   def index
     iterations = @project.iterations
     iteration = iterations.current || iterations.previous || iterations.next
@@ -7,22 +12,16 @@ class IterationsController < ApplicationController
   end
 
   def show
-    @iteration = Iteration.find params[:id]
     @stories = @iteration.stories
     @project_iterations = @project.iterations
   end
   
   def new
-    render :update do |page|
-      page.call 'showPopup', render(:partial => 'iteration_form', :locals => {:url => project_iterations_path(@project)})
-    end 
+    common_popup(project_iterations_path(@project))
   end
 
   def edit
-    @iteration = Iteration.find params[:id]
-    render :update do |page|
-      page.call 'showPopup', render(:partial => 'iteration_form', :locals => {:url => project_iteration_path(@project, @iteration)})
-    end 
+    common_popup(project_iteration_path(@project, @iteration))
   end
   
   def create
@@ -39,10 +38,9 @@ class IterationsController < ApplicationController
   end
 
   def update
-    iteration = Iteration.find params[:id]
     render :update do |page|
-      if iteration.update_attributes(params[:iteration])
-        flash[:status] = "Iteration \"#{iteration.name}\" has been updated."
+      if @iteration.update_attributes(params[:iteration])
+        flash[:status] = "Iteration \"#{@iteration.name}\" has been updated."
         page.redirect_to project_iterations_path(@project)
       else
         page[:flash_notice].replace_html :inline => "<%= error_container(@iteration.errors.full_messages[0]) %>"
@@ -51,7 +49,6 @@ class IterationsController < ApplicationController
   end
 
   def allocation
-    @iteration = Iteration.find params[:id]
     @allocations = @iteration.points_by_user
     @users = @project.users
     render :update do |page|
@@ -65,7 +62,6 @@ class IterationsController < ApplicationController
       s.status != Story::Status::New and
         s.status != Story::Status::Cancelled
     }
-    @iteration = Iteration.find params[:id]
     render :update do |page|
       page.call 'showPopup', render(:partial => 'select_stories')
     end 
@@ -73,7 +69,6 @@ class IterationsController < ApplicationController
 
   def assign_stories
     change_story_assignment
-    @iteration = Iteration.find params[:id]
     redirect_to project_iteration_path(@project, @iteration)
   end  
 
@@ -89,19 +84,17 @@ class IterationsController < ApplicationController
   
   def export
     headers['Content-Type'] = "application/vnd.ms-excel" 
-    @iteration = Iteration.find params[:id]
     @stories = @iteration.stories
     render :layout => false
   end
+  alias export_tasks export
   
-  def export_tasks
-    headers['Content-Type'] = "application/vnd.ms-excel" 
-    @iteration = Iteration.find params[:id] 
-    @stories = @iteration.stories
-    render :layout => false
+  protected
+  def common_popup(url)
+    render :update do |page|
+      page.call 'showPopup', render(:partial => 'iteration_form', :locals => {:url => url})
+    end
   end
-  
-  private
 
   def change_story_assignment
     stories = Story.find(params[:selected_stories] || [])

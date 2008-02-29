@@ -58,9 +58,7 @@ class AcceptancetestsController < ApplicationController
     acceptancetest = @acceptancetest.clone
     acceptancetest.name = "Clone:" + acceptancetest.name
     acceptancetest.save
-    render :update do |page|
-      page.call 'location.reload'
-    end 
+    page_reload
   end
   
   def export

@@ -57,18 +57,14 @@ class TasksController < ApplicationController
     @task.owner = current_user
     @task.save
     current_user.reload
-    render :update do |page|
-      page.call 'location.reload'
-    end
+    page_reload
   end
 
   def release_ownership
     @task.owner = nil
     @task.save
     current_user.reload
-    render :update do |page|
-      page.call 'location.reload'
-    end
+    page_reload
   end
   
   def assign_ownership
@@ -83,9 +79,7 @@ class TasksController < ApplicationController
     @task.owner = user
     @task.save
     current_user.reload
-    render :update do |page|
-      page.call 'location.reload'
-    end
+    page_reload
   end
   
   def find_task
