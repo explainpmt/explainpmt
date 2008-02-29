@@ -1,5 +1,4 @@
 <% iterations = @project.iterations%>
-  
 <%= form_tag move_stories_project_iterations_path(@project) %>
 <div style="text-align: right;">
   <% empty_collection_content(iterations) do %>

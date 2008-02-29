@@ -1,8 +1,12 @@
-<% remote_form_for :owner, :url => assign_project_story_path(@project, @story) do |f| %>
-  <a href="javascript:void(0);" onclick="cClick();">close</a>
-  <% @users.each do |m| %>
-    <%= f.radio_button :id, m.id %>
-    <label style="display:inline"><%= m.first_name %>,<%= m.last_name %></label>
+<div class="small_popup">
+  <% remote_form_for :owner, :url => assign_project_story_path(@project, @story) do |f| %>
+    <a href="javascript:void(0);" class="close" onclick="cClick();">close</a><br />
+    <% @users.each do |m| %>
+      <%= f.radio_button :id, m.id %>
+      <label style="display:inline"><%= m.first_name %>,<%= m.last_name %></label>
+    <% end %>
+    <div class="submit">
+      <%= submit_tag "Assign" %>
+    </div>
   <% end %>
-  <%= submit_tag "Assign" %>
-<% end %>
+</div>
