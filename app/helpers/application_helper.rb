@@ -7,6 +7,7 @@ module ApplicationHelper
   include ProjectsHelper
   include ReleasesHelper
   include StoriesHelper
+  include TasksHelper
 
   def admin_content(&block)
     yield if is_admin?

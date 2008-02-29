@@ -9,7 +9,9 @@ map.resources :projects, :member => {:audits => :get} do |project|
   project.resources :users
   project.resources :releases
   project.resources :initiatives
-  project.resources :stories,  :member => {:audit => :get}, :collection => {:move_acceptancetests => :post} do |story|
+  project.resources :stories,  
+    :member => {:audit => :get, :take_ownership => :put, :release_ownership => :put, :assign_ownership => :get, :assign => :post},
+    :collection => {:move_acceptancetests => :post} do |story|
     story.resources :tasks, :member => {:take_ownership => :put, :release_ownership => :put, :assign_ownership => :get, :assign => :post}
     story.resources :acceptancetests
   end

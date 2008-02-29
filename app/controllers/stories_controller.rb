@@ -83,8 +83,47 @@ class StoriesController < ApplicationController
     end
   end
 
+  def take_ownership
+    @story = Story.find params[:id]
+    @story.owner = current_user
+    @story.save
+    current_user.reload
+    render :update do |page|
+      page.call 'location.reload'
+    end
+  end
+  
+  def release_ownership
+    @story = Story.find params[:id]
+    @story.owner = nil
+    @story.save
+    current_user.reload
+    render :update do |page|
+      page.call 'location.reload'
+    end
+  end
 
-
+  def assign_ownership
+    @story = Story.find params[:id]
+    @users = @project.users
+    render :update do |page|
+      page.call 'showPopup', render(:partial => 'assign_owner_form')
+    end 
+  end
+  
+  def assign
+    @story = Story.find params[:id]
+    user = User.find params[:owner][:id]
+    @story.owner = user
+    @story.save
+    current_user.reload
+    render :update do |page|
+      page.call 'location.reload'
+    end
+  end
+  
+  
+  
   
   
   
@@ -166,31 +205,6 @@ class StoriesController < ApplicationController
       :project_id => @project.id
   end
 
-
-  def take_ownership
-    story = Story.find params[:id]
-    story.owner = current_user
-    story.save
-    current_user.reload
-    flash[:status] = "SC#{story.scid} has been updated."
-    redirect_to :controller => 'iterations', :action => 'show',
-      :id => story.iteration.id.to_s, :project_id => @project.id.to_s
-  end
-
-  def release_ownership
-    story = Story.find params[:id]
-    story.owner = nil
-    story.save
-    current_user.reload    
-    flash[:status] = "SC#{story.scid} has been updated."
-    redirect_to :controller => 'iterations', :action => 'show',
-      :id => story.iteration.id.to_s, :project_id => @project.id.to_s
-  end
-  
-  def assign_owner
-    @story = Story.find params[:id]
-    @users = @project.users
-  end
     
   def move_acceptancetests
     change_acceptancetest_assignment

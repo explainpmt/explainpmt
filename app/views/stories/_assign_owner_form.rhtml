@@ -1,22 +1,8 @@
-<fieldset>
-  <legend>Story Card Owner</legend>
-  <%= error_messages_for('story') %>
-  <table class="form_layout">
-    <% @users.each do |m| %>
-     <tr>
-       <td> 	
-         <%= radio_button('story', 'user_id', m.id) %>
-   	     <label for="edit_owner"><%= m.first_name %> <%= m.last_name %></label>	
-	   </td>
-     </tr> 
+<% remote_form_for :owner, :url => assign_project_story_path(@project, @story) do |f| %>
+  <a href="javascript:void(0);" onclick="cClick();">close</a>
+  <% @users.each do |m| %>
+    <%= f.radio_button :id, m.id %>
+    <label style="display:inline"><%= m.first_name %>,<%= m.last_name %></label>
   <% end %>
-    <tr>
-      <td colspan="2" class="form_actions">
-        <input type="submit" name="submit"
-         value="Assign Owner" />
-        &nbsp;&nbsp;
-        <a href="javascript:window.close();">Cancel</a>
-      </td>
-    </tr>
-  </table>
-</fieldset>
+  <%= submit_tag "Assign" %>
+<% end %>

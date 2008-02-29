@@ -1,56 +1,36 @@
 <tr>
   <td nowrap>
-    <% column_content_for(hide_cols, :checkbox ) do %>
-      <%= check_box_tag 'selected_stories[]', story.id, false, :id => "SC_Check_#{story.id}"%>&nbsp;
+    <% column_content_for(hide_cols, :checkbox) do %>
+      <%= check_box_tag 'selected_stories[]', story.id, false, :id => "sc_check_#{story.id}"%>&nbsp;
     <% end %>
-    <label style="display:inline" for="SC_Check_#{story.id}"><%= "SC#{story.scid}" %></label></td>
+    <label style="display:inline" for="sc_check_<%= story.id %>"><%= "SC#{story.scid}" %></label>
+  </td>
   
   <% column_content_for(hide_cols, :project ) do %>
     <td><%= link_to(story.project.name, project_dashboard_path(story.project)) %></td>
   <% end %>
-         
-  <td><%= link_to_story(story) %><% if story.description? %>
-      <%= image_tag( 'info-icon.gif', :alt => story.description[0,35] ) %>
-    <% end %></td>
-  <td><% if story.initiative_id? %>
-      <%=popup_link(story.initiative.name, "initiative_#{story.initiative_id}",
-        'width=500,height=325,scrollbars,resizable',
-        {:controller => 'initiatives',
-          :action => 'show',
-          :id => story.initiative_id,
-          :project_id => story.project.id })%><%else%>Not Assigned<%end%></td>
+                           
+  <td><%= link_to_story(story) %><%= image_tag( 'info-icon.gif', :alt => truncate(story.description, 35)) if story.description?%></td>
+  <td><%= story.initiative_id? ? link_to_edit_initiative(story.initiative) : "Not Assigned" %></td>
   <td><%= story.points %></td>
   <td><%= story.value.name %></td>
   <td><%= story.risk.name %></td>
   <td><%= story.status.name %></td>
   <% unless hide_cols.include?( :owner ) %>
     <td><%if story.owner%>
-        <%= story.owner.full_name %>
-        <%if story.owner.team?%><%= '- ' + story.owner.team %><%end%>
-        <%= '(' + link_to('release', 
-          :controller => 'stories', :action => 'release_ownership',
-          :id => story.id, :project_id => story.project.id) + ')' %>
+        <%= story.owner.full_name %><%= '- ' + story.owner.team if story.owner.team? %>
+        <%= '(' + link_to_release_story_ownership(story) + ')' %>
       <% else %>
-        <%='None (' + link_to('take', :controller => 'stories', 
-          :action => 'take_ownership', :id => story.id,
-          :project_id => story.project_id) + '/' +
-          popup_link('assign', 'edit_story', 'width=250,height=500,scrollbars,resizable',
-          :controller => 'stories',
-          :action => 'assign_owner', :id => story.id,
-          :project_id => story.project_id) + ')'%>
-      <% end %></td>
-    <%end%>
-    <% unless hide_cols.include?( :iteration ) %>
-    <td><% if story.iteration_id? %>
-        <%=link_to(story.iteration.name,
-          {:controller => 'iterations',
-            :action => 'show',
-            :id => story.iteration_id,
-            :project_id => story.project.id })%><%else%>Not Assigned<%end%></td>
-    <% end %>
-  <td> <% if story.customer %> <%= story.customer %> <%end%></td>
-  <td> <%= story.position %> </td>
-  <% unless hide_cols.include?( :action ) %>
+        <%='None (' + link_to_take_story_ownership(story) + '/' + link_to_assign_story_ownership(story) + ')'%>
+      <% end %>
+    </td>
+  <%end%>
+  <% column_content_for(hide_cols, :iteration ) do %>
+    <td><%= story.iteration_id? ? link_to_iteration(story.iteration) : "Not Assigned" %></td>
+  <% end %>
+  <td><%= story.customer %></td>
+  <td><%= story.position %></td>
+  <% column_content_for(hide_cols, :action) do %>
     <td>
       <select id="story_choices" onchange="handleStorySelect(this)">
         <option value="" selected="selected" ></option>
