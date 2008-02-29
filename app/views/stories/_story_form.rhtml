@@ -1,6 +1,6 @@
 <div class="popup">
 	<% remote_form_for :story, :url => url, :method => (@story ? :put : :post) do |f| %>
-	  <a href="javascript:void(0);" onclick="cClick();">close</a>
+	  <a href="javascript:void(0);" class="close" onclick="cClick();">close</a>
 	  <h2>Story Card Details</h2>
 	  <label>Title</label>
 	  <%= f.text_field :title %>

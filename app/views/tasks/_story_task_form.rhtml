@@ -1,18 +1,22 @@
-<% remote_form_for :task, :url => url, :method => (@task ? :put : :post) do |f| %>
-  <a href="javascript:void(0);" onclick="cClick();">close</a>
-  <h2>Task Information</h2>
-  <label>Name</label>
-  <%=f.text_field :name%>
-  <label>Description</label>
-  <%= f.text_area(:description, :cols => 40, :rows => 3) %>
-  <label>Owner</label>
-  <select id="story_task" name="task[user_id]">
-    <%= owner_select_list %>
-  </select>
-  <label>Complete</label>
-  <%= f.radio_button :complete, true %>
-  <label>Not Complete</label>
-  <%= f.radio_button :complete, false %>
-  <%=submit_tag @task ? "Update" : "Create" %>
-<% end %>
-<div id="flash_notice"></div>
+<div class="popup">
+  <% remote_form_for :task, :url => url, :method => (@task ? :put : :post) do |f| %>
+    <a href="javascript:void(0);" class="close" onclick="cClick();">close</a>
+    <h2>Task Details</h2>
+    <label>Name</label>
+    <%=f.text_field :name%>
+    <label>Description</label>
+    <%= f.text_area(:description, :cols => 40, :rows => 3) %>
+    <label>Owner</label>
+    <select id="story_task" name="task[user_id]">
+      <%= owner_select_list %>
+    </select>
+    <label>Complete</label>
+    <%= f.radio_button :complete, true %>
+    <label>Not Complete</label>
+    <%= f.radio_button :complete, false %>
+    <div class="submit">
+      <%=submit_tag @task ? "Update" : "Create" %>
+    </div>
+  <% end %>
+  <div id="flash_notice"></div>
+</div>

@@ -15,7 +15,7 @@ class IterationsController < ApplicationController
   
   def new
     render :update do |page|
-      page.call 'showPopup', render(:partial => 'iteration_popup', :locals => {:url => project_iterations_path(@project)})
+      page.call 'showPopup', render(:partial => 'iteration_form', :locals => {:url => project_iterations_path(@project)})
       page.call 'autoFocus', "iteration_name", 500
     end 
   end
@@ -23,20 +23,20 @@ class IterationsController < ApplicationController
   def edit
     @iteration = Iteration.find params[:id]
     render :update do |page|
-      page.call 'showPopup', render(:partial => 'iteration_popup', :locals => {:url => project_iteration_path(@project, @iteration)})
+      page.call 'showPopup', render(:partial => 'iteration_form', :locals => {:url => project_iteration_path(@project, @iteration)})
       page.call 'autoFocus', "iteration_name", 500
     end 
   end
   
   def create
-    iteration = Iteration.new params[:iteration]
-    iteration.project = @project
+    @iteration = Iteration.new params[:iteration]
+    @iteration.project = @project
     render :update do |page|
-      if iteration.save
-        flash[:status] = "New Release \"#{iteration.name}\" has been created."
+      if @iteration.save
+        flash[:status] = "New Release \"#{@iteration.name}\" has been created."
         page.redirect_to project_iterations_path(@project)
       else
-        page[:flash_notice].replace_html iteration.errors.full_messages[0]
+        page[:flash_notice].replace_html :inline => "<%= error_container(@iteration.errors.full_messages[0]) %>"
       end
     end    
   end
@@ -48,7 +48,7 @@ class IterationsController < ApplicationController
         flash[:status] = "Iteration \"#{iteration.name}\" has been updated."
         page.redirect_to project_iterations_path(@project)
       else
-        page[:flash_notice].replace_html iteration.errors.full_messages[0]
+        page[:flash_notice].replace_html :inline => "<%= error_container(@iteration.errors.full_messages[0]) %>"
       end
     end
   end

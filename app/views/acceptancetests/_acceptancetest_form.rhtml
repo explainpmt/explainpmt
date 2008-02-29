@@ -1,8 +1,8 @@
 <div class="popup">
 	<% remote_form_for :acceptancetest, :url => url, :method => (@acceptancetest ? :put : :post) do |f| %>
-	  <a href="javascript:void(0);" onclick="cClick();">close</a>
+	  <a href="javascript:void(0);" class="close" onclick="cClick();">close</a>
 	  <%= f.hidden_field( :story_id , :value => @story.id) if @story %>
-	  <h2>Acceptance Test Information</h2>
+	  <h2>Acceptance Test Details</h2>
 	  <label>Name</label>
 	  <%= f.text_area :name, :cols => 40, :rows => 2 %>
 	  <label>Description</label>

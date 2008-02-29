@@ -14,7 +14,7 @@ class StoriesController < ApplicationController
   
   def new
     render :update do |page|
-      page.call 'showPopup', render(:partial => 'stories/story_form_popup', :locals => {:url => project_stories_path(@project)})
+      page.call 'showPopup', render(:partial => 'stories/story_form', :locals => {:url => project_stories_path(@project)})
       page.call 'autoFocus', "story_name", 500
     end 
   end
@@ -22,7 +22,7 @@ class StoriesController < ApplicationController
   def edit
     @story = Story.find params[:id]
     render :update do |page|
-      page.call 'showPopup', render(:partial => 'stories/story_form_popup', :locals => {:url => project_story_path(@project, @story)})
+      page.call 'showPopup', render(:partial => 'stories/story_form', :locals => {:url => project_story_path(@project, @story)})
       page.call 'autoFocus', "story_name", 500
     end 
   end
@@ -35,33 +35,33 @@ class StoriesController < ApplicationController
   
   def create
     modify_risk_status_and_value_params
-    story = Story.new params[:story]
-    story.project = @project
-    story.iteration_id = params[:iteration_id]
-    story.creator_id = current_user.id
+    @story = Story.new params[:story]
+    @story.project = @project
+    @story.iteration_id = params[:iteration_id]
+    @story.creator_id = current_user.id
     render :update do |page|
-      if story.save
+      if @story.save
         flash[:status] = 'The new story card has been saved.'
         page.call 'location.reload'
       else
-        page[:flash_notice].replace_html story.errors.full_messages[0]        
+        page[:flash_notice].replace_html :inline => "<%= error_container(@story.errors.full_messages[0]) %>"      
       end
     end
   end
   
   def update
     modify_risk_status_and_value_params
-    story = Story.find params[:id]
-    story.attributes = params[:story]
-    story.updater_id = current_user.id
+    @story = Story.find params[:id]
+    @story.attributes = params[:story]
+    @story.updater_id = current_user.id
     render :update do |page|
-      if story.valid?
-        story.audit_story
-        story.save
+      if @story.valid?
+        @story.audit_story
+        @story.save
         flash[:status] = 'The changes to the story card have been saved.'
         page.call 'location.reload'
       else
-        page[:flash_notice].replace_html story.errors.full_messages[0]        
+        page[:flash_notice].replace_html :inline => "<%= error_container(@story.errors.full_messages[0]) %>"           
       end
     end
   end

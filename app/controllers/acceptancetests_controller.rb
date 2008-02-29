@@ -22,15 +22,15 @@ class AcceptancetestsController < ApplicationController
   end
 
   def create
-    acceptancetest = Acceptancetest.new params[:acceptancetest]
-    acceptancetest.project = @project
-    acceptancetest.story = Story.find params[:story_id] if params[:story_id]
+    @acceptancetest = Acceptancetest.new params[:acceptancetest]
+    @acceptancetest.project = @project
+    @acceptancetest.story = Story.find params[:story_id] if params[:story_id]
     render :update do |page|
-      if acceptancetest.save
-        flash[:status] = "New Acceptance Test \"#{acceptancetest.name}\" has been created."
+      if @acceptancetest.save
+        flash[:status] = "New Acceptance Test \"#{@acceptancetest.name}\" has been created."
         page.call 'location.reload'
       else
-        page[:flash_notice].replace_html acceptancetest.errors.full_messages[0]
+        page[:flash_notice].replace_html :inline => "<%= error_container(@acceptancetest.errors.full_messages[0]) %>"
       end
     end    
   end
@@ -41,7 +41,7 @@ class AcceptancetestsController < ApplicationController
         flash[:status] = "Acceptance Test \"#{@acceptancetest.name}\" has been updated."
         page.call 'location.reload'
       else
-        page[:flash_notice].replace_html @acceptancetest.errors.full_messages[0]
+        page[:flash_notice].replace_html :inline => "<%= error_container(@acceptancetest.errors.full_messages[0]) %>"
       end
     end
   end

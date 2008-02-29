@@ -356,14 +356,22 @@ form fieldset {
 
 
 /* popup */
-div.popup {
-	width: 350px;
+div.small_popup{
+  width: 250px;
+}
+
+div.popup{
+  width: 350px;
+}
+
+div.popup, div.small_popup {
 	padding: 10px;
 	background: #fff;
 	border: 1px solid #000;
 }
 
-div.popup label {
+
+div.popup, div.small_popup label {
 	margin-top: 4px;
 }
 

@@ -21,14 +21,14 @@ class MilestonesController < ApplicationController
   end
 
   def create
-    milestone = Milestone.new params[:milestone]
-    milestone.project = @project
+    @milestone = Milestone.new params[:milestone]
+    @milestone.project = @project
     render :update do |page|
-      if milestone.save
-        flash[:status] = "New Milestone \"#{milestone.name}\" has been created."
+      if @milestone.save
+        flash[:status] = "New Milestone \"#{@milestone.name}\" has been created."
         page.redirect_to project_milestones_path(@project)
       else
-        page[:flash_notice].replace_html milestone.errors.full_messages[0]
+        page[:flash_notice].replace_html :inline => "<%= error_container(@milestone.errors.full_messages[0]) %>"
       end
     end    
   end
@@ -39,7 +39,7 @@ class MilestonesController < ApplicationController
         flash[:status] = "Milestone \"#{@milestone.name}\" has been updated."
         page.call 'location.reload'
       else
-        page[:flash_notice].replace_html milestone.errors.full_messages[0]
+        page[:flash_notice].replace_html :inline => "<%= error_container(@milestone.errors.full_messages[0]) %>"
       end
     end
   end

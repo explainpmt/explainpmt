@@ -15,14 +15,14 @@ class ReleasesController < ApplicationController
   end
   
   def create
-    release = Release.new params[:release]
-    release.project = @project
+    @release = Release.new params[:release]
+    @release.project = @project
     render :update do |page|
       if release.save
-        flash[:status] = "New Release \"#{release.name}\" has been created."
+        flash[:status] = "New Release \"#{@release.name}\" has been created."
         page.redirect_to project_releases_path(@project)
       else
-        page[:flash_notice].replace_html release.errors.full_messages[0]
+        page[:flash_notice].replace_html :inline => "<%= error_container(@release.errors.full_messages[0]) %>"
       end
     end    
   end
@@ -33,7 +33,7 @@ class ReleasesController < ApplicationController
         flash[:status] = "Release \"#{@release.name}\" has been updated."
         page.redirect_to project_releases_path(@project)
       else
-        page[:flash_notice].replace_html @release.errors.full_messages[0]
+        page[:flash_notice].replace_html :inline => "<%= error_container(@release.errors.full_messages[0]) %>"
       end
     end
   end
@@ -47,7 +47,7 @@ class ReleasesController < ApplicationController
   protected
   def common_popup(url)
     render :update do |page|
-      page.call 'showPopup', render(:partial => 'release_popup', :locals => {:url => url})
+      page.call 'showPopup', render(:partial => 'release_form', :locals => {:url => url})
       page.call 'autoFocus', "project_name", 500
     end 
   end

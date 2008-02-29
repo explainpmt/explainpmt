@@ -7,20 +7,20 @@ class ProjectsController < ApplicationController
   
   def new
     render :update do |page|
-      page.call 'showPopup', render(:partial => 'project_popup', :locals => {:url => projects_path})
+      page.call 'showPopup', render(:partial => 'project_form', :locals => {:url => projects_path})
       page.call 'autoFocus', "project_name", 500
     end
   end
   
   def create
-    project = Project.new params[:project]
+    @project = Project.new params[:project]
     render :update do |page|
-      if project.save
-        current_user.projects << project if params[:add_me] == '1'
-        flash[:status] = "New project \"#{project.name}\" has been created."
+      if @project.save
+        current_user.projects << @project if params[:add_me] == '1'
+        flash[:status] = "New project \"#{@project.name}\" has been created."
         page.redirect_to projects_path
       else
-        page[:flash_notice].replace_html project.errors.full_messages[0]
+        page[:flash_notice].replace_html :inline => "<%= error_container(@project.errors.full_messages[0]) %>"
       end
     end
   end
@@ -28,7 +28,7 @@ class ProjectsController < ApplicationController
   def edit
     @project = Project.find params[:id]
     render :update do |page|
-      page.call 'showPopup', render(:partial => 'project_popup', :locals => {:url => project_path(@project)})
+      page.call 'showPopup', render(:partial => 'project_form', :locals => {:url => project_path(@project)})
       page.call 'autoFocus', "project_name", 500
     end
   end
@@ -40,7 +40,7 @@ class ProjectsController < ApplicationController
         flash[:status] = "Project \"#{project.name}\" has been updated."
         page.redirect_to projects_path
       else
-        page[:flash_notice].replace_html project.errors.full_messages[0]
+        page[:flash_notice].replace_html :inline => "<%= error_container(@project.errors.full_messages[0]) %>"
       end
     end
   end

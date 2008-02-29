@@ -31,6 +31,10 @@ module ApplicationHelper
     end
     options
   end
+  
+  def error_container(error)
+    "<div id='SystemError'>#{error}</div>"
+  end
 
   VERSION = 'dev trunk'
 

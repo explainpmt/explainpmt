@@ -24,14 +24,14 @@ class TasksController < ApplicationController
   end
   
   def create
-    task = Task.new params[:task]
-    task.story = Story.find(params[:story_id])
+    @task = Task.new params[:task]
+    @task.story = Story.find(params[:story_id])
     render :update do |page|
-      if task.save
-        flash[:status] = "New Task \"#{task.name}\" has been created."
+      if @task.save
+        flash[:status] = "New Task \"#{@task.name}\" has been created."
         page.call 'location.reload'
       else
-        page[:flash_notice].replace_html task.errors.full_messages[0]
+        page[:flash_notice].replace_html :inline => "<%= error_container(@task.errors.full_messages[0]) %>"   
       end
     end  
   end
@@ -42,7 +42,7 @@ class TasksController < ApplicationController
         flash[:status] = "Task \"#{@task.name}\" has been updated."
         page.call 'location.reload'
       else
-        page[:flash_notice].replace_html @task.errors.full_messages[0]
+        page[:flash_notice].replace_html :inline => "<%= error_container(@story.errors.full_messages[0]) %>"   
       end
     end
   end

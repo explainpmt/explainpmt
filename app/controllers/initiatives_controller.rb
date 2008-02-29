@@ -15,14 +15,14 @@ class InitiativesController < ApplicationController
   end
   
   def create
-    initiative = Initiative.new params[:initiative]
-    initiative.project = @project
+    @initiative = Initiative.new params[:initiative]
+    @initiative.project = @project
     render :update do |page|
-      if initiative.save
-        flash[:status] = "New initiative \"#{initiative.name}\" has been created."
+      if @initiative.save
+        flash[:status] = "New initiative \"#{@initiative.name}\" has been created."
         page.redirect_to project_initiatives_path(@project)
       else
-        page[:flash_notice].replace_html initiative.errors.full_messages[0]
+        page[:flash_notice].replace_html :inline => "<%= error_container(@initiative.errors.full_messages[0]) %>"
       end
     end    
   end
@@ -33,7 +33,7 @@ class InitiativesController < ApplicationController
         flash[:status] = "initiative \"#{@initiative.name}\" has been updated."
         page.redirect_to project_initiatives_path(@project)
       else
-        page[:flash_notice].replace_html @initiative.errors.full_messages[0]
+        page[:flash_notice].replace_html :inline => "<%= error_container(@initiative.errors.full_messages[0]) %>"
       end
     end
   end
