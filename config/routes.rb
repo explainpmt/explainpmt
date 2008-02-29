@@ -19,7 +19,9 @@ map.resources :projects, :member => {:audits => :get} do |project|
   project.resources :milestones, :collection => {:show_all => :get, :show_recent => :get}
   project.resources :iterations, 
     :member => {:allocation => :get, :select_stories => :get, :assign_stories => :post, :export => :get, :export_tasks => :get}, 
-    :collection => {:move_stories => :post}
+    :collection => {:move_stories => :post} do |iteration|
+    iteration.resources :stories
+  end
 end
 
 

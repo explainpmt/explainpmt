@@ -6,7 +6,8 @@ class StoriesController < ApplicationController
   end
   
   def new
-    common_popup(project_stories_path(@project))
+    url = params[:iteration_id] ? project_iteration_stories_path(@project, Iteration.find(params[:iteration_id])) : project_stories_path(@project)
+    common_popup(url)
   end
 
   def edit
@@ -22,7 +23,7 @@ class StoriesController < ApplicationController
     modify_risk_status_and_value_params
     @story = Story.new params[:story]
     @story.project = @project
-    @story.iteration_id = params[:iteration_id]
+    @story.iteration = Iteration.find params[:iteration_id] if params[:iteration_id]
     @story.creator_id = current_user.id
     render :update do |page|
       if @story.save

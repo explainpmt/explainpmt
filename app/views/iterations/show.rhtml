@@ -28,7 +28,7 @@
     <br />
   
     <h3>Story Cards</h3>
-    <%= link_to_new_story %>&nbsp;
+    <%= link_to_new_iteration_story(@iteration) %>&nbsp;
     <% collection_content(@project.stories.backlog) do %>
       <% if @iteration.stop_date + 1 > Date.today %>
         <%= link_to_assign_stories(@iteration) %>

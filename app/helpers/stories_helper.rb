@@ -2,6 +2,10 @@ module StoriesHelper
   def link_to_new_story
     link_to_remote('Create Story Card', :url => new_project_story_path(@project), :method => :get)
   end
+
+  def link_to_new_iteration_story(iteration)
+    link_to_remote('Create Story Card', :url => new_project_iteration_story_path(@project, iteration), :method => :get)
+  end
   
   def link_to_new_stories
     link_to_remote('Bulk Create', :url => bulk_create_project_stories_path(@project), :method => :get)
