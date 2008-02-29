@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  before_filter :require_admin_privileges, :only => [:edit, :udpate]
   skip_before_filter :check_authentication, :only => [ :authenticate, :login, :new, :create, :register ]
   skip_before_filter :require_current_project
   
