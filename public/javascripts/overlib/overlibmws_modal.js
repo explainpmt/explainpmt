@@ -84,7 +84,7 @@ function OLmHideMask(){
 OLmMaskOn=0;var root=o3_frame.document.getElementsByTagName(OLmRoot)[0];root.style.overflow=(OLop7?'auto':'');
 if(!OLie4||OLop7){document.onkeypress=OLmKDH;OLmKDH=null;}else OLmRestoreTI();if(!OLmSelectOK)OLmShowSB();
 OLmRemoveEv(window,"resize",OLmHandleMask);if(o3_frame.scrollTo&&OLmGotSc){o3_frame.scrollTo(OLmScLeft,OLmScTop);OLmGotSc=0;}
-if(OLgetRef('modalMask')&&OLmMask){OLmMask.style.display='none';if(OLie55)OLmIframe.style.display='none';}OLmEdit=0;
+if(OLgetRef('modalMask')&&OLmMask){OLmMask.style.display='none';if(OLie55)OLmIframe.style.display='none';}OLmEdit=1;
 }
 
 function OLmKeyDownHandler(e){

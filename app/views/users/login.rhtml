@@ -1,76 +1,99 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<%= javascript_include_tag :defaults %>
-<title>Explain PMT - Login</title>
-<style type="text/css">
-body {
-	margin:0;
-	font:12px Arial, Helvetica, sans-serif;
-	color:#666;
-	background:#fff;
-	}
-a {
-	color:black;
-	text-decoration:none;
-	border-bottom:1px dotted #669933;
-	}
-.user {
-	padding:3px;
-	color:#666;
-	}
-.pass {
-	padding:3px;
-	color:#666;
-	}
-input {
-	color:#666;
-	}
-#login {
-	margin-top:100px;
-	margin-left:auto;
-	margin-right:auto;
-	width:440px;
-	height:221px;
-	text-align:center;
-	background:url('/images/login_bg.gif') no-repeat;
-	}
-#form {
-	position:relative;
-	top:80px;
-	}
-#SystemStatus{
-	position:relative;
-	top:120px;
-	width:440px;
-	margin:auto;
-	text-align:left;
-	padding:20px;
-}
-
-.btn {
-	vertical-align:middle;
-	padding:3px;
-	}
-</style>
-</head>
-
-<body>
-<div id="login">
-  <div id="form">
-    <form action="<%= authenticate_users_url %>" method="post">
-      <div class="user">
-        <input onfocus="resetValue(this,'Username')" type="text" name="username" id="Username" value="Username" />
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <%= javascript_include_tag :defaults %>
+    <%= stylesheet_link_tag 'main' %>
+    <script src="/javascripts/sortabletable.js"></script>
+    <script src="/javascripts/scidtype.js"></script>
+    <script src="/javascripts/application.js"></script>
+    <%= javascript_include_tag 'overlib/overlibmws.js' %>
+    <%= javascript_include_tag 'overlib/overlibmws_modal.js' %>
+    <title>Explain PMT - Login</title>
+    <style type="text/css">
+      body {
+        margin:0;
+        font:12px Arial, Helvetica, sans-serif;
+        color:#666;
+        background:#fff;
+      }
+      a {
+        color:black;
+        text-decoration:none;
+        border-bottom:1px dotted #669933;
+      }
+      .user {
+        padding:3px;
+        color:#666;
+      }
+      .pass {
+        padding:3px;
+        color:#666;
+      }
+      input {
+        color:#666;
+      }
+      #login {
+        margin-top:100px;
+        margin-left:auto;
+        margin-right:auto;
+        width:440px;
+        height:221px;
+        text-align:center;
+        background:url('/images/login_bg.gif') no-repeat;
+      }
+      #form {
+        position:relative;
+        top:80px;
+      }
+      #SystemStatus{
+        position:relative;
+        top:120px;
+        width:400px;
+        margin:auto;
+        text-align:left;
+        padding:20px;
+      }
+      #SystemError{
+        position:relative;
+        top:120px;
+        width:400px;
+        margin:auto;
+        text-align:left;
+        padding:20px;
+      }
+      
+      .btn {
+        vertical-align:middle;
+        padding:3px;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <div id="login">
+      <div id="form">
+        <form action="<%= authenticate_users_path %>" method="post" >
+          <div class="user">
+            <input onfocus="resetValue(this,'Username')" type="text" name="username" id="Username" value="Username" />
+          </div>
+          <div class="pass">
+            <input onfocus="resetValue(this,'Password')" type="password" name="password" id="Password" value="Password" />
+          </div>
+          <input type="image" name="submit" src="/images/btn_login.gif" class="btn" />
+          <%= link_to_new_user('Register') %>
+        </form>
       </div>
-      <div class="pass">
-        <input onfocus="resetValue(this,'Password')" type="password" name="password" id="Password" value="Password" />
-      </div>
-      <input type="image" name="submit" src="/images/btn_login.gif" class="btn" />
-      <%= link_to_remote 'Register', :url => {:controller => 'users', :action => 'new' }%>
-    </form>
-  </div>
-<div id="SystemStatus"><%= textilize_without_paragraph(flash[:error] || flash[:status])%></div>
-</div>
-</body>
+      <% if flash[:error] %>
+        <div id="SystemError">
+          <%= textilize_without_paragraph( flash[ :error ] ) %>
+        </div>
+      <% end %>
+      <% if flash[:status] %>
+        <div id="SystemStatus">
+          <%= textilize_without_paragraph( flash[ :status ] ) %>
+        </div>
+      <% end %>
+    </div>
+  </body>
 </html>

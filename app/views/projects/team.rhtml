@@ -1,0 +1,19 @@
+<table cellspacing="0" cellpadding="0" border="0">
+  <tr>
+    <td id="SmallLeftColumn" valign="top">
+      <h2>Project Team</h2>
+      <p>The users shown here are part of the project team for
+        <strong><%= @project.name %></strong>.</p>
+      <p>Admin accounts are marked with <%= image_tag('admin_dot.gif') %>.</p>
+        <p><strong><%= popup_link('Add Users to Project', 'add_users',
+                                  'width=600,height=400,resizable,scrollbars',
+                                  :controller => 'projects',
+                                  :action => 'add_users',
+                                  :project_id => @project.id) %></strong></p>
+        <p><strong><%= link_to_new_project_user %></strong></p>
+    </td>
+    <td id="RightColumn" valign="top">
+      <%= render_partial 'users/contact_cards' %>
+    </td>
+  </tr>
+</table>

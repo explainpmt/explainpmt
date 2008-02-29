@@ -37,7 +37,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
         <% if current_user %>
           <div id="StatusRight">
             Welcome back <%= current_user.full_name %> &nbsp; | &nbsp;
-            <%= link_to('Edit Profile', edit_user_path(current_user)) %> &nbsp; | &nbsp;
+            <%= link_to_edit_user(current_user, :value => "Edit Profile") %> &nbsp; | &nbsp;
             <%= link_to( 'Log-out', logout_users_path) %>
           </div>
         <% end %>

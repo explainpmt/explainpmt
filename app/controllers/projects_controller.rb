@@ -6,6 +6,11 @@ class ProjectsController < ApplicationController
     @projects = current_user.admin? ? Project.find(:all, :order => 'name ASC') : current_user.projects
   end
   
+  def team
+    @project = Project.find params[:id]
+    @users = @project.users
+  end
+  
   def new
     render :update do |page|
       page.call 'showPopup', render(:partial => 'project_form', :locals => {:url => projects_path})
@@ -50,7 +55,7 @@ class ProjectsController < ApplicationController
     flash[:status] = "#{project.name} has been deleted."
     redirect_to projects_path
   end
-  
+ 
   
   
   

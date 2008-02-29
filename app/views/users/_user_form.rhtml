@@ -1,53 +1,30 @@
-<fieldset>
-  <legend>User Information</legend>
-  <%= error_messages_for('user') %>
-  <table class="form_layout">
-    <tr>
-      <th><label for="user_username">Username:</label></th>
-      <td><%= text_field('user', 'username') %></td>
-    </tr>
-    <tr>
-      <th><label for="user_password">Password:</label></th>
-      <td><%= password_field('user', 'password', 'value' => '') %></td>
-    </tr>
-    <tr>
-      <th><label for="user_password_confirmation">Confirm:</label></th>
-      <td>
-        <%= password_field('user', 'password_confirmation', 'value' => '') %>
-      </td>
-    </tr>
-    <tr>
-      <th><label for="user_team">Team:</label></th>
-      <td>
-        <%= text_field('user', 'team') %>
-      </td>
-    </tr>
-    <tr>
-      <th><label for="user_email">Email:</label></th>
-      <td><%= text_field('user', 'email') %></td>
-    </tr>
-    <tr>
-      <th><label for="user_first_name">First Name:</label></th>
-      <td><%= text_field('user', 'first_name') %></td>
-    </tr>
-    <tr>
-      <th><label for="user_last_name">Last Name:</label></th>
-      <td><%= text_field('user', 'last_name') %></td>
-    </tr>
-    <% if is_admin? %>
-      <tr>
-        <th><label for="user_admin">Admin?:</label></th>
-        <td><%= check_box('user', 'admin') %></td>
-      </tr>
+<div class="small_popup">
+	<% remote_form_for :user, :url => url, :method => (@user ? :put : :post) do |f| %>
+	  <a href="javascript:void(0);" class="close" onclick="cClick();">close</a>
+	  <h2>User Details</h2>
+	  <label>Username</label>
+	  <%= f.text_field :username %>
+	  <label>Password</label>
+	  <%= f.password_field :password %>
+	  <label>Password Confirmation</label>
+	  <%= f.password_field :password_confirmation %>
+	  <label>Team</label>
+	  <%= f.text_field :team %>
+	  <label>Email</label>
+	  <%= f.text_field :email %>
+	  <label>First Name</label>
+	  <%= f.text_field :first_name %>
+	  <label>Last Name</label>
+	  <%= f.text_field :last_name %>
+    <% admin_content do %>
+      <br />
+      <%= f.check_box :admin %>
+     <label for="user_admin" style="display:inline">Admin?</label>
     <% end %>
-    <tr>
-      <td colspan="2" class="form_actions">
-        <input type="submit" name="submit"
-         value="<%= @user.new_record? ? 'Create' : 'Update' %> User" />
-        &nbsp;&nbsp;
-        <a href="javascript:window.close();">Cancel</a>
-      </td>
-    </tr>
-  </table>
-</fieldset>
+	  <div class="submit">
+	  	<%= submit_tag "Save" %>
+	  </div>
+	<% end %>
+	<div id="flash_notice"></div>
+</div>
 

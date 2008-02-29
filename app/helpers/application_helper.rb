@@ -8,6 +8,7 @@ module ApplicationHelper
   include ReleasesHelper
   include StoriesHelper
   include TasksHelper
+  include UsersHelper
 
   def admin_content(&block)
     yield if is_admin?
@@ -114,9 +115,7 @@ module ApplicationHelper
             :project_id => @project.id)
         end
         xml.li do
-          xml << main_menu_link('Team', :controller => 'users',
-            :action => 'index',
-            :project_id => @project.id)
+          xml << main_menu_link('Team', team_project_path(@project))
         end
         xml.li do
           xml << main_menu_link('Stats', :controller => 'stats',

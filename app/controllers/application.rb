@@ -2,8 +2,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   before_filter :check_authentication
   before_filter :set_selected_project
-  before_filter :require_current_project
   before_filter :require_team_membership
+  before_filter :require_current_project
   
   def current_user
     session[:current_user]
@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   protected
   
   def set_selected_project
-    @project = params[:project_id] ? Project.find(params[:project_id]) : nil
+    @project = Project.find_by_id(params[:project_id])
   end
   
   def check_authentication
