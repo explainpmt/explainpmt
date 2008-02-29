@@ -102,20 +102,13 @@ class IterationsController < ApplicationController
     render :layout => false
   end
   
-  
-  
   private
 
   def change_story_assignment
-    stories = Story.find(:all, :conditions => [ 'id in (?)', (params[:selected_stories] || [] ).join(',')])
-    successes = []
-    failures = []
+    stories = Story.find(params[:selected_stories] || [])
+    successes, failures = [], []
     stories.each do |s|
-      if params[:move_to].to_i == 0
-        s.iteration = nil
-      else
-        s.iteration = Iteration.find params[:move_to].to_i
-      end
+      s.iteration = Iteration.find_by_id(params[:move_to])
       if s.save
         successes << "SC#{s.scid} has been moved."
       else

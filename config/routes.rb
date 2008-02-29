@@ -4,7 +4,7 @@ map.resources :users, :collection => { :login => :get, :authenticate => :post, :
 map.resources :dashboards
 map.resources :errors
 map.resources :projects, :member => {:audits => :get} do |project|
-  project.resources :acceptancetests, :member => {:clone_acceptance => :get}, :collection => {:export => :get}
+  project.resources :acceptancetests, :member => {:clone_acceptance => :get}, :collection => {:export => :get, :assign => :post,}
   project.resource :dashboard
   project.resources :users
   project.resources :releases
@@ -12,7 +12,7 @@ map.resources :projects, :member => {:audits => :get} do |project|
   project.resources :stories,  
     :member => {:audit => :get, :take_ownership => :put, :release_ownership => :put, :assign_ownership => :get, :assign => :post, :clone_story => :put,
         :move_up => :put, :move_down => :put, :edit_numeric_priority => :get, :set_numeric_priority => :put},
-    :collection => {:move_acceptancetests => :post, :export => :get, :export_tasks => :get, :bulk_create => :get, :create_many => :post} do |story|
+    :collection => {:export => :get, :export_tasks => :get, :bulk_create => :get, :create_many => :post} do |story|
     story.resources :tasks, :member => {:take_ownership => :put, :release_ownership => :put, :assign_ownership => :get, :assign => :post}
     story.resources :acceptancetests
   end

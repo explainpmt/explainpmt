@@ -17,7 +17,7 @@ class StoriesController < ApplicationController
       page.call 'showPopup', render(:partial => 'stories/story_form', :locals => {:url => project_story_path(@project, @story)})
     end 
   end
-
+  
   def show
     @story = Story.find params[:id]
     @tasks = @story.tasks
@@ -214,41 +214,5 @@ class StoriesController < ApplicationController
       end
     end
   end
-
-
-
-
-
-
-
-
-
-  def move_acceptancetests
-    change_acceptancetest_assignment
-    redirect_to :controller => 'acceptancetests', :action => 'index',
-      :id => params[:id], :project_id => @project.id 
-  end
   
-  def change_acceptancetest_assignment
-    acceptancetests = (params[:selected_acceptancetests] || []).map do |sid|
-      Acceptancetest.find(sid)
-    end
-    successes = []
-    failures = []
-    acceptancetests.each do |s|
-      if params[:move_to].to_i == 0
-        s.story = nil
-      else
-        s.story = Story.find(params[:move_to].to_i)
-      end
-      if s.save
-        successes << "Acceptance Tests has been moved."
-      else
-        failures << "Acceptance Tests could not be moved."
-      end
-    end
-    flash[:status] = successes.join("\n\n") unless successes.empty?
-    flash[:error] = failures.join("\n\n") unless failures.empty?
-  end
- 
 end

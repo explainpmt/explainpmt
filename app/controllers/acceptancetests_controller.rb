@@ -1,6 +1,6 @@
 class AcceptancetestsController < ApplicationController
   before_filter :require_current_project
-  before_filter :find_acceptance, :except => [:index, :new, :create, :export]
+  before_filter :find_acceptance, :except => [:index, :new, :create, :export, :assign]
   
   def index
     @acceptancetests = @project.acceptancetests
@@ -69,6 +69,21 @@ class AcceptancetestsController < ApplicationController
     render :layout => false
   end
 
+  def assign
+    acceptancetests = Acceptancetest.find(params[:selected_acceptancetests] || [])
+    successes, failures = [], []
+    acceptancetests.each do |acceptancetest|
+      acceptancetest.story = Story.find_by_id(params[:move_to])
+      if acceptancetest.save
+        successes << "Acceptance Tests #{acceptancetest.name} has been moved."
+      else
+        failures << "Acceptance Tests #{acceptancetest.name} could not be moved."
+      end
+    end
+    flash[:status] = successes.join("\n\n") unless successes.empty?
+    flash[:error] = failures.join("\n\n") unless failures.empty?
+    redirect_to project_acceptancetests_path(@project)
+  end
 
   protected
   def find_acceptance
@@ -80,4 +95,5 @@ class AcceptancetestsController < ApplicationController
       page.call 'showPopup', render(:partial => 'acceptancetest_form', :locals => {:url => url})
     end 
   end
+  
 end

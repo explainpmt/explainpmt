@@ -5,7 +5,7 @@
 
 <% collection_content(@acceptancetests) do %>
   <span><%= link_to_new_acceptancetest %>&nbsp;&nbsp;&nbsp;<%= link_to_export_acceptance %></span>
-  <%= form_tag move_acceptancetests_project_stories_path(@project) %>
+  <%= form_tag assign_project_acceptancetests_path(@project) %>
   <div style="text-align: right;">
     Move Selected Acceptance Tests to:
     <select name="move_to">
