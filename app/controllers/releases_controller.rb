@@ -17,7 +17,7 @@ class ReleasesController < ApplicationController
     @release = Release.new params[:release]
     @release.project = @project
     render :update do |page|
-      if release.save
+      if @release.save
         flash[:status] = "New Release \"#{@release.name}\" has been created."
         page.redirect_to project_releases_path(@project)
       else
