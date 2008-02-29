@@ -364,13 +364,16 @@ div.popup{
   width: 350px;
 }
 
+div.wide_popup{
+  width: 600px;
+}
 div.audit{
   width: 800px;
   height: 430px;
   overflow: auto;
 }
 
-div.popup, div.small_popup, div.audit {
+div.popup, div.small_popup, div.audit, div.wide_popup{
 	padding: 10px;
 	background: #fff;
 	border: 1px solid #000;

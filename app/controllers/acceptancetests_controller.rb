@@ -78,7 +78,6 @@ class AcceptancetestsController < ApplicationController
   def common_popup(url)
     render :update do |page|
       page.call 'showPopup', render(:partial => 'acceptancetest_form', :locals => {:url => url})
-      page.call 'autoFocus', "acceptancetest_name", 500
     end 
   end
 end

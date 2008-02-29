@@ -2,20 +2,12 @@ class StoriesController < ApplicationController
   before_filter :require_current_project
 
   def index
-    @page_title = "Backlog"
-    if params[:show_cancelled]
-      @stories = @project.stories.backlog
-    elsif params[:show_all]
-      @stories = @project.stories
-    else
-      @stories = @project.stories.not_cancelled_and_not_assigned_to_an_iteration
-    end
+    @stories = @project.stories.backlog
   end
   
   def new
     render :update do |page|
       page.call 'showPopup', render(:partial => 'stories/story_form', :locals => {:url => project_stories_path(@project)})
-      page.call 'autoFocus', "story_name", 500
     end 
   end
 
@@ -23,7 +15,6 @@ class StoriesController < ApplicationController
     @story = Story.find params[:id]
     render :update do |page|
       page.call 'showPopup', render(:partial => 'stories/story_form', :locals => {:url => project_story_path(@project, @story)})
-      page.call 'autoFocus', "story_name", 500
     end 
   end
 
@@ -145,7 +136,7 @@ class StoriesController < ApplicationController
   
   def move_up
     story = Story.find params[:id]
-  	story.move_higher
+    story.move_higher
     render :update do |page|
       page.call 'location.reload'
     end
@@ -160,14 +151,14 @@ class StoriesController < ApplicationController
   end  
 
   def edit_numeric_priority
-  	@story = Story.find params[:id]
+    @story = Story.find params[:id]
     render :update do |page|
       page.call 'showPopup', render(:partial => 'stories/edit_numeric_priority_form')
     end
   end
 
   def set_numeric_priority
-  	new_pos = params[:story][:position]
+    new_pos = params[:story][:position]
     render :update do |page|
       if (new_pos.index(/\D/).nil?)
         last_story = @project.last_story
@@ -204,28 +195,33 @@ class StoriesController < ApplicationController
   end
   alias export_tasks export
   
-  
-
-  
-  
-  
-  def new_bulk
-    @story = Story.new
-    @story.return_ids_for_aggregations
+  def bulk_create
+    render :update do |page|
+      page.call 'showPopup', render(:partial => 'stories/bulk_create_form')
+    end 
   end
   
   def create_many
-    if params[:story_card_titles].empty?
-      flash[:error] = 'Please enter at least one story card title.'
-      render :action => "new_bulk", :layout => "popup"
-    else
-      params[:story_card_titles].each_line do |title|
-        story = @project.stories.create(:title => title, :creator_id => current_user.id)
+    render :update do |page|
+      if params[:story][:titles].empty?
+        page[:flash_notice].replace_html :inline => "<%= error_container('Please enter at least one story card title.') %>" 
+      else
+        params[:story][:titles].each_line do |title|
+          @project.stories.create(:title => title, :creator_id => current_user.id)
+        end
+        flash[:status] = 'New story cards created.'
+        page.call 'location.reload'
       end
-      flash[:status] = 'New story cards created.'
-      render :template => 'layouts/refresh_parent_close_popup'
     end
   end
+
+
+
+
+
+
+
+
 
   def move_acceptancetests
     change_acceptancetest_assignment

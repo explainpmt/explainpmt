@@ -1,20 +1,4 @@
-<%= link_to_remote('New Story Card', :url => new_project_story_path(@project), :method => :get) %>&nbsp;&nbsp;&nbsp;
-<%= popup_link('Bulk Create', "bulk_create",'width=650,height=425,resizable,scrollbars',
-             :controller => 'stories', :action => 'new_bulk',
-             :project_id => @project.id) %>
-&nbsp;&nbsp;&nbsp;
-<% if params[:show_cancelled]%>
-  <%= link_to('Hide Cancelled Stories', :controller => 'stories', 
-            :action => 'index', :project_id => @project.id) %>
-<% else %>
-  <%= link_to('Show Cancelled', :controller => 'stories', 
-            :action => 'index', :project_id => @project.id,
-            :show_cancelled => 1) %>
-<% end %>
-&nbsp;&nbsp;&nbsp;
-<%= link_to('Show All', :controller => 'stories',
-            :action => 'index', :project_id => @project.id,
-            :show_all => 1) %>
-&nbsp;&nbsp;&nbsp;
+<%= link_to_new_story %>&nbsp;&nbsp;&nbsp;
+<%= link_to_new_stories %>&nbsp;&nbsp;&nbsp;
 <%= link_to_export_stories %> &nbsp;&nbsp;&nbsp;
 <%= link_to_export_tasks %> 

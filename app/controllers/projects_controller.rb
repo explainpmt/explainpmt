@@ -8,7 +8,6 @@ class ProjectsController < ApplicationController
   def new
     render :update do |page|
       page.call 'showPopup', render(:partial => 'project_form', :locals => {:url => projects_path})
-      page.call 'autoFocus', "project_name", 500
     end
   end
   
@@ -29,7 +28,6 @@ class ProjectsController < ApplicationController
     @project = Project.find params[:id]
     render :update do |page|
       page.call 'showPopup', render(:partial => 'project_form', :locals => {:url => project_path(@project)})
-      page.call 'autoFocus', "project_name", 500
     end
   end
   

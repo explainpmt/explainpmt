@@ -6,14 +6,12 @@ class TasksController < ApplicationController
     @story = Story.find params[:story_id]
     render :update do |page|
       page.call 'showPopup', render(:partial => 'story_task_form', :locals => {:url => project_story_tasks_path(@project)})
-      page.call 'autoFocus', "task_name", 500
     end 
   end
 
   def edit
     render :update do |page|
       page.call 'showPopup', render(:partial => 'story_task_form', :locals => {:url => project_story_task_path(@project, @task.story, @task)})
-      page.call 'autoFocus', "task_name", 500
     end 
   end
 

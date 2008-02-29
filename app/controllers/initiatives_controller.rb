@@ -48,7 +48,6 @@ class InitiativesController < ApplicationController
   def common_popup(url)
     render :update do |page|
       page.call 'showPopup', render(:partial => 'initiative_form', :locals => {:url => url})
-      page.call 'autoFocus', "project_name", 500
     end 
   end
   

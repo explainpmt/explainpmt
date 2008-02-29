@@ -3,6 +3,10 @@ module StoriesHelper
     link_to_remote('Create Story Card', :url => new_project_story_path(@project), :method => :get)
   end
   
+  def link_to_new_stories
+    link_to_remote('Bulk Create', :url => bulk_create_project_stories_path(@project), :method => :get)
+  end
+  
   def link_to_story_with_sc(story)
     link_to("SC#{story.scid}", project_story_path(@project, story)) + '(' + truncate(story.title, 30) + ')'
   end

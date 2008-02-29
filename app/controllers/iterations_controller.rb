@@ -16,7 +16,6 @@ class IterationsController < ApplicationController
   def new
     render :update do |page|
       page.call 'showPopup', render(:partial => 'iteration_form', :locals => {:url => project_iterations_path(@project)})
-      page.call 'autoFocus', "iteration_name", 500
     end 
   end
 
@@ -24,7 +23,6 @@ class IterationsController < ApplicationController
     @iteration = Iteration.find params[:id]
     render :update do |page|
       page.call 'showPopup', render(:partial => 'iteration_form', :locals => {:url => project_iteration_path(@project, @iteration)})
-      page.call 'autoFocus', "iteration_name", 500
     end 
   end
   

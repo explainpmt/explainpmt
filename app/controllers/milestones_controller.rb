@@ -72,7 +72,6 @@ class MilestonesController < ApplicationController
   def common_popup(url)
     render :update do |page|
       page.call 'showPopup', render(:partial => 'milestones/milestone_form', :locals => {:url => url})
-      page.call 'autoFocus', "milestone_name", 500
     end 
   end
   
