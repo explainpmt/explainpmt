@@ -14,6 +14,26 @@ module StoriesHelper
   def link_to_edit_story(story, options={})
     link_to_remote(options[:value] || story.title, :url => edit_project_story_path(@project, story), :method => :get)
   end
+
+  def link_to_clone_story(story)
+    link_to_remote("Clone", :url => clone_story_project_story_path(@project, story), :method => :put)
+  end
+
+  def link_to_move_story_up(story)
+    link_to_remote("Move Up", :url => move_up_project_story_path(@project, story), :method => :put)
+  end
+
+  def link_to_move_story_down(story)
+    link_to_remote("Move Down", :url => move_down_project_story_path(@project, story), :method => :put)
+  end
+
+  def link_to_edit_story_position(story)
+    link_to_remote("Insert At", :url => edit_numeric_priority_project_story_path(@project, story), :method => :get)
+  end
+  
+  def link_to_delete_story(story)
+    link_to_remote("Delete", :url => project_story_path(@project, story), :method => :delete, :confirm => "Are you sure you want to delete?\r\nAll associated data will also be deleted. This action can not be undone.")
+  end
   
   def link_to_assign_story_ownership(story)
     link_to_remote('assign', :url => assign_ownership_project_story_path(@project, story), :method => :get)

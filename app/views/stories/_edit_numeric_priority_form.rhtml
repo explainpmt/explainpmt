@@ -1,17 +1,12 @@
-<fieldset>
-  <legend>Story Card Details</legend>
-  <%= error_messages_for('story') %>
-  <table class="form_layout">
-      <th><label for="story_priority">Priority:</label></th>
-      <td><%= text_field('story', 'position', 'size' => '3') %></td>
-    </tr>
-    <tr>
-      <td colspan="2" class="form_actions">
-        <input type="submit" name="submit"
-         value="Update Position" />
-        &nbsp;&nbsp;
-        <a href="javascript:window.close();">Cancel</a>
-      </td>
-    </tr>
-  </table>
-</fieldset>
+<div class="popup">
+  <% remote_form_for :story, :url => set_numeric_priority_project_story_path(@project, @story), :method => :put do |f| %>
+    <a href="javascript:void(0);" class="close" onclick="cClick();">close</a>
+    <h2>Story Priority</h2>
+    <label for="story_priority">Priority:</label>
+    <%= f.text_field :position %>
+    <div class="submit">
+      <%= submit_tag "Update Position" %>
+    </div>
+  <% end %>
+  <div id="flash_notice"></div>
+</div>

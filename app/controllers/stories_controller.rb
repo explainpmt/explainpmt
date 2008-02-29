@@ -122,7 +122,80 @@ class StoriesController < ApplicationController
     end
   end
   
+  def clone_story
+    @story = Story.find params[:id]
+    story = @story.clone
+    story.title = "Clone:" + @story.title
+    story.scid = nil
+    story.save!
+    render :update do |page|
+      page.call 'location.reload'
+    end 
+  end
   
+  def destroy
+    @story = Story.find params[:id]
+    render :update do |page|
+      if @story.destroy
+        flash[:status] = "Story \"#{@story.title}\" has been deleted."
+        page.call 'location.reload'
+      end
+    end
+  end
+  
+  def move_up
+    story = Story.find params[:id]
+  	story.move_higher
+    render :update do |page|
+      page.call 'location.reload'
+    end
+  end
+  
+  def move_down
+    story = Story.find params[:id]
+    story.move_lower
+    render :update do |page|
+      page.call 'location.reload'
+    end
+  end  
+
+  def edit_numeric_priority
+  	@story = Story.find params[:id]
+    render :update do |page|
+      page.call 'showPopup', render(:partial => 'stories/edit_numeric_priority_form')
+    end
+  end
+
+  def set_numeric_priority
+  	new_pos = params[:story][:position]
+    render :update do |page|
+      if (new_pos.index(/\D/).nil?)
+        last_story = @project.last_story
+        if(new_pos.to_i <= last_story.position)
+          story = Story.find(params[:id])
+          story.insert_at(new_pos)
+          flash[:status] = 'The changes to the story card have been saved.'
+          page.call 'location.reload'
+        else
+          @error = 'Position was not updated.  Value can not be greater than last position.'
+          page[:flash_notice].replace_html :inline => "<%= error_container(@error) %>" 
+        end
+      else
+        @error = 'Position was not updated.  You must specify a numeric value.'
+        page[:flash_notice].replace_html :inline => "<%= error_container(@error) %>" 
+      end
+    end
+  end
+  
+  def audit
+    @changes = Story.find(params[:id]).audits
+    render :update do |page|
+      unless @changes.empty?
+        page.call 'showPopup', render(:partial => 'stories/audit')
+        page.call 'sortAudits'
+      end
+    end 
+  end
   
   
   
@@ -132,24 +205,10 @@ class StoriesController < ApplicationController
   end
 
   def new_bulk
-    newcommon
-  end
-  
-  def new_single
-    newcommon
-  end
-
-  def new_story_for_iteration
-    newcommon
-    @iteration = Iteration.find params[:iteration_id]
-  end
-  
-  def newcommon
-  	@story = Story.new
+    @story = Story.new
     @story.return_ids_for_aggregations
   end
-
-
+  
   def create_many
     if params[:story_card_titles].empty?
       flash[:error] = 'Please enter at least one story card title.'
@@ -162,50 +221,7 @@ class StoriesController < ApplicationController
       render :template => 'layouts/refresh_parent_close_popup'
     end
   end
-  
 
-
-  def clone_story
-  	editcommon
-  	@story.title = "Clone Of: " + @story.title
-    @iterationid = @story.iteration_id if @story.iteration_id?
-  end
-  
-
-  
-  def editcommon
-  	@story = Story.find params[:id]
-    @story.return_ids_for_aggregations
-  end
-
-
-
-  def delete_common
-    Story.destroy params[:id]
-    flash[:status] = 'The story card was deleted.'
-  end
-  
-  def delete_from_backlog
-    delete_common
-    redirect_to :controller => 'stories', :action => 'index',
-      :project_id => @project.id.to_s
-    
-  end
-  
-  def delete_from_dashboard
-    delete_common
-    redirect_to :controller => 'dashboard', :action => 'index',
-      :project_id => @project.id
-  end
-  
-  def delete_from_iteration
-    delete_common
-    redirect_to :controller => 'iterations', :action => 'show',
-      :id => (params[:iteration_id]),
-      :project_id => @project.id
-  end
-
-    
   def move_acceptancetests
     change_acceptancetest_assignment
     redirect_to :controller => 'acceptancetests', :action => 'index',
@@ -233,58 +249,5 @@ class StoriesController < ApplicationController
     flash[:status] = successes.join("\n\n") unless successes.empty?
     flash[:error] = failures.join("\n\n") unless failures.empty?
   end
-  
-  def increase_numeric_priority
-    story = Story.find params[:id]
-  	story.move_higher
-  	if params[:iteration_id]
-  	  redirect_to :controller => 'iterations', :action => 'show',
-        :project_id => @project.id, :id => params[:iteration_id]
-  	else
-      redirect_to :controller => 'stories', :action => 'index',
-        :project_id => @project.id
-    end
-  end
-  
-  def decrease_numeric_priority
-    story = Story.find params[:id]
-    story.move_lower
-  	if params[:iteration_id]
-      redirect_to :controller => 'iterations', :action => 'show',
-        :project_id => @project.id, :id => params[:iteration_id]
-  	else
-   	  redirect_to :controller => 'stories', :action => 'index',
-        :project_id => @project.id
-    end
-  end
-  
-  def edit_numeric_priority
-  	@story = Story.find params[:id]
-  end
-  
-  def set_numeric_priority
-  	newPos = params[:story][:position]
-  	if (newPos.to_i.to_s.length == newPos.length)
-	  	lastStory = Story.find(:first, :conditions => "project_id = #{@project.id}", :order => "position DESC")
-	  	if(newPos.to_i <= lastStory.position)
-	  		story = Story.find(params[:id])
-	  		story.insert_at(newPos)
-        flash[:status] = 'The changes to the story card have been saved.'
-	     	render 'layouts/refresh_parent_close_popup'
-	    else
-	     	flash[:error] = 'Position was not updated.  Value can not be greater than last position.'
- 		    render 'layouts/refresh_parent_close_popup'
-	    end
-    else
-      flash[:error] = 'Position was not updated.  You must specify a numeric value.'
-      render 'layouts/refresh_parent_close_popup'
-    end
-  end
-  
-  def audit_story
-    @changes = Audit.find(:all, :conditions => ["project_id = #{@project.id} AND audited_object_id = #{@params[:id]} AND object = 'Story'"], :order => "created_at DESC")
-  end
-
-
  
 end

@@ -113,5 +113,9 @@ class Project < ActiveRecord::Base
       errors.add(:planned_iterations, "must be a positive integer") if self.planned_iterations < 1
     end
   end
+  
+  def last_story
+    Story.find(:first, :conditions => "project_id = #{id}", :order => "position DESC")
+  end
 end
 

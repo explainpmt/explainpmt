@@ -10,4 +10,8 @@ module ProjectsHelper
   def project_dashboard_link(project)
     link_to project.name, project_dashboard_path(project)
   end
+  
+  def link_to_delete_project(project)
+    link_to "Delete", project_path(project), :method => :delete, :confirm => "Are you sure you want to delete?\r\nAll associated data will also be deleted. This action can not be undone."
+  end
 end

@@ -7,7 +7,7 @@ class Story < ActiveRecord::Base
   belongs_to :owner, :class_name => 'User', :foreign_key => 'user_id'
   has_many :tasks, :dependent => :destroy
   has_many :acceptancetests, :dependent => :destroy
-#  acts_as_list :scope => :project_id
+  acts_as_list :scope => :project_id
 
   Statuses = []
   Values = []
@@ -137,6 +137,10 @@ class Story < ActiveRecord::Base
         read_attribute('risk')
       end
     EOF
+  end
+  
+  def audits
+    Audit.find(:all, :conditions => ["project_id = #{project_id} AND audited_object_id = #{id} AND object = 'Story'"], :order => "created_at DESC")
   end
   
   def audit_story

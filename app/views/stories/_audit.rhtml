@@ -1,0 +1,23 @@
+<div class="audit">
+<a href="javascript:void(0);" class="close" onclick="cClick();">close</a><br /><br />
+  <table class="sort-table" id="story_audit" cellspacing="0" cellpadding="0" border="0" width="100%">
+    <thead>
+      <tr>
+        <td>Time</td>
+        <td>Before</td>
+        <td>After</td>
+        <td>User</td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @changes.each do |change| %>
+        <tr class="<%= cycle("even_row", "odd_row") %>">
+          <td><%= change.created_at%></td>
+          <td><%=text_area_tag "body", change.before, :size => "30x3", :readonly => "true", :style => "background:#E6E6E6" %></td>
+          <td><%=text_area_tag "body", change.after, :size => "30x3", :readonly => "true", :style => "background:#E6E6E6" %></td>
+          <td><%= change.user %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
