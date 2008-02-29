@@ -1,5 +1,4 @@
 class InitiativesController < ApplicationController
-  before_filter :require_current_project
   before_filter :find_initiative, :except => [:index, :create, :new]
   
   def index

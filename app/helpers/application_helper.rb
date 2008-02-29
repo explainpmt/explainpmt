@@ -58,8 +58,7 @@ module ApplicationHelper
         if @project
           xml << main_menu_link('Dashboard', project_dashboard_path(@project))
         else
-          xml << main_menu_link('Overview', :controller => 'dashboard',
-            :action => 'index')
+          xml << main_menu_link('Overview', dashboards_path)
         end
       end
       if is_admin?

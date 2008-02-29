@@ -1,5 +1,6 @@
 class ProjectsController < ApplicationController
   skip_before_filter :check_authentication, :only => :audits
+  skip_before_filter :require_current_project
   
   def index
     @projects = current_user.admin? ? Project.find(:all, :order => 'name ASC') : current_user.projects

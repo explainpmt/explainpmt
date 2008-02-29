@@ -1,5 +1,4 @@
 class TasksController < ApplicationController
-  before_filter :require_current_project
   before_filter :find_task, :except => [:new, :create]
 
   def new

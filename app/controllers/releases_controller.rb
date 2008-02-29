@@ -1,5 +1,4 @@
 class ReleasesController < ApplicationController
-  before_filter :require_current_project
   before_filter :find_release, :except => [:index, :create, :new]
   
   def index

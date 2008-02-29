@@ -1,5 +1,4 @@
 class AcceptancetestsController < ApplicationController
-  before_filter :require_current_project
   before_filter :find_acceptance, :except => [:index, :new, :create, :export, :assign]
   
   def index

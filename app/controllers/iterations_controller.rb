@@ -1,5 +1,4 @@
 class IterationsController < ApplicationController
-  before_filter :require_current_project
 
   def index
     iterations = @project.iterations

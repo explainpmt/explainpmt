@@ -1,4 +1,6 @@
 class DashboardsController < ApplicationController
+  skip_before_filter :require_current_project, :only => [:index]
+  
   def show
     Story.with_open do 
       @stories = current_user.stories_for(@project)
