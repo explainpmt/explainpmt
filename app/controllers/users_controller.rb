@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   skip_before_filter :check_authentication, :only => [:authenticate, :login, :new, :create, :register]
   skip_before_filter :require_current_project
-  before_filter :find_user, :only => [:edit, :update, :destroy]
+  before_filter :find_user, :only => [:edit, :update, :destroy, :remove_from_project]
   
   def index
     @users = User.find(:all, :order => 'last_name ASC, first_name ASC')
@@ -14,7 +14,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find params[:id]
-    common_popup(project_user_path(@project, @user))
+    common_popup(user_path(@user))
   end
 
   def create
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
       @user.destroy
       flash[:status] = "User account for #{@user.full_name} has been deleted."
     end
-    reload
+    page_reload
   end
 
   def login
@@ -79,6 +79,12 @@ class UsersController < ApplicationController
       redirect_to login_users_path
     end
   end
+ 
+  def remove_from_project
+    @project.users.delete(@user)
+    flash[:status] = "#{@user.full_name} has been removed from the project."
+    redirect_to team_project_path(@project)
+  end 
   
   protected
   def common_popup(url)

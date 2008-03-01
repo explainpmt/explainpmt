@@ -1,42 +1,21 @@
-<%require 'enumerator'%>
 <table class="contact_cards">
-  <% @users.each_slice(3) do |row_of_users| %>
+  <% @users.each_slice(4) do |row_of_users| %>
     <tr>
       <% row_of_users.each do |user| %>
         <td>
           <div class="contact_card">
-            <h3<%= user.admin? ? ' class="admin"' : '' %>>
-              <%= user.full_name %>
-            </h3>
-
-              <ul class="action_links">
-                  <li>
-                    <a href="mailto:<%= user.email %>">Email</a>&nbsp;-&nbsp;
-                  </li>
-                <% if @project %>
-                  <li>
-                    <%= link_to('Remove from Project', :controller => 'projects',
-                                :action => 'remove_user',
-                                :project_id => @project.id, :id => user.id) if @project %>
-                  </li>
-                <% else %>
-                <% if is_admin? %>
-                  <li><%= popup_link('Edit', "edit_user",
-                            'width=375,height=300,resizable,scrollbars',
-                            :controller => 'users', :action => 'edit', :id => user.id) %></li>
-                  <li>
-                    &nbsp;-&nbsp;<%= link_to('Delete',
-                                {
-                                  :controller => 'users', :action => 'delete',
-                                  :id => user.id
-                                },
-                                :confirm => 'Are you sure you want to ' +
-                                            'delete ' + user.full_name + '? ' +
-                                            'This action cannot be undone.') %>
-                  </li>
+            <h3 <%= user.admin? ? ' class="admin"' : '' %>><%= user.full_name %></h3>
+            <ul class="action_links">
+              <li><a href="mailto:<%= user.email %>">Email</a>&nbsp;-&nbsp;</li>
+              <% if @project %>
+                <li> <%= link_to_remove_user(user) if @project %></li>
+              <% else %>
+                <% admin_content do %>
+                  <li><%= link_to_edit_user(user) %></li>
+                  <li>&nbsp;-&nbsp;<%= link_to_delete_user(user) %></li>
                 <% end %>
-              </ul>
-            <% end %>
+              <% end %>
+            </ul>
           </div>
         </td>
       <% end %>

@@ -9,7 +9,7 @@ module UsersHelper
   end
 
   def link_to_edit_user(user, options={})
-    link_to_remote(options[:value] || "Edit", :url => edit_project_user_path(@project, user), :method => :get)
+    link_to_remote(options[:value] || "Edit", :url => edit_user_path(user), :method => :get)
   end
     
   def link_to_delete_user(user)

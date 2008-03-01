@@ -55,9 +55,9 @@ class ProjectsController < ApplicationController
     flash[:status] = "#{project.name} has been deleted."
     redirect_to projects_path
   end
- 
-  
-  
+
+
+
   
   
   def audits

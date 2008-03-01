@@ -14,4 +14,8 @@ module ProjectsHelper
   def link_to_delete_project(project)
     link_to "Delete", project_path(project), :method => :delete, :confirm => "Are you sure you want to delete?\r\nAll associated data will also be deleted. This action can not be undone."
   end
+
+  def link_to_remove_user(user)
+    link_to "Remove From Project", remove_from_project_project_user_path(@project, user), :method => :put
+  end
 end

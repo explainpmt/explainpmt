@@ -6,7 +6,7 @@ map.resources :errors
 map.resources :projects, :member => {:audits => :get, :team => :get} do |project|
   project.resources :acceptancetests, :member => {:clone_acceptance => :get}, :collection => {:export => :get, :assign => :post,}
   project.resource :dashboard
-  project.resources :users
+  project.resources :users, :member => {:remove_from_project => :put}
   project.resources :releases
   project.resources :initiatives
   project.resources :stories,  
