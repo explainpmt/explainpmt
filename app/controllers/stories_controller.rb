@@ -1,5 +1,5 @@
 class StoriesController < ApplicationController
-  before_filter :find_story, :except => [:index, :new, :create, :audit, :export, :export_tasks, :bulk_create]
+  before_filter :find_story, :except => [:index, :new, :create, :audit, :export, :export_tasks, :bulk_create, :create_many]
   
   def index
     @stories = @project.stories.backlog
