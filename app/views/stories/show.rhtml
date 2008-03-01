@@ -54,7 +54,7 @@
 <% unless @story.description.blank? %>
   <label><strong>Description</label></strong>
   <%= textilize(@story.description) %>
-<% end %>
+<% end %><br />
 <h3>Tasks</h3>
 <% empty_collection_content(@tasks) do %>
   No tasks have been defined for this story.
