@@ -1,0 +1,11 @@
+common: &common
+  adapter: postgresql
+  username: explainpmt
+  password: explainpmt
+  encoding: utf8
+development:
+  <<: *common
+  database: explainpmt_dev
+test:
+  <<: *common
+  database: explainpmt_test
