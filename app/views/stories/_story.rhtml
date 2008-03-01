@@ -1,4 +1,4 @@
-<tr>
+<tr class="<%= cycle("even_row", "odd_row") %>">
   <td nowrap>
     <% column_content_for(hide_cols, :checkbox) do %>
       <%= check_box_tag 'selected_stories[]', story.id, false, :id => "sc_check_#{story.id}"%>&nbsp;

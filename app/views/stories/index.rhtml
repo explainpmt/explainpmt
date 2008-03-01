@@ -5,7 +5,7 @@
 
 <% collection_content(@stories) do %>
   <%= render :partial => 'move_stories_form', :locals => {:default => "Not Assigned", :selected_id => 'select1'} %><br>
-  <%= render :partial => 'stories' %>
+  <%= render :partial => 'stories' , :locals => {:hide_cols => [:project]}%>
   <% if @stories.size > 10 %>
     <br>
     <%= render :partial => 'story_links' %>
