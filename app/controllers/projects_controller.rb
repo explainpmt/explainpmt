@@ -56,56 +56,38 @@ class ProjectsController < ApplicationController
     redirect_to projects_path
   end
 
+  def add_users
+    @project = Project.find params[:id]
+    @available_users = @project.users_available_for_addition
+    render :update do |page|
+      page.call 'showPopup', render(:partial => 'add_users')
+    end
+  end
 
+  def update_users
+    @project = Project.find params[:id]
+    users_added = []
+    (params[:selected_users] || []).each do |uid|
+      user = User.find_by_id(uid)
+      if user
+        @project.users << user
+        users_added << user.full_name
+      end
+    end
+    flash[:status] = "The following users were added to the project: " + users_added.join(', ') unless users_added.empty?
+    redirect_to team_project_path(@project)
+  end  
+  
+  
+  
 
+  
   
   
   def audits
     @audits = Audit.find(:all, :conditions => ["project_id = #{params[:id]} AND object = 'Story'"], :order => "created_at DESC")
     @project = Project.find params[:id]
     render :layout => false
-  end
-  
-  
-  def add_users
-    @available_users = User.find( :all, :order => 'last_name ASC, first_name ASC' ).select do |usr|
-      !usr.projects.include?(@project)
-    end
-  end
-
-  def update_users
-    params[:selected_users] ||= []
-    users_added = []
-    users_not_added = []
-    params[:selected_users].each do |uid|
-      uid = uid.to_i
-      user = User.find(uid)
-      if user.valid?
-        @project.users << user
-        users_added << user.full_name
-      else
-        users_not_added << user.full_name
-      end
-    end
-    @project.save
-    if users_added.size > 0
-      flash[:status] = "The following users were added to the project: " +
-        users_added.join(', ')
-    end
-    if users_not_added.size > 0
-      flash[:error] = "The following users could not be added to the " +
-        "project, because there is a problem with their " +
-        "account: #{users_not_added.join(', ')}"
-    end
-    render :template => 'layouts/refresh_parent_close_popup'
-  end
-
-  def remove_user
-    user = User.find params[:id]
-    @project.users.delete(user)
-    flash[:status] = "#{user.full_name} has been removed from the project."
-    redirect_to :controller => 'users', :action => 'index',
-      :project_id => @project.id
   end
 
 end

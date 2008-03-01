@@ -5,9 +5,7 @@
       <p>This screen lists all of the user accounts that have been created.</p>
       <p>Admin accounts are marked with <%= image_tag('admin_dot.gif') %></p>
       <% admin_content do %>
-        <p><strong>
-          <%= link_to_new_user('Create New User')  %>
-        </strong></p>
+        <p><strong><%= link_to_new_user('Create New User')  %></strong></p>
       <% end %>
     </td>
     <td id="RightColumn" valign="top">

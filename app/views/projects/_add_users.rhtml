@@ -1,0 +1,32 @@
+<div class="popup">
+  <% form_for :users, :url => update_users_project_path(@project), :method => :post do |f| %>
+    <a href="javascript:void(0);" class="close" onclick="cClick();">close</a>
+    <h1>Add users to <%= @project.name %></h1>
+    <table width="100%" cellspacing="0" cellpadding="3">
+      <tr>
+        <th>Available</th>
+        <th> </th>
+        <th>Selected</th>
+      </tr>
+      <tr>
+        <td width="50%">
+          <select multiple="multiple" size="10" id="Available" name="available" style="width: 100%;">
+            <%= options_from_collection_for_select(@available_users, 'id', 'full_name') %>
+          </select>
+        </td>
+        <td>
+          <%= button_to_function "&lt;&lt;", "move('Selected', 'Available');"%><br /><br />
+          <%= button_to_function "&gt;&gt;", "move('Available', 'Selected');"%>
+        </td>
+        <td width="50%">
+          <select multiple="multiple" size="10" id="Selected" name="selected_users" style="width: 100%;"></select>
+        </td>
+      </tr>
+    </table>
+    <div class="submit">
+      <%= submit_tag "Add Selected Users", :onclick => "select_all('Selected');this.form.submit();" %>
+    </div>
+  <% end %>
+</div>
+
+

@@ -18,4 +18,8 @@ module ProjectsHelper
   def link_to_remove_user(user)
     link_to "Remove From Project", remove_from_project_project_user_path(@project, user), :method => :put
   end
+
+  def link_to_add_users
+    link_to_remote("Add Users to Project", :url => add_users_project_path(@project), :method => :get)
+  end
 end

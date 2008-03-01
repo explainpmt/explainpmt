@@ -117,5 +117,11 @@ class Project < ActiveRecord::Base
   def last_story
     Story.find(:first, :conditions => "project_id = #{id}", :order => "position DESC")
   end
+  
+  def users_available_for_addition
+    User.find( :all, :order => 'last_name ASC, first_name ASC' ).select do |usr|
+      !usr.projects.include?(self)
+    end
+  end
 end
 
