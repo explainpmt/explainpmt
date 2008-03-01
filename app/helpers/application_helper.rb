@@ -27,7 +27,7 @@ module ApplicationHelper
   end
 
   def owner_select_list
-    @project.users.inject("<option value=''></option>"){|options, user| options << "<option value='#{u.id}'>#{u.full_name}</option"}
+    @project.users.inject("<option value=''></option>"){|options, user| options << "<option value='#{user.id}'>#{user.full_name}</option"}
   end
   
   def error_container(error)
