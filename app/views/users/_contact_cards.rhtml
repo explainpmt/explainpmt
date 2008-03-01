@@ -4,9 +4,9 @@
       <% row_of_users.each do |user| %>
         <td>
           <div class="contact_card">
-            <h3 <%= user.admin? ? ' class="admin"' : '' %>><%= user.full_name %></h3>
+            <h3 <%= "class='admin'" if user.admin? %>><%= user.full_name %></h3>
             <ul class="action_links">
-              <li><a href="mailto:<%= user.email %>">Email</a>&nbsp;-&nbsp;</li>
+              <li><%= mail_to user.email, "Email" %>&nbsp;-&nbsp;</li>
               <% if @project %>
                 <li> <%= link_to_remove_user(user) if @project %></li>
               <% else %>
