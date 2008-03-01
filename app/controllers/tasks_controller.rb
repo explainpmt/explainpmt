@@ -9,12 +9,6 @@ class TasksController < ApplicationController
   def edit
     common_popup(project_story_task_path(@project, @task.story, @task))
   end
-
-  def show
-    render :update do |page|
-      page.call 'showPopup', render(:partial => 'tasks/show')
-    end 
-  end
   
   def create
     @task = Task.new params[:task]

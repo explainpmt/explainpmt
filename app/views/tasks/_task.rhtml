@@ -12,7 +12,8 @@
     <td><%= link_to_story(task.story)%><%=image_tag('info-icon.gif', :alt => truncate(task.story.description, 35)) if task.story.description? %></td>
   <% end %>
         
-  <td><%= link_to_task(task)%><%= image_tag( 'info-icon.gif', :alt => task.description ) if task.description? %></td>
+  <td><%= link_to_edit_task(task)%><%= image_tag( 'info-icon.gif' ) if task.description? %></td>
+  <td><%= textilize_without_paragraph(task.description) %></td>
   <td><%if task.complete == true %>Yes<%else%>No<% end %></td>
   
   <% column_content_for(hide_cols, :owner) do %>
