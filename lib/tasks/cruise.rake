@@ -1,0 +1,1 @@
+task :cruise =>[ 'db:migrate', :test ]
