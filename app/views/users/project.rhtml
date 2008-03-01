@@ -10,8 +10,7 @@
                                   :controller => 'projects',
                                   :action => 'add_users',
                                   :project_id => @project.id) %></strong></p>
-        <p><strong><%= popup_link('Create New User', "create_user",'width=375,height=375,resizable,scrollbars',
-             :controller => 'users', :action => 'new', :project_id => @project.id) %></strong></p>
+        <p><strong><%= link_to_new_user('Create New User') %></strong></p>
     </td>
     <td id="RightColumn" valign="top">
       <%= render_partial 'contact_cards' %>
