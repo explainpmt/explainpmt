@@ -21,7 +21,7 @@
       <%if story.owner%>
         <%= story.owner.full_name %><%= '- ' + story.owner.team if story.owner.team? %>
         <%= '(' + link_to_release_story_ownership(story) + ')' %>
-      <% else %>
+      <% elsif story.iteration  %>
         <%='None (' + link_to_take_story_ownership(story) + '/' + link_to_assign_story_ownership(story) + ')'%>
       <% end %>
     </td>
