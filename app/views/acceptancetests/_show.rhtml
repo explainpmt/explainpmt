@@ -1,16 +1,33 @@
-<a href="javascript:void(0);" onclick="cClick();">close</a>
-<p><strong>Name</strong></p>
-<%= @acceptancetest.name %>
-<p><strong>Description</strong></p>
-<%= textilize(@acceptancetest.description) %>
-<p><strong>Pre Condition</strong></p>
-<%= textilize(@acceptancetest.pre_condition) %>
-<p><strong>Post Condition</strong></p>
-<%= textilize(@acceptancetest.post_condition) %>
-<p><strong>Expected Result</strong></p>
-<%= textilize(@acceptancetest.expected_result) %>
-<p><strong>Automated</strong></p>
-<%= @acceptancetest.automated? ? "Yes" : "No" %>
-<p><strong>Pass</strong></p>
-<%= @acceptancetest.pass? ? "Yes" : "No" %>
-<%= link_to_edit_acceptancetest(@acceptancetest,:value => "Edit") %>
+<div class="popup">
+  <h3>Accetance Test Details</h3>
+  <a href="javascript:void(0);" class="close" onclick="cClick();">close</a>
+  
+  <label><strong>Name</strong></label>
+  <%= @acceptancetest.name %>
+  <% unless @acceptancetest.description.blank? %>
+    <label><strong>Description</strong></label>
+    <%= textilize(@acceptancetest.description) %>
+  <% end %>
+  
+  <% unless @acceptancetest.pre_condition.blank? %>
+    <label><strong>Pre Condition</strong></label>
+    <%= textilize(@acceptancetest.pre_condition) %>
+  <% end %>
+  
+  <% unless @acceptancetest.post_condition.blank? %>
+    <label><strong>Post Condition</strong></label>
+    <%= textilize(@acceptancetest.post_condition) %>
+  <% end %>
+  
+  <% unless @acceptancetest.expected_result.blank? %>
+    <label><strong>Expected Result</strong></label>
+    <%= textilize(@acceptancetest.expected_result) %>
+  <% end %>
+  <br /><label style="display:inline"><strong>Automated</strong></label>
+  <%= @acceptancetest.automated? ? "Yes" : "No" %><br />
+  <label style="display:inline"><strong>Pass</strong></label>
+  <%= @acceptancetest.pass? ? "Yes" : "No" %>
+  <div class="submit">
+    <%= link_to_edit_acceptancetest(@acceptancetest,:value => "Edit") %>
+  </div>
+</div>
