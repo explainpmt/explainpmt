@@ -47,8 +47,8 @@ module IterationsHelper
     "#{iteration.name} (#{numeric_date(iteration.start_date)} - #{numeric_date(@iteration.stop_date)})"
   end
   
-  def iteration_select_list_for(iterations)
-    options = "<option vlaue='0'>Not Assigned</option>"
+  def iteration_select_list_for(iterations, default)
+    options = "<option vlaue='0'>#{default}</option>"
     iterations.unshift(iterations.current) if iterations.current
     iterations.delete_at(0)
     iterations.reverse_each do |i|

@@ -74,12 +74,7 @@ class IterationsController < ApplicationController
 
   def move_stories
     change_story_assignment
-    if params[:id]
-      @iteration = Iteration.find params[:id]
-      redirect_to project_iteration_path(@project, @iteration)
-    else
-      redirect_to project_stories_path(@project)
-    end
+    redirect_to request.referer
   end
   
   def export
