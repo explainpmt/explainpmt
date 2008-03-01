@@ -1,8 +1,13 @@
+<div class="small_popup">
 <% form_for :owner, :url => assign_project_story_task_path(@project, @task.story, @task) do |f| %>
-  <a href="javascript:void(0);" onclick="cClick();">close</a>
+  <a href="javascript:void(0);" class="close" onclick="cClick();">close</a>
+  <h3>Assign Owner</h3><br />
   <% @users.each do |m| %>
     <%= f.radio_button :id, m.id %>
-    <label style="display:inline"><%= m.first_name %>,<%= m.last_name %></label>
+    <label style="display:inline"><%= m.first_name %>,<%= m.last_name %></label><br />
   <% end %>
-  <%= submit_tag "Assign" %>
+  <div class="submit">
+    <%= submit_tag "Assign" %>
+  </div>
 <% end %>
+</div>
