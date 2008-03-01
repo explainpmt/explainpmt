@@ -72,10 +72,6 @@ module StoriesHelper
   end
   
   def story_select_list_for(stories)
-    options = ""
-    stories.each do |i|
-      options << "<option value='#{i.id}'>SC#{i.scid}  (#{truncate(i.title,30)})</option>"
-    end
-    options
+    stories.inject(""){|options, story| options << "<option value='#{story.id}'>SC#{story.scid}  (#{truncate(story.title,30)})</option>"}
   end
 end

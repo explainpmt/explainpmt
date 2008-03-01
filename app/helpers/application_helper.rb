@@ -27,11 +27,7 @@ module ApplicationHelper
   end
 
   def owner_select_list
-    options = "<option value=''></option>"
-    @project.users.each do |u|
-      options << "<option value='#{u.id}'>#{u.full_name}</option"
-    end
-    options
+    @project.users.inject("<option value=''></option>"){|options, user| options << "<option value='#{u.id}'>#{u.full_name}</option"}
   end
   
   def error_container(error)
@@ -137,14 +133,6 @@ module ApplicationHelper
       html_options = {}
     end
     link_to(title,options,html_options)
-  end
-
-  def popup_link(title,window_title,window_options,options)
-    xml = Builder::XmlMarkup.new
-    link = url_for(options)
-    xml.a(title, :href => link,
-      :onclick => "window.open('#{link}','#{window_title}'," +
-        "'#{window_options}');return false;")
   end
 
   def long_date(date)
