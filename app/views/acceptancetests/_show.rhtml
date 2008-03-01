@@ -1,24 +1,20 @@
 <div class="popup">
   <h3>Accetance Test Details</h3>
   <a href="javascript:void(0);" class="close" onclick="cClick();">close</a>
-  
   <label><strong>Name</strong></label>
   <%= @acceptancetest.name %>
   <% unless @acceptancetest.description.blank? %>
     <label><strong>Description</strong></label>
     <%= textilize(@acceptancetest.description) %>
   <% end %>
-  
   <% unless @acceptancetest.pre_condition.blank? %>
     <label><strong>Pre Condition</strong></label>
     <%= textilize(@acceptancetest.pre_condition) %>
   <% end %>
-  
   <% unless @acceptancetest.post_condition.blank? %>
     <label><strong>Post Condition</strong></label>
     <%= textilize(@acceptancetest.post_condition) %>
   <% end %>
-  
   <% unless @acceptancetest.expected_result.blank? %>
     <label><strong>Expected Result</strong></label>
     <%= textilize(@acceptancetest.expected_result) %>
