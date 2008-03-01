@@ -1,4 +1,4 @@
-<% remote_form_for :owner, :url => assign_project_story_task_path(@project, @task.story, @task) do |f| %>
+<% form_for :owner, :url => assign_project_story_task_path(@project, @task.story, @task) do |f| %>
   <a href="javascript:void(0);" onclick="cClick();">close</a>
   <% @users.each do |m| %>
     <%= f.radio_button :id, m.id %>

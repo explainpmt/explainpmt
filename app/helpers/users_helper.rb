@@ -13,7 +13,7 @@ module UsersHelper
   end
     
   def link_to_delete_user(user)
-    link_to_remote "Delete", :url => user_path(user), :method => :delete, :confirm => "Are you sure you want to delete #{user.full_name}?\r\nAll associated data will also be deleted. This action can not be undone."
+    link_to "Delete", user_path(user), :method => :delete, :confirm => "Are you sure you want to delete #{user.full_name}?\r\nAll associated data will also be deleted. This action can not be undone."
   end
   
 end

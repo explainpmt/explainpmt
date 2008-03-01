@@ -52,7 +52,7 @@ class UsersController < ApplicationController
       @user.destroy
       flash[:status] = "User account for #{@user.full_name} has been deleted."
     end
-    page_reload
+    redirect_to request.referer
   end
 
   def login

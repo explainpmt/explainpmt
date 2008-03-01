@@ -8,11 +8,11 @@ module AcceptancetestsHelper
   end
   
   def link_to_delete_acceptancetest(acceptancetest)
-    link_to_remote "Delete", :url => project_acceptancetest_path(@project, acceptancetest), :method => :delete, :confirm => "Are you sure you want to delete?"
+    link_to "Delete", project_acceptancetest_path(@project, acceptancetest), :method => :delete, :confirm => "Are you sure you want to delete?"
   end
   
   def link_to_clone_acceptancetest(acceptancetest)
-    link_to_remote("Clone", :url => clone_acceptance_project_acceptancetest_path(@project, acceptancetest), :method => :get) unless acceptancetest.story_id.blank?
+    link_to("Clone", clone_acceptance_project_acceptancetest_path(@project, acceptancetest)) unless acceptancetest.story_id.blank?
   end
     
   def link_to_acceptancetest(acceptancetest, options={})

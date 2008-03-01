@@ -3,15 +3,11 @@ class TasksController < ApplicationController
 
   def new
     @story = Story.find params[:story_id]
-    render :update do |page|
-      page.call 'showPopup', render(:partial => 'story_task_form', :locals => {:url => project_story_tasks_path(@project)})
-    end 
+    common_popup(project_story_tasks_path(@project))
   end
 
   def edit
-    render :update do |page|
-      page.call 'showPopup', render(:partial => 'story_task_form', :locals => {:url => project_story_task_path(@project, @task.story, @task)})
-    end 
+    common_popup(project_story_task_path(@project, @task.story, @task))
   end
 
   def show
@@ -45,11 +41,9 @@ class TasksController < ApplicationController
   end
   
   def destroy
-    render :update do |page|
-      if @task.destroy
-        flash[:status] = "Task \"#{@task.name}\" has been deleted."
-        page.call 'location.reload'
-      end
+    if @task.destroy
+      flash[:status] = "Task \"#{@task.name}\" has been deleted."
+      redirect_to request.referer
     end
   end
   
@@ -57,14 +51,14 @@ class TasksController < ApplicationController
     @task.owner = current_user
     @task.save
     current_user.reload
-    page_reload
+    redirect_to request.referer
   end
 
   def release_ownership
     @task.owner = nil
     @task.save
     current_user.reload
-    page_reload
+    redirect_to request.referer
   end
   
   def assign_ownership
@@ -79,7 +73,14 @@ class TasksController < ApplicationController
     @task.owner = user
     @task.save
     current_user.reload
-    page_reload
+    redirect_to request.referer
+  end
+  
+  protected
+  def common_popup(url)
+    render :update do |page|
+      page.call 'showPopup', render(:partial => 'story_task_form', :locals => {:url => url})
+    end    
   end
   
   def find_task

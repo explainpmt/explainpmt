@@ -55,14 +55,14 @@ class StoriesController < ApplicationController
     @story.owner = current_user
     @story.save
     current_user.reload
-    page_reload
+    redirect_to request.referer
   end
   
   def release_ownership
     @story.owner = nil
     @story.save
     current_user.reload
-    page_reload
+    redirect_to request.referer
   end
 
   def assign_ownership
@@ -77,7 +77,7 @@ class StoriesController < ApplicationController
     @story.owner = user
     @story.save
     current_user.reload
-    page_reload
+    redirect_to request.referer
   end
   
   def clone_story
@@ -85,26 +85,24 @@ class StoriesController < ApplicationController
     story.title = "Clone:" + @story.title
     story.scid = nil
     story.save!
-    page_reload
+    redirect_to request.referer
   end
   
   def destroy
-    render :update do |page|
-      if @story.destroy
-        flash[:status] = "Story \"#{@story.title}\" has been deleted."
-        page.call 'location.reload'
-      end
+    if @story.destroy
+      flash[:status] = "Story \"#{@story.title}\" has been deleted."
+      redirect_to request.referer
     end
   end
   
   def move_up
     @story.move_higher
-    page_reload
+    redirect_to request.referer
   end
   
   def move_down
     @story.move_lower
-    page_reload
+    redirect_to request.referer
   end  
 
   def edit_numeric_priority

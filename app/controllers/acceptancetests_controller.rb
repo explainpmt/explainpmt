@@ -46,11 +46,9 @@ class AcceptancetestsController < ApplicationController
   end
   
   def destroy
-    render :update do |page|
-      if @acceptancetest.destroy
-        flash[:status] = "Acceptance Test \"#{@acceptancetest.name}\" has been deleted."
-        page.call 'location.reload'
-      end
+    if @acceptancetest.destroy
+      flash[:status] = "Acceptance Test \"#{@acceptancetest.name}\" has been deleted."
+      redirect_to request.referer
     end
   end
 
@@ -58,7 +56,7 @@ class AcceptancetestsController < ApplicationController
     acceptancetest = @acceptancetest.clone
     acceptancetest.name = "Clone:" + acceptancetest.name
     acceptancetest.save
-    page_reload
+    redirect_to request.referer
   end
   
   def export

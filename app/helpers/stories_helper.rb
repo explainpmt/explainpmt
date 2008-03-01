@@ -24,15 +24,15 @@ module StoriesHelper
   end
 
   def link_to_clone_story(story)
-    link_to_remote("Clone", :url => clone_story_project_story_path(@project, story), :method => :put)
+    link_to("Clone", clone_story_project_story_path(@project, story), :method => :put)
   end
 
   def link_to_move_story_up(story)
-    link_to_remote("Move Up", :url => move_up_project_story_path(@project, story), :method => :put)
+    link_to("Move Up",  move_up_project_story_path(@project, story), :method => :put)
   end
 
   def link_to_move_story_down(story)
-    link_to_remote("Move Down", :url => move_down_project_story_path(@project, story), :method => :put)
+    link_to("Move Down", move_down_project_story_path(@project, story), :method => :put)
   end
 
   def link_to_edit_story_position(story)
@@ -40,7 +40,7 @@ module StoriesHelper
   end
   
   def link_to_delete_story(story)
-    link_to_remote("Delete", :url => project_story_path(@project, story), :method => :delete, :confirm => "Are you sure you want to delete?\r\nAll associated data will also be deleted. This action can not be undone.")
+    link_to("Delete", project_story_path(@project, story), :method => :delete, :confirm => "Are you sure you want to delete?\r\nAll associated data will also be deleted. This action can not be undone.")
   end
   
   def link_to_assign_story_ownership(story)
@@ -48,11 +48,11 @@ module StoriesHelper
   end
 
   def link_to_take_story_ownership(story)
-    link_to_remote('take', :url => take_ownership_project_story_path(@project, story), :method => :put)
+    link_to('take', take_ownership_project_story_path(@project, story), :method => :put)
   end
 
   def link_to_release_story_ownership(story)
-    link_to_remote('release', :url => release_ownership_project_story_path(@project, story), :method => :put)
+    link_to('release', release_ownership_project_story_path(@project, story), :method => :put)
   end
 
   def link_to_new_acceptance_for(story)
@@ -70,7 +70,6 @@ module StoriesHelper
   def link_to_export_tasks
     link_to 'Export All Tasks', export_tasks_project_stories_path(@project)
   end
-  
   
   def story_select_list_for(stories)
     options = ""

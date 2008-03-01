@@ -1,5 +1,5 @@
 <div class="small_popup">
-  <% remote_form_for :owner, :url => assign_project_story_path(@project, @story) do |f| %>
+  <% form_for :owner, :url => assign_project_story_path(@project, @story) do |f| %>
     <a href="javascript:void(0);" class="close" onclick="cClick();">close</a><br />
     <% @users.each do |m| %>
       <%= f.radio_button :id, m.id %>
