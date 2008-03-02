@@ -195,16 +195,13 @@ class Story < ActiveRecord::Base
 
   def validate_is_new_or_cancelled_if_not_defined
     unless is_defined? or [Status::New,Status::Cancelled].include?(self.status)
-      errors.add(:status,
-        "can only be New or Cancelled unless all fields " +
-        "are complete")
+      errors.add(:status, "can only be New or Cancelled unless all fields are complete")
     end
   end
 
   def validate_has_iteration_only_if_defined
     unless is_defined?
-      errors.add(:iteration,
-        "can only be specified for defined stories") if iteration
+      errors.add(:iteration, "can only be specified for defined stories") if iteration
     end
   end
 
@@ -217,12 +214,7 @@ class Story < ActiveRecord::Base
   end
 
   def before_save_reset_status
-    if status == Status::Defined and owner
-      self.status = Status::InProgress
-    end
-
-    if status == Status::New and is_defined?
-      self.status = Status::Defined
-    end
+    self.status = Status::InProgress if status == Status::Defined and owner
+    self.status = Status::Defined if status == Status::New and is_defined?
   end
 end

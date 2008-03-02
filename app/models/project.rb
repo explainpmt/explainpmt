@@ -6,7 +6,7 @@ class Project < ActiveRecord::Base
   has_many :releases, :dependent => :destroy
   has_many :initiatives, :order => 'id DESC', :dependent => :destroy
   has_many :users, :through => :project_memberships, :order => 'last_name ASC, first_name ASC'
-  has_many :project_memberships
+  has_many :project_memberships, :dependent => :destroy
   has_many :acceptancetests, :include => [{:story => :iteration}], :dependent => :destroy
   has_many :iterations, :order => 'start_date ASC', :dependent => :destroy do
     def first

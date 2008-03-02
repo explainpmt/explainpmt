@@ -1,10 +1,8 @@
 class Iteration < ActiveRecord::Base
   belongs_to :project
-  validates_inclusion_of :length, :in => 1..99,
-                         :message => 'must be a number between 1 and 99'
+  validates_inclusion_of :length, :in => 1..99, :message => 'must be a number between 1 and 99'
   validates_inclusion_of :budget, :in => 1..999, :allow_nil => true,
-                         :message => 'must be a number between 1 and 999 ' +
-                                     '(or blank)'
+                         :message => 'must be a number between 1 and 999 (or blank)'
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :project_id
   validates_presence_of :start_date
