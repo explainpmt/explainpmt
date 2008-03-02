@@ -5,9 +5,9 @@ class Iteration < ActiveRecord::Base
   validates_inclusion_of :budget, :in => 1..999, :allow_nil => true,
                          :message => 'must be a number between 1 and 999 ' +
                                      '(or blank)'
-  validates_presence_of :start_date
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => "project_id"
+  validates_uniqueness_of :name, :scope => :project_id
+  validates_presence_of :start_date
   has_many :stories, :include => [:initiative, :project, :owner, :iteration], :dependent => :nullify do
 
     def total_points
