@@ -37,8 +37,7 @@ class Iteration < ActiveRecord::Base
   end
   
   def current?
-    today = Time.now.at_midnight
-    ( start_date.to_time <= today ) and ( stop_date.to_time >= today ) 
+    Time.now.at_midnight.between?(start_date.to_time, stop_date.to_time)
   end
 
   def future?
