@@ -8,7 +8,7 @@ class Milestone < ActiveRecord::Base
   end
   
   def recent?
-    date < Date.today && date > Date.today - 15
+    date.between?(Date.today - 15, Date.today)
   end
   
   def past?
