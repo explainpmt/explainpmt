@@ -9,12 +9,6 @@ class ApplicationController < ActionController::Base
     session[:current_user]
   end
   
-  def page_reload
-    render :update do |page|
-      page.call 'location.reload'
-    end
-  end
-  
   protected
   
   def set_selected_project
