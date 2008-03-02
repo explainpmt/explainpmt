@@ -11,7 +11,7 @@ class Iteration < ActiveRecord::Base
   has_many :stories, :include => [:initiative, :project, :owner, :iteration], :dependent => :nullify do
 
     def total_points
-      self.inject(0) { |res,s| res + s.points }
+      self.inject(0){ |res,s| res + s.points }
     end
 
     def completed_points
