@@ -33,10 +33,7 @@ class Iteration < ActiveRecord::Base
   end
 
   def points_by_user
-    stories.inject( Hash.new( 0 ) ) do |hsh, story|
-          hsh[ story.user_id ] += story.points      
-          hsh    
-    end  
+    stories.inject(Hash.new(0)){|hsh, story| (hsh[story.user_id] += story.points) && hsh}
   end
   
   def current?
