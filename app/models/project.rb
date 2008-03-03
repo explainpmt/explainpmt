@@ -34,7 +34,20 @@ class Project < ActiveRecord::Base
     end
   end
   
-  has_many :milestones, :order => 'date ASC', :dependent => :destroy, :extend => RailsJitsu::HasManyTenses::SingletonMethods
+  has_many :milestones, :order => 'date ASC', :dependent => :destroy do
+    def future
+      self.select { |m| m.future? }
+    end
+  
+    def recent
+      self.reverse.select { |m| m.recent? }
+    end
+  
+    def past
+      self.reverse.select { |m| m.past? }
+    end
+  end
+
 
   has_many :stories, :include => [:iteration, :initiative, :project], :dependent => :destroy do
     def backlog

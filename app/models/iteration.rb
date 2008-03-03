@@ -23,7 +23,7 @@ class Iteration < ActiveRecord::Base
   end
 
   def stop_date
-    start_date + length - 1
+    start_date + length.to_i - 1
   end
 
   def remaining_resources

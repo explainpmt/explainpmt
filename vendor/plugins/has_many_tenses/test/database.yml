@@ -1,4 +1,0 @@
-sqlite3:
-  adapter: sqlite3
-  dbfile: has_many_tenses.sqlite3.db
-  adapter:
