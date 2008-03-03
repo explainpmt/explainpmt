@@ -25,10 +25,6 @@ module ApplicationHelper
   def column_content_for(cols, column, &block)
     yield unless cols.include?(column)
   end
-
-  def owner_select_list
-    @project.users.inject("<option value=''></option>"){|options, user| options << "<option value='#{user.id}'>#{user.full_name}</option"}
-  end
   
   def error_container(error)
     "<div id='SystemError'>#{error}</div>"

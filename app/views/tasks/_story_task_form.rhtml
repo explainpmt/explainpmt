@@ -7,9 +7,7 @@
     <label>Description</label>
     <%= f.text_area(:description, :cols => 40, :rows => 3) %>
     <label>Owner</label>
-    <select id="story_task" name="task[user_id]">
-      <%= owner_select_list %>
-    </select>
+    <%= f.select :user_id, @project.users.collect {|u| [ u.full_name, u.id ] }, {:include_blank => true}%>
     <label>Complete</label>
     <%= f.radio_button :complete, true %>
     <label>Not Complete</label>
