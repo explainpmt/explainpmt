@@ -2,9 +2,7 @@ class DashboardsController < ApplicationController
   skip_before_filter :require_current_project, :only => [:index]
   
   def show
-    Story.with_open do 
-      @stories = current_user.stories_for(@project.id)
-    end
+    @stories = current_user.stories_for(@project).select { |s| !s.status.closed? }
     @tasks = current_user.tasks_for(@project)
     render :action => 'project'
   end

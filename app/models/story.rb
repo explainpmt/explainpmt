@@ -118,13 +118,6 @@ class Story < ActiveRecord::Base
     Risks << NA = create(4,'')
   end
 
-  @@open_status_sql = Statuses.select { |s| !s.closed? }.collect { |s| s.order }.join(',')
-  def self.with_open(&block)
-    with_scope(:find => {:conditions => "not status in (#{@@open_status_sql})"}) do
-      yield
-    end
-  end   
-  
   def return_ids_for_aggregations
     self.instance_eval <<-EOF
       def status
