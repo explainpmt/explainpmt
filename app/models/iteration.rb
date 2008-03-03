@@ -7,7 +7,7 @@ class Iteration < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :project_id
   validates_presence_of :start_date
   has_many :stories, :include => [:initiative, :project, :owner, :iteration], :dependent => :nullify do
-
+  
     def total_points
       self.inject(0){ |res,s| res + s.points }
     end

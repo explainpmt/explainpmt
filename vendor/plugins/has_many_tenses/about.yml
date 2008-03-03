@@ -1,0 +1,7 @@
+author: E. James O'Kelly
+summary: This plugin allows models to have proxy associations based on the date of the model and bool methods to determine the tense on the instance
+homepage: http://www.railsjitsu.com
+plugin: 
+license: MIT
+version: 0.0.1
+rails_version: 1.2.6+
