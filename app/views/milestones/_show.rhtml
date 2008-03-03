@@ -1,5 +1,7 @@
-<a href="javascript:void(0);" onclick="cClick();">close</a>
-<h3><%= @milestone.name %></h3>
-<p><strong><%= long_date(@milestone.date) %></strong></p>
-<%= textilize(@milestone.description) %>
-<%= link_to_edit_milestone(@milestone,:value => "Edit") %>
+<div class="popup">
+  <a href="javascript:void(0);" class="close" onclick="cClick();">close</a>
+  <h3><%= @milestone.name %></h3><br />
+  <p><strong><%= long_date(@milestone.date) %></strong></p>
+  <%= textilize(@milestone.description) %>
+  <%= link_to_edit_milestone(@milestone,:value => "Edit") %>
+</div>

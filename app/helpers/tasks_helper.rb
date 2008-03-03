@@ -4,7 +4,8 @@ module TasksHelper
   end
   
   def link_to_edit_task(task, options={})
-    link_to_remote(options[:value] || task.name, :url => edit_project_story_task_path(@project, task.story, task), :method => :get)
+    story = task.story
+    link_to_remote(options[:value] || task.name, :url => edit_project_story_task_path(story.project, story, task), :method => :get)
   end
 
   def link_to_delete_task(task)

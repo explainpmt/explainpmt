@@ -4,7 +4,7 @@ module IterationsHelper
   end
   
   def link_to_iteration(iteration)
-    link_to iteration.name, project_iteration_path(@project, iteration)
+    link_to iteration.name, project_iteration_path(iteration.project, iteration)
   end
   
   def link_to_current_iteration_in(iterations)

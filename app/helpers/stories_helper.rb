@@ -16,7 +16,7 @@ module StoriesHelper
   end
   
   def link_to_story(story, options={})
-    link_to(options[:value] || story.title, project_story_path(@project, story))
+    link_to(options[:value] || story.title, project_story_path(story.project, story))
   end
 
   def link_to_edit_story(story, options={})
