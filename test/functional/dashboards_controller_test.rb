@@ -1,19 +1,19 @@
 
 
 require File.dirname(__FILE__) + '/../test_helper'
-require 'dashboard_controller'
+require 'dashboards_controller'
 
 # Re-raise errors caught by the controller.
-class DashboardController; def rescue_action(e) raise e end; end
+class DashboardsController; def rescue_action(e) raise e end; end
 
-class DashboardControllerTest < Test::Unit::TestCase
+class DashboardsControllerTest < Test::Unit::TestCase
   fixtures ALL_FIXTURES
   def setup
     @admin = User.find 1
     @user_one = User.find 2
     @user_two = User.find 3
 
-    @controller = DashboardController.new
+    @controller = DashboardsController.new
     @request = ActionController::TestRequest.new
     @response = ActionController::TestResponse.new
     @request.session[:current_user] = @admin
@@ -55,7 +55,7 @@ class DashboardControllerTest < Test::Unit::TestCase
   def test_index_when_regular_user_on_one_project_team
     @request.session[ :current_user ] = @user_two
     get :index
-    assert_redirected_to :controller => 'dashboard', :action => 'index',
+    assert_redirected_to :controller => 'Dashboards', :action => 'index',
       :project_id => @user_two.projects.first.id
   end
 

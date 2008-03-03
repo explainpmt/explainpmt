@@ -1,14 +1,14 @@
 
 
 require File.dirname(__FILE__)  + '/../test_helper'
-require 'error_controller'
+require 'errors_controller'
 
 # Re-raise errors caught by the controller.
-class ErrorController; def rescue_action(e) raise e end; end
+class ErrorsController; def rescue_action(e) raise e end; end
 
-class ErrorControllerTest < Test::Unit::TestCase
+class ErrorsControllerTest < Test::Unit::TestCase
   def setup
-    @controller = ErrorController.new
+    @controller = ErrorsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
