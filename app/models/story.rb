@@ -2,9 +2,9 @@ class Story < ActiveRecord::Base
   belongs_to :project
   belongs_to :iteration
   belongs_to :initiative
-  belongs_to :creator, :class_name => 'User', :foreign_key => 'creator_id'
-  belongs_to :updater, :class_name => 'User', :foreign_key => 'updater_id'
-  belongs_to :owner, :class_name => 'User', :foreign_key => 'user_id'
+  belongs_to :creator, :class_name => 'User', :foreign_key => :creator_id
+  belongs_to :updater, :class_name => 'User', :foreign_key => :updater_id
+  belongs_to :owner, :class_name => 'User', :foreign_key => :user_id
   has_many :tasks, :dependent => :destroy
   has_many :acceptancetests, :dependent => :destroy
   acts_as_list :scope => :project_id
