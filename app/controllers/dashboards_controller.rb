@@ -3,7 +3,7 @@ class DashboardsController < ApplicationController
   
   def show
     Story.with_open do 
-      @stories = current_user.stories_for(@project)
+      @stories = current_user.stories_for(@project.id)
     end
     @tasks = current_user.tasks_for(@project)
     render :action => 'project'
