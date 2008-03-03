@@ -15,7 +15,7 @@ class Story < ActiveRecord::Base
 
   validates_presence_of :title, :project, :status
 
-  validates_uniqueness_of :scid, :scope => 'project_id'
+  validates_uniqueness_of :scid, :scope => :project_id
   
   validates_length_of :title, :maximum => 255
   
