@@ -6,14 +6,16 @@ class IterationsController < ApplicationController
   end
   
   def index
-    iterations = @project.iterations
-    iteration = iterations.current || iterations.previous || iterations.next
-    redirect_to project_iteration_path(@project, iteration) unless iteration.nil?
+    @project_iterations = @project.iterations
+    @iteration = @project_iterations.current || @project_iterations.previous || @project_iterations.next
+    @stories = @iteration.stories if @iteration
+    render :action => 'iterations'
   end
 
   def show
     @stories = @iteration.stories
     @project_iterations = @project.iterations
+    render :action => 'iterations'
   end
   
   def new
@@ -30,7 +32,7 @@ class IterationsController < ApplicationController
     render :update do |page|
       if @iteration.save
         flash[:status] = "New Release \"#{@iteration.name}\" has been created."
-        page.redirect_to project_iterations_path(@project)
+        page.redirect_to project_iteration_path(@project, @iteration)
       else
         page[:flash_notice].replace_html :inline => "<%= error_container(@iteration.errors.full_messages[0]) %>"
       end
@@ -48,6 +50,12 @@ class IterationsController < ApplicationController
     end
   end
 
+  def destroy
+    @iteration.destroy
+    flash[:status] = "#{@iteration.name} has been deleted."
+    redirect_to project_iterations_path(@project)
+  end
+  
   def allocation
     @allocations = @iteration.points_by_user
     @users = @project.users

@@ -21,7 +21,7 @@
           <tr class="<%= cycle("even_row", "odd_row") %>">
             <td><%= link_to_edit_release(release) %><br /><%= textilize(release.description) %></td>
             <td><strong><%= numeric_date(release.date) %></strong></td>
-            <td> 
+            <td width="8%"> 
               <%= link_to_edit_release(release, :value => "Edit")%> 
               <%= link_to_delete_release(release)%>
             </td>
