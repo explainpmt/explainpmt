@@ -1,6 +1,6 @@
 <% iterations = @project.iterations%>
 <%= form_tag move_stories_project_iterations_path(@project) %>
-<div style="text-align: right;">
+<div class="move_to">
   <% empty_collection_content(iterations) do %>
     <span style="color: #FF0000;">No iterations to move story cards to.</span>
   <% end %>
