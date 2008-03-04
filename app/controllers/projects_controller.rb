@@ -7,6 +7,10 @@ class ProjectsController < ApplicationController
     @projects = current_user.admin? ? Project.find(:all, :order => 'name ASC', :page => paging) : current_user.projects.find(:all, :page => paging)
   end
   
+  def show
+    redirect_to project_dashboard_path(Project.find(params[:id]))
+  end
+  
   def team
     @project = Project.find params[:id]
     @users = @project.users.find(:all, :page => {:size => 20, :current => params[:page]})
