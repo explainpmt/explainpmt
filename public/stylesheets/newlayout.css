@@ -1,0 +1,15 @@
+label{
+  display: block;
+  margin-top:4px;
+}
+
+/* pagination */
+.pagination ul { margin: 20px 0 0; padding: 0; text-align: center; font-size: 16px; }
+.pagination li { list-style-type: none; display: inline; }
+.pagination a, .pagination a:visited { border: 1px solid; font-weight: bold; padding: 0 5px; text-decoration: none; }
+.pagination a:hover, .pagination a:active { border: 1px solid; }
+.pagination li.currentpage { font-weight: bold; padding: 0 5px; border: 1px solid; }
+.pagination li.disablepage { display:none; }
+.pagination li.nextpage { font-weight: bold; }
+* html .pagination li.currentpage, * html .pagination li.disablepage { margin-right: 5px; padding-right: 0; }
+/* end pagination */

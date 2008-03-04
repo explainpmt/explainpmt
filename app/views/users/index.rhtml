@@ -1,15 +1,11 @@
-<table cellspacing="0" cellpadding="0" border="0">
-  <tr>
-    <td id="SmallLeftColumn" valign="top">
-      <h2>System Users</h2>
-      <p>This screen lists all of the user accounts that have been created.</p>
-      <p>Admin accounts are marked with <%= image_tag('admin_dot.gif') %></p>
-      <% admin_content do %>
-        <p><strong><%= link_to_new_user('Create New User')  %></strong></p>
-      <% end %>
-    </td>
-    <td id="RightColumn" valign="top">
-      <%= render_partial 'contact_cards' %>
-    </td>
-  </tr>
-</table>
+<div style="float:left; width:180px; padding-right:10px; margin-right:20px; border-right: 1px solid black;">
+  <h2>System Users</h2>
+  <p>This screen lists all of the user accounts that have been created.</p>
+  <p>Admin accounts are marked with <%= image_tag('admin_dot.gif') %></p>
+  <% admin_content do %>
+    <p><strong><%= link_to_new_user('Create New User')  %></strong></p>
+  <% end %>
+</div>
+
+<%= render_partial 'contact_cards' %>
+<%= render_pagination(@users) %>

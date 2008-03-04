@@ -3,7 +3,8 @@ class ProjectsController < ApplicationController
   skip_before_filter :require_current_project
   
   def index
-    @projects = current_user.admin? ? Project.find(:all, :order => 'name ASC') : current_user.projects
+    paging = {:size => 50, :current => params[:page]}
+    @projects = current_user.admin? ? Project.find(:all, :order => 'name ASC', :page => paging) : current_user.projects.find(:all, :page => paging)
   end
   
   def team

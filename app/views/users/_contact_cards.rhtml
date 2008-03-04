@@ -1,10 +1,10 @@
 <table class="contact_cards">
-  <% @users.each_slice(4) do |row_of_users| %>
+  <% @users.each_slice(3) do |row_of_users| %>
     <tr>
       <% row_of_users.each do |user| %>
         <td>
           <div class="contact_card">
-            <h3 <%= "class='admin'" if user.admin? %>><%= user.full_name %></h3>
+            <h3 <%= "class='admin'" if user.admin? %>><%= truncate(user.full_name, 22) %></h3>
             <ul class="action_links">
               <li><%= mail_to user.email, "Email" %>&nbsp;-&nbsp;</li>
               <% if @project %>
