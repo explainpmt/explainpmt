@@ -59,8 +59,7 @@ module ActiveRecord #:nodoc:
       end
 
       def find(*args)
-        options = Base.send(:extract_options_from_args!, args)
-
+        options = args.extract_options!
         conditions = construct_conditions
         if sanitized_conditions = sanitize_sql(options[:conditions])
           conditions << " AND (#{sanitized_conditions})"

@@ -9,7 +9,7 @@ class ProjectsController < ApplicationController
   
   def team
     @project = Project.find params[:id]
-    @users = @project.users
+    @users = @project.users.find(:all, :page => {:size => 20, :current => params[:page]})
   end
   
   def new

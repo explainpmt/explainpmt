@@ -1,4 +1,4 @@
-<div style="float:left; width:180px; padding-right:10px; margin-right:20px; border-right: 1px solid black;">
+<div class="leftColumn">
   <h2>System Users</h2>
   <p>This screen lists all of the user accounts that have been created.</p>
   <p>Admin accounts are marked with <%= image_tag('admin_dot.gif') %></p>
@@ -6,6 +6,4 @@
     <p><strong><%= link_to_new_user('Create New User')  %></strong></p>
   <% end %>
 </div>
-
-<%= render_partial 'contact_cards' %>
-<%= render_pagination(@users) %>
+<%= render_partial 'users/contact_cards' %>

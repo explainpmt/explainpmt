@@ -13,3 +13,71 @@ label{
 .pagination li.nextpage { font-weight: bold; }
 * html .pagination li.currentpage, * html .pagination li.disablepage { margin-right: 5px; padding-right: 0; }
 /* end pagination */
+
+.leftColumn {
+  float:left;
+  width:10%;
+  padding-right:10px;
+  margin-right:20px;
+  border-right: 1px solid black;
+}
+
+/* popup */
+div.small_popup{
+  width: 220px;
+}
+
+div.popup{
+  width: 350px;
+}
+
+div.wide_popup{
+  width: 600px;
+}
+div.audit{
+  width: 800px;
+  height: 430px;
+  overflow: auto;
+}
+
+div.popup, div.small_popup, div.audit, div.wide_popup{
+	padding: 10px;
+	background: #fff;
+	border: 1px solid #000;
+}
+
+div.popup, div.small_popup label {
+	margin-top: 4px;
+}
+
+div.popup label.inline {
+	display: inline;
+}
+
+div.popup input {
+	margin-right: 3px;
+}
+
+div.popup h2 {
+	margin-top: 5px;
+}
+
+div.submit {
+	display: block;
+	margin: 10px 0;
+	text-align: center;
+}
+
+div.submit input {
+	padding: 2px;
+	background-color: #6DAE20;
+	color: #fff;
+	cursor: pointer;
+}
+
+a.close {
+	float: right;
+}
+/* popup */
+
+

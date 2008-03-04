@@ -1,24 +1,20 @@
-<table class="contact_cards">
-  <% @users.each_slice(3) do |row_of_users| %>
-    <tr>
-      <% row_of_users.each do |user| %>
-        <td>
-          <div class="contact_card">
-            <h3 <%= "class='admin'" if user.admin? %>><%= truncate(user.full_name, 22) %></h3>
-            <ul class="action_links">
-              <li><%= mail_to user.email, "Email" %>&nbsp;-&nbsp;</li>
-              <% if @project %>
-                <li> <%= link_to_remove_user(user) if @project %></li>
-              <% else %>
-                <% admin_content do %>
-                  <li><%= link_to_edit_user(user) %></li>
-                  <li>&nbsp;-&nbsp;<%= link_to_delete_user(user) %></li>
-                <% end %>
-              <% end %>
-            </ul>
-          </div>
-        </td>
-      <% end %>
-    </tr>
-  <% end %>
-</table>
+<div style="float:left; width:85%;">
+  <%@users.each do |user|%>
+    <div class="contact_card">
+      <h3 <%= "class='admin'" if user.admin? %>><%= truncate(user.full_name, 22) %></h3>
+      <ul class="action_links">
+        <li><%= mail_to user.email, "Email" %>&nbsp;-&nbsp;</li>
+        <% if @project %>
+          <li> <%= link_to_remove_user(user) if @project %></li>
+        <% else %>
+          <% admin_content do %>
+            <li><%= link_to_edit_user(user) %></li>
+            <li>&nbsp;-&nbsp;<%= link_to_delete_user(user) %></li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  <%end%>
+</div>
+<div style="clear:both"></div>
+<%= render_pagination(@users) %>

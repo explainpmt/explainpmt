@@ -77,25 +77,13 @@ div.contact_card {
   margin: 2px;
   padding: 3px;
   font-size: 85%;
+  float:left;
 }
 
 div.contact_card h3 {
-  font-size: 15px;
+  font-size: 14px;
   margin: 0 0 5px 0;
   padding: 0 17px 0 0;
-}
-
-div.contact_card dl, div.contact_card dt, div.contact_card dd {
-  margin: 0;
-  padding: 0;
-}
-
-div.contact_card dt, div.contact_card dd {
-  display: inline;
-}
-
-div.contact_card dt {
-  margin-top: 3px;
 }
 
 ul.action_links, ul.action_links li {
@@ -110,6 +98,7 @@ div.contact_card ul.action_links {
   margin-top: 10px;
   text-align: right;
 }
+
 
 table.calendar td {
   border: 1px solid;
@@ -349,63 +338,3 @@ form fieldset {
   margin:5px 0px 5px 0px;
   padding:5px;
 }
-
-
-/* popup */
-div.small_popup{
-  width: 220px;
-}
-
-div.popup{
-  width: 350px;
-}
-
-div.wide_popup{
-  width: 600px;
-}
-div.audit{
-  width: 800px;
-  height: 430px;
-  overflow: auto;
-}
-
-div.popup, div.small_popup, div.audit, div.wide_popup{
-	padding: 10px;
-	background: #fff;
-	border: 1px solid #000;
-}
-
-
-div.popup, div.small_popup label {
-	margin-top: 4px;
-}
-
-div.popup label.inline {
-	display: inline;
-}
-
-div.popup input {
-	margin-right: 3px;
-}
-
-div.popup h2 {
-	margin-top: 5px;
-}
-
-div.submit {
-	display: block;
-	margin: 10px 0;
-	text-align: center;
-}
-
-div.submit input {
-	padding: 2px;
-	background-color: #6DAE20;
-	color: #fff;
-	cursor: pointer;
-}
-
-a.close {
-	float: right;
-}
-

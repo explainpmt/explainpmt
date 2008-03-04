@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   def tasks
     Task.find_by_sql "SELECT * FROM tasks where user_id = #{id} AND story_id in (select id from stories where status not in (7,8))"
   end
-
+  
   def full_name(last_first = false)
     last_first ? "#{last_name}, #{first_name}" : "#{first_name} #{last_name}"
   end
