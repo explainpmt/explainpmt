@@ -1,18 +1,30 @@
-<% empty_collection_content(@acceptancetests) do %>
-  <p>This project does not have any Acceptance Tests yet.</p>
-  <p><%= link_to_new_acceptancetest %></p>   
-<% end %>
+<div class="leftColumn">
+  <h2>Acceptance Tests</h2>
+  <p> Acceptance testing is used to determine behavioral intent for a deliverable 
+  and provides formal completion criteria for a deliverable. </p>
+  <strong><%= link_to_new_acceptancetest %></strong>
+  
+  <p> You may also <strong><%= link_to_export_acceptance %></strong> the Acceptance Tests which 
+  have been created for this project </p>
+</div>
+<div class="rightColumn">
+  <% empty_collection_content(@acceptancetests) do %>
+    <p>This project does not have any Acceptance Tests yet.</p>
+  <% end %>
+        
+  <% collection_content(@acceptancetests) do %>
+    <%= form_tag assign_project_acceptancetests_path(@project) %>
+    <div class="move_to">
+      Move Selected Acceptance Tests to:
+      <select name="move_to">
+        <option vlaue="0">Not Assigned</option>
+        <%= story_select_list_for(@project.stories) %>
+      </select>
+      <%= submit_tag "Go" %>
+    </div>
+    <%= render :partial => 'acceptancetests' %>
+  <% end %>
+</div>
 
-<% collection_content(@acceptancetests) do %>
-  <span><%= link_to_new_acceptancetest %>&nbsp;&nbsp;&nbsp;<%= link_to_export_acceptance %></span>
-  <%= form_tag assign_project_acceptancetests_path(@project) %>
-  <div style="text-align: right;">
-    Move Selected Acceptance Tests to:
-    <select name="move_to">
-      <option vlaue="0">Not Assigned</option>
-      <%= story_select_list_for(@project.stories) %>
-    </select>
-    <%= submit_tag "Go" %>
-  </div>
-  <%= render :partial => 'acceptancetests' %>
-<% end %>
+
+

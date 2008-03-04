@@ -16,16 +16,25 @@ label{
 
 .leftColumn {
   float:left;
-  width:10%;
+  width:12%;
   padding-right:10px;
   margin-right:20px;
   border-right: 1px solid black;
 }
 
-.rightColumn {
-  width:85%;
+.leftColumn h2 {
+ padding-bottom: 5px;
 }
 
+.rightColumn {
+  width:86%;
+  float:left;
+}
+
+.move_to {
+  text-align:right;
+  padding-bottom:5px;
+}
 
 /* popup */
 div.small_popup{
