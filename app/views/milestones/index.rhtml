@@ -4,16 +4,14 @@
   <p> Recent Milestones will appear on team members dashboard.</p>
   <strong><%= link_to_new_milestone %></strong>
 </div>
-<div class="main">
-  <div class="milestone_list">
-    <h3>Future Milestones</h3>
-    <%= milestone_list_for @future, "future_milestones" %>
-  </div>
-  <hr>
-  <div class="milestone_list">
-    <h3 id='recent_title'>Recent Milestones <small>(<%= link_to_show_all_milestones %>)</small></h3>
-    <div id="recent">
-      <%= milestone_list_for @recent, "past_milestones" %>
-    </div>
+<div class="milestone_list">
+  <h3>Future Milestones</h3>
+  <%= milestone_list_for @future, "future_milestones" %>
+</div>
+<hr>
+<div class="milestone_list">
+  <h3 id='recent_title'>Recent Milestones <small>(<%= link_to_show_all_milestones %>)</small></h3>
+  <div id="recent">
+    <%= milestone_list_for @recent, "past_milestones" %>
   </div>
 </div>

@@ -5,40 +5,38 @@
   be sorted by initiative. </p>
   <strong><%= link_to_new_initiative %></strong>
 </div>
-<div class="main">
   <% empty_collection_content(@initiatives) do %>
     <p>This project does not have any Initiates yet.</p>
   <% end %>
   
-  <% collection_content(@initiatives) do %> 
-    <table class="sort-table" id="initiative_table" cellspacing="0" cellpadding="0" border="0">
-      <thead>
+<% collection_content(@initiatives) do %> 
+  <table class="sort-table" id="initiative_table" cellspacing="0" cellpadding="0" border="0">
+    <thead>
+      <tr>
+        <td>Initiative Name</td>
+        <td>Start Date</td>
+        <td>End Date</td>
+        <td>Customer</td>
+        <td>Action</td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @initiatives.each do |initiative|%>
         <tr>
-          <td>Initiative Name</td>
-          <td>Start Date</td>
-          <td>End Date</td>
-          <td>Customer</td>
-          <td>Action</td>
+          <td><%= link_to_edit_initiative(initiative) %></td>
+          <td><%= initiative.start_date%></td>
+          <td><%= initiative.end_date%></td>
+          <td><%= initiative.customer%></td>
+          <td width="8%"> 
+            <%= link_to_edit_initiative(initiative, :value => "Edit") %> 
+            <%= link_to_delete_initiative(initiative) %>
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        <% @initiatives.each do |initiative|%>
-          <tr>
-            <td><%= link_to_edit_initiative(initiative) %></td>
-            <td><%= initiative.start_date%></td>
-            <td><%= initiative.end_date%></td>
-            <td><%= initiative.customer%></td>
-            <td width="8%"> 
-              <%= link_to_edit_initiative(initiative, :value => "Edit") %> 
-              <%= link_to_delete_initiative(initiative) %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <script type="text/javascript">
-      var st = new SortableTable(document.getElementById("initiative_table"), ["CaseInsensitiveString", "Date", "Date", "CaseInsensitiveString", "None"]);
-      MaintainSort(st);
-    </script>
-  <% end %>
-</div>
+      <% end %>
+    </tbody>
+  </table>
+  <script type="text/javascript">
+    var st = new SortableTable(document.getElementById("initiative_table"), ["CaseInsensitiveString", "Date", "Date", "CaseInsensitiveString", "None"]);
+    MaintainSort(st);
+  </script>
+<% end %>

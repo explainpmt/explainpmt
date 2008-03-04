@@ -2,37 +2,35 @@
   <h2>Releases</h2>
   <strong><%= link_to_new_release %></strong>
 </div>
-<div class="main">
-  <% empty_collection_content(@releases) do %>
-    <p>This project does not have any Releases yet.</p>
-  <% end %>
-  
-  <% collection_content(@releases) do %>
-    <table class="sort-table" id="releasesTable" cellspacing="0" cellpadding="3" border="0" width="100%">
-      <thead>
-        <tr>
-          <td>Name</td>
-          <td>Date</td>
-          <td>Action</td>
-        </tr>
-      </thead>
-      <tbody>
-        <% @releases.each do |release| %>
-          <tr class="<%= cycle("even_row", "odd_row") %>">
-            <td><%= link_to_edit_release(release) %><br /><%= textilize(release.description) %></td>
-            <td><strong><%= numeric_date(release.date) %></strong></td>
-            <td width="8%"> 
-              <%= link_to_edit_release(release, :value => "Edit")%> 
-              <%= link_to_delete_release(release)%>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+<% empty_collection_content(@releases) do %>
+  <p>This project does not have any Releases yet.</p>
+<% end %>
 
-    <script type="text/javascript">
-      var st = new SortableTable(document.getElementById("releasesTable"), ["CaseInsensitiveString", "Date","None"]);
-      MaintainSort(st);
-    </script>
-  <% end %> 
-</div>
+<% collection_content(@releases) do %>
+  <table class="sort-table" id="releasesTable" cellspacing="0" cellpadding="3" border="0" width="100%">
+    <thead>
+      <tr>
+        <td>Name</td>
+        <td>Date</td>
+        <td>Action</td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @releases.each do |release| %>
+        <tr class="<%= cycle("even_row", "odd_row") %>">
+          <td><%= link_to_edit_release(release) %><br /><%= textilize(release.description) %></td>
+          <td><strong><%= numeric_date(release.date) %></strong></td>
+          <td width="8%"> 
+            <%= link_to_edit_release(release, :value => "Edit")%> 
+            <%= link_to_delete_release(release)%>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <script type="text/javascript">
+    var st = new SortableTable(document.getElementById("releasesTable"), ["CaseInsensitiveString", "Date","None"]);
+    MaintainSort(st);
+  </script>
+<% end %> 

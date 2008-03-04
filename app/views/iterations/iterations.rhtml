@@ -15,40 +15,38 @@
     <%= render :partial => 'iteration_link_list', :locals => {:iterations => @project_iterations.past} %>
   </div>
 </div>
-<div class="main">
-  <% empty_collection_content(@project_iterations) do%>
-    <p>This project does not have any Iterations yet.</p>
-  <% end %>
-    
-  <% if @iteration %>
-     <div style="float: right;">
-      (<%= link_to_edit_iteration(@iteration, :value => "Edit") %>)
-      (<%= link_to_delete_iteration(@iteration) %>)
-      (<%= link_to_allocation(@iteration)%>)
-    </div>
-    <h2><%= header_for(@iteration) %></h2>
+<% empty_collection_content(@project_iterations) do%>
+  <p>This project does not have any Iterations yet.</p>
+<% end %>
 
-    <div id="IterationSummary">
-      <%= render :partial => 'iteration_summary' %>
-    </div>
+<% if @iteration %>
+   <div style="float: right;">
+    (<%= link_to_edit_iteration(@iteration, :value => "Edit") %>)
+    (<%= link_to_delete_iteration(@iteration) %>)
+    (<%= link_to_allocation(@iteration)%>)
+  </div>
+  <h2><%= header_for(@iteration) %></h2>
 
-    <h3>Story Cards</h3>
-    <%= link_to_new_iteration_story(@iteration) %>&nbsp;
-    <% collection_content(@project.stories.backlog) do %>
-      <% if @iteration.stop_date + 1 > Date.today %>
-        <%= link_to_assign_stories(@iteration) %>
-      <% end %>
-    <% end %>&nbsp;
-    <%= link_to_export_iteration_stories(@iteration) %>&nbsp;&nbsp;
-    <%= link_to_export_iteration_stories(@iteration) %> 
+  <div id="IterationSummary">
+    <%= render :partial => 'iteration_summary' %>
+  </div>
 
-    <% empty_collection_content(@stories) do%>
-      <p>No stories have been assigned to this iteration.</p>
+  <h3>Story Cards</h3>
+  <%= link_to_new_iteration_story(@iteration) %>&nbsp;
+  <% collection_content(@project.stories.backlog) do %>
+    <% if @iteration.stop_date + 1 > Date.today %>
+      <%= link_to_assign_stories(@iteration) %>
     <% end %>
+  <% end %>&nbsp;
+  <%= link_to_export_iteration_stories(@iteration) %>&nbsp;&nbsp;
+  <%= link_to_export_iteration_stories(@iteration) %> 
 
-    <% collection_content(@stories) do %>
-      <%= render :partial => 'stories/move_stories_form', :locals => {:default => "Backlog", :selected_id => 'select1'} %>    
-      <%= render( :partial => 'stories/stories', :locals => {:hide_cols => [ :project, :iteration]}) %>
-    <% end %>
+  <% empty_collection_content(@stories) do%>
+    <p>No stories have been assigned to this iteration.</p>
   <% end %>
-</div>
+
+  <% collection_content(@stories) do %>
+    <%= render :partial => 'stories/move_stories_form', :locals => {:default => "Backlog", :selected_id => 'select1'} %>    
+    <%= render( :partial => 'stories/stories', :locals => {:hide_cols => [ :project, :iteration]}) %>
+  <% end %>
+<% end %>
