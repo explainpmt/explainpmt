@@ -1,7 +1,7 @@
 <tr class="<%= cycle("even_row", "odd_row") %>">
   <td><strong><%= numeric_date(milestone.date) %></strong></td>
   <td><%= link_to_edit_milestone(milestone) %><br /><%= textilize(milestone.description)%></td>
-  <td width="8%"> 
+  <td> 
     <%= link_to_edit_milestone(milestone, :value => "Edit")%> 
     <%= link_to_delete_milestone(milestone)%>
   </td>

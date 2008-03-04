@@ -21,7 +21,7 @@
             <%= project_dashboard_link(project) %><br>
             <%= textilize(project.description) %>
           </td>
-          <td width="8%"> 
+          <td> 
             <%= link_to "Team", project_users_path(project) %> 
             <%= link_to_remote "Edit", :url => edit_project_path(project), :method => :get %>  
             <%= link_to_delete_project(project) %>

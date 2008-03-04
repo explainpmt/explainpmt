@@ -16,8 +16,10 @@ label{
 
 .column {
   border-right: 1px solid black;
+  background: #fff;
   float:left;
   width:160px;
+  min-height: 500px;
   padding-right:10px;
   margin-right:20px;
 }
