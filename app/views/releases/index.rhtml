@@ -1,8 +1,8 @@
-<div class="leftColumn">
+<div class="column">
   <h2>Releases</h2>
   <strong><%= link_to_new_release %></strong>
 </div>
-<div class="rightColumn">
+<div class="main">
   <% empty_collection_content(@releases) do %>
     <p>This project does not have any Releases yet.</p>
   <% end %>

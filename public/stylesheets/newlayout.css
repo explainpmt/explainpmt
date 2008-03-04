@@ -14,20 +14,19 @@ label{
 * html .pagination li.currentpage, * html .pagination li.disablepage { margin-right: 5px; padding-right: 0; }
 /* end pagination */
 
-.leftColumn {
+.column {
+  border-right: 1px solid black;
   float:left;
-  width:12%;
+  width:160px;
   padding-right:10px;
   margin-right:20px;
-  border-right: 1px solid black;
 }
 
-.leftColumn h2 {
+.column h2 {
  padding-bottom: 5px;
 }
 
 .rightColumn {
-  width:86%;
   float:left;
 }
 

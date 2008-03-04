@@ -1,7 +1,7 @@
-<div class="leftColumn">
+<div class="column">
   <%= render :partial => 'projects/my_projects_list' %>
 </div>
-<div class="rightColumn">
+<div class="main">
   <%= milestones_calendar %>
   <% collection_content(@stories) do %>
     <h3>My Stories (all projects):</h3>

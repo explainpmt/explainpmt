@@ -1,4 +1,4 @@
-<div class="leftColumn">
+  <div class="column">
   <h2>Iterations</h2>
   <div id="IterationsMenu">
     <p>An iteration is a time boxed (typically 1 to 3 weeks long) plan, where 
@@ -15,7 +15,7 @@
     <%= render :partial => 'iteration_link_list', :locals => {:iterations => @project_iterations.past} %>
   </div>
 </div>
-<div class="rightColumn">
+<div class="main">
   <% empty_collection_content(@project_iterations) do%>
     <p>This project does not have any Iterations yet.</p>
   <% end %>
@@ -51,5 +51,4 @@
       <%= render( :partial => 'stories/stories', :locals => {:hide_cols => [ :project, :iteration]}) %>
     <% end %>
   <% end %>
-  
 </div>

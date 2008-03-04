@@ -234,9 +234,8 @@ a.story_description_icon img {
 }
 
 #IterationSummary table {
-  float: left;
+  display:inline;
   padding: 3px;
-  border: 1px solid;
   margin-bottom: 10px;
 }
 
