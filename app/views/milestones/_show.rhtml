@@ -3,5 +3,7 @@
   <h3><%= @milestone.name %></h3><br />
   <p><strong><%= long_date(@milestone.date) %></strong></p>
   <%= textilize(@milestone.description) %>
-  <%= link_to_edit_milestone(@milestone,:value => "Edit") %>
+  <div class="submit">
+    <%= link_to_edit_milestone(@milestone,:value => "Edit") %>
+  </div>
 </div>
