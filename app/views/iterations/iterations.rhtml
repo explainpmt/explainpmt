@@ -17,7 +17,7 @@
 </div>
 <div class="rightColumn">
   <% empty_collection_content(@project_iterations) do%>
-    No iterations have been defined for this project.
+    <p>This project does not have any Iterations yet.</p>
   <% end %>
     
   <% if @iteration %>

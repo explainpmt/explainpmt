@@ -120,9 +120,7 @@ class Project < ActiveRecord::Base
   end
   
   def users_available_for_addition
-    User.find( :all, :order => 'last_name ASC, first_name ASC' ).select do |usr|
-      !usr.projects.include?(self)
-    end
+    User.find( :all, :order => 'last_name ASC, first_name ASC' ) - self.users
   end
 end
 

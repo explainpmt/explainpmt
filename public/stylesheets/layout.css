@@ -29,47 +29,15 @@ p {
   margin: 0.5em 0 1em 0;
 }
 
-.odd_row td {
-  border: 1px solid;
-}
-
-.even_row td {
-  border: 1px solid;
+.odd_row td, .even_row td {
+  border: 1px solid ;
 }
 
 .important {
   font-size: 110%;
 }
 
-p.clear_both {
-  clear: both;
-  margin: -1px 0 0 0;
-  padding: 0;
-  width: 0;
-  height: 1px;
-  overflow: hidden;
-}
-
-table.form_layout {
-}
-
-table.form_layout th {
-  margin: 0;
-  padding: 0 5px 10px 0;
-  text-align: right;
-  vertical-align: top;
-}
-
-table.form_layout td {
-  margin: 0;
-  padding: 0 0 10px 5px;
-  text-align: left;
-  vertical-align: top;
-}
-
-table.form_layout td.form_actions {
-  text-align: right;
-}
+.clear_both { clear: both; margin: 0; padding: 0; }
 
 div.contact_card {
   width: 20em;
@@ -99,6 +67,10 @@ div.contact_card ul.action_links {
   text-align: right;
 }
 
+#milestones_calendar{
+  margin-top: 10px;
+  margin-bottom:10px;
+}
 
 table.calendar td {
   border: 1px solid;
@@ -128,34 +100,6 @@ table.calendar a {
 
 div.milestone_list {
   margin: 10px;
-}
-
-dt.project_header {
-  margin: 20px 0 0 0;
-  padding: 3px 1em 3px 1em;
-}
-
-dt.project_header a {
-  text-decoration: none;
-}
-
-table.collection_table {
-  width: 100%;
-}
-
-table.collection_table th,
-table.collection_table td {
-  margin: 0;
-  border: none;
-  padding: 3px;
-}
-
-table.collection_table th {
-  text-align: center;
-}
-
-.action_links a, dt.project_header a {
-  border: none;
 }
 
 a.story_description_icon,
@@ -217,32 +161,6 @@ a.story_description_icon img {
   font-size: 10px;
 }
 
-#MyProjects, #UpcomingMilestones {
-  clear: right;
-  float: right;
-  width: 15em;
-  margin: 0;
-  padding: 0;
-}
-
-#MyProjects h2, #UpcomingMilestones h2 {
-  padding: 2px 1em;
-}
-
-#MyProjects li a {
-  display: block;
-  text-decoration: none;
-  margin: 0;
-  padding: 0.25em 1em;
-}
-
-#MyStoryCards, #RecentActivity {
-  margin: 1em 16em 0 0;
-}
-
-#MyStoryCards table, #RecentActivity table {
-  width: 100%;
-}
 
 #MainMenu {
   white-space: nowrap;
@@ -286,13 +204,6 @@ a.story_description_icon img {
   font-size: 75%;
 }
 
-#SmallLeftColumn {
-  width: 12em;
-  padding-right: 10px;
-  border-right: 1px solid;
-  vertical-align: top;
-}
-
 #IterationsMenu h3 {
   margin-bottom: 5px;
 }
@@ -305,18 +216,8 @@ a.story_description_icon img {
   margin-bottom: 5px;
 }
 
-#RightColumn {
-  padding-left: 10px;
-  vertical-align: top;
-}
-
 #ProjectsList li {
   margin: 0 0 5px 10px;
-}
-
-#RecentActivity td {
-  border: 1px solid;
-  font-size: 80%;
 }
 
 #IterationSummary h3 {
@@ -335,7 +236,3 @@ a.story_description_icon img {
   margin-bottom: 10px;
 }
 
-form fieldset {
-  margin:5px 0px 5px 0px;
-  padding:5px;
-}

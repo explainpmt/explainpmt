@@ -1,20 +1,15 @@
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-  <tr>
-    <td id="SmallLeftColumn">
-      <%= render :partial => 'projects/my_projects_list' %>
-    </td>
-    <td id="RightColumn">
-      <%= milestones_calendar %>
-      <br>
-      <% collection_content(@stories) do %>
-        <h3>My Stories (all projects):</h3>
-        <%= render( :partial => 'stories/stories', :locals => { :hide_cols => [ :checkbox, :owner, :action] } ) %>
-      <% end %>
-      <br>
-      <% collection_content(@tasks) do %>
-        <h3>My Stories (all projects):</h3>
-        <%= render( :partial => 'tasks/tasks', :locals => {:hide_cols => [:owner, :action ]}) %>
-      <% end %>
-    </td>
-  </tr>
-</table>
+<div class="leftColumn">
+  <%= render :partial => 'projects/my_projects_list' %>
+</div>
+<div class="rightColumn">
+  <%= milestones_calendar %>
+  <% collection_content(@stories) do %>
+    <h3>My Stories (all projects):</h3>
+    <%= render( :partial => 'stories/stories', :locals => { :hide_cols => [ :checkbox, :owner, :action] } ) %>
+  <% end %>
+  <br>
+  <% collection_content(@tasks) do %>
+    <h3>My Stories (all projects):</h3>
+    <%= render( :partial => 'tasks/tasks', :locals => {:hide_cols => [:owner, :action ]}) %>
+  <% end %>
+</div>

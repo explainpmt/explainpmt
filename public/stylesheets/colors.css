@@ -13,11 +13,6 @@ a, a:visited {
   border-color: #DFDCD5;
 }
 
-.odd_row:hover td,
-.even_row:hover td {
-  background-color: #99FF99;
-}
-
 div.contact_card {
   border-color: #CCCCCC;
 }
@@ -55,14 +50,6 @@ table.calendar a:hover {
   background-color: #DDDDFF;
 }
 
-dt.project_header {
-  background-color: #CCCCFF;
-}
-
-dt.project_header a:hover {
-  color: #FF0000;
-}
-
 #topbar {
   color: #FFFFFF;
   background-color: #6dae20;
@@ -75,15 +62,6 @@ dt.project_header a:hover {
 
 #Header {
   border-bottom-color: #6dae20;
-}
-
-#MyProjects, #UpcomingMilestones {
-  background-color: #CCFFCC;
-}
-
-#MyProjects h2, #UpcomingMilestones h2 {
-  color: #FFFFFF;
-  background-color: #6dae20;
 }
 
 #SectionTitle {
@@ -122,14 +100,4 @@ dt.project_header a:hover {
   color: #006600;
   background-color: #CCFFCC;
   border-color: #00FF00;
-}
-
-form fieldset {
-  border:1px solid #716e69;
-}
-
-form fieldset legend {
-  border:1px solid #716e69;
-  color:#fff;
-  background-color:#716e69;
 }
