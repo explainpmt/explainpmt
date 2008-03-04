@@ -1,3 +1,5 @@
+require 'digest/sha1'
+
 class User < ActiveRecord::Base
   has_many :project_memberships
   has_many :projects, :through => :project_memberships
@@ -7,6 +9,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :username, :email
   validates_confirmation_of :password
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/
+  before_save :encrypt_password
   
   def stories_for(project)
     self.stories.find(:all, :conditions => "stories.project_id = #{project.id}")
@@ -24,8 +27,29 @@ class User < ActiveRecord::Base
     last_first ? "#{last_name}, #{first_name}" : "#{first_name} #{last_name}"
   end
 
-  def self.authenticate(username, password)
-    find_by_username_and_password(username, password)
+  def self.authenticate(uname, pword)
+    u = find_by_username(uname) # need to get the salt
+    u && u.authenticated?(pword) ? u : nil
+  end
+
+  def self.encrypt(pword, salt)
+    Digest::SHA1.hexdigest("--#{salt}--#{pword}--")
+  end
+
+  def encrypt(pword)
+    self.class.encrypt(pword, salt)
   end
   
+  def authenticated?(pword)
+    puts password
+    puts encrypt(pword)
+    password == encrypt(pword)
+  end
+  
+  protected
+  def encrypt_password
+    return if password.blank?
+    self.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{username}--") if new_record?
+    self.password = encrypt(password)
+  end
 end
