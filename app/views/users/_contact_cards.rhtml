@@ -1,4 +1,4 @@
-<div style="float:left; width:85%;">
+<div class="rightColumn">
   <%@users.each do |user|%>
     <div class="contact_card">
       <h3 <%= "class='admin'" if user.admin? %>><%= truncate(user.full_name, 22) %></h3>

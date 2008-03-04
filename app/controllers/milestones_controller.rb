@@ -53,14 +53,14 @@ class MilestonesController < ApplicationController
   def show_all
     render :update do |page|
       page[:recent].replace_html :inline => "<%= past_milestones %>"
-      page[:recent_title].replace_html :inline => "All Milesones <small>(<%= link_to_show_recent_milestones %>)</small>"
+      page[:recent_title].replace_html :inline => "All Milestones <small>(<%= link_to_show_recent_milestones %>)</small>"
     end
   end
   
   def show_recent
     render :update do |page|
       page[:recent].replace_html :inline => "<%= recent_milestones %>"
-      page[:recent_title].replace_html :inline => "Recent Milesones <small>(<%= link_to_show_all_milestones %>)</small>"
+      page[:recent_title].replace_html :inline => "Recent Milestones <small>(<%= link_to_show_all_milestones %>)</small>"
     end
   end
   
