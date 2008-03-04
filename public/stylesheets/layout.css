@@ -332,6 +332,7 @@ a.story_description_icon img {
   float: left;
   padding: 3px;
   border: 1px solid;
+  margin-bottom: 10px;
 }
 
 form fieldset {

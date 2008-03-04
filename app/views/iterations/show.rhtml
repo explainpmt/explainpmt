@@ -1,50 +1,44 @@
-<!-- BEGIN iterations/show.rhtml -->
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
-  <tr>
-    <td id="SmallLeftColumn">
-      <div id="IterationsMenu">
-        <h3><%= link_to_new_iteration %></h3>
-        <ul>
-          <li><%= link_to_current_iteration_in @project_iterations%></li>
-          <li><%= link_to_next_iteration_in @project_iterations%></li>
-          <li><%= link_to_previous_iteration_in @project_iterations%></li>
-        </ul>
-        <%= render :partial => 'iteration_link_list', :locals => {:iterations => @project_iterations.future} %>
-        <%= render :partial => 'iteration_link_list', :locals => {:iterations => @project_iterations.past} %>
-      </div>
-    </td>
-    
-    <td id="RightColumn">
-      <div style="float: right;">
-        (<%= link_to_edit_iteration(@iteration, :value => "Edit") %>)
-        (<%= link_to_delete_iteration(@iteration) %>)
-        (<%= link_to_allocation(@iteration)%>)
-        </div>
-        <h2><%= header_for(@iteration) %></h2>
-      
-        <div id="IterationSummary">
-          <%= render :partial => 'iteration_summary' %>
-        </div>
-        <br />
-      
-        <h3>Story Cards</h3>
-        <%= link_to_new_iteration_story(@iteration) %>&nbsp;
-        <% collection_content(@project.stories.backlog) do %>
-          <% if @iteration.stop_date + 1 > Date.today %>
-            <%= link_to_assign_stories(@iteration) %>
-          <% end %>
-        <% end %>&nbsp;
-        <%= link_to_export_iteration_stories(@iteration) %>&nbsp;&nbsp;
-        <%= link_to_export_iteration_stories(@iteration) %> 
-          
-        <% empty_collection_content(@stories) do%>
-          <p>No stories have been assigned to this iteration.</p>
-        <% end %>
-          
-        <% collection_content(@stories) do %>
-          <%= render :partial => 'stories/move_stories_form', :locals => {:default => "Backlog", :selected_id => 'select1'} %>    
-          <%= render( :partial => 'stories/stories', :locals => {:hide_cols => [ :project, :iteration]}) %>
-        <% end %>
-      </td>
-    </tr>
-  </table>
+<div class="leftColumn">
+  <div id="IterationsMenu">
+    <h3><%= link_to_new_iteration %></h3>
+    <ul>
+      <li><%= link_to_current_iteration_in @project_iterations%></li>
+      <li><%= link_to_next_iteration_in @project_iterations%></li>
+      <li><%= link_to_previous_iteration_in @project_iterations%></li>
+    </ul>
+    <%= render :partial => 'iteration_link_list', :locals => {:iterations => @project_iterations.future} %>
+    <%= render :partial => 'iteration_link_list', :locals => {:iterations => @project_iterations.past} %>
+  </div>
+</div>
+<div class="rightColumn">
+  <div style="float: right;">
+    (<%= link_to_edit_iteration(@iteration, :value => "Edit") %>)
+    (<%= link_to_delete_iteration(@iteration) %>)
+    (<%= link_to_allocation(@iteration)%>)
+  </div>
+  <h2><%= header_for(@iteration) %></h2>
+
+  <div id="IterationSummary">
+    <%= render :partial => 'iteration_summary' %>
+  </div>
+
+  <h3>Story Cards</h3>
+  <%= link_to_new_iteration_story(@iteration) %>&nbsp;
+  <% collection_content(@project.stories.backlog) do %>
+    <% if @iteration.stop_date + 1 > Date.today %>
+      <%= link_to_assign_stories(@iteration) %>
+    <% end %>
+  <% end %>&nbsp;
+  <%= link_to_export_iteration_stories(@iteration) %>&nbsp;&nbsp;
+  <%= link_to_export_iteration_stories(@iteration) %> 
+
+  <% empty_collection_content(@stories) do%>
+    <p>No stories have been assigned to this iteration.</p>
+  <% end %>
+
+  <% collection_content(@stories) do %>
+    <%= render :partial => 'stories/move_stories_form', :locals => {:default => "Backlog", :selected_id => 'select1'} %>    
+    <%= render( :partial => 'stories/stories', :locals => {:hide_cols => [ :project, :iteration]}) %>
+  <% end %>
+
+</div>
