@@ -1,37 +1,44 @@
-<% empty_collection_content(@initiatives) do %>
-  <p>This project does not have any Initiates yet.</p>
-  <p><%= link_to_new_initiative %></p>
-<% end %>
-
-<% collection_content(@initiatives) do %> 
-  <%= link_to_new_initiative %><br /><br />
-  <table class="sort-table" id="initiative_table" cellspacing="0" cellpadding="0" border="0" width="100%">
-    <thead>
-      <tr>
-        <td>Initiative Name</td>
-        <td>Start Date</td>
-        <td>End Date</td>
-        <td>Customer</td>
-        <td>Action</td>
-      </tr>
-    </thead>
-    <tbody>
-      <% @initiatives.each do |initiative|%>
+<div class="leftColumn">
+  <h2>Initiatives</h2>
+  <p> Initiatives allow for logical grouping of stories. </p>
+  <p> When a story is created, it can be tied to an initiative. Stories can also
+  be sorted by initiative. </p>
+  <%= link_to_new_initiative %>
+</div>
+<div class="rightColumn">
+  <% empty_collection_content(@initiatives) do %>
+    <p>This project does not have any Initiates yet.</p>
+  <% end %>
+  
+  <% collection_content(@initiatives) do %> 
+    <table class="sort-table" id="initiative_table" cellspacing="0" cellpadding="0" border="0" width="100%">
+      <thead>
         <tr>
-          <td><%= link_to_edit_initiative(initiative) %></td>
-          <td><%= initiative.start_date%></td>
-          <td><%= initiative.end_date%></td>
-          <td><%= initiative.customer%></td>
-          <td width="8%"> 
-            <%= link_to_edit_initiative(initiative, :value => "Edit") %> 
-            <%= link_to_delete_initiative(initiative) %>
-          </td>
+          <td>Initiative Name</td>
+          <td>Start Date</td>
+          <td>End Date</td>
+          <td>Customer</td>
+          <td>Action</td>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <script type="text/javascript">
-    var st = new SortableTable(document.getElementById("initiative_table"), ["CaseInsensitiveString", "Date", "Date", "CaseInsensitiveString", "None"]);
-    MaintainSort(st);
-  </script>
-<% end %>
+      </thead>
+      <tbody>
+        <% @initiatives.each do |initiative|%>
+          <tr>
+            <td><%= link_to_edit_initiative(initiative) %></td>
+            <td><%= initiative.start_date%></td>
+            <td><%= initiative.end_date%></td>
+            <td><%= initiative.customer%></td>
+            <td width="8%"> 
+              <%= link_to_edit_initiative(initiative, :value => "Edit") %> 
+              <%= link_to_delete_initiative(initiative) %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <script type="text/javascript">
+      var st = new SortableTable(document.getElementById("initiative_table"), ["CaseInsensitiveString", "Date", "Date", "CaseInsensitiveString", "None"]);
+      MaintainSort(st);
+    </script>
+  <% end %>
+</div>
