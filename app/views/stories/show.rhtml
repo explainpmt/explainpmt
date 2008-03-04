@@ -6,11 +6,11 @@
 <table cellspacing="0" cellpadding="3" border="0" style="float: left; margin-right: 20px;">
   <tr class="even_row">
     <td><strong>Created</strong></td>
-    <td align="right"><%= short_date(@story.created_at) %> <%= "(#{@story.creator.full_name})" if @story.creator %></td>
+    <td align="right"><%= short_date(@story.created_at) if @story.created_at%> <%= "(#{@story.creator.full_name})" if @story.creator %></td>
   </tr>
   <tr class="odd_row">
     <td><strong>Updated</strong></td>
-    <td align="right"><%= short_date(@story.updated_at) %> <%= "(#{@story.updater.full_name})" if @story.updater %></td>
+    <td align="right"><%= short_date(@story.updated_at) if @story.updated_at%> <%= "(#{@story.updater.full_name})" if @story.updater %></td>
   </tr>
   <tr class="even_row">
     <td><strong>Initiative</strong></td>

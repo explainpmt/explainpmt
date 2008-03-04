@@ -46,15 +46,15 @@ div.popup{
 }
 
 div.wide_popup{
-  width: 600px;
+  width: 700px;
 }
-div.audit{
+div.audit, div.select_stories{
   width: 800px;
   height: 430px;
   overflow: auto;
 }
 
-div.popup, div.small_popup, div.audit, div.wide_popup{
+div.popup, div.small_popup, div.audit, div.wide_popup, div.select_stories{
 	padding: 10px;
 	background: #fff;
 	border: 1px solid #000;
