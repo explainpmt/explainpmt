@@ -61,6 +61,10 @@ ul.action_links, ul.action_links li {
   list-style: none;
 }
 
+.action_links a {
+  border: none;
+}
+
 div.contact_card ul.action_links {
   display: block;
   margin-top: 10px;
