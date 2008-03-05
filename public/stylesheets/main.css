@@ -1,6 +1,4 @@
-@import "undohtml.css";
-@import "fonts.css";
+@import "reset.css";
 @import "layout.css";
-@import "colors.css";
 @import "sortable.css";
 @import "newlayout.css";

@@ -1,4 +1,4 @@
-<!DOCTYPE html 
+<!DOCTYPE html
 PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -18,7 +18,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
       <div id="topbar">
         <% if @project %>
           <div id="StatusLeft">
-            <% if other_projects.size > 0 %>   
+            <% if other_projects.size > 0 %>
               <form action="<%=dashboards_path%>" method="get">
                 <label style="display:inline" for="SwitchTo">Switch project to:</label>
                 <select name="project_id" id="SwitchTo">
@@ -28,13 +28,13 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                   <% end %>
                 </select>
                 <input type="submit" name="submit" value="go" /> &nbsp; | &nbsp;
-            
+
               <%=link_to('Projects Overview', dashboards_path)%>
               </form>
             <% end %>
           </div>
         <% end%>
-        
+
         <% if current_user %>
           <div id="StatusRight">
             Welcome back <%= current_user.full_name %> &nbsp; | &nbsp;
@@ -43,14 +43,14 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
           </div>
         <% end %>
       </div>
-      
-      <h1><%= link_to image_tag('/images/logo.png'), dashboards_path%></h1>
+
+      <h1><%= link_to "explainpmt", dashboards_path%></h1>
     </div>
-    
+
     <div id="TopMenu">
       <%= top_menu %>
     </div>
-    
+
     <div id="SectionTitle">
       <% if @project %>
         <h1><%= link_to(@project.name, project_dashboard_path(@project))%></h1>
@@ -58,11 +58,11 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
         <h1><a href="/">eXPlain Project Management Tool</a></h1>
       <% end %>
     </div>
-    
+
     <div id="SectionMenu">
       <%= main_menu %>
     </div>
-    
+
     <div id="Main">
       <% if flash[:error] %>
         <div id="SystemError">
@@ -74,7 +74,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
           <%= textilize_without_paragraph( flash[ :status ] ) %>
         </div>
       <% end %>
-        
+
       <%= yield %>
     </div>
     <div style="clear:both"></div>
@@ -83,6 +83,6 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
       <p>This software is licensed under the <a
         href="http://www.gnu.org/copyleft/gpl.html">terms of the GPL.</a></p>
     </div>
-    
+
   </body>
 </html>

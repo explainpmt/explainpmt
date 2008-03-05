@@ -1,7 +1,7 @@
 <%@users.each do |user|%>
   <div class="contact_card">
     <h3 <%= "class='admin'" if user.admin? %>><%= truncate(user.full_name, 22) %></h3>
-    <ul class="action_links">
+    <ul>
       <li><%= mail_to user.email, "Email" %>&nbsp;-&nbsp;</li>
       <% if @project %>
         <li> <%= link_to_remove_user(user) if @project %></li>

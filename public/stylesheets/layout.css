@@ -1,32 +1,44 @@
-body { display: block; margin: 8px; padding: 0; }
+/** general styles **/
+body { margin: 8px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 0.85em; }
 h2 { font-size: 1.1em; }
-th, td { text-align: left; vertical-align: top; }
-textarea {	overflow: auto; }
-a, a:visited { border-bottom: 1px dotted; }
-a.image { border-bottom: 0px; }
-p { margin: 0.5em 0 1em 0; }
-.odd_row td, .even_row td { border: 1px solid ; }
-.important { font-size: 110%; }
+th, td { vertical-align: top; }
+textarea { overflow: auto; }
+a, a:visited { text-decoration: none; color: #338833; border-bottom: 1px dotted #449944; }
+p { margin: 0.5em 0 1em; }
+.odd_row td { background: #F0EFED; border: 1px solid #F0EFED; }
+.even_row td { background: #DFDCD5; border: 1px solid #DFDCD5; }
+.important { font-weight: bold; font-size: 110%; }
 .clear_both { clear: both; margin: 0; padding: 0; }
-div.contact_card { width: 20em; border: 1px solid; margin: 2px; padding: 3px; font-size: 85%; float:left; }
-div.contact_card h3 { font-size: 14px; margin: 0 0 5px 0; padding: 0 17px 0 0; }
-ul.action_links, ul.action_links li { display: inline; margin: 0; padding: 0; list-style: none; }
-.action_links a { border: none; }
-div.contact_card ul.action_links { display: block; margin-top: 10px; text-align: right; }
-#milestones_calendar{ margin-top: 10px; margin-bottom:10px; }
+/** end general styles **/
+
+/** header **/
+#Header h1 { padding: 10px 15px; }
+#Header h1 a { display: block; width: 347px; height: 85px; text-indent: -9999px; background: url(/images/logo.png) 0 no-repeat; overflow: hidden; }
+/** end header **/
+
+/** user card **/
+div.contact_card { float: left; margin: 2px; padding: 3px; width: 20em; font-size: 85%; border: 1px solid #ccc; }
+div.contact_card h3 { font-size: 14px; margin: 0 0 5px 0; padding: 0 17px 0 0; background: #ff9; }
+div.contact_card h3.admin { background: #ff9 url(/images/admin_dot.gif) center right no-repeat; }
+div.contact_card ul { margin-top: 10px; text-align: right; }
+div.contact_card ul li { display: inline; }
+div.contact_card a { color: #f00; border: none; }
+/** end user card **/
+
+
+
+#milestones_calendar{ margin-top: 10px; margin-bottom: 10px; }
 table.calendar td { border: 1px solid; vertical-align: top; }
 table.calendar ul { list-style: none; margin: 0 0 0 5px; padding: 0; }
 table.calendar li { list-style: none; margin: 1px 0 3px 0; padding: 0px; font-size: 80%; }
 table.calendar a { display: block; margin: 0; padding: 2px; text-decoration: none; border: 0; }
 div.milestone_list { margin: 10px; }
 a.story_description_icon,a.story_description_icon img { text-decoration: none; border: none; }
-#Header { margin: 0; }
-#Header img { padding-top: 10px; padding-left: 15px; padding-bottom: 10px; }
 #Header a, #SectionTitle a, #MainMenu a { border: none; }
 #MainMenu a.current { border-bottom: 3px solid; }
-#topbar { margin: 0; padding: 5px 1em; text-align: right; }
-#SectionTitle { padding: 8px; }
-#SectionMenu { padding: 8px; }
+#topbar { margin: 0; padding: 5px 1em; text-align: right; font-size: 0.8em; font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; }
+#SectionTitle { padding: 8px; font-family: Arial, Helvetica, sans-serif; font-size: 1.2em; }
+#SectionMenu { padding: 8px; font-family: Arial, Helvetica, sans-serif; font-size: 0.9em; }
 #TopMenu { padding: 8px; float: right; }
 #StatusLeft { position: absolute; top: 10px; left: 15px; font-size: 10px; }
 #StatusLeft select { height: 15px; font-size: 10px; }
@@ -46,3 +58,23 @@ a.story_description_icon,a.story_description_icon img { text-decoration: none; b
 #IterationsMenu li.show-iteration-bullet{ list-style: square; }
 #IterationSummary table { display: inline; padding: 3px; margin-bottom: 10px; }
 
+
+/** from colors **/
+div.fieldWithErrors input, div.fieldWithErrors select { background-color: #FFDDDD; border-color: #FF0000; }
+table.calendar td { background-color: #FFFFCC; color: black; border-color: #FFFFFF; }
+table.calendar a { color: #0000FF; }
+table.calendar a:hover { background-color: #DDDDFF; }
+#topbar { color: #FFFFFF; background-color: #6dae20; }
+#topbar a,
+#topbar a:visited,
+#topbar a:hover { color: #FFFFFF; }
+#Header { border-bottom-color: #6dae20; }
+#SectionTitle { background-color: #dfdcd5; color: #908360; }
+#SectionTitle a { color: #908360; }
+#SectionMenu { background-color: #f0efed; color: #716e69; }
+#SectionMenu a { color: #716e69; }
+#SectionMenu a.current { color: #413f33; }
+#TopMenu a { color: #716e69; }
+#TopMenu a.current { color: #413f33; border-bottom-color: #716e69; }
+#SystemError { color: #990000; background-color: #FFCCCC; border-color: #FF0000; }
+#SystemStatus { color: #006600; background-color: #CCFFCC; border-color: #00FF00; }
