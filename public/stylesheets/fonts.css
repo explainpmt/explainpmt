@@ -1,26 +1,6 @@
-html {
-  font-size: 100%;
-}
-
-body {
-  font-family: Verdana, Arial, Helvetica, sans-serif;
-  font-size: 0.85em;
-}
-
-.important {
-  font-weight: bold;
-}
-
-#topbar {
-  font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
-  font-size: 0.8em;
-}
-
-#SectionTitle {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 1.2em;
-}
-#SectionMenu {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.9em;
-}
+html { font-size: 100%; }
+body { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 0.85em; }
+.important { font-weight: bold; }
+#topbar { font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; font-size: 0.8em; }
+#SectionTitle { font-family: Arial, Helvetica, sans-serif; font-size: 1.2em; }
+#SectionMenu { font-family: Arial, Helvetica, sans-serif; font-size: 0.9em; }
