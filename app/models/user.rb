@@ -41,8 +41,6 @@ class User < ActiveRecord::Base
   end
   
   def authenticated?(pword)
-    puts password
-    puts encrypt(pword)
     password == encrypt(pword)
   end
   
