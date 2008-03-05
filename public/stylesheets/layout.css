@@ -8,7 +8,7 @@ p { margin: 0.5em 0 1em; }
 .odd_row td { background: #F0EFED; border: 1px solid #F0EFED; }
 .even_row td { background: #DFDCD5; border: 1px solid #DFDCD5; }
 .important { font-weight: bold; font-size: 110%; }
-.clear_both { clear: both; margin: 0; padding: 0; }
+.clear { clear: both; }
 /** end general styles **/
 
 /** header **/
@@ -17,9 +17,9 @@ p { margin: 0.5em 0 1em; }
 /** end header **/
 
 /** user card **/
-div.contact_card { float: left; margin: 2px; padding: 3px; width: 20em; font-size: 85%; border: 1px solid #ccc; }
-div.contact_card h3 { font-size: 14px; margin: 0 0 5px 0; padding: 0 17px 0 0; background: #ff9; }
-div.contact_card h3.admin { background: #ff9 url(/images/admin_dot.gif) center right no-repeat; }
+div.contact_card { float: left; margin: 2px; padding: 3px; width: 17em; border: 1px solid #ccc; }
+div.contact_card h3 { margin: 0 0 5px; background: #ff9; }
+div.contact_card h3.admin { padding: 0 17px 0 0; background: #ff9 url(/images/admin_dot.gif) center right no-repeat; }
 div.contact_card ul { margin-top: 10px; text-align: right; }
 div.contact_card ul li { display: inline; }
 div.contact_card a { color: #f00; border: none; }

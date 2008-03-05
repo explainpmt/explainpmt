@@ -2,17 +2,17 @@
   <div class="contact_card">
     <h3 <%= "class='admin'" if user.admin? %>><%= truncate(user.full_name, 22) %></h3>
     <ul>
-      <li><%= mail_to user.email, "Email" %>&nbsp;-&nbsp;</li>
+      <li><%= mail_to user.email, "Email" %></li> &ndash;
       <% if @project %>
-        <li> <%= link_to_remove_user(user) if @project %></li>
+        <li><%= link_to_remove_user(user) if @project %></li>
       <% else %>
         <% admin_content do %>
-          <li><%= link_to_edit_user(user) %></li>
-          <li>&nbsp;-&nbsp;<%= link_to_delete_user(user) %></li>
+          <li><%= link_to_edit_user(user) %></li> &ndash;
+          <li><%= link_to_delete_user(user) %></li>
         <% end %>
       <% end %>
     </ul>
   </div>
 <%end%>
-<div style="clear:both"></div>
+<div class="clear"></div>
 <%= render_pagination(@users) %>
