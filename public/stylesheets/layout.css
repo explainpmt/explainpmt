@@ -3,7 +3,7 @@ body { margin: 8px; font-family: Verdana, Arial, Helvetica, sans-serif; font-siz
 h2 { font-size: 1.1em; }
 th, td { vertical-align: top; }
 textarea { overflow: auto; }
-a, a:visited { text-decoration: none; color: #338833; border-bottom: 1px dotted #449944; }
+a, a:visited { text-decoration: none; color: #338833; border-bottom: 1px dotted #494; }
 p { margin: 0.5em 0 1em; }
 .odd_row td { background: #F0EFED; border: 1px solid #F0EFED; }
 .even_row td { background: #DFDCD5; border: 1px solid #DFDCD5; }
@@ -14,6 +14,16 @@ p { margin: 0.5em 0 1em; }
 /** header **/
 #Header h1 { padding: 10px 15px; }
 #Header h1 a { display: block; width: 347px; height: 85px; text-indent: -9999px; background: url(/images/logo.png) 0 no-repeat; overflow: hidden; }
+
+#topbar { position: relative; padding: 5px 1em; font-size: 0.8em; font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; color: #fff; background: #6dae20; }
+#topbar a { color: #fff; }
+
+#StatusRight { text-align: right; }
+
+#StatusLeft { position: absolute; top: 3px; }
+#StatusLeft label { display: inline; }
+#StatusLeft select { height: 15px; font-size: 10px; }
+#StatusLeft input { font-size: 10px; }
 /** end header **/
 
 /** user card **/
@@ -36,13 +46,9 @@ div.milestone_list { margin: 10px; }
 a.story_description_icon,a.story_description_icon img { text-decoration: none; border: none; }
 #Header a, #SectionTitle a, #MainMenu a { border: none; }
 #MainMenu a.current { border-bottom: 3px solid; }
-#topbar { margin: 0; padding: 5px 1em; text-align: right; font-size: 0.8em; font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; }
 #SectionTitle { padding: 8px; font-family: Arial, Helvetica, sans-serif; font-size: 1.2em; }
 #SectionMenu { padding: 8px; font-family: Arial, Helvetica, sans-serif; font-size: 0.9em; }
 #TopMenu { padding: 8px; float: right; }
-#StatusLeft { position: absolute; top: 10px; left: 15px; font-size: 10px; }
-#StatusLeft select { height: 15px; font-size: 10px; }
-#StatusLeft input { font-size: 10px; }
 #MainMenu { white-space: nowrap; }
 #MainMenu li { display: inline; list-style: none; margin-right: 10px; }
 #ProjectDescription { border: 1px solid; margin: 3px 0px; padding: 3px; font-size: 0.8em; }
@@ -64,11 +70,6 @@ div.fieldWithErrors input, div.fieldWithErrors select { background-color: #FFDDD
 table.calendar td { background-color: #FFFFCC; color: black; border-color: #FFFFFF; }
 table.calendar a { color: #0000FF; }
 table.calendar a:hover { background-color: #DDDDFF; }
-#topbar { color: #FFFFFF; background-color: #6dae20; }
-#topbar a,
-#topbar a:visited,
-#topbar a:hover { color: #FFFFFF; }
-#Header { border-bottom-color: #6dae20; }
 #SectionTitle { background-color: #dfdcd5; color: #908360; }
 #SectionTitle a { color: #908360; }
 #SectionMenu { background-color: #f0efed; color: #716e69; }

@@ -20,7 +20,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
           <div id="StatusLeft">
             <% if other_projects.size > 0 %>
               <form action="<%=dashboards_path%>" method="get">
-                <label style="display:inline" for="SwitchTo">Switch project to:</label>
+                <label for="SwitchTo">Switch project to:</label>
                 <select name="project_id" id="SwitchTo">
                   <option value="">Select Project</option>
                   <% other_projects.each do |p| %>
