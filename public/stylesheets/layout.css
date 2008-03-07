@@ -49,6 +49,11 @@ p { margin: 0.5em 0 1em; }
 /** end top nav **/
 
 
+/** main wrapper **/
+#Main { padding: 10px; margin: 0; }
+/** end main wrapper **/
+
+
 /** user card **/
 div.contact_card { float: left; margin: 2px; padding: 3px; width: 17em; border: 1px solid #ccc; }
 div.contact_card h3 { margin: 0 0 5px; background: #ff9; }
@@ -75,12 +80,14 @@ div.milestone_list { margin: 10px; }
 /** end milestone list **/
 
 
+/** project description **/
+#ProjectDescription { margin: 3px 0; padding: 3px; font-size: 0.8em; border: 1px solid #000; }
+/** end project description **/
+
+
 
 
 /** all the following items need to be combed through **/
-a.story_description_icon,a.story_description_icon img { text-decoration: none; border: none; }
-#ProjectDescription { border: 1px solid; margin: 3px 0px; padding: 3px; font-size: 0.8em; }
-#Main { padding: 10px; margin: 0; }
 #SystemError, #SystemStatus { position: relative; border-top: 1px solid #f00; border-bottom: 1px solid #f00; padding: 3px 2em; margin: 0 0 10px; color: #900; background: #fcc; }
 #SystemStatus { border-top-color: #0f0; border-bottom-color: #0f0; color: #060; background: #cfc; }
 #Footer { text-align: center; font-size: .75em; }
