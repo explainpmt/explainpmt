@@ -60,30 +60,22 @@ div.contact_card a { color: #f00; border: none; }
 
 
 #milestones_calendar{ margin-top: 10px; margin-bottom: 10px; }
-table.calendar td { border: 1px solid; vertical-align: top; }
+table.calendar td { border: 1px solid #fff; vertical-align: top; color: #000; background-color: #ffc; }
 table.calendar ul { list-style: none; margin: 0 0 0 5px; padding: 0; }
 table.calendar li { list-style: none; margin: 1px 0 3px 0; padding: 0px; font-size: 80%; }
-table.calendar a { display: block; margin: 0; padding: 2px; text-decoration: none; border: 0; }
+table.calendar a { display: block; margin: 0; padding: 2px; text-decoration: none; border: 0; color: #00f; }
+table.calendar a:hover { background-color: #ddf; }
 div.milestone_list { margin: 10px; }
 a.story_description_icon,a.story_description_icon img { text-decoration: none; border: none; }
 #ProjectDescription { border: 1px solid; margin: 3px 0px; padding: 3px; font-size: 0.8em; }
 #Main { padding: 10px; margin: 0; }
-#SystemError { position: relative; border-top: 1px solid; border-bottom: 1px solid; padding: 3px 2em; margin: 0 0 10px 0; }
-#SystemStatus { position: relative; border-top: 1px solid; border-bottom: 1px solid; padding: 3px 2em; margin: 0 0 10px 0; }
-#Footer { text-align: center; font-size: 75%; }
+#SystemError, #SystemStatus { position: relative; border-top: 1px solid #f00; border-bottom: 1px solid #f00; padding: 3px 2em; margin: 0 0 10px; color: #900; background: #fcc; }
+#SystemStatus { border-top-color: #0f0; border-bottom-color: #0f0; color: #060; background: #cfc; }
+#Footer { text-align: center; font-size: .75em; }
 #IterationsMenu h3 { margin-bottom: 5px; }
 #IterationsMenu ul { margin: 0 0 10px 1em; }
 #IterationsMenu ul li { margin-bottom: 5px; }
-#ProjectsList li { margin: 0 0 5px 10px; }
-#IterationSummary h3 { margin: 10px 0 5px 0; padding: 0; }
 #IterationsMenu li.show-iteration-bullet{ list-style: square; }
+#ProjectsList li { margin: 0 0 5px 10px; }
+#IterationSummary h3 { margin: 10px 0 5px; padding: 0; }
 #IterationSummary table { display: inline; padding: 3px; margin-bottom: 10px; }
-
-
-/** from colors **/
-div.fieldWithErrors input, div.fieldWithErrors select { background-color: #FFDDDD; border-color: #FF0000; }
-table.calendar td { background-color: #FFFFCC; color: black; border-color: #FFFFFF; }
-table.calendar a { color: #0000FF; }
-table.calendar a:hover { background-color: #DDDDFF; }
-#SystemError { color: #990000; background-color: #FFCCCC; border-color: #FF0000; }
-#SystemStatus { color: #006600; background-color: #CCFFCC; border-color: #00FF00; }
