@@ -11,9 +11,11 @@ p { margin: 0.5em 0 1em; }
 .clear { clear: both; }
 /** end general styles **/
 
+
 /** header **/
 #Header h1 { padding: 10px 15px; }
 #Header h1 a { display: block; width: 347px; height: 85px; text-indent: -9999px; background: url(/images/logo.png) 0 no-repeat; overflow: hidden; }
+#Header a { border: none; }
 
 #topbar { position: relative; padding: 5px 1em; font-size: 0.8em; font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; color: #fff; background: #6dae20; }
 #topbar a { color: #fff; }
@@ -26,6 +28,27 @@ p { margin: 0.5em 0 1em; }
 #StatusLeft input { font-size: 10px; }
 /** end header **/
 
+
+/** top nav **/
+#TopMenu { padding: 8px; float: right; }
+#TopMenu a { color: #716e69; }
+#TopMenu a.current,
+#SectionMenu a.current { color: #413f33; border-color: #716e69; }
+#TopMenu a, #SectionTitle a, #SectionMenu a { border: none; }
+/** need to change #MainMenu to a class... it's used multiple times on the page. hacked stylesheet for now **/
+#TopMenu #MainMenu li,
+#SectionMenu #MainMenu li { display: inline; margin-right: 10px; }
+#TopMenu #MainMenu a.current,
+#SectionMenu #MainMenu a.current { border-bottom: 3px solid; }
+/** end hack **/
+#SectionTitle, #SectionMenu { padding: 8px; font-family: Arial, Helvetica, sans-serif; }
+#SectionTitle { font-size: 1.2em; color: #908360; background: #dfdcd5; }
+#SectionTitle a { color: #908360; }
+#SectionMenu { font-size: 0.9em; color: #716e69; background: #f0efed; }
+#SectionMenu a { color: #716e69; }
+/** end top nav **/
+
+
 /** user card **/
 div.contact_card { float: left; margin: 2px; padding: 3px; width: 17em; border: 1px solid #ccc; }
 div.contact_card h3 { margin: 0 0 5px; background: #ff9; }
@@ -36,7 +59,6 @@ div.contact_card a { color: #f00; border: none; }
 /** end user card **/
 
 
-
 #milestones_calendar{ margin-top: 10px; margin-bottom: 10px; }
 table.calendar td { border: 1px solid; vertical-align: top; }
 table.calendar ul { list-style: none; margin: 0 0 0 5px; padding: 0; }
@@ -44,13 +66,6 @@ table.calendar li { list-style: none; margin: 1px 0 3px 0; padding: 0px; font-si
 table.calendar a { display: block; margin: 0; padding: 2px; text-decoration: none; border: 0; }
 div.milestone_list { margin: 10px; }
 a.story_description_icon,a.story_description_icon img { text-decoration: none; border: none; }
-#Header a, #SectionTitle a, #MainMenu a { border: none; }
-#MainMenu a.current { border-bottom: 3px solid; }
-#SectionTitle { padding: 8px; font-family: Arial, Helvetica, sans-serif; font-size: 1.2em; }
-#SectionMenu { padding: 8px; font-family: Arial, Helvetica, sans-serif; font-size: 0.9em; }
-#TopMenu { padding: 8px; float: right; }
-#MainMenu { white-space: nowrap; }
-#MainMenu li { display: inline; list-style: none; margin-right: 10px; }
 #ProjectDescription { border: 1px solid; margin: 3px 0px; padding: 3px; font-size: 0.8em; }
 #Main { padding: 10px; margin: 0; }
 #SystemError { position: relative; border-top: 1px solid; border-bottom: 1px solid; padding: 3px 2em; margin: 0 0 10px 0; }
@@ -70,12 +85,5 @@ div.fieldWithErrors input, div.fieldWithErrors select { background-color: #FFDDD
 table.calendar td { background-color: #FFFFCC; color: black; border-color: #FFFFFF; }
 table.calendar a { color: #0000FF; }
 table.calendar a:hover { background-color: #DDDDFF; }
-#SectionTitle { background-color: #dfdcd5; color: #908360; }
-#SectionTitle a { color: #908360; }
-#SectionMenu { background-color: #f0efed; color: #716e69; }
-#SectionMenu a { color: #716e69; }
-#SectionMenu a.current { color: #413f33; }
-#TopMenu a { color: #716e69; }
-#TopMenu a.current { color: #413f33; border-bottom-color: #716e69; }
 #SystemError { color: #990000; background-color: #FFCCCC; border-color: #FF0000; }
 #SystemStatus { color: #006600; background-color: #CCFFCC; border-color: #00FF00; }
