@@ -59,13 +59,25 @@ div.contact_card a { color: #f00; border: none; }
 /** end user card **/
 
 
-#milestones_calendar{ margin-top: 10px; margin-bottom: 10px; }
-table.calendar td { border: 1px solid #fff; vertical-align: top; color: #000; background-color: #ffc; }
-table.calendar ul { list-style: none; margin: 0 0 0 5px; padding: 0; }
-table.calendar li { list-style: none; margin: 1px 0 3px 0; padding: 0px; font-size: 80%; }
-table.calendar a { display: block; margin: 0; padding: 2px; text-decoration: none; border: 0; color: #00f; }
+/** milestone calendar **/
+#milestones_calendar { margin: 10px 0; }
+table.calendar th { padding: 0 15px 0 0; }
+table.calendar td { border: 1px solid #fff; background-color: #ffc; }
+table.calendar ul { margin: 0 5px; }
+table.calendar li { font-size: .8em; }
+table.calendar a { display: block; padding: 3px; border: 0; color: #00f; }
 table.calendar a:hover { background-color: #ddf; }
+/** end milestone calendar **/
+
+
+/** milestone list **/
 div.milestone_list { margin: 10px; }
+/** end milestone list **/
+
+
+
+
+/** all the following items need to be combed through **/
 a.story_description_icon,a.story_description_icon img { text-decoration: none; border: none; }
 #ProjectDescription { border: 1px solid; margin: 3px 0px; padding: 3px; font-size: 0.8em; }
 #Main { padding: 10px; margin: 0; }
