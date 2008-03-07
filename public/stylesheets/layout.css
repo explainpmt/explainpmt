@@ -85,12 +85,14 @@ div.milestone_list { margin: 10px; }
 /** end project description **/
 
 
+/** footer **/
+#Footer { text-align: center; font-size: .75em; }
+/** end footer **/
 
 
 /** all the following items need to be combed through **/
 #SystemError, #SystemStatus { position: relative; border-top: 1px solid #f00; border-bottom: 1px solid #f00; padding: 3px 2em; margin: 0 0 10px; color: #900; background: #fcc; }
 #SystemStatus { border-top-color: #0f0; border-bottom-color: #0f0; color: #060; background: #cfc; }
-#Footer { text-align: center; font-size: .75em; }
 #IterationsMenu h3 { margin-bottom: 5px; }
 #IterationsMenu ul { margin: 0 0 10px 1em; }
 #IterationsMenu ul li { margin-bottom: 5px; }
