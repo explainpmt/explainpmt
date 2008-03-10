@@ -58,7 +58,7 @@ p { margin: 0.5em 0 1em; }
 
 /** user card **/
 div.contact_card { float: left; margin: 2px; padding: 3px; width: 17em; border: 1px solid #ccc; }
-div.contact_card h3 { margin: 0 0 5px; background: #ff9; }
+div.contact_card h3 { margin: 0 0 5px; font-weight: bold; background: #ff9; }
 div.contact_card h3.admin { padding: 0 17px 0 0; background: #ff9 url(/images/admin_dot.gif) center right no-repeat; }
 div.contact_card ul { margin-top: 10px; text-align: right; }
 div.contact_card ul li { display: inline; }
