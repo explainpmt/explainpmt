@@ -101,7 +101,7 @@ div.milestone_list { margin: 10px; }
 
 
 /** footer **/
-#Footer { text-align: center; font-size: .75em; }
+#Footer { clear: both; text-align: center; font-size: .75em; }
 /** end footer **/
 
 
