@@ -13,7 +13,7 @@ function resetValue(el,text){
 
 function showPopup() {
   if (typeof(arguments[0])!='string') arguments[0] = arguments[0].innerHTML.replace(/id="([^"]+)"/,'id="popup_$1"')
-    if (arguments.length == 1) var arguments = [arguments[0], FULLHTML, STICKY, MIDX, 0, MIDY, 0, CLOSECLICK];
+    if (arguments.length == 1) var arguments = [arguments[0], FULLHTML, STICKY, MODAL, MIDX, 0, MIDY, 0, CLOSECLICK];
   overlib.apply(null, arguments);
   overdivPopup = $('overDiv').down('div');
   if(overdivPopup.down('form')){
