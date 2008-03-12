@@ -14,6 +14,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find params[:id]
+    @user.password = nil
     common_popup(user_path(@user))
   end
 
@@ -34,7 +35,9 @@ class UsersController < ApplicationController
   def update
     original_password = @user.password
     @user.attributes = params[:user]
-    @user.password_confirmation = original_password if params[:user][:password_confirmation].blank?
+    if params[:user][:password_confirmation].blank? and params[:user][:password].blank?
+      @user.password_confirmation = @user.password = original_password
+    end
     render :update do |page|
       if @user.save
         flash[:status] = "User account for #{@user.full_name} has been updated."
