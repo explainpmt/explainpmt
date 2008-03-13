@@ -35,14 +35,14 @@ table.full_width { width: 100%; }
 #TopMenu { padding: 8px; float: right; }
 #TopMenu a { color: #716e69; }
 #TopMenu a.current,
-#SectionMenu a.current { color: #413f33; border-color: #716e69; }
+#SectionMenu a.current { color: #413f33; }
 #TopMenu { font-weight: bold; }
 #TopMenu a, #SectionTitle a, #SectionMenu a { border: none; }
 /** need to change #MainMenu to a class... it's used multiple times on the page. hacked stylesheet for now **/
 #TopMenu #MainMenu li,
 #SectionMenu #MainMenu li { display: inline; margin-right: 10px; }
 #TopMenu #MainMenu a.current,
-#SectionMenu #MainMenu a.current { border-bottom: 3px solid; }
+#SectionMenu #MainMenu a.current { border-bottom: 3px solid #716e69; }
 /** end hack **/
 #SectionTitle, #SectionMenu { padding: 8px; font-family: Arial, Helvetica, sans-serif; }
 #SectionTitle { font-size: 1.2em; color: #908360; background: #dfdcd5; }
