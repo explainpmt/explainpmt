@@ -25,8 +25,11 @@ table.full_width { width: 100%; }
 #topbar a { color: #fff; }
 #StatusRight { text-align: right; }
 #StatusLeft { position: absolute; top: 3px; }
+* html #StatusLeft { top: 0; }
+*+html #StatusLeft { top: 0; }
 #StatusLeft label { display: inline; }
 #StatusLeft select { height: 15px; font-size: 10px; }
+*+html #StatusLeft select { height: 18px; }
 #StatusLeft input { font-size: 10px; }
 /** end header **/
 
