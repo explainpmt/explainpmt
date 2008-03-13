@@ -8,9 +8,9 @@
   <% empty_collection_content(@initiatives) do %>
     <p>This project does not have any Initiates yet.</p>
   <% end %>
-  
-<% collection_content(@initiatives) do %> 
-  <table class="sort-table" id="initiative_table" cellspacing="0" cellpadding="0" border="0">
+
+<% collection_content(@initiatives) do %>
+  <table class="sort-table full_width" id="initiative_table" cellspacing="0" cellpadding="0" border="0">
     <thead>
       <tr>
         <td>Initiative Name</td>
@@ -27,8 +27,8 @@
           <td><%= initiative.start_date%></td>
           <td><%= initiative.end_date%></td>
           <td><%= initiative.customer%></td>
-          <td> 
-            <%= link_to_edit_initiative(initiative, :value => "Edit") %> 
+          <td>
+            <%= link_to_edit_initiative(initiative, :value => "Edit") %>
             <%= link_to_delete_initiative(initiative) %>
           </td>
         </tr>

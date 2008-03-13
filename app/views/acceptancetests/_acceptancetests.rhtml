@@ -1,5 +1,5 @@
 <% hide_cols ||= [] %>
-<table class="sort-table" id="acceptance-table" cellspacing="0" cellpadding="0" border="0">
+<table class="sort-table full_width" id="acceptance-table" cellspacing="0" cellpadding="0" border="0">
   <thead>
     <tr>
       <td>Test Name</td>
@@ -15,7 +15,7 @@
   </tbody>
 </table>
 <script type="text/javascript">
-  var acceptancetable = new SortableTable(document.getElementById("acceptance-table"), ["CaseInsensitiveString", 
+  var acceptancetable = new SortableTable(document.getElementById("acceptance-table"), ["CaseInsensitiveString",
       <% column_content_for(hide_cols,:story) do %>"CaseInsensitiveString", <% end %>
       <% column_content_for(hide_cols,:iteration) do %>"CaseInsensitiveString", <% end %> "String", "String"
       <% column_content_for(hide_cols,:action) do %>, "None" <% end %>]);

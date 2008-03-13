@@ -13,6 +13,7 @@ p { margin: 0.5em 0 1em; }
 .even_row td { background: #DFDCD5; border: 1px solid #DFDCD5; }
 .important { font-weight: bold; font-size: 110%; }
 .clear { clear: both; }
+table.full_width { width: 100%; }
 /** end general styles **/
 
 
@@ -125,7 +126,7 @@ label { display: block; margin: 4px 0 1px; }
 * html .pagination li.currentpage, * html .pagination li.disablepage { margin-right: 5px; padding-right: 0; }
 /* end pagination */
 
-.column { border-right: 1px solid black; background: #fff; float:left; width:160px; min-height: 500px; padding-right:10px; margin-right:20px; }
+.column { border-right: 1px solid black; background: #fff; float:left; width:160px; padding-right:10px; margin-right:20px; }
 .column h2 { padding-bottom: 5px; }
 .move_to { text-align:right; padding-bottom:5px; }
 

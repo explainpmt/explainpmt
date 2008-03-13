@@ -5,7 +5,7 @@
 <% end %>
 
 <% collection_content(@projects) do %>
-  <table class="sort-table" id="projectsTable" cellspacing="0" cellpadding="3" border="0" width="100%">
+  <table class="sort-table full_width" id="projectsTable" cellspacing="0" cellpadding="3" border="0">
     <thead>
       <tr>
         <td>&nbsp;</td>
@@ -21,9 +21,9 @@
             <%= project_dashboard_link(project) %><br>
             <%= textilize(project.description) %>
           </td>
-          <td> 
-            <%= link_to "Team", project_users_path(project) %> 
-            <%= link_to_remote "Edit", :url => edit_project_path(project), :method => :get %>  
+          <td>
+            <%= link_to "Team", project_users_path(project) %>
+            <%= link_to_remote "Edit", :url => edit_project_path(project), :method => :get %>
             <%= link_to_delete_project(project) %>
           </td>
         </tr>
