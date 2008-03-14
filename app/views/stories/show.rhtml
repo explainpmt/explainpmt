@@ -49,6 +49,10 @@
     <td><strong>Estimate</strong></td>
     <td align="right"><%= @story.points if @story.points %></td>
   </tr>
+  <tr class="even_row">
+    <td><strong>Release</strong></td>
+    <td align="right"><%= @story.release.name  if @story.release %></td>
+  </tr>
 </table>
 <div style="clear:both;"></div>
 <% unless @story.description.blank? %>
@@ -67,7 +71,7 @@
 
 <h3>Acceptance Tests</h3>
 <% empty_collection_content(@acceptancetests) do %>
-  `No acceptance tests have been defined for this story.
+  No acceptance tests have been defined for this story.
 <% end %>
 <% collection_content(@acceptancetests) do %>
   <%= render( :partial => 'acceptancetests/acceptancetests', :locals => {:hide_cols => [ :checkbox, :story, :iteration ]}) %>

@@ -5,13 +5,14 @@
     <% end %>
     <label style="display:inline" for="sc_check_<%= story.id %>"><%= "SC#{story.scid}" %></label>
   </td>
-  
+
   <% column_content_for(hide_cols, :project ) do %>
     <td><%= link_to(story.project.name, project_dashboard_path(story.project)) %></td>
   <% end %>
-                           
+
   <td><%= link_to_story(story) %><%= image_tag( 'info-icon.gif', :alt => truncate(story.description, 35)) if story.description?%></td>
   <td><%= story.initiative_id? ? link_to_edit_initiative(story.initiative) : "Not Assigned" %></td>
+  <td><%= story.release_id? ? link_to_edit_release(story.release) : "Not Assigned" %></td>
   <td><%= story.points %></td>
   <td><%= story.value.name %></td>
   <td><%= story.risk.name %></td>
@@ -32,9 +33,9 @@
   <td><%= story.customer %></td>
   <td><%= story.position %></td>
   <% column_content_for(hide_cols, :action) do %>
-   <td width="15%"> 
-      <%= link_to_edit_story(story, :value => "Edit")%> 
-      <%= link_to_clone_story(story)%> 
+   <td width="15%">
+      <%= link_to_edit_story(story, :value => "Edit")%>
+      <%= link_to_clone_story(story)%>
       <%= link_to_delete_story(story)%>
       <%= link_to_audit_story(story)%>
       <%= link_to_move_story_up(story)%>

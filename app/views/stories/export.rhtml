@@ -7,6 +7,7 @@
     <td><b>Title</b></td>
     <td><b>Description</b></td>
     <td><b>Initiative</b></td>
+	<td><b>Release</b></td>
     <td><b>Points</b></td>
     <td><b>Value</b></td>
     <td><b>Risk</b></td>
@@ -22,6 +23,7 @@
         <td><%= story.title%></td>
         <td><%= story.description%></td>
         <td><%= story.initiative_id? ? story.initiative.name : "Not Assigned" %></td>
+		<td><%= story.release_id? ? story.release.name : "Not Assigned" %></td>
         <td><%= story.points %></td>
         <td><%= story.value.name %></td>
         <td><%= story.risk.name %></td>

@@ -2,6 +2,7 @@ class Story < ActiveRecord::Base
   belongs_to :project
   belongs_to :iteration
   belongs_to :initiative
+  belongs_to :release
   belongs_to :creator, :class_name => 'User', :foreign_key => :creator_id
   belongs_to :updater, :class_name => 'User', :foreign_key => :updater_id
   belongs_to :owner, :class_name => 'User', :foreign_key => :user_id
@@ -16,13 +17,13 @@ class Story < ActiveRecord::Base
   validates_presence_of :title, :project, :status
 
   validates_uniqueness_of :scid, :scope => :project_id
-  
+
   validates_length_of :title, :maximum => 255
-  
+
   composed_of :status, :mapping => %w(status order), :class_name => 'Story::Status'
   composed_of :value, :mapping => %w(value order), :class_name => 'Story::Value'
   composed_of :risk, :mapping => %w(risk order), :class_name => 'Story::Risk'
-  
+
   class RankedValue
     class InvalidOrder < Exception;end
 
@@ -56,7 +57,7 @@ class Story < ActiveRecord::Base
       @name
     end
   end
-  
+
   class Status < RankedValue
     class << self
       def new(order)
@@ -69,7 +70,7 @@ class Story < ActiveRecord::Base
       @complete = complete
       @closed = closed
     end
-    
+
     def complete?
       @complete
     end
@@ -77,7 +78,7 @@ class Story < ActiveRecord::Base
     def closed?
       @closed
     end
-       
+
     Statuses << New = create(1, 'New')
     Statuses << Defined = create(2, 'Defined')
     Statuses << InProgress = create(3, 'In Progress')
@@ -87,7 +88,7 @@ class Story < ActiveRecord::Base
     Statuses << Accepted = create(7, 'Accepted', true, true)
     Statuses << Cancelled = create(8, 'Cancelled', false, true)
     Statuses << Obstacle = create(9, 'Obstacle')
-    
+
   end
 
   class Value < RankedValue
@@ -131,11 +132,11 @@ class Story < ActiveRecord::Base
       end
     EOF
   end
-  
+
   def audits
     Audit.find(:all, :conditions => ["project_id = #{project_id} AND audited_object_id = #{id} AND object = 'Story'"], :order => "created_at DESC")
   end
-  
+
   def audit_story
     if !self.new_record?
       story = Story.find(self.id)
@@ -201,7 +202,7 @@ class Story < ActiveRecord::Base
   def validate_points
     errors.add(:points, "must be a positive integer") if self.points and self.points < 1
   end
-  
+
   def is_defined?
     self.value != Value::NA and self.points?
   end

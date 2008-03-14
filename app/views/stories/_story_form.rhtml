@@ -6,6 +6,8 @@
 	  <%= f.text_field :title %>
 	  <label>Initiative</label>
 	  <%= collection_select('story','initiative_id', @project.initiatives, 'id','name', :include_blank => true) %>
+	  <label>Release</label>
+	  <%= collection_select('story','release_id', @project.releases, 'id','name', :include_blank => true) %>
 	  <label>Customer</label>
 	  <%= f.text_field :customer%>
 	  <label>Status</label>
