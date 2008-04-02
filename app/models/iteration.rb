@@ -7,7 +7,7 @@ class Iteration < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :project_id
   validates_presence_of :start_date
   has_many :stories, :include => [:initiative, :project, :owner, :iteration], :dependent => :nullify do
-  
+
     def total_points
       self.inject(0){ |res,s| res + s.points }
     end
@@ -33,7 +33,7 @@ class Iteration < ActiveRecord::Base
   def points_by_user
     stories.inject(Hash.new(0)){|hsh, story| (hsh[story.user_id] += story.points) && hsh}
   end
-  
+
   def current?
     Time.now.at_midnight.between?(start_date.to_time, stop_date.to_time)
   end
@@ -45,7 +45,7 @@ class Iteration < ActiveRecord::Base
   def past?
     stop_date.to_time < Time.now.at_midnight
   end
-  
+
   protected
 
   def validate

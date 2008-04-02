@@ -157,6 +157,36 @@ class Story < ActiveRecord::Base
     end
   end
 
+  def assign_to(new_owner)
+    self.owner = new_owner
+    save
+  end
+
+  def release_ownership
+    self.owner = nil
+    save
+  end
+
+  def clone!
+    story = self.clone
+    story.title = "Clone:" + self.title
+    story.scid = nil
+    story.save!
+  end
+
+  def self.assign_many_to_iteration(iteration, stories)
+    successes, failures = [], []
+    stories.each do |s|
+      s.iteration = iteration
+      if s.save
+        successes << "SC#{s.scid} has been moved."
+      else
+        failures << "SC#{s.scid} could not be moved. (make sure it is defined)"
+      end
+    end
+    {:successes => successes, :failures => failures}
+  end
+
   protected
 
   def validate

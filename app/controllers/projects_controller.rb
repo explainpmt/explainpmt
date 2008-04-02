@@ -1,27 +1,27 @@
 class ProjectsController < ApplicationController
   skip_before_filter :check_authentication, :only => :audits
   skip_before_filter :require_current_project
-  
+
   def index
     paging = {:size => 50, :current => params[:page]}
     @projects = current_user.admin? ? Project.find(:all, :order => 'name ASC', :page => paging) : current_user.projects.find(:all, :page => paging)
   end
-  
+
   def show
     redirect_to project_dashboard_path(Project.find(params[:id]))
   end
-  
+
   def team
     @project = Project.find params[:id]
     @users = @project.users.find(:all, :page => {:size => 20, :current => params[:page]})
   end
-  
+
   def new
     render :update do |page|
       page.call 'showPopup', render(:partial => 'project_form', :locals => {:url => projects_path})
     end
   end
-  
+
   def create
     @project = Project.new params[:project]
     render :update do |page|
@@ -34,14 +34,14 @@ class ProjectsController < ApplicationController
       end
     end
   end
-  
+
   def edit
     @project = Project.find params[:id]
     render :update do |page|
       page.call 'showPopup', render(:partial => 'project_form', :locals => {:url => project_path(@project)})
     end
   end
-  
+
   def update
     project = Project.find params[:id]
     render :update do |page|
@@ -53,7 +53,7 @@ class ProjectsController < ApplicationController
       end
     end
   end
-  
+
   def destroy
     project = Project.find params[:id]
     project.destroy
@@ -81,14 +81,8 @@ class ProjectsController < ApplicationController
     end
     flash[:status] = "The following users were added to the project: " + users_added.join(', ') unless users_added.empty?
     redirect_to team_project_path(@project)
-  end  
-  
-  
-  
+  end
 
-  
-  
-  
   def audits
     @audits = Audit.find(:all, :conditions => ["project_id = #{params[:id]} AND object = 'Story'"], :order => "created_at DESC")
     @project = Project.find params[:id]

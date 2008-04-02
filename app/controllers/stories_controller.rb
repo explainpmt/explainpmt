@@ -1,10 +1,10 @@
 class StoriesController < ApplicationController
   before_filter :find_story, :except => [:index, :new, :create, :audit, :export, :export_tasks, :bulk_create, :create_many]
-  
+
   def index
     @stories = @project.stories.backlog
   end
-  
+
   def new
     url = params[:iteration_id] ? project_iteration_stories_path(@project, Iteration.find(params[:iteration_id])) : project_stories_path(@project)
     common_popup(url)
@@ -13,12 +13,12 @@ class StoriesController < ApplicationController
   def edit
     common_popup(project_story_path(@project, @story))
   end
-  
+
   def show
     @tasks = @story.tasks
     @acceptancetests = @story.acceptancetests
   end
-  
+
   def create
     modify_risk_status_and_value_params
     @story = Story.new params[:story]
@@ -30,11 +30,11 @@ class StoriesController < ApplicationController
         flash[:status] = 'The new story card has been saved.'
         page.call 'location.reload'
       else
-        page[:flash_notice].replace_html :inline => "<%= error_container(@story.errors.full_messages[0]) %>"      
+        page[:flash_notice].replace_html :inline => "<%= error_container(@story.errors.full_messages[0]) %>"
       end
     end
   end
-  
+
   def update
     modify_risk_status_and_value_params
     @story.attributes = params[:story]
@@ -46,22 +46,18 @@ class StoriesController < ApplicationController
         flash[:status] = 'The changes to the story card have been saved.'
         page.call 'location.reload'
       else
-        page[:flash_notice].replace_html :inline => "<%= error_container(@story.errors.full_messages[0]) %>"           
+        page[:flash_notice].replace_html :inline => "<%= error_container(@story.errors.full_messages[0]) %>"
       end
     end
   end
 
   def take_ownership
-    @story.owner = current_user
-    @story.save
-    current_user.reload
+    @story.assign_to(current_user)
     redirect_to request.referer
   end
-  
+
   def release_ownership
-    @story.owner = nil
-    @story.save
-    current_user.reload
+    @story.release_ownership
     redirect_to request.referer
   end
 
@@ -69,41 +65,35 @@ class StoriesController < ApplicationController
     @users = @project.users
     render :update do |page|
       page.call 'showPopup', render(:partial => 'assign_owner_form')
-    end 
+    end
   end
-  
+
   def assign
-    user = User.find params[:owner][:id]
-    @story.owner = user
-    @story.save
-    current_user.reload
+    @story.assign_to(User.find params[:owner][:id])
     redirect_to request.referer
   end
-  
+
   def clone_story
-    story = @story.clone
-    story.title = "Clone:" + @story.title
-    story.scid = nil
-    story.save!
+    @story.clone!
     redirect_to request.referer
   end
-  
+
   def destroy
     if @story.destroy
       flash[:status] = "Story \"#{@story.title}\" has been deleted."
       redirect_to request.referer
     end
   end
-  
+
   def move_up
     @story.move_higher
     redirect_to request.referer
   end
-  
+
   def move_down
     @story.move_lower
     redirect_to request.referer
-  end  
+  end
 
   def edit_numeric_priority
     render :update do |page|
@@ -122,15 +112,15 @@ class StoriesController < ApplicationController
           page.call 'location.reload'
         else
           @error = 'Position was not updated.  Value can not be greater than last position.'
-          page[:flash_notice].replace_html :inline => "<%= error_container(@error) %>" 
+          page[:flash_notice].replace_html :inline => "<%= error_container(@error) %>"
         end
       else
         @error = 'Position was not updated.  You must specify a numeric value.'
-        page[:flash_notice].replace_html :inline => "<%= error_container(@error) %>" 
+        page[:flash_notice].replace_html :inline => "<%= error_container(@error) %>"
       end
     end
   end
-  
+
   def audit
     @changes = Story.find(params[:id]).audits
     render :update do |page|
@@ -138,26 +128,26 @@ class StoriesController < ApplicationController
         page.call 'showPopup', render(:partial => 'stories/audit')
         page.call 'sortAudits'
       end
-    end 
+    end
   end
-  
+
   def export
-    headers['Content-Type'] = "application/vnd.ms-excel" 
+    headers['Content-Type'] = "application/vnd.ms-excel"
     @stories = @project.stories
     render :layout => false
   end
   alias export_tasks export
-  
+
   def bulk_create
     render :update do |page|
       page.call 'showPopup', render(:partial => 'stories/bulk_create_form')
-    end 
+    end
   end
-  
+
   def create_many
     render :update do |page|
       if params[:story][:titles].empty?
-        page[:flash_notice].replace_html :inline => "<%= error_container('Please enter at least one story card title.') %>" 
+        page[:flash_notice].replace_html :inline => "<%= error_container('Please enter at least one story card title.') %>"
       else
         params[:story][:titles].each_line do |title|
           @project.stories.create(:title => title, :creator_id => current_user.id)
@@ -167,18 +157,18 @@ class StoriesController < ApplicationController
       end
     end
   end
-  
+
   protected
   def common_popup(url)
     render :update do |page|
       page.call 'showPopup', render(:partial => 'stories/story_form', :locals => {:url => url})
-    end 
+    end
   end
-  
+
   def find_story
     @story = Story.find params[:id]
   end
-  
+
   def modify_risk_status_and_value_params
     if params[:story]
       if params[:story][:status]
@@ -195,5 +185,5 @@ class StoriesController < ApplicationController
       end
     end
   end
-  
+
 end

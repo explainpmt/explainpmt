@@ -4,17 +4,17 @@ class ApplicationController < ActionController::Base
   before_filter :set_selected_project
   before_filter :require_team_membership
   before_filter :require_current_project
-  
+
   def current_user
     session[:current_user]
   end
-  
+
   protected
-  
+
   def set_selected_project
     @project = Project.find_by_id(params[:project_id])
   end
-  
+
   def check_authentication
     unless current_user.kind_of?(User)
       session[:return_to] = request.request_uri
@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
       return false
     end
   end
-  
+
   def require_admin_privileges
     unless current_user.admin?
       flash[:error] = "You must be logged in as an administrator to perform " +
@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
       return false
     end
   end
-  
+
   def require_team_membership
     if @project and !current_user.admin?
       unless current_user.projects.include?(@project)
@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-  
+
   def require_current_project
     unless @project
       flash[:error] = "You attempted to access a view that requires a " +
@@ -53,5 +53,10 @@ class ApplicationController < ActionController::Base
       return false
     end
   end
-  
+
+  def set_status_and_error_for(results)
+    flash[:status] = results[:successes].join("\n\n") unless results[:successes].empty?
+    flash[:error] = results[:failures].join("\n\n") unless results[:failures].empty?
+  end
+
 end

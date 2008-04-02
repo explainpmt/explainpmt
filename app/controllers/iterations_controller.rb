@@ -1,10 +1,10 @@
 class IterationsController < ApplicationController
   before_filter :find_iteration, :except => [:index, :new, :create, :move_stories]
-  
+
   def find_iteration
     @iteration = Iteration.find params[:id]
   end
-  
+
   def index
     @project_iterations = @project.iterations
     @iteration = @project_iterations.current || @project_iterations.previous || @project_iterations.next
@@ -17,7 +17,7 @@ class IterationsController < ApplicationController
     @project_iterations = @project.iterations
     render :action => 'iterations'
   end
-  
+
   def new
     common_popup(project_iterations_path(@project))
   end
@@ -25,7 +25,7 @@ class IterationsController < ApplicationController
   def edit
     common_popup(project_iteration_path(@project, @iteration))
   end
-  
+
   def create
     @iteration = Iteration.new params[:iteration]
     @iteration.project = @project
@@ -36,7 +36,7 @@ class IterationsController < ApplicationController
       else
         page[:flash_notice].replace_html :inline => "<%= error_container(@iteration.errors.full_messages[0]) %>"
       end
-    end    
+    end
   end
 
   def update
@@ -55,14 +55,14 @@ class IterationsController < ApplicationController
     flash[:status] = "#{@iteration.name} has been deleted."
     redirect_to project_iterations_path(@project)
   end
-  
+
   def allocation
     @allocations = @iteration.points_by_user
     @users = @project.users
     render :update do |page|
       page.call 'showPopup', render(:partial => 'allocation_popup')
       page.call 'sortAllocation'
-    end 
+    end
   end
 
   def select_stories
@@ -72,26 +72,26 @@ class IterationsController < ApplicationController
     }
     render :update do |page|
       page.call 'showPopup', render(:partial => 'select_stories')
-    end 
+    end
   end
 
   def assign_stories
     change_story_assignment
     redirect_to project_iteration_path(@project, @iteration)
-  end  
+  end
 
   def move_stories
     change_story_assignment
     redirect_to request.referer
   end
-  
+
   def export
-    headers['Content-Type'] = "application/vnd.ms-excel" 
+    headers['Content-Type'] = "application/vnd.ms-excel"
     @stories = @iteration.stories
     render :layout => false
   end
   alias export_tasks export
-  
+
   protected
   def common_popup(url)
     render :update do |page|
@@ -100,18 +100,9 @@ class IterationsController < ApplicationController
   end
 
   def change_story_assignment
+    iteration = Iteration.find_by_id(params[:move_to])
     stories = Story.find(params[:selected_stories] || [])
-    successes, failures = [], []
-    stories.each do |s|
-      s.iteration = Iteration.find_by_id(params[:move_to])
-      if s.save
-        successes << "SC#{s.scid} has been moved."
-      else
-        failures << "SC#{s.scid} could not be moved. (make sure it is defined)"
-      end
-    end
-    flash[:status] = successes.join("\n\n") unless successes.empty?
-    flash[:error] = failures.join("\n\n") unless failures.empty?
+    set_status_and_error_for(Story.assign_many_to_iteration(iteration, stories))
   end
 end
 

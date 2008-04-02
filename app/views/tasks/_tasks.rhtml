@@ -2,14 +2,14 @@
 <table class="sort-table" width="100%" id="task-table" cellspacing="0" cellpadding="3" border="0">
   <thead>
     <tr>
-      <% column_content_for(hide_cols, :project) do %><th>Project</th><% end %>
-      <% column_content_for(hide_cols, :iteration) do %><th>Iteration</th><% end %>
-      <% column_content_for(hide_cols, :story) do %><th>SCID</th><th>Story</th><% end %>
-      <th>Task</th>
-      <th>Description</th>
-      <th>Complete</th>
-      <% column_content_for(hide_cols, :owner) do %><th>Owner</th><% end %>
-      <% column_content_for(hide_cols, :action) do %><th>Action</th><% end %>
+      <% column_content_for(hide_cols, :project) do %><td>Project</td><% end %>
+      <% column_content_for(hide_cols, :iteration) do %><td>Iteration</td><% end %>
+      <% column_content_for(hide_cols, :story) do %><td>SCID</td><td>Story</td><% end %>
+      <td>Task</td>
+      <td>Description</td>
+      <td>Complete</td>
+      <% column_content_for(hide_cols, :owner) do %><td>Owner</td><% end %>
+      <% column_content_for(hide_cols, :action) do %><td>Action</td><% end %>
     </tr>
   </thead>
   <tbody>
