@@ -1,17 +1,19 @@
-<table cellspacing="0" cellpadding="0" border="0" class="full_width">
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
   <thead>
     <tr>
-      <td><big><b>Project: <%= @project.name %></b></big></td>
+      <th colspan="9"><big>Project: <%= @project.name %></big></th>
     </tr>
-    <td><b>Test Name</b></td>
-    <td><b>Story</b></td>
-    <td><b>Description</b></td>
-    <td><b>Pre-Condition</b></td>
-    <td><b>Post-Condition</b></td>
-    <td><b>Expected Result</b></td>
-    <td><b>Iteration</b></td>
-    <td><b>Automated</b></td>
-    <td><b>Pass</b></td>
+    <tr>
+      <th>Test Name</th>
+      <th>Story</th>
+      <th>Description</th>
+      <th>Pre-Condition</th>
+      <th>Post-Condition</th>
+      <th>Expected Result</th>
+      <th>Iteration</th>
+      <th>Automated</th>
+      <th>Pass</th>
+    </tr>
   </thead>
   <tbody>
     <% @project.acceptancetests.each do |at| %>

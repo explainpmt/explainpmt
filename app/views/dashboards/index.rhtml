@@ -1,6 +1,7 @@
-<div class="column">
+<td class="column">
   <%= render :partial => 'projects/my_projects_list' %>
-</div>
+</td>
+<td>
 <%= milestones_calendar %>
 <% collection_content(@stories) do %>
   <h3>My Stories (all projects):</h3>
@@ -11,3 +12,4 @@
   <h3>My Stories (all projects):</h3>
   <%= render( :partial => 'tasks/tasks', :locals => {:hide_cols => [:owner, :action ]}) %>
 <% end %>
+</td>

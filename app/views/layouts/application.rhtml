@@ -63,38 +63,31 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
       <%= main_menu %>
     </div>
 
-    <div id="Main">
+    <table id="Main" width="100%">
       <% if flash[:error] %>
-        <div id="SystemError">
-          <%= textilize_without_paragraph( flash[ :error ] ) %>
-        </div>
+        <tr>
+          <td colspan="2" id="SystemError">
+            <%= textilize_without_paragraph( flash[ :error ] ) %>
+          </td>
+        </tr>
       <% end %>
       <% if flash[:status] %>
-        <div id="SystemStatus">
-          <%= textilize_without_paragraph( flash[ :status ] ) %>
-        </div>
+        <tr>
+          <td colspan="2" id="SystemStatus">
+            <%= textilize_without_paragraph( flash[ :status ] ) %>
+          </td>
+        </tr>
       <% end %>
 
       <%= yield %>
 
-      <div class="clear"></div>
-    </div>
+    </table>
+
     <div id="Footer">
       <p><strong>eXPlain Project Management Tool</strong> - <%= ApplicationHelper::VERSION %> (<a href="/user_guide.doc">User Guide</a>)</p>
       <p>This software is licensed under the <a
         href="http://www.gnu.org/copyleft/gpl.html">terms of the GPL.</a></p>
     </div>
-
-    <script type="text/javascript">
-      if($$('#Main div.column')[0]){
-        column = $$('#Main div.column')[0];
-        main = $('Main');
-        column.style.height=main.offsetHeight-20+'px';
-        column_width = column.offsetWidth;
-        main_width = main.offsetWidth;
-      $$('#Main table.full_width').each(function(t){t.style.width=main_width-column_width-53+'px'})
-      }
-    </script>
 
   </body>
 </html>

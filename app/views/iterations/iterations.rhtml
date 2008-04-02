@@ -1,10 +1,10 @@
-  <div class="column">
+<td class="column">
   <h2>Iterations</h2>
   <div id="IterationsMenu">
-    <p>An iteration is a time boxed (typically 1 to 3 weeks long) plan, where 
+    <p>An iteration is a time boxed (typically 1 to 3 weeks long) plan, where
     stories are developed, tested, demonstrated, and prepared for production.</p>
     <p>Stories are placed into the iteration in order of the most valuable to the customer. </p>
-    
+
     <h3><%= link_to_new_iteration %></h3>
     <ul>
       <li><%= link_to_current_iteration_in @project_iterations%></li>
@@ -14,7 +14,8 @@
     <%= render :partial => 'iteration_link_list', :locals => {:iterations => @project_iterations.future} %>
     <%= render :partial => 'iteration_link_list', :locals => {:iterations => @project_iterations.past} %>
   </div>
-</div>
+</td>
+<td>
 <% empty_collection_content(@project_iterations) do%>
   <p>This project does not have any Iterations yet.</p>
 <% end %>
@@ -39,14 +40,15 @@
     <% end %>
   <% end %>&nbsp;
   <%= link_to_export_iteration_stories(@iteration) %>&nbsp;&nbsp;
-  <%= link_to_export_iteration_stories(@iteration) %> 
+  <%= link_to_export_iteration_stories(@iteration) %>
 
   <% empty_collection_content(@stories) do%>
     <p>No stories have been assigned to this iteration.</p>
   <% end %>
 
   <% collection_content(@stories) do %>
-    <%= render :partial => 'stories/move_stories_form', :locals => {:default => "Backlog", :selected_id => 'select1'} %>    
+    <%= render :partial => 'stories/move_stories_form', :locals => {:default => "Backlog", :selected_id => 'select1'} %>
     <%= render( :partial => 'stories/stories', :locals => {:hide_cols => [ :project, :iteration]}) %>
   <% end %>
 <% end %>
+</td>

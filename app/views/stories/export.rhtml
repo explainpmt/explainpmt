@@ -1,20 +1,22 @@
-<table cellspacing="0" cellpadding="0" border="0" class="full_width">
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
   <thead>
     <tr>
-      <td><big><b>Project: <%= @project.name %></b></big></td>
+      <th><big>Project: <%= @project.name %></big></th>
     </tr>
-    <td><b>SCID</b></td>
-    <td><b>Title</b></td>
-    <td><b>Description</b></td>
-    <td><b>Initiative</b></td>
-	<td><b>Release</b></td>
-    <td><b>Points</b></td>
-    <td><b>Value</b></td>
-    <td><b>Risk</b></td>
-    <td><b>Status</b></td>
-    <td><b>Iteration</b></td>
-    <td><b>Customer</b></td>
-    <td><b>Owner</b></td>
+    <tr>
+      <th>SCID</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Initiative</th>
+      <th>Release</th>
+      <th>Points</th>
+      <th>Value</th>
+      <th>Risk</th>
+      <th>Status</th>
+      <th>Iteration</th>
+      <th>Customer</th>
+      <th>Owner</th>
+    </tr>
   </thead>
   <tbody>
     <% @stories.each do |story| %>

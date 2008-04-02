@@ -1,9 +1,11 @@
-<div class="column">
+<td class="column">
   <h2>Project Team</h2>
   <p>The users shown here are part of the project team for
   <strong><%= @project.name %></strong>.</p>
   <p>Admin accounts are marked with <%= image_tag('admin_dot.gif') %>.</p>
   <p><strong><%= link_to_add_users %></strong></p>
   <p><strong><%= link_to_new_project_user %></strong></p>
-</div>
+</td>
+<td>
 <%= render_partial 'users/contact_cards' %>
+</td>

@@ -1,12 +1,13 @@
-<div class="column">
+<td class="column">
   <h2>Acceptance Tests</h2>
-  <p> Acceptance testing is used to determine behavioral intent for a deliverable 
+  <p> Acceptance testing is used to determine behavioral intent for a deliverable
   and provides formal completion criteria for a deliverable. </p>
   <strong><%= link_to_new_acceptancetest %></strong>
-  
-  <p> You may also <strong><%= link_to_export_acceptance %></strong> the Acceptance Tests which 
+
+  <p> You may also <strong><%= link_to_export_acceptance %></strong> the Acceptance Tests which
   have been created for this project </p>
-</div>
+</td>
+<td>
 <% empty_collection_content(@acceptancetests) do %>
   <p>This project does not have any Acceptance Tests yet.</p>
 <% end %>
@@ -23,6 +24,4 @@
   </div>
   <%= render :partial => 'acceptancetests' %>
 <% end %>
-
-
-
+</td>

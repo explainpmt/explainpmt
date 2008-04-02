@@ -1,14 +1,16 @@
-<table cellspacing="0" cellpadding="0" border="0" class="full_width">
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
   <thead>
     <tr>
-      <td><big><b>Iteration: <%= @iteration.name %></b></big></td>
+      <th colspan="6"><big>Iteration: <%= @iteration.name %></big></th>
     </tr>
-    <td><b>SCID</b></td>
-    <td><b>Story Title</b></td>
-    <td><b>Task Name</b></td>
-    <td><b>Description</b></td>
-    <td><b>Owner</b></td>
-    <td><b>Complete</b></td>
+    <tr>
+      <th>SCID</th>
+      <th>Story Title</th>
+      <th>Task Name</th>
+      <th>Description</th>
+      <th>Owner</th>
+      <th>Complete</th>
+    </tr>
   </thead>
   <tbody>
     <% @stories.each do |story| %>

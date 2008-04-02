@@ -1,18 +1,19 @@
-<div class="column">
+<td class="column">
   <h2>Releases</h2>
   <strong><%= link_to_new_release %></strong>
-</div>
+</td>
+<td>
 <% empty_collection_content(@releases) do %>
   <p>This project does not have any Releases yet.</p>
 <% end %>
 
 <% collection_content(@releases) do %>
-  <table class="sort-table full_width" id="releasesTable" cellspacing="0" cellpadding="3" border="0">
+  <table class="sort-table" width="100%" id="releasesTable" cellspacing="0" cellpadding="3" border="0">
     <thead>
       <tr>
-        <td>Name</td>
-        <td>Date</td>
-        <td>Action</td>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
@@ -34,3 +35,4 @@
     MaintainSort(st);
   </script>
 <% end %>
+</td>

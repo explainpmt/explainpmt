@@ -1,23 +1,24 @@
-<div class="column">
+<td class="column">
   <h2>Initiatives</h2>
   <p> Initiatives allow for logical grouping of stories. </p>
   <p> When a story is created, it can be tied to an initiative. Stories can also
   be sorted by initiative. </p>
   <strong><%= link_to_new_initiative %></strong>
-</div>
+</td>
+<td>
   <% empty_collection_content(@initiatives) do %>
     <p>This project does not have any Initiates yet.</p>
   <% end %>
 
 <% collection_content(@initiatives) do %>
-  <table class="sort-table full_width" id="initiative_table" cellspacing="0" cellpadding="0" border="0">
+  <table class="sort-table" width="100%" id="initiative_table" cellspacing="0" cellpadding="0" border="0">
     <thead>
       <tr>
-        <td>Initiative Name</td>
-        <td>Start Date</td>
-        <td>End Date</td>
-        <td>Customer</td>
-        <td>Action</td>
+        <th>Initiative Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Customer</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
@@ -40,3 +41,4 @@
     MaintainSort(st);
   </script>
 <% end %>
+</td>
