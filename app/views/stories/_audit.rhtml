@@ -1,5 +1,11 @@
 <div class="audit">
 <a href="javascript:void(0);" class="close" onclick="cClick();">close</a><br /><br />
+
+<% empty_collection_content(@changes) do %>
+  <p>No Changes have been recorded for this story</p>
+<% end %>
+
+<% collection_content @changes do %>
   <table class="sort-table" width="100%" id="story_audit" cellspacing="0" cellpadding="0" border="0">
     <thead>
       <tr>
@@ -20,4 +26,5 @@
       <% end %>
     </tbody>
   </table>
+<% end %>
 </div>

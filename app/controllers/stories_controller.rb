@@ -125,10 +125,8 @@ class StoriesController < ApplicationController
   def audit
     @changes = Story.find(params[:id]).audits
     render :update do |page|
-      unless @changes.empty?
-        page.call 'showPopup', render(:partial => 'stories/audit')
-        page.call 'sortAudits'
-      end
+      page.call 'showPopup', render(:partial => 'stories/audit')
+      page.call 'sortAudits'
     end
   end
 
