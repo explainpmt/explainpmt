@@ -11,6 +11,7 @@ class StoriesController < ApplicationController
   end
 
   def edit
+    @story.return_ids_for_aggregations
     common_popup(project_story_path(@project, @story))
   end
 
