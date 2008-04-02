@@ -18,7 +18,7 @@ p { margin: 0.5em 0 1em; }
 
 /** header **/
 #Header h1 { padding: 10px 15px; }
-#Header h1 a { display: block; width: 347px; height: 85px; text-indent: -9999px; background: url(/images/logo.png) 0 no-repeat; overflow: hidden; }
+#Header h1 a { display: block; width: 208px; height: 56px; text-indent: -9999px; background: url(/images/logo2.png) 0 no-repeat; overflow: hidden; }
 #Header a { border: none; }
 #topbar { position: relative; padding: 5px 1em; font-size: 0.8em; font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; color: #fff; background: #6dae20; }
 #topbar a { color: #fff; }
