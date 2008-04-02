@@ -169,6 +169,9 @@ class Story < ActiveRecord::Base
 
   def clone!
     story = self.clone
+    story.status = self.status
+    story.value = self.value
+    story.risk = self.risk
     story.title = "Clone:" + self.title
     story.scid = nil
     story.save!
@@ -230,11 +233,11 @@ class Story < ActiveRecord::Base
   end
 
   def validate_points
-    errors.add(:points, "must be a positive integer") if self.points and self.points < 1
+    errors.add(:points, "must be a positive integer") if self.points and self.points < 0
   end
 
   def is_defined?
-    self.value != Value::NA and self.points?
+    self.value != Value::NA and self.points
   end
 
   def before_save_reset_status
