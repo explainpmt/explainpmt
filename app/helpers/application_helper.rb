@@ -25,7 +25,7 @@ module ApplicationHelper
   def column_content_for(cols, column, &block)
     yield unless cols.include?(column)
   end
-  
+
   def error_container(error)
     "<div id='SystemError'>#{error}</div>"
   end
@@ -33,7 +33,7 @@ module ApplicationHelper
   def render_pagination(collection, options={})
     render :partial => 'shared/paginate', :locals => { :collection => collection, :page_var => options[:page_var]}
   end
-  
+
   #faster pagination http://www.igvita.com/blog/2006/09/10/faster-pagination-in-rails/
   def windowed_pagination_links(pagingEnum, options)
     link_to_current_page = options[:link_to_current_page]
@@ -81,9 +81,9 @@ module ApplicationHelper
     xml.ul(:id => 'MainMenu') do
       xml.li do
         if @project
-          xml << main_menu_link('Dashboard', project_dashboard_path(@project))
+          xml << main_menu_link('Dashboard', :controller => 'dashboards', :action => 'index', :project_id => @project.id)
         else
-          xml << main_menu_link('Overview', dashboards_path)
+          xml << main_menu_link('Overview', :controller => 'dashboards', :action => 'index')
         end
       end
       if is_admin?
@@ -106,7 +106,7 @@ module ApplicationHelper
     xml.ul(:id => 'MainMenu') do
       if @project
         xml.li do
-          xml << main_menu_link('Dashboard', project_dashboard_path(@project))
+          xml << main_menu_link('Dashboard', :controller => 'dashboards', :action => 'index', :project_id => @project.id)
         end
         xml.li do
           xml << main_menu_link('Releases', :controller => 'releases',
