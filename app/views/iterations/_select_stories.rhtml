@@ -5,6 +5,6 @@
     <%= hidden_field_tag :move_to, @iteration.id %>
     <input type="hidden" name="move_to" value="<%= @iteration.id %>" />
     <%= render( :partial => 'stories/stories', :locals => {:hide_cols => [ :owner, :action, :project, :iteration ] } ) %>
-  <div class="submit"><%= submit_tag "Add Selected Stories to Iteration" %></div>
+  	<div class="submit"><%= submit_tag "Add Selected Stories to Iteration" %></div>
   </form>
 </div>

@@ -14,14 +14,15 @@
 
 <% collection_content(@acceptancetests) do %>
   <%= form_tag assign_project_acceptancetests_path(@project) %>
-  <div class="move_to">
-    Move Selected Acceptance Tests to:
-    <select name="move_to">
-      <option vlaue="0">Not Assigned</option>
-      <%= story_select_list_for(@project.stories) %>
-    </select>
-    <%= submit_tag "Go" %>
-  </div>
-  <%= render :partial => 'acceptancetests' %>
+	  <div class="move_to">
+	    Move Selected Acceptance Tests to:
+	    <select name="move_to">
+	      <option vlaue="0">Not Assigned</option>
+	      <%= story_select_list_for(@project.stories) %>
+	    </select>
+	    <%= submit_tag "Go" %>
+	  </div>
+	  <%= render :partial => 'acceptancetests' %>
+	</form>
 <% end %>
 </td>
