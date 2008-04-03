@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   skip_before_filter :check_authentication, :only => [:authenticate, :login, :new, :create, :register]
   skip_before_filter :require_current_project
   before_filter :find_user, :only => [:edit, :update, :destroy, :remove_from_project]
-  
+
   def index
     @users = User.find(:all, :order => 'last_name ASC, first_name ASC',:page => {:size => 50, :current => params[:page]})
   end
@@ -33,11 +33,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    original_password = @user.password
     @user.attributes = params[:user]
-    if params[:user][:password_confirmation].blank? and params[:user][:password].blank?
-      @user.password_confirmation = @user.password = original_password
-    end
     render :update do |page|
       if @user.save
         flash[:status] = "User account for #{@user.full_name} has been updated."
@@ -47,10 +43,10 @@ class UsersController < ApplicationController
       end
     end
   end
-  
+
   def destroy
     if @user == @current_user
-      flash[:error] = "You can not delete your own account." 
+      flash[:error] = "You can not delete your own account."
     else
       @user.destroy
       flash[:status] = "User account for #{@user.full_name} has been deleted."
@@ -61,13 +57,13 @@ class UsersController < ApplicationController
   def login
     render :layout => false
   end
-  
+
   def logout
     session[:current_user] = nil
     flash[:status] = "You have been logged out."
     redirect_to login_users_path
-  end  
-  
+  end
+
   def authenticate
     session[:current_user] = User.authenticate(params[:username], params[:password])
     if session[:current_user]
@@ -82,22 +78,22 @@ class UsersController < ApplicationController
       redirect_to login_users_path
     end
   end
- 
+
   def remove_from_project
     @project.users.delete(@user)
     flash[:status] = "#{@user.full_name} has been removed from the project."
     redirect_to team_project_path(@project)
-  end 
-  
+  end
+
   protected
   def common_popup(url)
     render :update do |page|
       page.call 'showPopup', render(:partial => 'users/user_form', :locals => {:url => url})
-    end 
+    end
   end
-  
+
   def find_user
     @user = User.find params[:id]
   end
-  
+
 end
