@@ -1,5 +1,5 @@
 class StoriesController < ApplicationController
-  before_filter :find_story, :except => [:index, :new, :create, :audit, :export, :export_tasks, :bulk_create, :create_many]
+  before_filter :find_story, :except => [:index, :new, :create, :audit, :export, :export_tasks, :bulk_create, :create_many, :cancelled]
 
   def index
     @stories = @project.stories.backlog
@@ -136,6 +136,10 @@ class StoriesController < ApplicationController
     render :layout => false
   end
   alias export_tasks export
+
+  def cancelled
+    @stories = @project.stories.cancelled
+  end
 
   def bulk_create
     render :update do |page|

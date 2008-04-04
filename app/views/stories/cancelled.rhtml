@@ -1,8 +1,8 @@
 <td><br />
 	<%= render :partial => 'story_links' %>
-  <%= link_to_show_cancelled %>&nbsp;&nbsp;&nbsp;
+    <%= link_to "Hide Cancelled", project_stories_path %>&nbsp;&nbsp;&nbsp;
 	<% empty_collection_content(@stories) do %>
-	  <p>No active stories are in the project backlog.</p>
+	  <p>No cancelled stories are in the project backlog.</p>
 	<% end %>
 
   <%= render :partial => 'display_backlog' %>
