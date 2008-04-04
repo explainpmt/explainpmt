@@ -1,10 +1,6 @@
 class IterationsController < ApplicationController
   before_filter :find_iteration, :except => [:index, :new, :create, :move_stories]
 
-  def find_iteration
-    @iteration = Iteration.find params[:id]
-  end
-
   def index
     @project_iterations = @project.iterations
     @iteration = @project_iterations.current || @project_iterations.previous || @project_iterations.next
@@ -68,7 +64,7 @@ class IterationsController < ApplicationController
   def select_stories
     @stories = @project.stories.backlog.select { |s|
       s.status != Story::Status::New and
-        s.status != Story::Status::Cancelled
+      s.status != Story::Status::Cancelled
     }
     render :update do |page|
       page.call 'showPopup', render(:partial => 'select_stories')
@@ -93,6 +89,10 @@ class IterationsController < ApplicationController
   alias export_tasks export
 
   protected
+  def find_iteration
+    @iteration = Iteration.find params[:id]
+  end
+
   def common_popup(url)
     render :update do |page|
       page.call 'showPopup', render(:partial => 'iteration_form', :locals => {:url => url})
@@ -105,4 +105,3 @@ class IterationsController < ApplicationController
     set_status_and_error_for(Story.assign_many_to_iteration(iteration, stories))
   end
 end
-

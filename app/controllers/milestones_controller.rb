@@ -1,11 +1,11 @@
 class MilestonesController < ApplicationController
   before_filter :find_milestone, :only => [:edit, :update, :show, :destroy]
-  
+
   def index
     @future = @project.milestones.future
     @recent = @project.milestones.recent
   end
-  
+
   def new
     common_popup(project_milestones_path(@project))
   end
@@ -17,7 +17,7 @@ class MilestonesController < ApplicationController
   def show
     render :update do |page|
       page.call 'showPopup', render(:partial => 'milestones/show')
-    end 
+    end
   end
 
   def create
@@ -30,9 +30,9 @@ class MilestonesController < ApplicationController
       else
         page[:flash_notice].replace_html :inline => "<%= error_container(@milestone.errors.full_messages[0]) %>"
       end
-    end    
+    end
   end
-  
+
   def update
     render :update do |page|
       if @milestone.update_attributes(params[:milestone])
@@ -43,28 +43,29 @@ class MilestonesController < ApplicationController
       end
     end
   end
-  
+
   def destroy
     @milestone.destroy
     flash[:status] = "#{@milestone.name} has been deleted."
     redirect_to project_milestones_path(@project)
   end
-  
+
   def show_all
     render :update do |page|
       page[:recent].replace_html :inline => "<%= past_milestones %>"
       page[:recent_title].replace_html :inline => "All Milestones <small>(<%= link_to_show_recent_milestones %>)</small>"
     end
   end
-  
+
   def show_recent
     render :update do |page|
       page[:recent].replace_html :inline => "<%= recent_milestones %>"
       page[:recent_title].replace_html :inline => "Recent Milestones <small>(<%= link_to_show_all_milestones %>)</small>"
     end
   end
-  
+
   protected
+
   def find_milestone
     @milestone = Milestone.find params[:id]
   end
@@ -72,7 +73,7 @@ class MilestonesController < ApplicationController
   def common_popup(url)
     render :update do |page|
       page.call 'showPopup', render(:partial => 'milestones/milestone_form', :locals => {:url => url})
-    end 
+    end
   end
-  
+
 end

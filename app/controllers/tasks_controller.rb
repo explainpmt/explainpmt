@@ -64,14 +64,15 @@ class TasksController < ApplicationController
   end
 
   protected
+
+  def find_task
+    @task = Task.find params[:id]
+  end
+
   def common_popup(url)
     render :update do |page|
       page.call 'showPopup', render(:partial => 'story_task_form', :locals => {:url => url})
     end
-  end
-
-  def find_task
-    @task = Task.find params[:id]
   end
 
 end

@@ -13,7 +13,6 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find params[:id]
     @user.password = nil
     common_popup(user_path(@user))
   end
@@ -86,14 +85,14 @@ class UsersController < ApplicationController
   end
 
   protected
-  def common_popup(url)
-    render :update do |page|
-      page.call 'showPopup', render(:partial => 'users/user_form', :locals => {:url => url})
-    end
-  end
 
   def find_user
     @user = User.find params[:id]
   end
 
+  def common_popup(url)
+    render :update do |page|
+      page.call 'showPopup', render(:partial => 'users/user_form', :locals => {:url => url})
+    end
+  end
 end

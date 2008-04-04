@@ -1,6 +1,7 @@
 class ProjectsController < ApplicationController
   skip_before_filter :check_authentication, :only => :audits
   skip_before_filter :require_current_project
+  before_filter :find_project, :except => [:index, :new, :create,]
 
   def index
     paging = {:size => 50, :current => params[:page]}
@@ -8,11 +9,10 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    redirect_to project_dashboard_path(Project.find(params[:id]))
+    redirect_to project_dashboard_path(@project)
   end
 
   def team
-    @project = Project.find params[:id]
     @users = @project.users.find(:all, :page => {:size => 20, :current => params[:page]})
   end
 
@@ -36,17 +36,15 @@ class ProjectsController < ApplicationController
   end
 
   def edit
-    @project = Project.find params[:id]
     render :update do |page|
       page.call 'showPopup', render(:partial => 'project_form', :locals => {:url => project_path(@project)})
     end
   end
 
   def update
-    project = Project.find params[:id]
     render :update do |page|
-      if project.update_attributes(params[:project])
-        flash[:status] = "Project \"#{project.name}\" has been updated."
+      if @project.update_attributes(params[:project])
+        flash[:status] = "Project \"#{@project.name}\" has been updated."
         page.redirect_to projects_path
       else
         page[:flash_notice].replace_html :inline => "<%= error_container(@project.errors.full_messages[0]) %>"
@@ -55,14 +53,12 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    project = Project.find params[:id]
-    project.destroy
-    flash[:status] = "#{project.name} has been deleted."
+    @project.destroy
+    flash[:status] = "#{@project.name} has been deleted."
     redirect_to projects_path
   end
 
   def add_users
-    @project = Project.find params[:id]
     @available_users = @project.users_available_for_addition
     render :update do |page|
       page.call 'showPopup', render(:partial => 'add_users')
@@ -70,7 +66,6 @@ class ProjectsController < ApplicationController
   end
 
   def update_users
-    @project = Project.find params[:id]
     users_added = []
     (params[:selected_users] || []).each do |uid|
       user = User.find_by_id(uid)
@@ -85,8 +80,13 @@ class ProjectsController < ApplicationController
 
   def audits
     @audits = Audit.find(:all, :conditions => ["project_id = #{params[:id]} AND object = 'Story'"], :order => "created_at DESC")
-    @project = Project.find params[:id]
     render :layout => false
+  end
+
+  protected
+
+  def find_project
+    @project = Project.find(params[:id])
   end
 
 end

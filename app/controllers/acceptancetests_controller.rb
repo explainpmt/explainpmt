@@ -70,6 +70,7 @@ class AcceptancetestsController < ApplicationController
   end
 
   protected
+
   def find_acceptance
     @acceptancetest = Acceptancetest.find params[:id]
   end

@@ -162,14 +162,15 @@ class StoriesController < ApplicationController
   end
 
   protected
+
+  def find_story
+    @story = Story.find params[:id]
+  end
+
   def common_popup(url)
     render :update do |page|
       page.call 'showPopup', render(:partial => 'stories/story_form', :locals => {:url => url})
     end
-  end
-
-  def find_story
-    @story = Story.find params[:id]
   end
 
   def modify_risk_status_and_value_params
