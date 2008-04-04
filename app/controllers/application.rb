@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  filter_parameter_logging :password
   helper_method :current_user
   before_filter :check_authentication
   before_filter :set_selected_project
