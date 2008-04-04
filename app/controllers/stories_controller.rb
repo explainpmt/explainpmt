@@ -5,6 +5,10 @@ class StoriesController < ApplicationController
     @stories = @project.stories.backlog
   end
 
+  def cancelled
+    @stories = @project.stories.cancelled
+  end
+
   def new
     url = params[:iteration_id] ? project_iteration_stories_path(@project, Iteration.find(params[:iteration_id])) : project_stories_path(@project)
     common_popup(url)
@@ -136,10 +140,6 @@ class StoriesController < ApplicationController
     render :layout => false
   end
   alias export_tasks export
-
-  def cancelled
-    @stories = @project.stories.cancelled
-  end
 
   def bulk_create
     render :update do |page|
