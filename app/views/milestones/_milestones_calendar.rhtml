@@ -8,30 +8,25 @@
       <th><%= day[:name] %></th>
     <% end %>
     </tr>
-    <% [0,7].each do |offset| %>
-      <tr>
-      <% @days[(0 + offset)..(6 + offset)].each do |day| %>
-        <td style="<%= (day[:date] == Date.today) ? 'background-color:#FFCCCC;' : '' %>">
-          <strong><%= day[:date].day %></strong>
-          <% unless day[:milestones].empty? %>
-            <ul>
-              <% day[:milestones].each do |milestone| %>
-                <li>
-                  <% if @project -%>
-                    <% milestone_popup_name = milestone.name -%>
-                  <% else -%>
-                    <% milestone_popup_name = "#{milestone.project.name}: " +
-                                              "#{milestone.name}" -%>
-                  <% end -%>
-                  <%= link_to_show_milestone(milestone) %>
-                </li>
-              <% end %>
-            </ul>
-          <% end %>
-        </td>
-      <% end %>
-      </tr>
-    <% end %>
+		<% @days.each_slice(7) do |week| %>
+			<tr>
+				<% week.each do |day| %>
+					<td style="<%= (day[:date] == Date.today) ? 'background-color:#FFCCCC;' : '' %>">
+	          <strong><%= day[:date].day %></strong>
+	          <% unless day[:milestones].empty? %>
+	            <ul>
+	              <% day[:milestones].each do |milestone| %>
+	                <li>
+	                  <% milestone_popup_name = @project ? milestone.name : "#{milestone.project.name}: #{milestone.name}"  -%>
+	                  <%= link_to_show_milestone(milestone, :value => milestone_popup_name) %>
+	                </li>
+	              <% end %>
+	            </ul>
+	          <% end %>
+        	</td>
+				<% end %>
+			</tr>
+		<% end %>
   </table>
 </div>
 
