@@ -13,10 +13,6 @@ module DashboardsHelper
         :name => Date::DAYNAMES[current_day.wday],
         :milestones => milestones.select { |m| m.date == current_day }}
     }
-    puts @days.inspect
-    puts @days.inspect
-    puts @days.inspect
-
     render :partial => 'milestones/milestones_calendar'
   end
 end
