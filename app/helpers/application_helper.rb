@@ -84,90 +84,36 @@ module ApplicationHelper
   end
 
   def top_menu
-    xml = Builder::XmlMarkup.new
-    xml.ul(:id => 'MainMenu') do
-      xml.li do
-        if @project
-          xml << main_menu_link('Dashboard', :controller => 'dashboards', :action => 'index', :project_id => @project.id)
-        else
-          xml << main_menu_link('Overview', :controller => 'dashboards', :action => 'index')
-        end
-      end
-      if is_admin?
-        xml.li(:class => 'right') do
-          xml << main_menu_link('Users', :controller => 'users',
-          :action => 'index') {
-            @project.nil? and controller.controller_name == 'users'
-          }
-        end
-      end
-      xml.li(:class => 'right') do
-        xml << main_menu_link('Projects', :controller => 'projects',
-        :action => 'index')
-      end
-    end
+    main_menu_links [
+      (@project ? main_menu_link('Dashboard', project_dashboard_path(@project)) : main_menu_link('Overview', dashboards_path)),
+      main_menu_link('Users', users_path),
+      main_menu_link('Projects', projects_path),
+    ]
   end
 
   def main_menu
-    xml = Builder::XmlMarkup.new
-    xml.ul(:id => 'MainMenu') do
-      if @project
-        xml.li do
-          xml << main_menu_link('Dashboard', :controller => 'dashboards', :action => 'index', :project_id => @project.id)
-        end
-        xml.li do
-          xml << main_menu_link('Releases', :controller => 'releases',
-          :action => 'index',
-          :project_id => @project.id)
-        end
-        xml.li do
-          xml << main_menu_link('Iterations', :controller => 'iterations',
-          :action => 'index',
-          :project_id => @project.id)
-        end
-        xml.li do
-          xml << main_menu_link('Backlog', :controller => 'stories',
-          :action => 'index',
-          :project_id => @project.id)
-        end
-        xml.li do
-          xml << main_menu_link('Initiatives', :controller => 'initiatives',
-          :action => 'index',
-          :project_id => @project.id)
-        end
-        xml.li do
-          xml << main_menu_link('Acceptance Tests', :controller => 'acceptancetests',
-          :action => 'index',
-          :project_id => @project.id)
-        end
-        xml.li do
-          xml << main_menu_link('Milestones', :controller => 'milestones',
-          :action => 'index',
-          :project_id => @project.id)
-        end
-        xml.li do
-          xml << main_menu_link('Team', team_project_path(@project))
-        end
-        xml.li do
-          xml << main_menu_link('Stats', :controller => 'stats',
-          :action => 'index',
-          :project_id => @project.id)
-        end
-      end
-    end
+    main_menu_links [
+      main_menu_link('Dashboard', project_dashboard_path(@project)),
+      main_menu_link('Releases', project_releases_path(@project)),
+      main_menu_link('Iterations', project_iterations_path(@project)),
+      main_menu_link('Backlog', project_stories_path(@project)),
+      main_menu_link('Initiatives', project_initiatives_path(@project)),
+      main_menu_link('Acceptance Tests', project_acceptancetests_path(@project)),
+      main_menu_link('Milestones', project_milestones_path(@project)),
+      main_menu_link('Team', team_project_path(@project)),
+      main_menu_link('Stats', project_stats_path(@project))
+    ]
   end
 
-  def main_menu_link(title, options)
-    selected_controller = @selected_main_menu_link ?
-    @selected_main_menu_link : controller.controller_name
-    if (block_given? and yield) or
-     (!block_given? and selected_controller.to_s == options[:controller].to_s)
+  def main_menu_link(title, url)
+    html_options = current_page?(url) ? { 'class' => 'current' } : {}
+    link_to(title,url,html_options)
+  end
 
-      html_options = { 'class' => 'current' }
-    else
-      html_options = {}
+  def main_menu_links(urls)
+    content_tag(:ul, :id => "MainMenu") do
+      urls.inject(""){|lis, url| lis << content_tag(:li, url)}
     end
-    link_to(title,options,html_options)
   end
 
 end

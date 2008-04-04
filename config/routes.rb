@@ -8,6 +8,7 @@ map.resources :projects, :member => {:audits => :get, :team => :get, :add_users 
   project.resource :dashboard
   project.resources :users, :member => {:remove_from_project => :put}
   project.resources :releases
+  project.resources :stats
   project.resources :initiatives
   project.resources :stories,
     :member => {:audit => :get, :take_ownership => :put, :release_ownership => :put, :assign_ownership => :get, :assign => :post, :clone_story => :put,
