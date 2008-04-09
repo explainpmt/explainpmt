@@ -144,7 +144,8 @@ div.popup, div.small_popup label { margin-top: 4px; }
 div.popup label.inline { display: inline; }
 div.popup input { margin-right: 3px; }
 div.popup h2 { margin-top: 5px; }
-div.submit { display: block; margin: 10px 0; text-align: center; }
+div.popup fieldset { float: left; padding-right: 10px; }
+div.submit { display: block; clear: both; margin: 10px 0; text-align: center; }
 div.submit input { padding: 2px; background-color: #6DAE20; color: #fff; cursor: pointer; }
 a.close { float: right; }
 /* popup */
