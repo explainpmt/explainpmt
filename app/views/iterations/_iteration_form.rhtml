@@ -6,8 +6,10 @@
 	  <%=f.text_field :name%>
 	  <label>Start Date</label>
 	  <%=f.date_select :start_date%>
-	  <label>Length</label>
-	  <%=f.text_field :length, :size => '3'%>
+	  <fieldset>
+	    <label>Length</label>
+	    <%=f.text_field :length, :size => '3'%>
+	  </fieldset>
 	  <label>Budget</label>
 	  <%=f.text_field :budget, :size => '3'%>
 	  <div class="submit">
