@@ -19,7 +19,6 @@ class ApplicationController < ActionController::Base
   def check_authentication
     unless current_user.kind_of?(User)
       session[:return_to] = request.request_uri
-      flash[:status] = "Please log in, and we'll send you right along."
       redirect_to login_users_path
       return false
     end
@@ -47,9 +46,7 @@ class ApplicationController < ActionController::Base
 
   def require_current_project
     unless @project
-      flash[:error] = "You attempted to access a view that requires a " +
-        "project to be selected, but no project id was set in " +
-        "your request."
+      flash[:error] = "You attempted to access a view that requires a project to be selected"
       redirect_to errors_path
       return false
     end
