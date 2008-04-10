@@ -1,7 +1,7 @@
 <tr>
   <td>
     <% column_content_for(hide_cols, :checkbox) do %>
-      <%= check_box_tag 'selected_acceptancetests[]', acceptancetest.id, false, :id => "Acceptancetest_#{acceptancetest.id}"%>&nbsp;           
+      <%= check_box_tag 'selected_acceptancetests[]', acceptancetest.id, false, :id => "Acceptancetest_#{acceptancetest.id}"%>&nbsp;
     <% end %>
     <%= link_to_acceptancetest(acceptancetest) %>
     <%= image_tag( 'info-icon.gif', :alt => acceptancetest.description ) if acceptancetest.description? %>
@@ -9,19 +9,22 @@
   <% column_content_for(hide_cols, :story) do %>
     <td><%= acceptancetest.story_id? ? link_to_story_with_sc(acceptancetest.story) : "Not Assigned" %></td>
   <% end %>
-          
+
   <% column_content_for(hide_cols, :iteration) do %>
     <td><%= acceptancetest.story_id? && acceptancetest.story.iteration_id? ? link_to_iteration(acceptancetest.story.iteration) : "Not Assigned" %></td>
   <% end %>
-         
+
   <td><%= acceptancetest.automated? ? "Yes" : "No" %></td>
   <td><%= acceptancetest.pass? ? "Yes" : "No" %></td>
-  
+
     <% column_content_for(hide_cols,:action) do %>
-    <td> 
-      <%= link_to_edit_acceptancetest(acceptancetest, :value => "Edit")%> 
-      <%= link_to_delete_acceptancetest(acceptancetest) %>
-      <%= link_to_clone_acceptancetest(acceptancetest) %>
+    <td>
+      <select onchange="take_action(this);">
+        <option value="" selected="selected">&nbsp;</option>
+        <%= option_to_edit_acceptancetest(acceptancetest, :value => "Edit")%>
+        <%= option_to_delete_acceptancetest(acceptancetest) %>
+        <%= option_to_clone_acceptancetest(acceptancetest) %>
+      </select>
     </td>
   <% end %>
 </tr>

@@ -86,4 +86,10 @@ module ApplicationHelper
     end
   end
 
+  def create_action_option(text, href, options={})
+    options[:method] = :get unless options[:method]
+    qParams = options.to_a.collect!{|k,v| "#{k}=#{v}"}.join("&")
+    content_tag("option", text, :value => "#{href}?#{qParams}")
+  end
+
 end

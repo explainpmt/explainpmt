@@ -78,10 +78,4 @@ module StoriesHelper
   def option_to_audit_story(story)
     create_action_option("View History", audit_project_story_path(@project, story))
   end
-
-  def create_action_option(text, href, options={})
-    options[:method] = :get unless options[:method]
-    qParams = options.to_a.collect!{|k,v| "#{k}=#{v}"}.join("&")
-    content_tag("option", text, :value => "#{href}?#{qParams}")
-  end
 end
