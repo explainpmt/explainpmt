@@ -7,8 +7,8 @@ module MilestonesHelper
     link_to_remote(options[:value] || milestone.name, :url => edit_project_milestone_path(@project, milestone), :method => :get)
   end
 
-  def option_to_edit_milestone(milestone, options={})
-    create_action_option(options[:value] || milestone.name, edit_project_milestone_path(@project, milestone))
+  def option_to_edit_milestone(milestone)
+    create_action_option("Edit", edit_project_milestone_path(@project, milestone))
   end
 
   def option_to_delete_milestone(milestone)

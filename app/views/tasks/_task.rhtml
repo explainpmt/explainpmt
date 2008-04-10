@@ -30,7 +30,7 @@
     <td>
       <select onchange="take_action(this);">
         <option value="" selected="selected">&nbsp;</option>
-        <%= option_to_edit_task(task, :value => "Edit")%>
+        <%= option_to_edit_task(task)%>
         <%= option_to_delete_task(task)%>
       </select>
     </td>

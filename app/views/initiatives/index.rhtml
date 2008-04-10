@@ -31,7 +31,7 @@
           <td>
             <select onchange="take_action(this);">
               <option value="" selected="selected">&nbsp;</option>
-              <%= option_to_edit_initiative(initiative, :value => "Edit") %>
+              <%= option_to_edit_initiative(initiative) %>
               <%= option_to_delete_initiative(initiative) %>
             </select>
           </td>

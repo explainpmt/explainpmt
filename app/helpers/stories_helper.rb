@@ -59,8 +59,8 @@ module StoriesHelper
     link_to_remote("View History", :url => audit_project_story_path(@project, story), :method => :get)
   end
 
-  def option_to_edit_story(story, options={})
-    create_action_option(options[:value] || story.title, edit_project_story_path(@project, story))
+  def option_to_edit_story(story)
+    create_action_option("Edit", edit_project_story_path(@project, story))
   end
 
   def option_to_clone_story(story)

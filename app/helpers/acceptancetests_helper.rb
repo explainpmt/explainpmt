@@ -7,8 +7,8 @@ module AcceptancetestsHelper
     link_to_remote(options[:value] || acceptancetest.name, :url => edit_project_acceptancetest_path(@project, acceptancetest), :method => :get)
   end
 
-  def option_to_edit_acceptancetest(acceptancetest, options={})
-    create_action_option(options[:value] || acceptancetest.name, edit_project_acceptancetest_path(@project, acceptancetest))
+  def option_to_edit_acceptancetest(acceptancetest)
+    create_action_option("Edit", edit_project_acceptancetest_path(@project, acceptancetest))
   end
 
   def option_to_delete_acceptancetest(acceptancetest)

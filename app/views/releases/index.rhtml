@@ -24,7 +24,7 @@
           <td>
             <select onchange="take_action(this);">
               <option value="" selected="selected">&nbsp;</option>
-              <%= option_to_edit_release(release, :value => "Edit")%>
+              <%= option_to_edit_release(release)%>
               <%= option_to_delete_release(release)%>
             </select>
           </td>

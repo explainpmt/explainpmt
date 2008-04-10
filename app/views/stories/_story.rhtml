@@ -36,7 +36,7 @@
     <td valign="top">
       <select onchange="take_action(this);">
         <option value="" selected="selected">&nbsp;</option>
-        <%=option_to_edit_story(story, :value => 'Edit')%>
+        <%=option_to_edit_story(story)%>
         <%=option_to_clone_story(story)%>
         <%=option_to_delete_story(story)%>
         <%=option_to_audit_story(story)%>

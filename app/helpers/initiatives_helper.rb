@@ -7,8 +7,8 @@ module InitiativesHelper
     link_to_remote(options[:value] || initiative.name, :url => edit_project_initiative_path(initiative.project, initiative), :method => :get)
   end
 
-  def option_to_edit_initiative(initiative, options={})
-    create_action_option(options[:value] || initiative.name, edit_project_initiative_path(initiative.project, initiative))
+  def option_to_edit_initiative(initiative)
+    create_action_option("Edit", edit_project_initiative_path(initiative.project, initiative))
   end
 
   def option_to_delete_initiative(initiative)

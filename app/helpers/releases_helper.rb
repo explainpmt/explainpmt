@@ -11,8 +11,8 @@ module ReleasesHelper
     link_to_remote(options[:value] || release.name, :url => edit_project_release_path(@project, release), :method => :get)
   end
 
-  def option_to_edit_release(release, options={})
-    create_action_option(options[:value] || release.name, edit_project_release_path(@project, release))
+  def option_to_edit_release(release)
+    create_action_option("Edit", edit_project_release_path(@project, release))
   end
 
   def option_to_delete_release(release)
