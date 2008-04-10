@@ -51,6 +51,14 @@ module StoriesHelper
     stories.inject(""){|options, story| options << "<option value='#{story.id}'>SC#{story.scid}  (#{truncate(story.title,30)})</option>"}
   end
 
+  def link_to_edit_story(story, options={})
+    link_to_remote(options[:value] || story.title, :url => edit_project_story_path(@project, story), :method => :get)
+  end
+
+  def link_to_audit_story(story)
+    link_to_remote("View History", :url => audit_project_story_path(@project, story), :method => :get)
+  end
+
   def option_to_edit_story(story, options={})
     create_action_option(options[:value] || story.title, edit_project_story_path(@project, story))
   end
