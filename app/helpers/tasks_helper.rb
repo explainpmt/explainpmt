@@ -2,16 +2,21 @@ module TasksHelper
   def link_to_new_task(story)
     link_to_remote("Add Task", :url => new_project_story_task_path(@project, story), :method => :get)
   end
-  
+
   def link_to_edit_task(task, options={})
     story = task.story
     link_to_remote(options[:value] || task.name, :url => edit_project_story_task_path(story.project, story, task), :method => :get)
   end
 
-  def link_to_delete_task(task)
-    link_to "Delete", project_story_task_path(@project, task.story, task), :method => :delete, :confirm => "Are you sure you want to delete?"
+  def option_to_edit_task(task, options={})
+    story = task.story
+    create_action_option(options[:value] || task.name, edit_project_story_task_path(story.project, story, task))
   end
-  
+
+  def option_to_delete_task(task)
+    create_action_option("Delete", project_story_task_path(@project, task.story, task), :method => :delete, :confirm => "Are you sure you want to delete?")
+  end
+
   def link_to_task(task, options={})
     link_to_remote(options[:value] || task.name, :url => project_story_task_path(@project, task.story, task), :method => :get)
   end
