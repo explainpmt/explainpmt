@@ -4,8 +4,8 @@
   <td>
     <select onchange="take_action(this);">
       <option value="" selected="selected">&nbsp;</option>
-      <%= link_to_edit_milestone(milestone, :value => "Edit")%>
-      <%= link_to_delete_milestone(milestone)%>
+      <%= option_to_edit_milestone(milestone, :value => "Edit")%>
+      <%= option_to_delete_milestone(milestone)%>
     </select>
   </td>
 </tr>

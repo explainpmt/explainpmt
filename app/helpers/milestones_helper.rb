@@ -4,10 +4,14 @@ module MilestonesHelper
   end
 
   def link_to_edit_milestone(milestone, options={})
+    link_to_remote(options[:value] || milestone.name, :url => edit_project_milestone_path(@project, milestone), :method => :get)
+  end
+
+  def option_to_edit_milestone(milestone, options={})
     create_action_option(options[:value] || milestone.name, edit_project_milestone_path(@project, milestone))
   end
 
-  def link_to_delete_milestone(milestone)
+  def option_to_delete_milestone(milestone)
     create_action_option("Delete", project_milestone_path(@project, milestone), :method => :delete, :confirm => "Are you sure you want to delete?")
   end
 
