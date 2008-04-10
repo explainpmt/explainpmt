@@ -22,9 +22,12 @@
             <%= textilize(project.description) %>
           </td>
           <td>
-            <%= link_to "Team", project_users_path(project) %>
-            <%= link_to_remote "Edit", :url => edit_project_path(project), :method => :get %>
-            <%= link_to_delete_project(project) %>
+            <select onchange="take_action(this);">
+              <option value="" selected="selected">&nbsp;</option>
+              <%= option_to_view_team(project) %>
+              <%= option_to_edit_project(project) %>
+              <%= option_to_delete_project(project) %>
+            </select>
           </td>
         </tr>
       <% end %>
