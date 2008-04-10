@@ -33,14 +33,17 @@
   <td><%= story.customer %></td>
   <td><%= story.position %></td>
   <% column_content_for(hide_cols, :action) do %>
-   <td width="15%">
-      <%= link_to_edit_story(story, :value => "Edit")%>
-      <%= link_to_clone_story(story)%>
-      <%= link_to_delete_story(story)%>
-      <%= link_to_audit_story(story)%>
-      <%= link_to_move_story_up(story)%>
-      <%= link_to_move_story_down(story)%>
-      <%= link_to_edit_story_position(story)%>
-    </td>
+    <td valign="top">
+      <select onchange="take_action(this);">
+        <option value="" selected="selected">&nbsp;</option>
+        <%=option_to_edit_story(story, :value => 'Edit')%>
+        <%=option_to_clone_story(story)%>
+        <%=option_to_delete_story(story)%>
+        <%=option_to_audit_story(story)%>
+        <%=option_to_move_story_up(story)%>
+        <%=option_to_move_story_down(story)%>
+        <%=option_to_edit_story_position(story)%>
+      </select>
+   </td>
   <%end%>
 </tr>

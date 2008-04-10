@@ -11,6 +11,20 @@ function resetValue(el,text){
   }
 }
 
+function take_action(t) {
+  href = t.value.split('?')[0];
+  query_string = t.value.slice(t.value.indexOf('?')+1);
+  t.selectedIndex = 0; // deselect current selected option
+  pairs = [];
+  query_string.split('&').each(function(pair){
+    t = pair.split('=');
+    pairs[t[0]] = t[1];
+  });
+  if (pairs['confirm'] && !confirm(eval("'"+pairs['confirm']+"'"))) { return false; }
+  new Ajax.Request(href, {asynchronous:true, evalScripts:true, method:pairs['method']});
+  return false;
+}
+
 function showPopup() {
   if (typeof(arguments[0])!='string') arguments[0] = arguments[0].innerHTML.replace(/id="([^"]+)"/,'id="popup_$1"')
     if (arguments.length == 1) var arguments = [arguments[0], FULLHTML, STICKY, MODAL, MIDX, 0, MIDY, 0, CLOSECLICK];
@@ -92,18 +106,18 @@ function select_all(sbox) {
 
 
 window.onload = function()
-{   var strCook = document.cookie; 
+{   var strCook = document.cookie;
   if(strCook.indexOf("!~")!=0)
-    { 
-      var intS = strCook.indexOf("!~"); 
-      var intE = strCook.indexOf("~!"); 
-      var strPos = strCook.substring(intS+2,intE); 
-      window.scrollTo(0,strPos); 
-    } 
+    {
+      var intS = strCook.indexOf("!~");
+      var intE = strCook.indexOf("~!");
+      var strPos = strCook.substring(intS+2,intE);
+      window.scrollTo(0,strPos);
+    }
   }
-  /// Function to set Scroll position of page before postback. 
+  /// Function to set Scroll position of page before postback.
   function SetScrollPosition()
-  { 
+  {
     var scrollYPos;
     if (typeof window.pageYOffset != 'undefined') {
       scrollYPos = window.pageYOffset;
@@ -115,7 +129,7 @@ window.onload = function()
       scrollYPos = document.body.scrollTop;
     }
     if (typeof scrollYPos != 'undefined') {
-      document.cookie = "yPos=!~" + scrollYPos + "~!"; 
+      document.cookie = "yPos=!~" + scrollYPos + "~!";
     }
   }
   /// Attaching   SetScrollPosition() function to window.onscroll event.
@@ -123,32 +137,32 @@ window.onload = function()
   /////////////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////////////
   function getCookie(NameOfCookie)
-  { if (document.cookie.length > 0) 
-    { begin = document.cookie.indexOf(NameOfCookie+"="); 
-      if (begin != -1) 
-        { begin += NameOfCookie.length+1; 
+  { if (document.cookie.length > 0)
+    { begin = document.cookie.indexOf(NameOfCookie+"=");
+      if (begin != -1)
+        { begin += NameOfCookie.length+1;
           end = document.cookie.indexOf(";", begin);
           if (end == -1) end = document.cookie.length;
-          return unescape(document.cookie.substring(begin, end)); } 
+          return unescape(document.cookie.substring(begin, end)); }
       }
-      return null; 
+      return null;
     }
-    
-    function setCookie(NameOfCookie, value, expiredays) 
+
+    function setCookie(NameOfCookie, value, expiredays)
     { var ExpireDate = new Date ();
       ExpireDate.setTime(ExpireDate.getTime() + (expiredays * 24 * 3600 * 1000));
-      document.cookie = NameOfCookie + "=" + escape(value) + 
+      document.cookie = NameOfCookie + "=" + escape(value) +
       ((expiredays == null) ? "" : "; expires=" + ExpireDate.toGMTString());
     }
-    
-    function delCookie (NameOfCookie) 
+
+    function delCookie (NameOfCookie)
     { if (getCookie(NameOfCookie)) {
       document.cookie = NameOfCookie + "=" +
       "; expires=Thu, 01-Jan-70 00:00:01 GMT";
     }
-    
-  } 
-  
+
+  }
+
   function MaintainSort(sortableTable1){
     sort=getCookie('exPlainPMTSort' + sortableTable1.name);
     desc=getCookie('exPlainPMTSortDirection' + sortableTable1.name);

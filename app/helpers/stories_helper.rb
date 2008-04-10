@@ -23,30 +23,6 @@ module StoriesHelper
     link_to(options[:value] || story.title, project_story_path(story.project, story))
   end
 
-  def link_to_edit_story(story, options={})
-    link_to_remote(options[:value] || story.title, :url => edit_project_story_path(@project, story), :method => :get)
-  end
-
-  def link_to_clone_story(story)
-    link_to("Clone", clone_story_project_story_path(@project, story), :method => :put)
-  end
-
-  def link_to_move_story_up(story)
-    link_to("Move Up",  move_up_project_story_path(@project, story), :method => :put)
-  end
-
-  def link_to_move_story_down(story)
-    link_to("Move Down", move_down_project_story_path(@project, story), :method => :put)
-  end
-
-  def link_to_edit_story_position(story)
-    link_to_remote("Insert At", :url => edit_numeric_priority_project_story_path(@project, story), :method => :get)
-  end
-
-  def link_to_delete_story(story)
-    link_to("Delete", project_story_path(@project, story), :method => :delete, :confirm => "Are you sure you want to delete?\r\nAll associated data will also be deleted. This action can not be undone.")
-  end
-
   def link_to_assign_story_ownership(story)
     link_to_remote('assign', :url => assign_ownership_project_story_path(@project, story), :method => :get)
   end
@@ -63,10 +39,6 @@ module StoriesHelper
     link_to_remote('Add Acceptance', :url => new_project_story_acceptancetest_path(@project, story), :method => :get)
   end
 
-  def link_to_audit_story(story)
-    link_to_remote('View History', :url => audit_project_story_path(@project, story), :method => :get)
-  end
-
   def link_to_export_stories
     link_to 'Export All Stories', export_project_stories_path(@project)
   end
@@ -77,5 +49,39 @@ module StoriesHelper
 
   def story_select_list_for(stories)
     stories.inject(""){|options, story| options << "<option value='#{story.id}'>SC#{story.scid}  (#{truncate(story.title,30)})</option>"}
+  end
+
+  def option_to_edit_story(story, options={})
+    create_action_option(options[:value] || story.title, edit_project_story_path(@project, story))
+  end
+
+  def option_to_clone_story(story)
+    create_action_option("Clone", clone_story_project_story_path(@project, story), :method => :put)
+  end
+
+  def option_to_move_story_up(story)
+    create_action_option("Move Up", move_up_project_story_path(@project, story), :method => :put)
+  end
+
+  def option_to_move_story_down(story)
+    create_action_option("Move Down", move_down_project_story_path(@project, story), :method => :put)
+  end
+
+  def option_to_edit_story_position(story)
+    create_action_option("Insert At", edit_numeric_priority_project_story_path(@project, story))
+  end
+
+  def option_to_delete_story(story)
+    create_action_option("Delete", project_story_path(@project, story), :method => :delete, :confirm => 'Are you sure you want to delete?\r\nAll associated data will also be deleted. This action can not be undone.')
+  end
+
+  def option_to_audit_story(story)
+    create_action_option("View History", audit_project_story_path(@project, story))
+  end
+
+  def create_action_option(text, href, options={})
+    options[:method] = :get unless options[:method]
+    qParams = options.to_a.collect!{|k,v| "#{k}=#{v}"}.join("&")
+    content_tag("option", text, :value => "#{href}?#{qParams}")
   end
 end
