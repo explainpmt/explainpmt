@@ -2,13 +2,13 @@
   <div class="contact_card">
     <h3 <%= "class='admin'" if user.admin? %>><%= truncate(user.full_name, 22) %></h3>
     <ul>
-      <li><%= mail_to user.email, "Email" %></li> &ndash;
+      <li><%= mail_to user.email, "Email" %></li>
       <% if @project %>
-        <li><%= link_to_remove_user(user) if @project %></li>
+        &ndash; <li><%= link_to_remove_user(user) if @project %></li>
       <% else %>
         <% admin_content do %>
-          <li><%= link_to_edit_user(user) %></li> &ndash;
-          <li><%= link_to_delete_user(user) %></li>
+          &ndash; <li><%= link_to_edit_user(user) %></li>
+          &ndash; <li><%= link_to_delete_user(user) %></li>
         <% end %>
       <% end %>
     </ul>
