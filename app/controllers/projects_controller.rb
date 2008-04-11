@@ -63,7 +63,7 @@ class ProjectsController < ApplicationController
     render :update do |page|
       @project.destroy
       flash[:status] = "#{@project.name} has been deleted."
-      redirect_to projects_path
+      page.redirect_to projects_path
     end
   end
 
