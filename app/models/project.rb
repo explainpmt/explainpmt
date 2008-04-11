@@ -119,7 +119,7 @@ class Project < ActiveRecord::Base
 
   def validate
     if self.planned_iterations
-      errors.add(:planned_iterations, "must be a positive integer") if self.planned_iterations < 1
+      errors.add(:planned_iterations, "must be a positive number") if self.planned_iterations < 1
     end
   end
 
