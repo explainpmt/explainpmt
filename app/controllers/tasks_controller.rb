@@ -35,9 +35,10 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    if @task.destroy
+    render :update do |page|
+      @task.destroy
       flash[:status] = "Task \"#{@task.name}\" has been deleted."
-      redirect_to request.referer
+      page.redirect_to request.referer
     end
   end
 
