@@ -45,9 +45,11 @@ class MilestonesController < ApplicationController
   end
 
   def destroy
-    @milestone.destroy
-    flash[:status] = "#{@milestone.name} has been deleted."
-    redirect_to project_milestones_path(@project)
+    render :update do |page|
+      @milestone.destroy
+      flash[:status] = "#{@milestone.name} has been deleted."
+      page.redirect_to project_milestones_path(@project)
+    end
   end
 
   def show_all
