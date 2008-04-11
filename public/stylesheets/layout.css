@@ -13,6 +13,7 @@ p { margin: 0.5em 0 1em; }
 .even_row td { background: #DFDCD5; border: 1px solid #DFDCD5; }
 .important { font-weight: bold; font-size: 110%; }
 .clear { clear: both; }
+.actions {width: 1%}
 /** end general styles **/
 
 

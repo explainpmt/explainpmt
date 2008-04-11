@@ -21,7 +21,7 @@
         <tr class="<%= cycle("even_row", "odd_row") %>">
           <td><%= link_to_edit_release(release) %><br /><%= textilize(release.description) %></td>
           <td><strong><%= numeric_date(release.date) %></strong></td>
-          <td>
+          <td class="actions">
             <select onchange="take_action(this);">
               <option value="" selected="selected">&nbsp;</option>
               <%= option_to_edit_release(release)%>

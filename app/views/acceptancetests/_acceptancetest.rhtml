@@ -18,7 +18,7 @@
   <td><%= acceptancetest.pass? ? "Yes" : "No" %></td>
 
     <% column_content_for(hide_cols,:action) do %>
-    <td>
+    <td class="actions">
       <select onchange="take_action(this);">
         <option value="" selected="selected">&nbsp;</option>
         <%= option_to_edit_acceptancetest(acceptancetest)%>

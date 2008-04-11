@@ -1,7 +1,7 @@
 <tr class="<%= cycle("even_row", "odd_row") %>">
   <td><strong><%= numeric_date(milestone.date) %></strong></td>
   <td><%= link_to_edit_milestone(milestone) %><br /><%= textilize(milestone.description)%></td>
-  <td>
+  <td class="actions">
     <select onchange="take_action(this);">
       <option value="" selected="selected">&nbsp;</option>
       <%= option_to_edit_milestone(milestone)%>

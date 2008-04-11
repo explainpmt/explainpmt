@@ -28,7 +28,7 @@
           <td><%= initiative.start_date%></td>
           <td><%= initiative.end_date%></td>
           <td><%= initiative.customer%></td>
-          <td>
+          <td class="actions">
             <select onchange="take_action(this);">
               <option value="" selected="selected">&nbsp;</option>
               <%= option_to_edit_initiative(initiative) %>

@@ -33,7 +33,7 @@
   <td><%= story.customer %></td>
   <td><%= story.position %></td>
   <% column_content_for(hide_cols, :action) do %>
-    <td valign="top">
+    <td class="actions">
       <select onchange="take_action(this);">
         <option value="" selected="selected">&nbsp;</option>
         <%=option_to_edit_story(story)%>

@@ -21,7 +21,7 @@
             <%= project_dashboard_link(project) %><br>
             <%= textilize(project.description) %>
           </td>
-          <td>
+          <td class="actions">
             <select onchange="take_action(this);">
               <option value="" selected="selected">&nbsp;</option>
               <%= option_to_view_team(project) %>
