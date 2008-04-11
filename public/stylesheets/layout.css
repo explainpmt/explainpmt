@@ -114,6 +114,18 @@ div.milestone_list { margin: 10px; }
 
 /*******************************************************/
 /** all the following items need to be combed through **/
+#login a { color: black; text-decoration: none; border-bottom: 1px dotted #669933; }
+#login .user { padding: 3px; color: #666; }
+#login .pass { padding: 3px; color: #666; }
+#login input { width: 144px; color: #666; }
+#login input.btn { width: auto; }
+#login { margin-top: 100px; margin-left: auto; margin-right: auto; width: 440px; height: 221px; text-align: center; background: url('/images/login_bg.gif') no-repeat; }
+#login #form { position: relative; top: 80px; }
+#login #SystemStatus{ position: relative; top: 120px; width: 400px; margin: auto; text-align: left; padding: 20px; }
+#login #SystemError{ position: relative; top: 120px; width: 400px; margin: auto; text-align: left; padding: 20px; }
+#login .btn { vertical-align: middle; padding: 3px; }
+
+
 #SystemError, #SystemStatus { position: relative; border-top: 1px solid #f00; border-bottom: 1px solid #f00; padding: 3px 2em; margin: 0 0 10px; color: #900; background: #fcc; }
 #SystemStatus { border-top-color: #0f0; border-bottom-color: #0f0; color: #060; background: #cfc; }
 #ProjectsList li { margin: 0 0 5px 10px; }
