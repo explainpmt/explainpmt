@@ -38,9 +38,11 @@ class ReleasesController < ApplicationController
   end
 
   def destroy
-    @release.destroy
-    flash[:status] = "#{@release.name} has been deleted."
-    redirect_to project_releases_path(@project)
+    render :update do |page|
+      @release.destroy
+      flash[:status] = "#{@release.name} has been deleted."
+      page.redirect_to project_releases_path(@project)
+    end
   end
 
   protected
