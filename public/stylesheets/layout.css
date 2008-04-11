@@ -114,6 +114,8 @@ div.milestone_list { margin: 10px; }
 
 /*******************************************************/
 /** all the following items need to be combed through **/
+
+/* login page */
 #login a { color: black; text-decoration: none; border-bottom: 1px dotted #669933; }
 #login .user { padding: 3px; color: #666; }
 #login .pass { padding: 3px; color: #666; }
@@ -124,6 +126,7 @@ div.milestone_list { margin: 10px; }
 #login #SystemStatus{ position: relative; top: 120px; width: 400px; margin: auto; text-align: left; padding: 20px; }
 #login #SystemError{ position: relative; top: 120px; width: 400px; margin: auto; text-align: left; padding: 20px; }
 #login .btn { vertical-align: middle; padding: 3px; }
+/* end login page */
 
 
 #SystemError, #SystemStatus { position: relative; border-top: 1px solid #f00; border-bottom: 1px solid #f00; padding: 3px 2em; margin: 0 0 10px; color: #900; background: #fcc; }
