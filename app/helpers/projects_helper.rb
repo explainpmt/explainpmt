@@ -12,7 +12,7 @@ module ProjectsHelper
   end
 
   def option_to_view_team(project)
-    create_action_option("View Team", project_users_path(project))
+    create_action_option("View Team", team_project_path(project))
   end
 
   def option_to_edit_project(project)

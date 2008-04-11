@@ -13,7 +13,14 @@ class ProjectsController < ApplicationController
   end
 
   def team
-    @users = @project.users.find(:all, :page => {:size => 20, :current => params[:page]})
+    respond_to do |format|
+      format.html {@users = @project.users.find(:all, :page => {:size => 20, :current => params[:page]})}
+      format.js {
+        render :update do |page|
+          page.redirect_to team_project_path(@project)
+        end
+      }
+    end
   end
 
   def new
@@ -53,9 +60,11 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    @project.destroy
-    flash[:status] = "#{@project.name} has been deleted."
-    redirect_to projects_path
+    render :update do |page|
+      @project.destroy
+      flash[:status] = "#{@project.name} has been deleted."
+      redirect_to projects_path
+    end
   end
 
   def add_users
