@@ -3,24 +3,31 @@
 	  <a href="javascript:void(0);" class="close" onclick="cClick();">close</a>
 	  <h2>Acceptance Test Details</h2>
 	  <label>Name</label>
-	  <%= f.text_area :name, :cols => 40, :rows => 2 %>
+	  <%= f.text_area :name, :cols => 45, :rows => 2 %>
 	  <label>Description</label>
-	  <%= f.text_area :description, :cols => 40, :rows => 2%>
+	  <%= f.text_area :description, :cols => 45, :rows => 2%>
 	  <label>Pre Condition</label>
-	  <%= f.text_area :pre_condition, :cols => 40, :rows => 2%>
+	  <%= f.text_area :pre_condition, :cols => 45, :rows => 2%>
 	  <label>Post Condition</label>
-	  <%= f.text_area :post_condition, :cols => 40, :rows => 2%>
+	  <%= f.text_area :post_condition, :cols => 45, :rows => 2%>
 	  <label>Expected Result</label>
-	  <%= f.text_area :expected_result, :cols => 40, :rows => 2%>
+	  <%= f.text_area :expected_result, :cols => 45, :rows => 2%>
 	  <br /><br />
-	  <%= f.radio_button :automated, true %>
-	  <label for="acceptancetest_automated_true" class="inline">Automated</label>
-	  <%= f.radio_button :automated, false %>
-	  <label for="acceptancetest_automated_false" class="inline">Manual</label>
-	  <%= f.radio_button :pass, true %>
-	  <label for="acceptancetest_pass_true" class="inline">Pass</label>
-	  <%= f.radio_button :pass, false %>
-	  <label for="acceptancetest_pass_false" class="inline">Fail</label>
+    <fieldset>
+	  	<%= f.radio_button :automated, true %>
+		  <label for="acceptancetest_automated_true" class="inline">Automated</label>
+			<div class="clear"></div>
+		  <%= f.radio_button :automated, false %>
+		  <label for="acceptancetest_automated_false" class="inline">Manual</label>
+			<div class="clear"></div>
+		</fieldset>
+		<fieldset>
+		  <%= f.radio_button :pass, true %>
+		  <label for="acceptancetest_pass_true" class="inline">Pass</label>
+			<div class="clear"></div>
+		  <%= f.radio_button :pass, false %>
+		  <label for="acceptancetest_pass_false" class="inline">Fail</label>
+		</fieldset>
 	  <div class="submit">
 	  	<%= submit_tag @acceptancetest ? "Update" : "Create" %>
 	  </div>
