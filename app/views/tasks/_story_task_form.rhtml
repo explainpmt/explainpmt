@@ -5,7 +5,7 @@
     <label>Name</label>
     <%=f.text_field :name%>
     <label>Description</label>
-    <%= f.text_area(:description, :cols => 40, :rows => 3) %>
+    <%= f.text_area(:description, :cols => 45, :rows => 3) %>
     <label>Owner</label>
     <%= f.select :user_id, @project.users.collect {|u| [ u.full_name, u.id ] }, {:include_blank => true}%>
     <label>Complete</label>
