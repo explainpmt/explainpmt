@@ -1,7 +1,7 @@
 first:
   id: 1
   username: 'admin'
-  password: 'adminpass'
+  password: '94faab26ece5df8aee97238cde8bf5b0fe8f20f4'
   email: 'admin@example.com'
   admin: true
   first_name: 'Admin'

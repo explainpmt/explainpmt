@@ -12,7 +12,7 @@ class StoryTest < Test::Unit::TestCase
     @project_one = Project.find 1
     @iteration_one = Iteration.find 1
   end
-  
+
   def test_status_collection
     assert_equal(
       [ Story::Status::New, Story::Status::Defined, Story::Status::InProgress,
@@ -148,13 +148,13 @@ class StoryTest < Test::Unit::TestCase
     story.save or fail
     assert_equal Story::Status::InProgress, story.status
   end
-  
+
   def test_title_validations
     story = Story.new
     story.title = '_' * 255
     story.valid?
     assert_nil story.errors[:title]
-    
+
     # title validation must throw an error when title.length > 255
     # to support postgreSQL (mySQL truncates a value when it's longer
     # than defined in the DB, but postgreSQL dies)
@@ -162,17 +162,17 @@ class StoryTest < Test::Unit::TestCase
     story.valid?
     assert_not_nil story.errors[:title]
   end
-  
+
   def test_points_validations
     story = Story.new
-    
+
     for valid_value in [nil, 1, 99]
       story.points = valid_value
       story.valid?
       assert_nil story.errors[:points]
     end
-    
-    for invalid_value in [-99, -1, 0]
+
+    for invalid_value in [-99, -1]
       story.points = invalid_value
       story.valid?
       assert_not_nil story.errors[:points]
@@ -289,7 +289,7 @@ class StoryStatusTest < Test::Unit::TestCase
       @statuses << Story::Status.new(i + 1)
     end
   end
-  
+
   def test_order
     @statuses.each_with_index do |s,i|
       i += 1

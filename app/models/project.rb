@@ -50,9 +50,9 @@ class Project < ActiveRecord::Base
 
 
   has_many :stories, :include => [:iteration, :initiative, :project], :dependent => :destroy do
-#    def backlog
-#      self.select { |s| s.iteration.nil? }
-#    end
+    def backlog
+      self.select { |s| s.iteration.nil? }
+    end
 
     def not_estimated_and_not_cancelled
       self.select { |s|
@@ -67,7 +67,6 @@ class Project < ActiveRecord::Base
         s.iteration.nil?
       }
     end
-    alias backlog not_cancelled_and_not_assigned_to_an_iteration
 
     def cancelled
       self.select{ |s|

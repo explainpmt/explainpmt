@@ -8,7 +8,7 @@ class ProjectTest < Test::Unit::TestCase
 
   def setup
     @project_one = Project.find 1
-    
+
     @iteration_one = Iteration.find 1
     @iteration_two = Iteration.find 2
     @iteration_four = Iteration.find 4
@@ -23,7 +23,7 @@ class ProjectTest < Test::Unit::TestCase
     @milestone_six = Milestone.find 6
     @milestone_seven = Milestone.find 7
   end
-  
+
   def test_current_iteration_that_starts_today
     assert_equal @iteration_one, @project_one.iterations.current
   end
@@ -41,7 +41,7 @@ class ProjectTest < Test::Unit::TestCase
     @iteration_one.save!
     assert_equal @iteration_one, @project_one.iterations.current
   end
-  
+
   def test_past_iterations
     assert_equal [ @iteration_four, @iteration_six ],
       @project_one.iterations.past
@@ -51,12 +51,12 @@ class ProjectTest < Test::Unit::TestCase
     @iteration_four.destroy
     @iteration_six.destroy
   end
-  
+
   def test_past_iterations_with_no_past_iterations
     destroy_past_iterations
     assert @project_one.iterations.past.empty?
   end
-  
+
   def test_previous_iteration
     assert_equal @iteration_four, @project_one.iterations.previous
   end
@@ -75,12 +75,12 @@ class ProjectTest < Test::Unit::TestCase
     @iteration_two.destroy
     @iteration_five.destroy
   end
-  
+
   def test_future_iterations_with_no_future_iterations
     destroy_future_iterations
     assert @project_one.iterations.future.empty?
   end
-  
+
   def test_next_iteration
     assert_equal @iteration_two, @project_one.iterations.next
   end
@@ -101,7 +101,7 @@ class ProjectTest < Test::Unit::TestCase
     @milestone_seven.destroy
     assert @project_one.milestones.future.empty?
   end
-  
+
   def test_recent_milestones
     assert_equal [ @milestone_four, @milestone_three ],
                  @project_one.milestones.recent
@@ -111,12 +111,12 @@ class ProjectTest < Test::Unit::TestCase
     @milestone_four.destroy
     @milestone_three.destroy
   end
-  
+
   def test_recent_milestones_with_no_recent_milestones
     destroy_recent_milestones
     assert @project_one.milestones.recent.empty?
   end
-  
+
   def test_past_milestones
     assert_equal @project_one.milestones.recent +
       [ @milestone_two, @milestone_one ], @project_one.milestones.past
@@ -128,7 +128,7 @@ class ProjectTest < Test::Unit::TestCase
     @milestone_one.destroy
     assert @project_one.milestones.past.empty?
   end
-  
+
   def test_backlog
     num_backlog = @project_one.stories.reject{ |a| a.iteration }.size
     assert_equal num_backlog, @project_one.stories.backlog.size

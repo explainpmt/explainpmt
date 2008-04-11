@@ -2,7 +2,9 @@ class StoriesController < ApplicationController
   before_filter :find_story, :except => [:index, :new, :create, :audit, :export, :export_tasks, :bulk_create, :create_many, :cancelled]
 
   def index
-    @stories = @project.stories.backlog
+    @stories = @project.stories.backlog.select { |s|
+      s.status != Story::Status::Cancelled
+    }
   end
 
   def cancelled
