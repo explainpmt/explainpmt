@@ -23,7 +23,10 @@
             <input onfocus="resetValue(this,'Password')" type="password" name="password" id="Password" value="Password" />
           </div>
           <input type="image" name="submit" src="/images/btn_login.gif" class="btn" />
-          <%= link_to_new_user('Register') %>
+          <div>
+						<%= link_to_new_user('Register New User') %>&nbsp;&nbsp;&nbsp;&nbsp;
+						<%= link_to_forgot %>
+					</div>
         </form>
       </div>
       <% if flash[:error] %>

@@ -1,0 +1,35 @@
+<div class="small_popup">
+	<% remote_form_for :user, :url => forgot_users_path do |f| %>
+	  <a href="javascript:void(0);" class="close" onclick="cClick();">close</a>
+	  <h2>User Details</h2>
+		<p>
+			We can reset your password but we will need either your username or email address to look you up.
+		</p>
+
+		<fieldset>
+	  	<%= radio_button_tag "choice", 'username', false, :onclick => 'choose_username()' %>
+		  <label for="choice_username" class="inline">Username</label>
+			<div class="clear"></div>
+		  <%= radio_button_tag "choice", 'email', false, :onclick => 'choose_email()' %>
+		  <label for="choice_email" class="inline">Email</label>
+			<div class="clear"></div>
+		</fieldset>
+    <div class="clear"></div>
+		<br />
+		<div id="reset_password_use_username" style="display:none">
+	  	<label>Username</label>
+	  	<%= f.text_field :username %>
+		</div>
+
+		<div id="reset_password_use_email" style="display:none">
+	  	<label>Email</label>
+	  	<%= f.text_field :email %>
+		</div>
+
+	  <div class="submit" style="display:none;" id="reset_password_submit">
+	  	<%= submit_tag "Reset Password" %>
+	  </div>
+	<% end %>
+	<div id="flash_notice"></div>
+</div>
+

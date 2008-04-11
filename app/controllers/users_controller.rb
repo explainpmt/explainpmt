@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_filter :check_authentication, :only => [:authenticate, :login, :new, :create, :register]
+  skip_before_filter :check_authentication, :only => [:authenticate, :login, :new, :create, :register, :forgot, :password_reset_confirmation]
   skip_before_filter :require_current_project
   before_filter :find_user, :only => [:edit, :update, :destroy, :remove_from_project]
 
@@ -81,6 +81,36 @@ class UsersController < ApplicationController
     @project.users.delete(@user)
     flash[:status] = "#{@user.full_name} has been removed from the project."
     redirect_to team_project_path(@project)
+  end
+
+  def forgot
+    render :update do |page|
+      if request.post?
+        user = User.find(:first, :conditions => ["lower(username) = ?", params[:user][:username].downcase]) unless params[:user][:username].blank?
+        user = User.find(:first, :conditions => ["lower(email) = ?", params[:user][:email].downcase]) unless user
+        if user && Mailer.deliver_forgot_password(user, request.host_with_port)
+          flash[:status] = "Password Reset Sent!"
+          page.redirect_to login_users_path
+        else
+          page[:flash_notice].replace_html :inline => "<%= error_container('Could not find user with supplied information. Please try again.') %>"
+        end
+      else
+        page.call 'showPopup', render(:partial => 'users/forgot')
+      end
+    end
+  end
+
+  def password_reset_confirmation
+    user = User.find(params[:id])
+    if user.temp_password == params[:auth]
+      user.password = user.encrypt(user.temp_password)
+      user.temp_password = nil
+      user.save_with_validation false
+      flash[:status] = 'Your password has been reset.'
+    else
+      flash[:status] = 'We are unable to reset your password. Please reset your password again.'
+    end
+      redirect_to login_users_path
   end
 
   protected

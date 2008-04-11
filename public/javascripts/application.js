@@ -1,3 +1,17 @@
+function choose_username(){
+	$('reset_password_use_email').hide();
+	$('user_email').value = '';
+	$('reset_password_use_username').show();
+	$('reset_password_submit').show();
+}
+
+function choose_email(){
+	$('reset_password_use_username').hide();
+	$('user_username').value = '';
+	$('reset_password_use_email').show();
+	$('reset_password_submit').show();
+}
+
 function resetValue(el,text){
   if(el.value == text){
     el.value='';
