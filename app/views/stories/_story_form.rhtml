@@ -3,7 +3,7 @@
 	  <a href="javascript:void(0);" class="close" onclick="cClick();">close</a>
 	  <h2>Story Card Details</h2>
 	  <label>Title</label>
-	  <%= f.text_area :title, :rows => 2, :cols => 45 %>
+	  <%= f.text_area :title, :rows => 2 %>
 	  <label>Initiative</label>
 	  <%= collection_select('story','initiative_id', @project.initiatives, 'id','name', :include_blank => true) %>
 	  <label>Release</label>
@@ -23,7 +23,7 @@
 	  <label>Points</label>
 	  <%= f.text_field :points, :size => 2%>
 	  <label>Description</label>
-	  <%= f.text_area :description, :rows => 5, :cols => 45%>
+	  <%= f.text_area :description, :rows => 5%>
 	  <div class="submit">
 	  	<%=submit_tag @story ? "Update" : "Create" %>
 	  </div>

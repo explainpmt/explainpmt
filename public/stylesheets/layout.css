@@ -144,6 +144,7 @@ div.popup, div.small_popup, div.audit, div.wide_popup, div.select_stories { padd
 div.popup, div.small_popup label { margin-top: 4px; }
 div.popup label.inline { display: inline; }
 div.popup input { margin-right: 3px; }
+div.popup textarea { width: 345px; }
 div.popup h2 { margin-top: 5px; }
 div.popup fieldset,
 div.small_popup fieldset { float: left; padding-right: 10px; }
