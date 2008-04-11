@@ -38,9 +38,11 @@ class InitiativesController < ApplicationController
   end
 
   def destroy
-    @initiative.destroy
-    flash[:status] = "#{@initiative.name} has been deleted."
-    redirect_to project_initiatives_path(@project)
+    render :update do |page|
+      @initiative.destroy
+      flash[:status] = "#{@initiative.name} has been deleted."
+      page.redirect_to project_initiatives_path(@project)
+    end
   end
 
   protected

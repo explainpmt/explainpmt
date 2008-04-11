@@ -47,10 +47,9 @@ class AcceptancetestsController < ApplicationController
 
   def destroy
     render :update do |page|
-      if @acceptancetest.destroy
-        flash[:status] = "Acceptance Test \"#{@acceptancetest.name}\" has been deleted."
-        page.call 'location.reload'
-      end
+      @acceptancetest.destroy
+      flash[:status] = "Acceptance Test \"#{@acceptancetest.name}\" has been deleted."
+      page.call 'location.reload'
     end
   end
 
