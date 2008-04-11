@@ -79,25 +79,32 @@ class StoriesController < ApplicationController
   end
 
   def clone_story
-    @story.clone!
-    redirect_to request.referer
+    render :update do |page|
+      @story.clone!
+      page.redirect_to request.referer
+    end
   end
 
   def destroy
-    if @story.destroy
+    render :update do |page|
+      @story.destroy
       flash[:status] = "Story \"#{@story.title}\" has been deleted."
-      redirect_to request.referer
+      page.redirect_to request.referer
     end
   end
 
   def move_up
-    @story.move_higher
-    redirect_to request.referer
+    render :update do |page|
+      @story.move_higher
+      page.redirect_to request.referer
+    end
   end
 
   def move_down
-    @story.move_lower
-    redirect_to request.referer
+    render :update do |page|
+      @story.move_lower
+      page.redirect_to request.referer
+    end
   end
 
   def edit_numeric_priority
