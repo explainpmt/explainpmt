@@ -139,6 +139,7 @@ label { display: block; margin: 4px 0 1px; }
 div.small_popup { width: 235px; }
 div.popup { width: 350px; }
 div.wide_popup { width: 700px; }
+textarea.large {width: 690px;}
 div.audit, div.select_stories { width: 800px; height: 430px; overflow: auto; }
 div.popup, div.small_popup, div.audit, div.wide_popup, div.select_stories { padding: 10px; background: #fff; border: 1px solid #000; }
 div.popup, div.small_popup label { margin-top: 4px; }
