@@ -142,7 +142,6 @@ div.wide_popup { width: 700px; }
 textarea.large {width: 690px;}
 div.audit, div.select_stories { width: 800px; height: 430px; overflow: auto; }
 div.popup, div.small_popup, div.audit, div.wide_popup, div.select_stories { padding: 10px; background: #fff; border: 1px solid #000; }
-div.popup, div.small_popup label { margin-top: 4px; }
 div.popup label.inline { display: inline; }
 div.popup input { margin-right: 3px; }
 div.popup textarea { width: 345px; }
