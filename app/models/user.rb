@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   has_many :projects, :through => :project_memberships
   has_many :stories, :include => [:initiative, :iteration, :project, :owner]
   has_many :milestones, :through => :projects
-  validates_presence_of :first_name, :last_name, :email, :username, :password
+  validates_presence_of :first_name, :last_name, :email, :username
   validates_uniqueness_of :username, :email
   validates_confirmation_of :set_password
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/
