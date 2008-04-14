@@ -4,7 +4,10 @@ module StoriesHelper
   end
 
   def link_to_show_cancelled
-    link_to 'Show Cancelled', cancelled_project_stories_path(@project)
+    link_to_unless_current 'Show Cancelled', cancelled_project_stories_path(@project)
+  end
+  def link_to_show_all
+    link_to_unless_current 'Show All', all_project_stories_path(@project)
   end
 
   def link_to_new_iteration_story(iteration)
