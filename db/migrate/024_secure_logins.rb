@@ -3,6 +3,7 @@ class SecureLogins < ActiveRecord::Migration
     add_column :users, :salt, :string
     User.find(:all).each do |user|
       user.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{user.username}--")
+      user.set_password = user.password
       user.save
     end
   end
