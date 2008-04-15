@@ -152,6 +152,7 @@ label { display: block; margin: 4px 0 1px; }
 
 /* popup */
 div.small_popup { width: 235px; }
+div.scroll {overflow-y:scroll;overflow-x:hidden;height:350px}
 div.popup { width: 350px; }
 div.wide_popup { width: 700px; }
 textarea.large {width: 690px;}
