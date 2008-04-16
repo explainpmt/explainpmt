@@ -24,7 +24,9 @@
         <td><%= at.pre_condition ? at.pre_condition : "N/A" %></td>
         <td><%= at.post_condition ? at.post_condition : "N/A" %></td>
         <td><%= at.expected_result ? at.expected_result : "N/A" %></td>
-        <td><%= at.story_id ? at.story.iteration.name : "Not Assigned"%></td>
+        <td><%= if at.story_id
+                at.story.iteration_id ? at.story.iteration.name : "Not Assigned"
+                end %></td>
         <td><%= at.automated? ? "Yes" : "Not" %></td>
         <td><%= at.pass? ? "Yes" : "No" %></td>
       </tr>
