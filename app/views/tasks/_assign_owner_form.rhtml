@@ -1,4 +1,4 @@
-<div class="small_popup">
+<div class="small_popup <%= 'scroll' if @users.size > 20 %>">
 <% form_for :owner, :url => assign_project_story_task_path(@project, @task.story, @task) do |f| %>
   <a href="javascript:void(0);" class="close" onclick="cClick();">close</a>
   <h3>Assign Owner</h3><br />
