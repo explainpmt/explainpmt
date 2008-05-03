@@ -7,7 +7,9 @@ map.resources :projects, :member => {:audits => :get, :team => :get, :add_users 
   project.resources :acceptancetests, :member => {:clone_acceptance => :get}, :collection => {:export => :get, :assign => :post,}
   project.resource :dashboard
   project.resources :users, :member => {:remove_from_project => :put}
-  project.resources :releases
+  project.resources :releases do |release|
+    release.resources :stories
+  end
   project.resources :stats
   project.resources :initiatives
   project.resources :stories,

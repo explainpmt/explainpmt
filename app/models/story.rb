@@ -189,6 +189,17 @@ class Story < ActiveRecord::Base
     end
     {:successes => successes, :failures => failures}
   end
+  
+  def self.assign_to_release(release, story)
+    successes, failures = [], []
+    story.release = release
+      if s.save
+        successes << "SC#{s.scid} has been moved."
+      else
+        failures << "SC#{s.scid} could not be moved."
+      end
+    {:successes => successes, :failures => failures}
+  end
 
   protected
 

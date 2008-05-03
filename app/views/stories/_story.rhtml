@@ -12,7 +12,9 @@
 
   <td><%= link_to_story(story) %><%= image_tag( 'info-icon.gif', :alt => truncate(story.description, 35)) if story.description?%></td>
   <td><%= story.initiative_id? ? link_to_edit_initiative(story.initiative) : "Not Assigned" %></td>
-  <td><%= story.release_id? ? link_to_edit_release(story.release) : "Not Assigned" %></td>
+  <% column_content_for(hide_cols, :release ) do %>
+  <td><%= story.release_id? ? link_to_release(story.release) : "Not Assigned" %></td>
+  <%end%>
   <td><%= story.points %></td>
   <td><%= story.value.name %></td>
   <td><%= story.risk.name %></td>

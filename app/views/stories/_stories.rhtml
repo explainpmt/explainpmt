@@ -6,7 +6,7 @@
       <% column_content_for(hide_cols, :project) do %><td>Project</td><%end%>
       <td>Title</td>
       <td>Initiative</td>
-	  	<td>Release</td>
+	  <% column_content_for(hide_cols, :release) do %><td>Release</td><%end%>
       <td>Points</td>
       <td>Value</td>
       <td>Risk</td>
@@ -31,6 +31,6 @@
     "CaseInsensitiveString","Number",
     <% column_content_for(hide_cols, :action) do %> "None" <%end%>]);
 
-MaintainSort(st);
+	MaintainSort(st);
 </script>
 

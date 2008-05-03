@@ -1,0 +1,39 @@
+<table cellspacing="0" cellpadding="3" border="0" style="float: left; margin-right: 20px;">
+  <tr class="even_row">
+    <td><strong>Created</strong></td>
+    <td align="right"><%= short_date(@release.created_at) if @release.created_at%></td>
+  </tr>
+  <tr class="odd_row">
+    <td><strong>Updated</strong></td>
+    <td align="right"><%= short_date(@release.updated_at) if @release.updated_at%></td>
+  </tr>
+  <tr class="even_row">
+    <td><strong>Release Date</strong></td>
+    <td align="right"><%= short_date(@release.date) if @release.date%></td>
+  </tr>
+<% if @release.date >= Date.today %>
+  <tr class="odd_row">
+      <td>
+          <strong>Time Remaining:</strong>
+      </td>
+      <td align="right">
+          <%= distance_of_time_in_words(Time.now,
+          Time.parse((@release.date + 1).to_s)) %>
+      </td>
+  </tr>
+<% end %>
+</table>
+<table cellspacing="0" cellpadding="3" border="0" style="float: left; margin-right: 20px;">
+  <tr class="even_row">
+    <td><strong>Points Completed</strong></td>
+    <td align="right"><%= show_formatted_complete_stories %></td>
+  </tr>
+  <tr class="odd_row">
+    <td><strong>Points Remaining</strong></td>
+    <td align="right"><%= show_formatted_pending_stories %></td>
+  </tr>
+  <tr class="even_row">
+    <td><strong>Stories not Estimated</strong></td>
+    <td align="right"><%= show_formatted_non_estimated_stories %></td>
+  </tr>
+</table>

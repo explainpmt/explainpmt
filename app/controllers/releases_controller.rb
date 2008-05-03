@@ -4,6 +4,14 @@ class ReleasesController < ApplicationController
   def index
     @releases = @project.releases
   end
+  
+  def show
+    @stories = @release.stories
+    find_stories_not_in_release
+    @num_non_estimated_stories = (@release.stories.not_estimated_and_not_cancelled).size
+    @release_points_completed = @release.stories.points_completed
+    @release_points_non_completed = @release.stories.points_not_completed
+  end
 
   def new
     common_popup(project_releases_path(@project))
@@ -30,7 +38,7 @@ class ReleasesController < ApplicationController
     render :update do |page|
       if @release.update_attributes(params[:release])
         flash[:status] = "Release \"#{@release.name}\" has been updated."
-        page.redirect_to project_releases_path(@project)
+        page.call 'location.reload'
       else
         page[:flash_notice].replace_html :inline => "<%= error_container(@release.errors.full_messages[0]) %>"
       end
@@ -45,10 +53,26 @@ class ReleasesController < ApplicationController
     end
   end
 
+  def assign_story
+    change_story_release
+  end
+
   protected
 
   def find_release
     @release = Release.find params[:id]
+  end
+  
+  def find_stories_not_in_release
+     @other_stories = @project.stories.backlog.select { |s|
+      s.release_id.nil?
+    }
+  end
+  
+  def change_story_release
+    release = Release.find_by_id(params[:id])
+    story = Story.find(params[:story])
+    set_status_and_error_for(Story.assign_to_release(release, story))
   end
 
   def common_popup(url)

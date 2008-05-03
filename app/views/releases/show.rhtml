@@ -1,0 +1,41 @@
+<div style="float: right;">
+    (<%= link_to_edit_release(@release, :value=>"Edit") %>)
+    <br/>
+</div>
+<h3><%= @release.name %></h3>
+<div id="IterationSummary">
+    <%= render :partial => 'release_summary' %>
+</div>
+<div style="clear:both;">
+</div>
+<% unless @release.description.blank? %>
+<label>
+    <strong>
+    Description
+</label>
+</strong>
+<%= textilize(@release.description) %>
+<% end %>
+<br/>
+<% empty_collection_content(@stories) do %>
+<p>
+    No stories are in this release yet.
+</p>
+<% end %>
+<table border="0">
+    <tr>
+        <td>
+            <h2>This Release</h2>
+            <div id="release_stories" style="margin-right: 20px;">
+                <%= render :partial => 'release_stories' %>
+            </div>
+        </td>
+        <td>
+            <h2>Unassigned Release</h2>
+            <div id="not_release_stories" style="margin-right: 20px;">
+                <%= render :partial => 'not_release_stories' %>
+            </div>
+        </td>
+    </tr>
+</table>
+

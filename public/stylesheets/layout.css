@@ -14,6 +14,9 @@ p { margin: 0.5em 0 1em; }
 .important { font-weight: bold; font-size: 110%; }
 .clear { clear: both; }
 .actions {width: 1%}
+.notice_low { color: #003300; }
+.notice_mod { color: #FF9900; }
+.notice_sev { color: #900; }
 /** end general styles **/
 
 
