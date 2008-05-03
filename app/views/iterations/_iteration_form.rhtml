@@ -5,7 +5,11 @@
 	  <label>Name</label>
 	  <%=f.text_field :name%>
 	  <label>Start Date</label>
-	  <%=f.date_select :start_date%>
+	  <span id='cds_value'><%= @iteration ? medium_date(@iteration.start_date) : "Pick a date" %></span>
+	  <%=f.calendar_date_select :start_date, 
+		:year_range => 10.years.ago..0.years.from_now, 
+		:hidden => "true", :onchange => "$('cds_value').update($F(this));"
+	  %>
 	  <fieldset>
 	    <label>Length</label>
 	    <%=f.text_field :length, :size => '3'%>

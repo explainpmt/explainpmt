@@ -52,6 +52,10 @@ module ApplicationHelper
   def numeric_date(date)
     date.strftime('%m/%d/%Y')
   end
+  
+  def medium_date(date)
+    date.strftime('%B %d, %Y')
+  end
 
   def top_menu
     main_menu_links [
