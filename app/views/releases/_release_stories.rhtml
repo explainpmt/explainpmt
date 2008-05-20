@@ -1,7 +1,0 @@
-<ul id='release_story_list'>
-	<% @stories.each do |story| %>
-	<% domid = "story_#{story.id}" %>
-	<li class="release_story" id='<%= domid %>'><%= "SC#{story.scid} - #{story.title}" %></li>
-	<%= draggable_element(domid, :ghosting=>true, :revert=>true)%>
-<% end %>
-</ul>

@@ -22,20 +22,7 @@
     No stories are in this release yet.
 </p>
 <% end %>
-<table border="0">
-    <tr>
-        <td>
-            <h2>This Release</h2>
-            <div id="release_stories" style="margin-right: 20px;">
-                <%= render :partial => 'release_stories' %>
-            </div>
-        </td>
-        <td>
-            <h2>Unassigned Release</h2>
-            <div id="not_release_stories" style="margin-right: 20px;">
-                <%= render :partial => 'not_release_stories' %>
-            </div>
-        </td>
-    </tr>
-</table>
+<% collection_content(@stories) do %>
+    <%= render( :partial => 'stories/stories', :locals => {:hide_cols => [ :project, :release]}) %>
+  <% end %>
 

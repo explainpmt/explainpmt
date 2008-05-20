@@ -1,7 +1,0 @@
-<ul id='not_release_story_list'>
-	<% @other_stories.each do |story| %>
-	<% domid = "story_#{story.id}" %>
-	<li class="not_release_story" id='<%= domid %>'><%= "SC#{story.scid} - #{story.title}" %></li>
-	<%= draggable_element(domid, :ghosting=>true, :revert=>true)%>
-<% end %>
-</ul>
