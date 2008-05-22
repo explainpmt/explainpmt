@@ -3,7 +3,7 @@
     <a href="javascript:void(0);" class="close" onclick="cClick();">close</a><br />
     <% @users.each do |m| %>
       <%= f.radio_button :id, m.id %>
-      <label for="owner_id_<%=m.id%>" style="display:inline"><%= m.first_name %>,<%= m.last_name %></label><br />
+      <label for="owner_id_<%=m.id%>" style="display:inline"><%= m.full_name %></label><br />
     <% end %>
     <div class="submit">
       <%= submit_tag "Assign" %>

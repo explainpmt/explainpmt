@@ -4,7 +4,7 @@
   <h3>Assign Owner</h3><br />
   <% @users.each do |m| %>
     <%= f.radio_button :id, m.id %>
-    <label style="display:inline"><%= m.first_name %>,<%= m.last_name %></label><br />
+    <label style="display:inline"><%= m.full_name %></label><br />
   <% end %>
   <div class="submit">
     <%= submit_tag "Assign" %>
