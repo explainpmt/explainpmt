@@ -3,11 +3,7 @@
 	<a href="javascript:void(0);" class="close" onclick="cClick();">close</a>
 	 <h2>Release Details</h2>
 	  <label>Date</label>
-	  <span id='cds_value'><%= @release ? medium_date(@release.date) : "Pick a date" %></span>
-	  <%=f.calendar_date_select :date, 
-		:year_range => 10.years.ago..0.years.from_now, 
-		:hidden => "true", :onchange => "$('cds_value').update($F(this));"
-	  %>
+	  <%=f.date_select :date%>
 	  <label>Name</label>
 	  <%=f.text_field :name%>
 	  <label>Description</label>
