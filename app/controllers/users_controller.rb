@@ -54,7 +54,11 @@ class UsersController < ApplicationController
   end
 
   def login
-    render :layout => false
+    if session[:current_user]
+      redirect_to dashboards_path
+    else
+      render :layout => false
+    end    
   end
 
   def logout
