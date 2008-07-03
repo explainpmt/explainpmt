@@ -16,7 +16,7 @@
           <td><%= task.name %></td>
           <td><%= task.description%></td>
           <td><%= task.owner ? task.owner.full_name : "Not Assigned"%></td>
-          <td><%= task.complete? ? "Yes" : "No" %></td>
+          <td><%= task.complete ? "Yes" : "No" %></td>
         </tr>
       <% end %>
     <% end %>
