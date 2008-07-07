@@ -124,8 +124,8 @@ for(i=0;i<sel.length;i++)sel[i].style.visibility="visible";over.innerHTML=s;
 }
 
 function OLmDisableTI(){
-if(OLie4&&!OLop7){var i=0;for(var j=0;j<OLmTT.length;j++){var tagE=o3_frame.document.getElementsByTagName(OLmTT[j]);
-for(var k=0;k<tagE.length;k++){OLmTI[i]=tagE[k].tabIndex;tagE[k].tabIndex="-1";i++;}}}
+//if(OLie4&&!OLop7){var i=0;for(var j=0;j<OLmTT.length;j++){var tagE=o3_frame.document.getElementsByTagName(OLmTT[j]);
+//for(var k=0;k<tagE.length;k++){OLmTI[i]=tagE[k].tabIndex;tagE[k].tabIndex="-1";i++;}}}
 }
 function OLmRestoreTI(){
 if(OLie4&&!OLop7){var i=0;for(var j=0;j<OLmTT.length;j++){var tagE=o3_frame.document.getElementsByTagName(OLmTT[j]);
