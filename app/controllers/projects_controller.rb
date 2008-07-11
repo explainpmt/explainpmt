@@ -92,6 +92,18 @@ class ProjectsController < ApplicationController
     render :layout => false
   end
 
+  def xml_export
+    respond_to do |format|
+      format.js{
+        render :update do |page|
+         page.redirect_to formatted_xml_export_project_path(@project, :xml)
+        end
+      }
+      format.html{redirect_to formatted_xml_export_project_path(@project, :xml)}
+      format.xml{render :xml => @project.to_xml(:include => {:stories => {:include => [:tasks, :acceptancetests]}})}
+    end
+  end
+
   protected
 
   def find_project

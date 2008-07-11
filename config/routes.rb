@@ -3,7 +3,7 @@ map.home '', :controller => 'users', :action => 'login'
 map.resources :users, :collection => { :password_reset_confirmation => :post, :forgot => :any, :login => :get, :authenticate => :post, :logout => :get }
 map.resources :dashboards
 map.resources :errors
-map.resources :projects, :member => {:audits => :get, :team => :get, :add_users => :get, :update_users => :post} do |project|
+map.resources :projects, :member => {:xml_export => :get, :audits => :get, :team => :get, :add_users => :get, :update_users => :post} do |project|
   project.resources :acceptancetests, :member => {:clone_acceptance => :get}, :collection => {:export => :get, :assign => :post,}
   project.resource :dashboard
   project.resources :users, :member => {:remove_from_project => :put}
