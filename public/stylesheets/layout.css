@@ -55,11 +55,12 @@ p { margin: 0.5em 0 1em; }
 #SectionTitle a { color: #908360; }
 #SectionMenu { font-size: 0.9em; color: #716e69; background: #f0efed; }
 #SectionMenu a { color: #716e69; }
+#query_stories{float:right;}
+#MainMenu{float:left;}
 /** end top nav **/
 
 
 /** main wrapper **/
-#Main { margin-top: 10px; }
 #Main td { padding: 10px; margin: 0; }
 #Main table td { padding: 2px 5px; }
 /** end main wrapper **/

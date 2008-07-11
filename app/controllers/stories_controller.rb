@@ -1,5 +1,5 @@
 class StoriesController < ApplicationController
-  before_filter :find_story, :except => [:index, :new, :create, :audit, :export, :export_tasks, :bulk_create, :create_many, :cancelled, :all]
+  before_filter :find_story, :except => [:index, :new, :create, :audit, :export, :export_tasks, :bulk_create, :create_many, :cancelled, :all, :search]
 
   def index
     @stories = @project.stories.backlog.select { |s|
@@ -174,6 +174,18 @@ class StoriesController < ApplicationController
         page.call 'location.reload'
       end
     end
+  end
+
+  def search
+    query = params[:query_stories]
+    unless query.blank?
+      @stories = @project.stories.find(:all, :conditions => "stories.scid = '#{query[2..-1]}' or stories.title like '%#{query}%' or stories.description like '%#{query}%'")
+    else
+      @stories = @project.stories.backlog.select { |s|
+        s.status != Story::Status::Cancelled
+      }
+    end
+    render :partial => 'display_backlog'
   end
 
   protected

@@ -1,10 +1,12 @@
-<td><br />
+<%= content_for(:story_search_form,'') %>
+<td>
 	<%= render :partial => 'story_links' %>
   <%= link_to_show_cancelled %>&nbsp;&nbsp;&nbsp;
   <%= link_to_show_all %>&nbsp;&nbsp;&nbsp;
 	<% empty_collection_content(@stories) do %>
 	  <p>No active stories are in the project backlog.</p>
 	<% end %>
-
+	<div id="story_backlog">
   <%= render :partial => 'display_backlog' %>
+	</div>
 </td>

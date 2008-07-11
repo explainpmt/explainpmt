@@ -15,7 +15,7 @@ map.resources :projects, :member => {:xml_export => :get, :audits => :get, :team
   project.resources :stories,
     :member => {:audit => :get, :take_ownership => :put, :release_ownership => :put, :assign_ownership => :get, :assign => :post, :clone_story => :put,
         :move_up => :put, :move_down => :put, :edit_numeric_priority => :get, :set_numeric_priority => :put},
-    :collection => {:all => :get, :cancelled => :get, :export => :get, :export_tasks => :get, :bulk_create => :get, :create_many => :post} do |story|
+    :collection => {:search => :get, :all => :get, :cancelled => :get, :export => :get, :export_tasks => :get, :bulk_create => :get, :create_many => :post} do |story|
     story.resources :tasks, :member => {:take_ownership => :put, :release_ownership => :put, :assign_ownership => :get, :assign => :post}
     story.resources :acceptancetests
   end

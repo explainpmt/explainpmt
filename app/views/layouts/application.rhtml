@@ -61,6 +61,13 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 
     <div id="SectionMenu">
       <%= main_menu %>
+			<% if yield :story_search_form %>
+				<a href="#" style="float:right;" onclick="$('query_stories').show();$('query_stories').focus();this.hide();">Search for stories...</a>
+				<input type="text" id="query_stories" size="30" style="display:none"/>
+				<%= observe_field :query_stories, :url => search_project_stories_path(@project), :frequency => 1,
+					 :update => :story_backlog, :method => :get, :with => :query_stories %>
+			<% end %>
+			<div class="clear"></div>
     </div>
 
     <table id="Main" width="100%">
