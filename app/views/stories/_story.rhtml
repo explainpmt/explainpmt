@@ -10,7 +10,7 @@
     <td><%= link_to(story.project.name, project_dashboard_path(story.project)) %></td>
   <% end %>
 
-  <td><%= link_to_story(story) %><%= image_tag( 'info-icon.gif', :alt => truncate(story.description, 35)) if story.description?%></td>
+  <td><%= link_to_story(story) %><%= image_tag( 'info-icon.gif', :title => truncate(story.description, 35)) if story.description?%></td>
   <td><%= story.initiative_id? ? link_to_edit_initiative(story.initiative) : "Not Assigned" %></td>
   <% column_content_for(hide_cols, :release ) do %>
   <td><%= story.release_id? ? link_to_release(story.release) : "Not Assigned" %></td>
