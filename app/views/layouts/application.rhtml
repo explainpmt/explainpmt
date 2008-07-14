@@ -62,7 +62,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     <div id="SectionMenu">
       <%= main_menu %>
 			<% if yield :story_search_form %>
-				<input type="text" id="query_stories" size="30" value="Search for stories..." onfocus="this.value='';"/>
+				<input type="text" id="query_stories" size="30" value="Search for stories..." onfocus="if (this.value == this.defaultValue) this.value='';" onblur="if (this.value == '') this.value = this.defaultValue;"/>
 				<%= observe_field :query_stories, :url => search_project_stories_path(@project), :frequency => 1,
 					 :update => :story_backlog, :method => :get, :with => :query_stories %>
 			<% end %>
