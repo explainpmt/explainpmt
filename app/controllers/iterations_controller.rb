@@ -5,13 +5,27 @@ class IterationsController < ApplicationController
     @project_iterations = @project.iterations
     @iteration = @project_iterations.current || @project_iterations.previous || @project_iterations.next
     @stories = @iteration.stories if @iteration
-    render :action => 'iterations'
+    respond_to do |format|
+      format.html {
+        render :action => 'iterations'
+      }
+      format.xml {
+        render :xml => @project_iterations.to_xml(:include => { :stories => { :include => [:tasks, :acceptancetests] } } )
+      }
+    end
   end
 
   def show
     @stories = @iteration.stories
     @project_iterations = @project.iterations
-    render :action => 'iterations'
+    respond_to do |format|
+      format.html {
+        render :action => 'iterations'  
+      }
+      format.xml {
+        render :xml => @iteration.to_xml(:include => { :stories => { :include => [:tasks, :acceptancetests] } } )
+      }
+    end
   end
 
   def new
@@ -82,16 +96,9 @@ class IterationsController < ApplicationController
   end
 
   def export
-    respond_to do |format|
-      @stories = @iteration.stories
-      format.html {
-        headers['Content-Type'] = "application/vnd.ms-excel"
-        render :layout => false
-      }
-      format.xml {
-        render :xml => @iteration.to_xml(:include => { :stories => { :include => [:tasks, :acceptancetests] } } )
-      }
-    end
+    @stories = @iteration.stories
+    headers['Content-Type'] = "application/vnd.ms-excel"
+    render :layout => false
   end
   alias export_tasks export
 

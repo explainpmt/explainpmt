@@ -5,6 +5,12 @@ class StoriesController < ApplicationController
     @stories = @project.stories.backlog.select { |s|
       s.status != Story::Status::Cancelled
     }
+    respond_to do |format|
+      format.html { }
+      format.xml {
+        render :xml => @stories.to_xml
+      }
+    end
   end
 
   def cancelled
@@ -150,19 +156,9 @@ class StoriesController < ApplicationController
   end
 
   def export
-    respond_to do |format|
-      format.html {
-        headers['Content-Type'] = "application/vnd.ms-excel"
-        render :layout => false
-        @stories = @project.stories
-      }
-      format.xml {
-        @stories = @project.stories.backlog.select { |s|
-          s.status != Story::Status::Cancelled
-        }
-        render :xml => @stories.to_xml(:include => [:tasks, :acceptancetests])    
-      }
-    end
+    headers['Content-Type'] = "application/vnd.ms-excel"
+    render :layout => false
+    @stories = @project.stories
   end
   alias export_tasks export
 

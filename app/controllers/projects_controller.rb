@@ -4,12 +4,27 @@ class ProjectsController < ApplicationController
   before_filter :find_project, :except => [:index, :new, :create,]
 
   def index
-    paging = {:size => 50, :current => params[:page]}
-    @projects = current_user.admin? ? Project.find(:all, :order => 'name ASC', :page => paging) : current_user.projects.find(:all, :page => paging)
+    respond_to do |format|
+      format.html {
+        paging = {:size => 50, :current => params[:page]}
+        @projects = current_user.admin? ? Project.find(:all, :order => 'name ASC', :page => paging) : current_user.projects.find(:all, :page => paging)
+      }
+      format.xml {
+        @projects = Project.find(:all)
+        render :xml => @projects.to_xml(:include => :iterations)
+      }
+    end
   end
 
   def show
-    redirect_to project_dashboard_path(@project)
+    respond_to do |format|
+      format.html {
+        redirect_to project_dashboard_path(@project)
+      }
+      format.xml {
+        render :xml => @project.to_xml(:include => :iterations)
+      }
+    end
   end
 
   def team
