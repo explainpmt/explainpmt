@@ -150,9 +150,19 @@ class StoriesController < ApplicationController
   end
 
   def export
-    headers['Content-Type'] = "application/vnd.ms-excel"
-    @stories = @project.stories
-    render :layout => false
+    respond_to do |format|
+      format.html {
+        headers['Content-Type'] = "application/vnd.ms-excel"
+        render :layout => false
+        @stories = @project.stories
+      }
+      format.xml {
+        @stories = @project.stories.backlog.select { |s|
+          s.status != Story::Status::Cancelled
+        }
+        render :xml => @stories.to_xml(:include => [:tasks, :acceptancetests])    
+      }
+    end
   end
   alias export_tasks export
 

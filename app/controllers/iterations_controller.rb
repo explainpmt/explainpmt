@@ -82,9 +82,16 @@ class IterationsController < ApplicationController
   end
 
   def export
-    headers['Content-Type'] = "application/vnd.ms-excel"
-    @stories = @iteration.stories
-    render :layout => false
+    respond_to do |format|
+      @stories = @iteration.stories
+      format.html {
+        headers['Content-Type'] = "application/vnd.ms-excel"
+        render :layout => false
+      }
+      format.xml {
+        render :xml => @iteration.to_xml(:include => { :stories => { :include => [:tasks, :acceptancetests] } } )
+      }
+    end
   end
   alias export_tasks export
 
