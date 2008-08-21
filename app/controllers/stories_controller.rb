@@ -157,8 +157,8 @@ class StoriesController < ApplicationController
 
   def export
     headers['Content-Type'] = "application/vnd.ms-excel"
-    render :layout => false
     @stories = @project.stories
+    render :layout => false
   end
   alias export_tasks export
 
