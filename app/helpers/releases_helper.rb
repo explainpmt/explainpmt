@@ -10,6 +10,10 @@ module ReleasesHelper
   def link_to_edit_release(release, options={})
     link_to_remote(options[:value] || release.name, :url => edit_project_release_path(@project, release), :method => :get)
   end
+  
+  def link_to_assign_stories(release)
+    link_to_remote('Assign Story Cards', :url => select_stories_project_release_path(@project, release), :method => :get)
+  end
 
   def option_to_edit_release(release)
     create_action_option("Edit", edit_project_release_path(@project, release))

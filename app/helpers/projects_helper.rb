@@ -4,7 +4,11 @@ module ProjectsHelper
   end
 
   def project_audit_image(project)
-    link_to image_tag("xml.gif"), audits_project_path(project)
+    link_to image_tag("rss_small.png"), audits_project_path(project)
+  end
+  
+  def project_export_image(project)
+    link_to image_tag("xml.gif"), xml_export_project_path(project)
   end
 
   def project_dashboard_link(project)
