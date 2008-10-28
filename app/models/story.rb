@@ -190,14 +190,16 @@ class Story < ActiveRecord::Base
     {:successes => successes, :failures => failures}
   end
   
-  def self.assign_to_release(release, story)
+  def self.assign_many_to_release(release, stories)
     successes, failures = [], []
-    story.release = release
+    stories.each do |s|
+      s.release = release
       if s.save
         successes << "SC#{s.scid} has been moved."
       else
         failures << "SC#{s.scid} could not be moved."
       end
+    end
     {:successes => successes, :failures => failures}
   end
 

@@ -2,6 +2,7 @@
     (<%= link_to_edit_release(@release, :value=>"Edit") %>)
     <br/>
 </div>
+
 <h3><%= @release.name %></h3>
 <div id="IterationSummary">
     <%= render :partial => 'release_summary' %>
@@ -17,12 +18,16 @@
 <%= textilize(@release.description) %>
 <% end %>
 <br/>
+(<%= link_to_assign_stories(@release) %>)
 <% empty_collection_content(@stories) do %>
 <p>
     No stories are in this release yet.
 </p>
 <% end %>
 <% collection_content(@stories) do %>
+    <%= form_tag remove_stories_project_release_path(@project) %>
+<div class="move_to">Remove Selected Stories from Release? <%= submit_tag "Remove" %></div>
     <%= render( :partial => 'stories/stories', :locals => {:hide_cols => [ :project, :release]}) %>
+</form>
   <% end %>
 

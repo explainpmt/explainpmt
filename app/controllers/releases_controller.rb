@@ -52,9 +52,23 @@ class ReleasesController < ApplicationController
       page.redirect_to project_releases_path(@project)
     end
   end
+  
+  def select_stories
+    find_stories_not_in_release
+    @stories = @other_stories
+    render :update do |page|
+      page.call 'showPopup', render(:partial => 'select_stories')
+    end
+  end
 
-  def assign_story
-    change_story_release
+  def assign_stories
+    change_story_release(Release.find_by_id(params[:id]))
+    redirect_to project_release_path(@project, @release)
+  end
+  
+  def remove_stories
+    change_story_release(nil)
+    redirect_to project_release_path(@project, @release)
   end
 
   protected
@@ -64,15 +78,14 @@ class ReleasesController < ApplicationController
   end
   
   def find_stories_not_in_release
-     @other_stories = @project.stories.backlog.select { |s|
+     @other_stories = @project.stories.select { |s|
       s.release_id.nil?
     }
   end
   
-  def change_story_release
-    release = Release.find_by_id(params[:id])
-    story = Story.find(params[:story])
-    set_status_and_error_for(Story.assign_to_release(release, story))
+  def change_story_release(release)
+    stories = Story.find(params[:selected_stories]||[])
+    set_status_and_error_for(Story.assign_many_to_release(release, stories))
   end
 
   def common_popup(url)
