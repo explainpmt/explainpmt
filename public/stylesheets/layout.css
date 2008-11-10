@@ -22,7 +22,7 @@ p { margin: 0.5em 0 1em; }
 
 /** header **/
 #Header h1 { padding: 10px 15px; }
-#Header h1 a { display: block; width: 208px; height: 56px; text-indent: -9999px; background: url(/images/logo2.png) 0 no-repeat; overflow: hidden; }
+#Header h1 a { display: block; width: 208px; height: 56px; text-indent: -9999px; background: url(../images/logo2.png) 0 no-repeat; overflow: hidden; }
 #Header a { border: none; }
 #topbar { position: relative; padding: 5px 1em; font-size: 0.8em; font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; color: #fff; background: #6dae20; }
 #topbar a { color: #fff; }
@@ -69,7 +69,7 @@ p { margin: 0.5em 0 1em; }
 /** user card **/
 div.contact_card { float: left; margin: 2px; padding: 3px; width: 17em; border: 1px solid #ccc; }
 div.contact_card h3 { margin: 0 0 5px; font-weight: bold; background: #ff9; }
-div.contact_card h3.admin { padding: 0 17px 0 0; background: #ff9 url(/images/admin_dot.gif) center right no-repeat; }
+div.contact_card h3.admin { padding: 0 17px 0 0; background: #ff9 url(../images/admin_dot.gif) center right no-repeat; }
 div.contact_card ul { margin-top: 10px; text-align: right; }
 div.contact_card ul li { display: inline; }
 div.contact_card a { color: #f00; border: none; }
@@ -125,7 +125,7 @@ div.milestone_list { margin: 10px; }
 #login .pass { padding: 3px; color: #666; }
 #login input { width: 144px; color: #666; }
 #login input.btn { width: auto; }
-#login { margin-top: 100px; margin-left: auto; margin-right: auto; width: 440px; height: 221px; text-align: center; background: url('/images/login_bg.gif') no-repeat; }
+#login { margin-top: 100px; margin-left: auto; margin-right: auto; width: 440px; height: 221px; text-align: center; background: url('../images/login_bg.gif') no-repeat; }
 #login #form { position: relative; top: 80px; }
 #login #SystemStatus{ position: relative; top: 120px; width: 400px; margin: auto; text-align: left; padding: 20px; }
 #login #SystemError{ position: relative; top: 120px; width: 400px; margin: auto; text-align: left; padding: 20px; }
