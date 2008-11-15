@@ -69,6 +69,9 @@ class UsersController < ApplicationController
   def authenticate
     session[:current_user] = User.authenticate(params[:username], params[:password])
     if session[:current_user]
+      u = session[:current_user]
+      u.last_login = DateTime::now
+      u.save!
       if session[:return_to]
         redirect_to session[:return_to]
         session[:return_to] = nil
