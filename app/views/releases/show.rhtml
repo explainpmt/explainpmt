@@ -18,7 +18,7 @@
 <%= textilize(@release.description) %>
 <% end %>
 <br/>
-(<%= link_to_assign_stories(@release) %>)
+(<%= link_to_assign_release_stories(@release) %>)
 <% empty_collection_content(@stories) do %>
 <p>
     No stories are in this release yet.
