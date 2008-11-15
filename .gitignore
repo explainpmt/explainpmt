@@ -1,0 +1,11 @@
+*.log
+tmp/*
+*.sqlite3
+doc/api/*
+db/schema.rb
+*\*~*
+*.DS_Store
+._*
+public/images/*.svg
+nbproject*
+config/database.yml
