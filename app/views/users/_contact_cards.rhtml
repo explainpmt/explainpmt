@@ -13,7 +13,7 @@
       <% end %>
     </ul>
     <% admin_content do %>
-      <i>Last Login:</i><%= relative_date(user.last_login) %>
+      <i>Last Login:</i><%= user.last_login ? relative_date(user.last_login) : 'never' %>
     <% end %>
   </div>
 <%end%>
