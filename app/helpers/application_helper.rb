@@ -9,7 +9,6 @@ module ApplicationHelper
   include StoriesHelper
   include TasksHelper
   include UsersHelper
-  include PagingHelper
 
   VERSION = 'dev trunk'
 
