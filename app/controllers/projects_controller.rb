@@ -6,8 +6,7 @@ class ProjectsController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        paging = {:size => 50, :current => params[:page]}
-        @projects = current_user.admin? ? Project.find(:all, :order => 'name ASC', :page => paging) : current_user.projects.find(:all, :page => paging)
+        @projects = current_user.admin? ? Project.all(:order => 'name ASC') : current_user.projects
       }
       format.xml {
         @projects = Project.find(:all)
@@ -29,7 +28,7 @@ class ProjectsController < ApplicationController
 
   def team
     respond_to do |format|
-      format.html {@users = @project.users.find(:all, :page => {:size => 20, :current => params[:page]})}
+      format.html {@users = @project.users}
       format.js {
         render :update do |page|
           page.redirect_to team_project_path(@project)

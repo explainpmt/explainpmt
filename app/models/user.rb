@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
 
   def self.authenticate(uname, pword)
     u = find_by_username(uname) # need to get the salt
-    u && u.authenticated?(pword) ? u : nil
+    u && u.authenticated?(pword) ? u.id : nil
   end
 
   def self.encrypt(pword, salt)

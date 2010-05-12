@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   before_filter :require_current_project
 
   def current_user
-    session[:current_user]
+    @user ||= User.find(session[:current_user])
   end
 
   protected
@@ -23,7 +23,6 @@ class ApplicationController < ActionController::Base
     unless current_user.kind_of?(User)
       session[:return_to] = request.request_uri
       redirect_to login_users_path
-      return false
     end
   end
 
@@ -32,7 +31,6 @@ class ApplicationController < ActionController::Base
       flash[:error] = "You must be logged in as an administrator to perform " +
         "the requested action."
       redirect_to errors_path
-      return false
     end
   end
 
@@ -42,7 +40,6 @@ class ApplicationController < ActionController::Base
         flash[:error] = 'You do not have permission to access the project, ' +
           'because you are not part of the project team.'
         redirect_to errors_path
-        return false
       end
     end
   end
@@ -51,7 +48,6 @@ class ApplicationController < ActionController::Base
     unless @project
       flash[:error] = "You attempted to access a view that requires a project to be selected"
       redirect_to errors_path
-      return false
     end
   end
 

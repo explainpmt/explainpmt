@@ -45,7 +45,7 @@ function showPopup() {
   overlib.apply(null, arguments);
   overdivPopup = $('overDiv').down('div');
   if(overdivPopup.down('form')){
-    Form.focusFirstElement(overdivPopup.down('form'));
+      setTimeout("Form.focusFirstElement(overdivPopup.down('form'))",500);
   }
 }
 

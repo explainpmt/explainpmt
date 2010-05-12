@@ -10,20 +10,20 @@ class Release < ActiveRecord::Base
         s.points.nil?
       }
     end
-    
+
     def uncompleted
       self.select { |s|
         s.status != Story::Status::Complete and
         s.status != Story::Status::Accepted and
         s.status != Story::Status::Cancelled }
     end
-    
+
     def completed
       self.select { |s|
         s.status == Story::Status::Complete or
         s.status == Story::Status::Accepted  }
     end
-    
+
     def points_completed
       self.completed.inject(0) {|total, completed_story| total + completed_story.points.to_f}
     end

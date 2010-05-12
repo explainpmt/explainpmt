@@ -54,7 +54,7 @@ class UsersController < ApplicationController
   end
 
   def login
-    if session[:current_user]
+    if current_user
       redirect_to dashboards_path
     else
       render :layout => false
@@ -69,7 +69,7 @@ class UsersController < ApplicationController
   def authenticate
     session[:current_user] = User.authenticate(params[:username], params[:password])
     if session[:current_user]
-      u = session[:current_user]
+      u = User.find(session[:current_user])
       u.last_login = DateTime::now
       u.save!
       if session[:return_to]
