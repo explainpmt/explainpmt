@@ -9,7 +9,7 @@
 
   <% column_content_for(hide_cols, :story) do %>
     <td><%= link_to_story_with_sc(task.story)%></td>
-    <td><%= link_to_story(task.story)%><%=image_tag('info-icon.gif', :alt => truncate(task.story.description, 35)) if task.story.description? %></td>
+    <td><%= link_to_story(task.story)%><%=image_tag('info-icon.gif', :alt => truncate(task.story.description, :length => 35)) if task.story.description? %></td>
   <% end %>
 
   <td><%= link_to_edit_task(task)%><%= image_tag( 'info-icon.gif' ) if task.description? %></td>

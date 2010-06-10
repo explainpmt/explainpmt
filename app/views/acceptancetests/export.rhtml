@@ -19,7 +19,7 @@
     <% @project.acceptancetests.each do |at| %>
       <tr>
         <td><%= at.name %></td>
-        <td><%= at.story_id ? "#{at.story.scid}(#{truncate(at.story.title, 50)})" : "Not Assigned" %></td>
+        <td><%= at.story_id ? "#{at.story.scid}(#{truncate(at.story.title, :length => 50)})" : "Not Assigned" %></td>
         <td><%= at.description ? at.description : "N/A" %></td>
         <td><%= at.pre_condition ? at.pre_condition : "N/A" %></td>
         <td><%= at.post_condition ? at.post_condition : "N/A" %></td>
