@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   before_filter :require_current_project
 
   def current_user
-    @user ||= User.find(session[:current_user])
+    @user ||= session[:current_user] && User.find(session[:current_user]) || nil
   end
 
   protected
