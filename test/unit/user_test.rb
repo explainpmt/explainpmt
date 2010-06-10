@@ -1,10 +1,6 @@
-
-
-
 require File.dirname(__FILE__) + '/../test_helper'
 
-class UserTest < Test::Unit::TestCase
-  fixtures ALL_FIXTURES
+class UserTest < ActiveRecord::TestCase
 
   def setup
     @user_one = User.find 1
@@ -16,7 +12,7 @@ class UserTest < Test::Unit::TestCase
   end
 
   def test_authenticate
-    assert_equal(@user_one,
+    assert_equal(@user_one.id,
                  User.authenticate(@user_one.username, 'adminpass'))
   end
 

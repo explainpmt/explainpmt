@@ -1,10 +1,6 @@
-
-
-
 require File.dirname(__FILE__) + '/../test_helper'
 
-class StoryTest < Test::Unit::TestCase
-  fixtures ALL_FIXTURES
+class StoryTest < ActiveRecord::TestCase
 
   def setup
     @user_one = User.find 1

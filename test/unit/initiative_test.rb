@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class InitiativeTest < Test::Unit::TestCase
+class InitiativeTest < ActiveRecord::TestCase
   fixtures :initiatives
 
   # Replace this with your real tests.
