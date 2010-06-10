@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_filter :find_user, :only => [:edit, :update, :destroy, :remove_from_project]
 
   def index
-    @users = User.find(:all, :order => 'last_name ASC, first_name ASC',:page => {:size => 50, :current => params[:page]})
+    @users = User.find(:all, :order => 'last_name ASC, first_name ASC')
   end
 
   def new
