@@ -1,0 +1,19 @@
+<% milestones ||= @milestones %>
+<% table_id ||= "milestones" %>
+
+<% if milestones.present? %>
+	<table class="sort-table" width="100%" id="<%= table_id %>" cellspacing="0" cellpadding="3" border="0">
+		<thead>
+			<tr>
+				<td width="100">Date</td>
+				<td>Name</td>
+				<td>Action</td>
+			</tr>
+		</thead>
+		<tbody>
+			<%= render :partial => milestones %>
+		</tbody>
+	</table>
+<% else %>
+	<p>Nothing to Show</p>
+<% end %>

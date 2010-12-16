@@ -1,0 +1,41 @@
+<h3>Summary</h3>
+<table cellspacing="0" cellpadding="3" border="0">
+	<tr class="even_row">
+		<td><strong>Length</strong></td>
+		<td align="right"><%= @iteration.length %> days</td>
+	</tr>
+	<tr class="odd_row">
+		<td><strong>Velocity:</strong></td>
+		<td class="align_right"><%=@iteration.budget %> points</td>
+	</tr>
+	<% if @iteration.stop_date + 1 > Date.today %>
+	<tr class="even_row">
+		<td><strong>Planned:</strong></td>
+		<td class="align_right"><%= @iteration.stories.total_points %> points</td>
+	</tr>
+	<tr class="odd_row">
+		<td><strong>Available:</strong></td>
+		<td class="align_right"><%= @iteration.remaining_resources %> points</td>
+	</tr>
+	<% end %>
+</table>
+<% if @iteration.start_date <= Date.today %>
+	<table cellspacing="0" cellpadding="3" border="0">
+		<tr class="odd_row">
+			<td><strong>Completed:</strong></td>
+			<td class="align_right"><%= @iteration.stories.completed_points %> points</td>
+		</tr>
+		<% if (@iteration.stop_date + 1) > Date.today %>
+		<tr class="even_row">
+			<td><strong>Remaining:</strong></td>
+			<td class="align_right"><%= @iteration.stories.remaining_points %> points</td>
+		</tr>
+		<tr class="odd_row">
+			<td><strong>Time Remaining:</strong></td>
+			<td class="align_right">
+			<%= distance_of_time_in_words(Time.now, Time.parse((@iteration.stop_date + 1).to_s)) %>
+		</td>
+	</tr>
+	<% end %>
+</table>
+<% end %>

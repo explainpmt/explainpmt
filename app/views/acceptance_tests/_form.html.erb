@@ -1,0 +1,25 @@
+<h2>Acceptance Test Details</h2>
+<fieldset>
+	<%= form.label :name %>
+	<%= form.text_field :name %>
+	<%= form.label :description %>
+	<%= form.text_area :description %>
+	<%= form.label :pre_condition, "Pre Condition" %>
+	<%= form.text_area :pre_condition %>
+	<%= form.label :post_condition, "Post Condition" %>
+	<%= form.text_area :post_condition %>
+	<%= form.label :expected_result, "Expected Result" %>
+	<%= form.text_area :expected_result %>
+</fieldset>
+<fieldset>
+	<%= form.radio_button :automated, true %>
+	<%= form.label :automated, "Automated", :value => true, :class => "inline" %>
+	<%= form.radio_button :automated, false %>
+	<%= form.label :automated, "Manual", :value => false, :class => "inline" %>
+</fieldset>
+<fieldset>
+	<%= form.radio_button :pass, true %>
+	<%= form.label :pass, "Pass", :value => true, :class => "inline" %>
+	<%= form.radio_button :pass, false %>
+	<%= form.label :pass, "Fail", :value => false, :class => "inline" %>
+</fieldset>

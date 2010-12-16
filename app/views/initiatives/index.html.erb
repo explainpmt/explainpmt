@@ -1,0 +1,37 @@
+<h2>Initiatives</h2>
+<p>Initiatives allow for logical grouping of stories. </p>
+<p>When a story is created, it can be tied to an initiative. Stories can also be sorted by initiative. </p>
+<strong><%= link_to_new_initiative %></strong>
+<% if @initiatives.present? %>
+<table class="sort-table" width="100%" id="initiative_table" cellspacing="0" cellpadding="0" border="0">
+	<thead>
+		<tr>
+			<td>Initiative Name</td>
+			<td>Start Date</td>
+			<td>End Date</td>
+			<td>Customer</td>
+			<td>Action</td>
+		</tr>
+	</thead>
+	<tbody>
+	<% @initiatives.each do |initiative|%>
+		<tr>
+			<td><%= link_to_edit_initiative(initiative) %></td>
+			<td><%= initiative.start_date%></td>
+			<td><%= initiative.end_date%></td>
+			<td><%= initiative.customer%></td>
+			<td class="actions">
+				<select>
+					<option value="" selected="selected">&nbsp;</option>
+					<%= option_to_edit_initiative(initiative) %>
+					<%= option_to_delete_initiative(initiative) %>
+				</select>
+			</td>
+		</tr>
+	<% end %>
+	</tbody>
+</table>
+
+<% else %>
+<p>This project does not have any Initiatives yet.</p>
+<% end %>

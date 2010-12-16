@@ -1,0 +1,15 @@
+<div id="login">
+	<%= form_for @user_session, :url => user_session_path do |f| %>
+		<fieldset>
+		<%= f.label :login %>
+		<%= f.text_field :login %>
+		<%= f.label :password %>
+		<%= f.password_field :password %>
+		</fieldset>
+		<%= f.submit 'Login', :class => "button" %>
+	<% end %>
+	<div>
+		<span><%#= link_to_new_user('Register New User') %></span>
+		<span><%#= link_to_forgot %></span>
+	</div>
+</div>

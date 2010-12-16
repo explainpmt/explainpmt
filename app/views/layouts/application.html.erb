@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<title>ExplainPMT</title>
+		<%= stylesheet_link_tag "yui-reset", "screen" %>
+ 		<%= javascript_include_tag "jquery.min", "jquery-ui.min" %>
+		<%= csrf_meta_tag %>
+	</head>
+	<body>
+		<div id="header">
+			<h1><%= link_to 'ExplainPMT', root_path %></h1>
+			<div id="primary_nav">
+				<%= render :partial => 'shared/primary_nav' %>
+			</div>
+		</div>
+		<div id="main">
+			<% flash.each do |k,v| %>
+			<div class="flash <%= k %>">
+				<p><%= v %></p>
+			</div>
+			<% end %>
+			
+			<%= yield %>
+			
+		</div>
+		<div id="footer">
+			<p><strong><a href="http://code.google.com/p/explainpmt/issues/list" title="Issues? Requests? Submit them here" rel="external">eXPlain Project Management Tool</a></strong> - <%= ApplicationHelper::VERSION %> (<a href="/user_guide.doc">User Guide</a>)</p>
+			<p>This software is licensed under the <a href="http://www.gnu.org/copyleft/gpl.html">terms of the GPL.</a></p>
+		</div>
+	</body>
+</html>

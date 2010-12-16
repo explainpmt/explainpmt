@@ -1,0 +1,50 @@
+<div>
+	<h2>Iterations</h2>
+	<p>An iteration is a time boxed (typically 1 to 3 weeks long) plan, where stories are developed, tested, demonstrated, and prepared for production.</p>
+	<p>Stories are placed into the iteration in order of the most valuable to the customer. </p>
+
+	<h3><%= link_to_new_iteration %></h3>
+	<ul>
+		<li><%= link_to_current_iteration_in @project_iterations %></li>
+		<li><%= link_to_next_iteration_in @project_iterations %></li>
+		<li><%= link_to_previous_iteration_in @project_iterations %></li>
+	</ul>
+	<ul>
+		<%= render :partial => @project_iterations.future %>
+	</ul>
+	<ul>
+		<%= render :partial => @project_iterations.past %>
+	</ul>
+</div>
+<div>
+<% unless @project_iterations.present? %>
+	<p>This project does not have any Iterations yet.</p>
+<% end %>
+
+<% if @iteration %>
+	<div style="float: right;">
+		(<%= link_to_edit_iteration(@iteration, :text => "Edit") %>)
+		(<%= link_to_delete_iteration(@iteration) %>)
+		(<%= link_to_allocation(@iteration)%>)
+	</div>
+	<h2><%= header_for(@iteration) %></h2>
+
+	<div id="iteration_summary">
+		<%= render :partial => 'iteration_summary' %>
+	</div>
+
+	<h3>Story Cards</h3>
+	<%= link_to_new_iteration_story(@iteration) %>&nbsp;
+	<% if @project.stories.backlog.present? && @iteration.stop_date + 1 > Date.today %>
+		<%= link_to_assign_stories(@iteration) %>
+	<% end %>
+	<%= link_to_export_iteration_stories(@iteration) %>&nbsp;&nbsp;
+	<%= link_to_export_iteration_tasks(@iteration) %>
+
+	<% if @stories.present? %>
+	<!-- form or something goes here -->
+	<% else %>
+	<p>No stories have been assigned to this iteration.</p>
+	<% end %>
+<% end %>
+</div>

@@ -1,0 +1,35 @@
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+	<thead>
+		<tr>
+			<th><big>Iteration: <%= @iteration.name %></big></th>
+		</tr>
+		<tr>
+			<th>SCID</th>
+			<th>Title</th>
+			<th>Description</th>
+			<th>Initiative</th>
+			<th>Points</th>
+			<th>Priority</th>
+			<th>Risk</th>
+			<th>Status</th>
+			<th>Customer</th>
+			<th>Owner</th>
+		</tr>
+	</thead>
+	<tbody>
+	<% @stories.each do |story| %>
+		<tr>
+			<td><%= story.scid %></td>
+			<td><%= story.title%></td>
+			<td><%= story.description%></td>
+			<td><%=  story.initiative_id? ? story.initiative.name : "Not Assigned" %></td>
+			<td><%= story.points %></td>
+			<td><%= story.value.name %></td>
+			<td><%= story.risk.name %></td>
+			<td><%= story.status.name %></td>
+			<td><%= story.customer %></td>
+			<td><%= story.owner.full_name if story.owner%></td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>

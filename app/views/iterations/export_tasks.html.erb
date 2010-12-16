@@ -1,0 +1,29 @@
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+	<thead>
+		<tr>
+			<th colspan="6"><big>Iteration: <%= @iteration.name %></big></th>
+		</tr>
+		<tr>
+			<th>SCID</th>
+			<th>Story Title</th>
+			<th>Task Name</th>
+			<th>Description</th>
+			<th>Owner</th>
+			<th>Complete</th>
+		</tr>
+	</thead>
+	<tbody>
+	<% @stories.each do |story| %>
+		<% story.tasks.each do |task| %>
+		<tr>
+			<td><%= story.scid %></td>
+			<td><%= story.title %></td>
+			<td><%= task.name %></td>
+			<td><%= task.description %></td>
+			<td><% task.owner ? task.owner.full_name : "Not Assigned" %></td>
+			<td><% task.complete ? "Yes" : "Now" %></td>
+		</tr>
+		<% end %>
+	<% end %>
+	</tbody>
+</table>

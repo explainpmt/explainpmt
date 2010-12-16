@@ -1,0 +1,42 @@
+<div id="<%= dom_id(@acceptance_test) %>">
+	<h3>Acceptance Test Details</h3>
+	<p>
+		<label>Name</label>
+		<%= @acceptance_test.name %>
+	</p>
+	<% if @acceptance_test.description.present? %>
+	<p>
+		<label>Description</label>
+		<%= textilize(@acceptance_test.description) %>
+	</p>
+	<% end %>
+	<% if @acceptance_test.pre_condition.present? %>
+	<p>
+		<label>Pre Condition</label>
+		<%= textilize(@acceptance_test.pre_condition) %>
+	</p>
+	<% end %>
+	<% if @acceptance_test.post_condition.present? %>
+		<p>
+			<label>Post Condition</label>
+			<%= textilize(@acceptance_test.post_condition) %>
+		</p>
+	<% end %>
+	<% if @acceptance_test.expected_result.present? %>
+		<p>
+			<label>Expected Result</label>
+			<%= textilize(@acceptance_test.expected_result) %>
+		</p>
+	<% end %>
+	<p>
+		<label>Automated</label>
+		<%= @acceptance_test.automated? ? "Yes" : "No" %>
+	</p>
+	<p>
+		<label>Pass</label>
+		<%= @acceptance_test.pass? ? "Yes" : "No" %>
+	</p>
+	<p>
+		<%= link_to_edit_acceptance_test(@acceptance_test, :text => "Edit") %>
+	</p>
+</div>

@@ -1,0 +1,10 @@
+body { font-size: 12px; font-family: Arial, Helvetica, sans-serif; }
+
+h1 { font-size: 20px; }
+h2 { font-size: 16px; }
+
+form label { font-weight: bold; display: block; }
+  form label.inline { display: inline; }
+form textarea { width: 300px; height: 100px; }
+
+.align_right { text-align: right; }
