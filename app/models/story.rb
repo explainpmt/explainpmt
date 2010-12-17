@@ -1,4 +1,6 @@
 class Story < ActiveRecord::Base
+  include Position
+  
   belongs_to :project
   belongs_to :iteration
   belongs_to :initiative
@@ -10,6 +12,9 @@ class Story < ActiveRecord::Base
   has_many :tasks, :dependent => :destroy
   has_many :acceptance_tests, :dependent => :destroy
   
+  has_many  :audits,  :as => :auditable
+  
+  ## CHANGED => included Position module for now to limit dependence on outdated plugins.
   # acts_as_list :scope => :project_id
 
   Statuses = []
@@ -28,6 +33,7 @@ class Story < ActiveRecord::Base
   
   before_create :set_scid
   before_save   :before_save_reset_status
+  after_update  :audit_story
 
   composed_of :status, :mapping => %w(status order), :class_name => 'Story::Status'
   composed_of :value, :mapping => %w(value order), :class_name => 'Story::Value'
@@ -142,28 +148,8 @@ class Story < ActiveRecord::Base
     EOF
   end
 
-  def audits
-    Audit.find(:all, :conditions => ["project_id = #{project_id} AND audited_object_id = #{id} AND object = 'Story'"], :order => "created_at DESC")
-  end
-
   def audit_story
-    if !self.new_record?
-      story = Story.find(self.id)
-      audit = Audit.new
-      audit.audited_object_id = self.id
-      audit.object = "Story"
-      audit.project_id = self.project_id
-      audit.user = User.find(self.updater_id).full_name
-       self.attributes.each do |key, value|
-        if story.attributes[key] != value && key != "updater_id"
-            audit.before = "" unless audit.before
-            audit.after = "" unless audit.after
-            audit.before << key + "[" + story.attributes[key].to_s + "]\n"
-            audit.after << key + "[" + value.to_s + "]\n"
-        end
-       end
-      audit.save
-    end
+    Audit.create!(self, :update)
   end
 
   def assign_to(new_owner)
@@ -227,13 +213,14 @@ class Story < ActiveRecord::Base
   end
 
   private
-
+  ## TODO => don't know if this could be moved into validates_inclusion_of or something similar?
   def is_new_or_cancelled_if_not_defined
     unless is_defined? or [Status::New,Status::Cancelled].include?(self.status)
       errors[:status] << "can only be New or Cancelled unless all fields are complete"
     end
   end
-
+  
+  ## TODO => could this be written more readable?
   def has_iteration_only_if_defined
     unless is_defined?
       errors[:iteration] << "can only be specified for defined stories" if iteration

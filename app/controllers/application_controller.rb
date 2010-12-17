@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include Authlogic
+  
   protect_from_forgery
   layout 'application'
   
@@ -15,15 +17,6 @@ class ApplicationController < ActionController::Base
     request.accepts.sort!{ |x, y| ajax_request_types.include?(y.to_s) ? 1 : -1 } if request.xhr?
   end
   
-  def current_user=(user)
-    @current_user = user
-  end
-
-  def current_user
-    return @current_user if defined?(@current_user)
-    @current_user = current_user_session && current_user_session.user
-  end
-  
   def local_request?
     %w(staging).include?(Rails.env) || super
   end
@@ -38,20 +31,6 @@ class ApplicationController < ActionController::Base
     !current_user.nil?
   end
 
-  def current_user_session
-    return @current_user_session if defined?(@current_user_session)
-    @current_user_session = UserSession.find
-  end
-
-  def require_user
-    unless current_user
-      store_location
-      flash[:warning] = "Please login to access mobile banking features."
-      redirect_to "/login"
-      return false
-    end
-  end
-
   def store_location
     session[:return_to] = request.request_uri
   end
@@ -63,5 +42,10 @@ class ApplicationController < ActionController::Base
   
   def set_selected_project
     @project = params[:project_id] ? Project.find_by_id(params[:project_id]) : current_user.projects.first
+  end
+  
+  def set_status_and_error_for(results)
+    flash[:success] = results[:successes].join("\n\n") unless results[:successes].empty?
+    flash[:error] = results[:failures].join("\n\n") unless results[:failures].empty?
   end
 end

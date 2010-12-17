@@ -1,0 +1,11 @@
+<% iterations = @project.iterations%>
+<div class="move_to">
+	<% if iterations.present? %>
+	<%= hidden_field_tag :move_to %>
+    Move Selected Story Cards to:
+    <%= select_tag selected_id, iteration_select_list_for(iterations, default) %>
+    <%= submit_tag "Go" %>
+	<% else %>
+	<span style="color: #FF0000;">No iterations to move story cards to.</span>
+	<% end %>
+</div>

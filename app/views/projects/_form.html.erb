@@ -1,0 +1,13 @@
+<h2>Project Details</h2>
+<fieldset>
+	<%= form.label :name %>
+	<%= form.text_field :name %>
+	<%= form.label :planned_iterations, "Planned Iterations" %>
+	<%= form.text_field :planned_iterations, :size => 3 %>
+	<%= form.label :description %>
+	<%= form.text_area :description %>
+</fieldset>
+<fieldset>
+	<%= check_box_tag :add_me, '1', true %>
+	<%= label :add_me, "Add my account to the project team" %>
+</fieldset>

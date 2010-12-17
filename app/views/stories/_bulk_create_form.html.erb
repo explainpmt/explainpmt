@@ -1,0 +1,10 @@
+<%= form_for @story, create_many_project_stories_path(@project) do |f| %>
+	<h2>Bulk Story Card Creation</h2>
+	<fieldset>
+		<%= label_tag :titles, "Enter titles of new storycards, one per line:" %>
+		<%= f.text_area :titles, :cols => 71, :rows => 16, :class => 'large' %>
+	</fieldset>
+	<div class="submit">
+		<%= f.submit "Create Story Cards" %>
+	</div>
+<% end %>

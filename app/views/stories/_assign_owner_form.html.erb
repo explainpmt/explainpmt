@@ -1,0 +1,10 @@
+<%= form_for :owner, assign_project_story_path(@project, @story) do |f| %>
+	<% @users.each do |m| %>
+		<%= f.radio_button :id, m.id %>
+		<%= f.label :id, m.full_name, :value => m.id, :class => "inline" %>
+		<br />
+	<% end %>
+	<div class="submit">
+		<%= f.submit "Assign" %>
+	</div>
+<% end %>

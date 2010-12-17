@@ -1,0 +1,10 @@
+<%= form_for @story, set_numeric_priority_project_story_path(@project, @story), :html => { :method => :put } do |f| %>
+	<h2>Story Priority</h2>
+	<fieldset>
+		<%= f.label :position, "Priority:" %>
+		<%= f.text_field :position %>
+	</fieldset>
+	<div class="submit">
+		<%= f.submit "Update Position" %>
+	</div>
+<% end %>

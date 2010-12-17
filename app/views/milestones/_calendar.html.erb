@@ -1,0 +1,33 @@
+<div id="milestones_calendar">
+	<h3><%= @calendar_title %></h3><br />
+	<h4 style="margin:0 0 3px 0;padding:0 0 3px 0;border-bottom:1px solid black;">
+	<%= Date::MONTHNAMES[@days.first[:date].mon] %></h4>
+	<table class="calendar" width="100%" cellspacing="0" cellpadding="3">
+		<tr>
+		<% @days[0..6].each do |day| %>
+			<th><%= day[:name] %></th>
+		<% end %>
+		</tr>
+		<% @days.each_slice(7) do |week| %>
+			<tr>
+				<% week.each do |day| %>
+					<td style="<%= (day[:date] == Date.today) ? 'background-color:#FFCCCC;' : '' %>">
+						<strong><%= day[:date].day %></strong>
+						<% unless day[:milestones].empty? %>
+						<ul>
+						<% day[:milestones].each do |milestone| %>
+							<li>
+								<% milestone_popup_name = @project ? milestone.name : "#{milestone.project.name}: #{milestone.name}"  -%>
+								<%= link_to_show_milestone(milestone, :value => milestone_popup_name) %>
+							</li>
+						<% end %>
+						</ul>
+						<% end %>
+					</td>
+				<% end %>
+			</tr>
+		<% end %>
+	</table>
+</div>
+
+

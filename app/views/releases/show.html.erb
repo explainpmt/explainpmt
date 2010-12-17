@@ -1,0 +1,23 @@
+<div style="float: right;">
+	(<%= link_to_edit_release(@release, :value=>"Edit") %>)
+</div>
+<div>
+<h3><%= @release.name %></h3>
+	<div id="release_summary">
+		<%= render :partial => 'release_summary' %>
+	</div>
+	<% unless @release.description.blank? %>
+	<label><strong>Description</strong></label>
+	<%= textilize(@release.description) %>
+	<% end %>
+	<br/>
+	(<%= link_to_assign_release_stories(@release) %>)
+	<% if @stories.present? %>
+	<%= form_tag remove_stories_project_release_path(@project) %>
+		<div class="move_to">Remove Selected Stories from Release? <%= submit_tag "Remove" %></div>
+		<%= render :partial => 'stories/stories', :locals => { :hide_cols => [ :project, :release] } %>
+	</form>
+	<% else %>
+	<p>No stories are in this release yet.</p>
+	<% end %>
+</div>

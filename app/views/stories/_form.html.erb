@@ -1,0 +1,25 @@
+<h2>Story Card Details</h2>
+<fieldset>
+	<%= form.label :title %>
+	<%= form.text_area :title %>
+	<%= form.label :initiative_id %>
+	<%= form.select :initiative_id, @project.initiatives.map{|x|[x.name, x.id]}, :include_blank => true %>
+	<%= form.label :release_id %>
+	<%= form.select :release_id, @project.release.map{|x|[x.name, x.id]}, :include_blank => true %>
+	<%= form.label :customer %>
+	<%= form.text_field :customer %>
+</fieldset>
+<fieldset>
+	<%= form.label :status %>
+	<%= form.select :status, Story::Statuses.collect{|x|[x.name, x.order] }%>
+	<%= form.label :value %>
+	<%= form.select :value, Story::Values.collect{|x|[x.name, x.order] }%>
+	<%= form.label :risk %>
+	<%= form.select :risk, Story::Risks.collect{|x|[x.name, x.order] }%>
+</fieldset>
+<fieldset>
+	<%= form.label :points %>
+	<%= form.text_field :points, :size => 2 %>
+	<%= form.label :description %>
+	<%= form.text_area :description %>
+</fieldset>

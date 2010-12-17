@@ -1,0 +1,24 @@
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+	<thead>
+		<th>SCID</th>
+		<th>Story Title</th>
+		<th>Task Name</th>
+		<th>Description</th>
+		<th>Owner</th>
+		<th>Complete</th>
+	</thead>
+	<tbody>
+	<% @stories.each do |story| %>
+		<% story.tasks.each do |task| %>
+		<tr>
+			<td>SC<%= story.scid %></td>
+			<td><%= story.title %></td>
+			<td><%= task.name %></td>
+			<td><%= task.description%></td>
+			<td><%= task.owner ? task.owner.full_name : "Not Assigned"%></td>
+			<td><%= task.complete ? "Yes" : "No" %></td>
+		</tr>
+		<% end %>
+	<% end %>
+  	</tbody>
+</table>

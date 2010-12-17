@@ -1,0 +1,21 @@
+<h2>User Details</h2>
+<fieldset>
+	<%= form.label :login, "Username" %>
+	<%= form.text_field :login %>
+	<%= form.label :password %>
+	<%= form.password_field :password %>
+	<%= form.label :password_confirmation, "Password Confirmation" %>
+	<%= form.password_field :password_confirmation %>
+	<%= form.label :team %>
+	<%= form.text_field :team %>
+	<%= form.label :email %>
+	<%= form.text_field :email %>
+	<%= form.label :first_name, "First Name" %>
+	<%= form.text_field :first_name %>
+	<%= form.label :last_name, "Last Name" %>
+	<%= form.text_field :last_name %>
+	<% if is_admin? %>
+		<%= f.check_box :admin %>
+		<%= f.label :admin, "Admin", :class => "inline" %>
+	<% end %>
+</fieldset>

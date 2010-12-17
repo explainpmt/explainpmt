@@ -1,0 +1,35 @@
+<p><strong><%= link_to 'Create New Project', new_project_path %></strong></p>
+
+<% if @projects.present? %>
+	<table class="sort-table" width="100%" id="projectsTable" cellspacing="0" cellpadding="3" border="0">
+		<thead>
+			<tr>
+				<td>&nbsp;</td>
+				<td>Projects</td>
+				<td>Action</td>
+			</tr>
+		</thead>
+		<tbody>
+		<% @projects.each do |project| %>
+			<tr class="<%= cycle("even_row", "odd_row") %>">
+				<td width="4%"><%= project_audit_image(project) %></td>
+				<td>
+					<%= project_dashboard_link(project) %><br />
+					<%= textilize(project.description) %>
+				</td>
+				<td class="actions">
+					<select>
+						<option value="" selected="selected">&nbsp;</option>
+						<%= option_to_view_team(project) %>
+						<%= option_to_edit_project(project) %>
+						<%= option_to_delete_project(project) %>
+						<%= option_to_export_project(project) %>
+					</select>
+				</td>
+			</tr>
+		<% end %>
+		</tbody>
+	</table>
+<% else %>
+	<p>You have no projects defined.</p>
+<% end %>

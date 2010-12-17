@@ -1,0 +1,34 @@
+<div>
+	<h2>Releases</h2>
+	<strong><%= link_to_new_release %></strong>
+</div>
+<div>
+	<% if @releases.present? %>
+	<table class="sort-table" width="100%" id="releasesTable" cellspacing="0" cellpadding="3" border="0">
+		<thead>
+			<tr>
+				<td>Name</td>
+				<td>Date</td>
+				<td>Action</td>
+			</tr>
+		</thead>
+		<tbody>
+		<% @releases.each do |release| %>
+			<tr class="<%= cycle("even_row", "odd_row") %>">
+				<td><%= link_to_release(release) %><br /><%= textilize(release.description) %></td>
+				<td><strong><%= numeric_date(release.date) %></strong></td>
+				<td class="actions">
+					<select>
+						<option value="" selected="selected">&nbsp;</option>
+						<%= option_to_edit_release(release)%>
+						<%= option_to_delete_release(release)%>
+					</select>
+				</td>
+			</tr>
+		<% end %>
+		</tbody>
+	</table>
+	<% else %>
+	<p>This project does not have any Releases yet.</p>
+	<% end %>
+</div>

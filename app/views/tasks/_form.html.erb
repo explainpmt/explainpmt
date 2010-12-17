@@ -1,0 +1,15 @@
+<h2>Task Details</h2>
+<fieldset>
+	<%= form.label :name %>
+	<%= form.text_field :name %>
+	<%= form.label :description %>
+	<%= form.text_area :description %>
+	<%= form.label :owner %>
+	<%= form.select :user_id, @project.users.collect {|u| [ u.full_name, u.id ] }, {:include_blank => true} %>
+</fieldset>
+<fieldset>
+	<%= form.radio_button :complete, true %>
+	<%= form.label :complete, "Complete", :value => true %>
+	<%= form.radio_button :complete, false %>
+	<%= form.label :complete, "Not Complete", :value => false %>
+</fieldset>

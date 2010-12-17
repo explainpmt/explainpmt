@@ -1,0 +1,8 @@
+<div>
+	<h3>My Projects:</h3>
+	<ul id="project_list">
+	<% @projects.each do |project| %>
+		<li><%= link_to project.name, project_dashboard_path(project) %></li>
+	<% end %>
+	</ul>
+</div>
