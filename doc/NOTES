@@ -1,0 +1,3 @@
+* Rake task for upgrading
+  - convert audits/users tables (or don't and rollback the current migrations and append to the old)
+  - 

@@ -1,5 +1,9 @@
 class User < ActiveRecord::Base
-  acts_as_authentic
+  acts_as_authentic do |c|
+    ## Allow existing users to login with their current passwords which were previously hashed using Sha1
+    ## transition will force authlogic to rehash those passwords using Sha512
+    c.transition_from_crypto_providers = OldSha1
+  end
   cattr_accessor :current_user
   
   has_and_belongs_to_many :projects

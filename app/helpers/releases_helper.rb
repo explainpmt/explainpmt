@@ -4,15 +4,15 @@ module ReleasesHelper
   end
 
   def link_to_new_release
-    link_to_remote 'Add a Release', :url => new_project_release_path(@project), :method => :get
+    link_to 'Add a Release', new_project_release_path(@project)
   end
 
   def link_to_edit_release(release, options={})
-    link_to_remote(options[:value] || release.name, :url => edit_project_release_path(@project, release), :method => :get)
+    link_to (options[:text] || release.name), edit_project_release_path(@project, release)
   end
   
   def link_to_assign_release_stories(release)
-    link_to_remote('Assign Story Cards', :url => select_stories_project_release_path(@project, release), :method => :get)
+    link_to 'Assign Story Cards', select_stories_project_release_path(@project, release)
   end
 
   def option_to_edit_release(release)

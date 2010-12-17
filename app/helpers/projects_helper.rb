@@ -35,6 +35,6 @@ module ProjectsHelper
   end
 
   def link_to_add_users
-    link_to_remote("Add Users to Project", :url => add_users_project_path(@project), :method => :get)
+    link_to "Add Users to Project", add_users_project_path(@project)
   end
 end

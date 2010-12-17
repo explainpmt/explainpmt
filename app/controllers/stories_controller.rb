@@ -207,7 +207,7 @@ class StoriesController < ApplicationController
         s.status != Story::Status::Cancelled
       }
     end
-    render :partial => 'display_backlog'
+    render :partial => 'backlog'
   end
 
   protected

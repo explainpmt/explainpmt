@@ -55,11 +55,11 @@ module StoriesHelper
   end
 
   def link_to_edit_story(story, options={})
-    link_to_remote(options[:value] || story.title, :url => edit_project_story_path(@project, story), :method => :get)
+    link_to (options[:text] || story.title), edit_project_story_path(@project, story)
   end
 
   def link_to_audit_story(story)
-    link_to_remote("View History", :url => audit_project_story_path(@project, story), :method => :get)
+    link_to "View History", audit_project_story_path(@project, story)
   end
 
   def option_to_edit_story(story)

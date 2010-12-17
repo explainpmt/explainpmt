@@ -1,4 +1,7 @@
 class UserSessionsController < ApplicationController
+  
+  layout nil
+  skip_before_filter :require_user, :only => [:new, :create]
 
   def new
     if logged_in?

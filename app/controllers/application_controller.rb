@@ -3,14 +3,13 @@ class ApplicationController < ActionController::Base
   
   protect_from_forgery
   layout 'application'
+
+
+  before_filter :require_user
+  before_filter :correct_safari_and_ie_accept_headers, :set_selected_project
   
-  helper_method :current_user, :logged_in?
-  
-  before_filter :correct_safari_and_ie_accept_headers
   before_filter { |c| User.current_user = c.current_user if c.current_user }
   before_filter { |c| (c.action_has_layout = false) if c.request.xhr? }
-  
-  before_filter :set_selected_project
   
   def correct_safari_and_ie_accept_headers
     ajax_request_types = ['text/javascript', 'application/json', 'text/xml']
@@ -41,6 +40,7 @@ class ApplicationController < ActionController::Base
   end
   
   def set_selected_project
+    return unless logged_in?
     @project = params[:project_id] ? Project.find_by_id(params[:project_id]) : current_user.projects.first
   end
   
