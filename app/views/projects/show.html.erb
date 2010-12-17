@@ -1,0 +1,22 @@
+<% if @project.description? %>
+	<div id="project_description">
+		<strong>Description:</strong>
+		<%= textilize(@project.description) %>
+	</div>
+<% end %>
+
+<%= milestones_calendar %>
+
+<% if @stories.present? %>
+<div>
+	<h3>My Stories:</h3>
+	<%= render :partial => 'stories/stories', :locals => {:hide_cols => [ :checkbox, :owner, :project ]} %>
+</div>
+<% end %>
+
+<% if @tasks.present? do %>
+<div>
+	<h3>My Tasks:</h3>
+	<%= render :partial => 'tasks/tasks', :locals => {:hide_cols => [ :project, :owner ]} %>
+</div>
+<% end %>
