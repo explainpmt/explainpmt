@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
   before_filter { |c| User.current_user = c.current_user if c.current_user }
   before_filter { |c| (c.action_has_layout = false) if c.request.xhr? }
   
+  helper_method :is_admin?
+  
   def correct_safari_and_ie_accept_headers
     ajax_request_types = ['text/javascript', 'application/json', 'text/xml']
     request.accepts.sort!{ |x, y| ajax_request_types.include?(y.to_s) ? 1 : -1 } if request.xhr?
@@ -28,6 +30,10 @@ class ApplicationController < ActionController::Base
   
   def logged_in?
     !current_user.nil?
+  end
+  
+  def is_admin?
+    logged_in? && current_user.is_admin?
   end
 
   def store_location

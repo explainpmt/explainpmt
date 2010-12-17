@@ -18,7 +18,7 @@ class ProjectsController < ApplicationController
   def show
     respond_to do |format|
       format.html {
-        redirect_to project_dashboard_path(@project)
+        redirect_to project_path(@project)
       }
       format.xml {
         render :xml => @project.to_xml(:include => :iterations)

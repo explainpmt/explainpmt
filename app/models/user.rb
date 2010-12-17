@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
   has_many :milestones, :through => :projects
   validates_presence_of :first_name, :last_name
   
+  has_many  :tasks, :conditions => "story_id in (select id from stories where status not in (7,8))"
+  
   def stories_for(project)
     stories.where("project_id=?", project.id)
   end
@@ -19,11 +21,6 @@ class User < ActiveRecord::Base
   def tasks_for(project)
     ## TODO => make 7,8 not hard-coded?
     tasks.where("story_id in (select id from stories where project_id=? and status not in (7,8))", project.id)
-  end
-
-  def tasks
-    ## TODO => make 7,8 not hard-coded?
-    tasks.where("story_id in (select id from stories where status not in (7,8))")
   end
 
   def full_name(last_first = false)

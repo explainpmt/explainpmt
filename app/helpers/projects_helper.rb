@@ -12,7 +12,7 @@ module ProjectsHelper
   end
 
   def project_dashboard_link(project)
-    link_to project.name, project_dashboard_path(project)
+    link_to project.name, project_path(project)
   end
 
   def option_to_view_team(project)
