@@ -1,0 +1,20 @@
+<h3>Allocation: <%= @iteration.name %></h3>
+<strong>Not Assigned = <%= @allocations[nil] %> </strong>
+<table class="sort-table" width="100%" id="allocation" cellspacing="0" cellpadding="0" border="0">
+	<thead>
+		<tr>
+			<td>User</td>
+			<td>Points</td>
+		</tr>
+	</thead>
+	<tbody>
+		<% @users.each do |u| %>
+			<% if @allocations[u.id] != 0%>
+			<tr>
+				<td><%= u.full_name %></td>
+				<td><%= @allocations[u.id] %></td>
+			</tr>
+			<% end %>
+		<% end %>
+	</tbody>
+</table>

@@ -5,7 +5,7 @@
 	<%= form.label :initiative_id %>
 	<%= form.select :initiative_id, @project.initiatives.map{|x|[x.name, x.id]}, :include_blank => true %>
 	<%= form.label :release_id %>
-	<%= form.select :release_id, @project.release.map{|x|[x.name, x.id]}, :include_blank => true %>
+	<%= form.select :release_id, @project.releases.map{|x|[x.name, x.id]}, :include_blank => true %>
 	<%= form.label :customer %>
 	<%= form.text_field :customer %>
 </fieldset>

@@ -15,7 +15,7 @@ module StoriesHelper
   end
 
   def link_to_new_stories
-    link_to 'Bulk Create', :url => bulk_create_project_stories_path(@project)
+    link_to 'Bulk Create', bulk_create_project_stories_path(@project)
   end
 
   def link_to_story_with_sc(story)
@@ -27,7 +27,7 @@ module StoriesHelper
   end
 
   def link_to_assign_story_ownership(story)
-    link_to 'assign', :url => assign_ownership_project_story_path(@project, story)
+    link_to 'assign', assign_ownership_project_story_path(@project, story)
   end
 
   def link_to_take_story_ownership(story)

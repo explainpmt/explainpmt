@@ -1,0 +1,33 @@
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+	<thead>
+		<tr>
+			<th colspan="9"><big>Project: <%= @project.name %></big></th>
+		</tr>
+		<tr>
+			<th>Test Name</th>
+			<th>Story</th>
+			<th>Description</th>
+			<th>Pre-Condition</th>
+			<th>Post-Condition</th>
+			<th>Expected Result</th>
+			<th>Iteration</th>
+			<th>Automated</th>
+			<th>Pass</th>
+		</tr>
+	</thead>
+	<tbody>
+	<% @project.acceptance_tests.each do |at| %>
+		<tr>
+			<td><%= at.name %></td>
+			<td><%= at.story_id ? "#{at.story.scid}(#{truncate(at.story.title, :length => 50)})" : "Not Assigned" %></td>
+			<td><%= at.description ? at.description : "N/A" %></td>
+			<td><%= at.pre_condition ? at.pre_condition : "N/A" %></td>
+			<td><%= at.post_condition ? at.post_condition : "N/A" %></td>
+			<td><%= at.expected_result ? at.expected_result : "N/A" %></td>
+			<td><%= at.story.iteration_id ? at.story.iteration.name : "Not Assigned" if at.story_id %></td>
+			<td><%= at.automated? ? "Yes" : "Not" %></td>
+			<td><%= at.pass? ? "Yes" : "No" %></td>
+		</tr>
+	<% end %>
+	</tbody>
+</table>

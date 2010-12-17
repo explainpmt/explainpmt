@@ -24,7 +24,6 @@ module Authlogic
   end
 
   def require_user
-    p '*'*90
     unless current_user
       store_location
       flash[:warning] = "You must be logged in to access this page"

@@ -1,3 +1,4 @@
+require 'position'
 class Story < ActiveRecord::Base
   include Position
   
