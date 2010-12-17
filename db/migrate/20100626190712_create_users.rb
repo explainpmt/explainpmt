@@ -21,8 +21,16 @@ class CreateUsers < ActiveRecord::Migration
       t.boolean :is_admin,  :null => false, :default => 0
       t.string  :team
       
+      t.string  :first_name
+      t.string  :last_name
+      
       t.timestamps
     end
+    
+    add_index :users, :login, :unique => true
+    add_index :users, :email, :unique => true
+    add_index :users, :single_access_token
+    add_index :users, :perishable_token
   end
 
   def self.down

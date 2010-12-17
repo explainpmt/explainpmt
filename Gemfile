@@ -4,6 +4,7 @@ gem 'rails', '3.0.3'
 
 gem 'capistrano'
 gem 'mysql'
+gem 'RedCloth'
 gem 'will_paginate'
 
 group :development do
