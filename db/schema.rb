@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(:version => 20101216190927) do
     t.integer  "auditable_id"
     t.string   "auditable_type"
     t.integer  "user_id"
-    t.integer  "admin_id"
+    t.integer  "project_id"
     t.string   "action"
     t.text     "auditable_changes"
     t.datetime "created_at"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(:version => 20101216190927) do
   end
 
   add_index "audits", ["auditable_type", "auditable_id"], :name => "auditable_index"
+  add_index "audits", ["project_id"], :name => "index_audits_on_project_id"
   add_index "audits", ["created_at"], :name => "index_audits_on_created_at"
 
   create_table "initiatives", :force => true do |t|

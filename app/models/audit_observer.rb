@@ -1,7 +1,7 @@
 class AuditObserver < ActiveRecord::Observer
   
   ## TODO => figure out what else to audit??
-  observe :user
+  observe :story
   
   def after_create(model)
     audit!(model, :create)

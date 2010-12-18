@@ -3,6 +3,7 @@ source 'http://rubygems.org'
 gem 'rails', '3.0.3'
 
 gem 'capistrano'
+gem 'fastercsv'
 gem 'mysql'
 gem 'RedCloth'
 gem 'will_paginate'

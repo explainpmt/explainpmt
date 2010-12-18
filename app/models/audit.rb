@@ -24,6 +24,7 @@ class Audit < ActiveRecord::Base
     return unless user
     a = Audit.new
     a.user_id = user.id
+    a.project_id = model.project_id if model.respond_to?(:project_id)
     a.auditable_id = model.id
     a.auditable_type = model.class.name
     a.action = action.to_s
