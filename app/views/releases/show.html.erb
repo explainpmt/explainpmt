@@ -4,7 +4,7 @@
 <div>
 <h3><%= @release.name %></h3>
 	<div id="release_summary">
-		<%= render :partial => 'release_summary' %>
+		<%= render :partial => 'summary' %>
 	</div>
 	<% unless @release.description.blank? %>
 	<label><strong>Description</strong></label>

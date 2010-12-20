@@ -10,32 +10,45 @@ class MilestonesController < ApplicationController
     @milestone = Milestone.new
   end
 
-  def edit
-  end
-
-  def show
-  end
-
   def create
     @milestone = Milestone.new params[:milestone]
     @milestone.project = @project
-    render :update do |page|
+    
+    respond_to do |format|
       if @milestone.save
-        flash[:status] = "New Milestone \"#{@milestone.name}\" has been created."
-        page.redirect_to project_milestones_path(@project)
+        msg = "New Milestone \"#{@milestone.name}\" has been created."
+        format.html { 
+          flash[:success] = msg
+          redirect_to project_milestones_path(@project)
+        }
+        format.js { render :json => { :message => msg } }
       else
-        page[:flash_notice].replace_html :inline => "<%= error_container(@milestone.errors.full_messages[0]) %>"
+        msg = @milestone.errors.full_messages.to_sentence
+        format.html {
+          flash[:error] = msg
+          render :new
+        }
+        format.js { render :json => { :errors => msg }}
       end
     end
   end
 
   def update
-    render :update do |page|
+    respond_to do |format|
       if @milestone.update_attributes(params[:milestone])
-        flash[:status] = "Milestone \"#{@milestone.name}\" has been updated."
-        page.call 'location.reload'
+        msg = "Milestone \"#{@milestone.name}\" has been updated."
+        format.html { 
+          flash[:success] = msg
+          redirect_to project_milestones_path(@project)
+        }
+        format.js { render :json => { :message => msg } }
       else
-        page[:flash_notice].replace_html :inline => "<%= error_container(@milestone.errors.full_messages[0]) %>"
+        msg = @milestone.errors.full_messages.to_sentence
+        format.html {
+          flash[:error] = msg
+          render :edit
+        }
+        format.js { render :json => { :errors => msg }}
       end
     end
   end

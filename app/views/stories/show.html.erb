@@ -61,19 +61,17 @@
   <%= textilize(@story.description) %>
 <% end %><br />
 <h3>Tasks</h3>
-<% empty_collection_content(@tasks) do %>
-  No tasks have been defined for this story.
-<% end %>
-<% collection_content(@tasks) do %>
-  <%= render :partial => 'tasks/tasks', :locals => {:hide_cols => [ :project, :story, :iteration ]} %>
+<% if @tasks.present? %>
+	<%= render :partial => 'tasks/tasks', :locals => {:hide_cols => [ :project, :story, :iteration ]} %>
+<% else %>
+	<p>No tasks have been defined for this story.</p>
 <% end %>
 
 <br /><br />
 
 <h3>Acceptance Tests</h3>
-<% empty_collection_content(@acceptancetests) do %>
-  No acceptance tests have been defined for this story.
-<% end %>
-<% collection_content(@acceptancetests) do %>
-  <%= render( :partial => 'acceptancetests/acceptancetests', :locals => {:hide_cols => [ :checkbox, :story, :iteration ]}) %>
+<% if @acceptance_tests.present? %>
+	<%= render( :partial => 'acceptance_tests/acceptance_tests', :locals => {:hide_cols => [ :checkbox, :story, :iteration ]}) %>
+<% else %>
+	<p>No acceptance tests have been defined for this story.</p>
 <% end %>

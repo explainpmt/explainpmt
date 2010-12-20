@@ -114,7 +114,7 @@ class ProjectsController < ApplicationController
         end
       }
       format.html{redirect_to formatted_xml_export_project_path(@project, :xml)}
-      format.xml{render :xml => @project.to_xml(:include => { :iterations => { :include => { :stories => { :include => [:tasks, :acceptancetests] } } } })  }
+      format.xml{render :xml => @project.to_xml(:include => { :iterations => { :include => { :stories => { :include => [:tasks, :acceptance_tests] } } } })  }
     end
   end
 

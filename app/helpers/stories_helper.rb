@@ -39,7 +39,7 @@ module StoriesHelper
   end
 
   def link_to_new_acceptance_for(story)
-    link_to 'Add Acceptance', new_project_story_acceptancetest_path(@project, story)
+    link_to 'Add Acceptance', new_project_story_acceptance_test_path(@project, story)
   end
 
   def link_to_export_stories

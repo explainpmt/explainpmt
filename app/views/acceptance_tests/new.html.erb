@@ -1,4 +1,5 @@
 <%= form_for [@project, @acceptance_test] do |f| %>
 	<%= render :partial => f %>
+	<%= f.hidden_field :story_id, :value => params[:story_id] %>
 	<%= f.submit %>
 <% end %>

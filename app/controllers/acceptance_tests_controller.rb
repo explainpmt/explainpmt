@@ -25,7 +25,7 @@ class AcceptanceTestsController < ApplicationController
         msg = "New Acceptance Test \"#{@acceptance_test.name}\" has been created."
         format.html { 
           flash[:success] = msg
-          redirect_to acceptance_tests_path
+          redirect_to project_acceptance_tests_path(@project)
         }
         format.js { render :json => { :message => msg } }
       else

@@ -1,38 +1,39 @@
 <tr>
-  <% column_content_for(hide_cols, :project) do %>
-    <td><%= link_to(task.story.project.name, project_dashboard_path(task.story.project)) %></td>
-  <% end %>
+	<%= column_content_for(hide_cols, :project) do %>
+	<td><%= link_to(task.story.project.name, project_dashboard_path(task.story.project)) %></td>
+	<% end %>
 
-  <% column_content_for(hide_cols, :iteration) do %>
-    <td><%= task.story.iteration_id ? link_to_iteration(task.story.iteration) : "Not Assigned" %></td>
-  <% end %>
+	<%= column_content_for(hide_cols, :iteration) do %>
+	<td><%= task.story.iteration_id ? link_to_iteration(task.story.iteration) : "Not Assigned" %></td>
+	<% end %>
 
-  <% column_content_for(hide_cols, :story) do %>
-    <td><%= link_to_story_with_sc(task.story)%></td>
-    <td><%= link_to_story(task.story)%><%=image_tag('info-icon.gif', :alt => truncate(task.story.description, :length => 35)) if task.story.description? %></td>
-  <% end %>
+	<%= column_content_for(hide_cols, :story) do %>
+	<td><%= link_to_story_with_sc(task.story)%></td>
+	<td><%= link_to_story(task.story)%><%=image_tag('info-icon.gif', :alt => truncate(task.story.description, :length => 35)) if task.story.description? %></td>
+	<% end %>
 
-  <td><%= link_to_edit_task(task)%><%= image_tag( 'info-icon.gif' ) if task.description? %></td>
-  <td><%= textilize(task.description) %></td>
-  <td><%if task.complete == true %>Yes<%else%>No<% end %></td>
+	<td><%= link_to_edit_task(task)%><%= image_tag( 'info-icon.gif' ) if task.description? %></td>
+	<td><%= textilize(task.description) %></td>
+	<td><%if task.complete == true %>Yes<%else%>No<% end %></td>
 
-  <% column_content_for(hide_cols, :owner) do %>
-    <td><% if task.owner %>
-          <%= task.owner.full_name %>
-          <%= "(#{link_to_release_task_ownership(task)})" %>
-        <% else %>
-          <%='None (' + link_to_take_task_ownership(task) + '/' + link_to_assign_task_ownership(task) + ')'%>
-        <% end %>
-    </td>
-  <% end %>
+	<%= column_content_for(hide_cols, :owner) do %>
+	<td>
+	<% if task.owner %>
+		<%= task.owner.full_name %>
+		<%= "(#{link_to_release_task_ownership(task)})" %>
+	<% else %>
+		<%='None (' + link_to_take_task_ownership(task) + '/' + link_to_assign_task_ownership(task) + ')'%>
+	<% end %>
+	</td>
+	<% end %>
 
-  <% column_content_for(hide_cols, :action) do %>
-    <td class="actions">
-      <select onchange="take_action(this);">
-        <option value="" selected="selected">&nbsp;</option>
-        <%= option_to_edit_task(task)%>
-        <%= option_to_delete_task(task)%>
-      </select>
-    </td>
-  <% end %>
+	<%= column_content_for(hide_cols, :action) do %>
+	<td class="actions">
+		<select>
+			<option value="" selected="selected">&nbsp;</option>
+			<%= option_to_edit_task(task)%>
+			<%= option_to_delete_task(task)%>
+		</select>
+	</td>
+	<% end %>
 </tr>

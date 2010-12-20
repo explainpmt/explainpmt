@@ -66,7 +66,11 @@ Explainpmt::Application.routes.draw do |map|
         post :create_many
       end
       
-      resources :tasks
+      resources :tasks do
+        member do
+          get :release_ownership
+        end
+      end
       resources :acceptance_tests
     end
     
@@ -80,6 +84,7 @@ Explainpmt::Application.routes.draw do |map|
     resources :iterations do
       member do
         get :allocation
+        get :select_stories
         post :assign_stories
         get :export
         get :export_tasks
