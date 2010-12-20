@@ -17,6 +17,8 @@ Explainpmt::Application.routes.draw do |map|
       post :update_users
     end
     
+    resource :dashboard
+    
     resources :acceptance_tests do
       member do
         get :clone_acceptance

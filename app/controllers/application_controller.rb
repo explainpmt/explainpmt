@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   end
   
   def is_admin?
-    logged_in? && current_user.is_admin?
+    logged_in? && current_user.admin?
   end
 
   def store_location
