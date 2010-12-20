@@ -18,7 +18,7 @@ module TasksHelper
   end
 
   def link_to_task(task, options={})
-    link_to options[:value] || task.name, :url => project_story_task_path(@project, task.story, task)
+    link_to (options[:text] || task.name), :url => project_story_task_path(@project, task.story, task)
   end
 
   def link_to_take_task_ownership(task)

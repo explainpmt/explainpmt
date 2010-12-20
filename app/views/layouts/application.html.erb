@@ -9,9 +9,11 @@
 	<body>
 		<div id="header">
 			<h1><%= link_to 'ExplainPMT', root_path %></h1>
+			<% if logged_in? %>
 			<div id="primary_nav">
 				<%= render :partial => 'shared/primary_nav' %>
 			</div>
+			<% end %>
 		</div>
 		<div id="main">
 			<% flash.each do |k,v| %>

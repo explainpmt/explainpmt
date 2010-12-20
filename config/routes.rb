@@ -96,6 +96,13 @@ Explainpmt::Application.routes.draw do
       resources :stories
     end
   end
-  resources :users
+  resources :users do
+    collection do
+      get :forgot_password
+      post :forgot_password
+      get :reset_password
+      put :reset_password
+    end
+  end
   
 end
