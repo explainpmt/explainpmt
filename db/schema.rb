@@ -10,21 +10,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101216190927) do
+ActiveRecord::Schema.define(:version => 20101220021208) do
 
   create_table "acceptance_tests", :force => true do |t|
-    t.string   "name"
-    t.string   "string"
-    t.boolean  "automated",       :default => false
-    t.integer  "project_id"
-    t.text     "pre_condition"
-    t.text     "post_condition"
-    t.text     "expected_result"
-    t.text     "description"
-    t.integer  "story_id"
-    t.boolean  "pass",            :default => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string  "name"
+    t.boolean "automated",       :default => false
+    t.integer "project_id"
+    t.text    "pre_condition"
+    t.text    "post_condition"
+    t.text    "expected_result"
+    t.text    "description"
+    t.integer "story_id"
+    t.boolean "pass",            :default => false
   end
 
   add_index "acceptance_tests", ["project_id"], :name => "index_acceptance_tests_on_project_id"
@@ -33,79 +30,77 @@ ActiveRecord::Schema.define(:version => 20101216190927) do
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"
     t.string   "auditable_type"
-    t.integer  "user_id"
     t.integer  "project_id"
+    t.datetime "created_at"
+    t.string   "user"
+    t.integer  "user_id"
     t.string   "action"
     t.text     "auditable_changes"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   add_index "audits", ["auditable_type", "auditable_id"], :name => "auditable_index"
-  add_index "audits", ["project_id"], :name => "index_audits_on_project_id"
   add_index "audits", ["created_at"], :name => "index_audits_on_created_at"
+  add_index "audits", ["project_id"], :name => "index_audits_on_project_id"
+  add_index "audits", ["user_id"], :name => "index_audits_on_user_id"
 
   create_table "initiatives", :force => true do |t|
-    t.string   "name"
-    t.date     "start_date"
-    t.date     "end_date"
-    t.string   "customer"
-    t.string   "product_owner"
-    t.integer  "project_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string  "name"
+    t.date    "start_date"
+    t.date    "end_date"
+    t.string  "customer"
+    t.string  "product_owner"
+    t.integer "project_id"
   end
 
   add_index "initiatives", ["project_id", "name"], :name => "index_initiatives_on_project_id_and_name", :unique => true
   add_index "initiatives", ["start_date", "end_date"], :name => "index_initiatives_on_start_date_and_end_date"
 
   create_table "iterations", :force => true do |t|
-    t.string   "name"
     t.integer  "project_id"
     t.date     "start_date"
     t.integer  "length"
     t.integer  "budget"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
   end
 
   add_index "iterations", ["project_id", "name"], :name => "index_iterations_on_project_id_and_name", :unique => true
-  add_index "iterations", ["start_date"], :name => "index_iterations_on_start_date"
 
   create_table "milestones", :force => true do |t|
     t.integer  "project_id"
-    t.integer  "integer"
     t.date     "date"
     t.string   "name"
-    t.string   "string"
     t.text     "description"
-    t.text     "text"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "milestones", ["project_id"], :name => "index_milestones_on_project_id"
 
+  create_table "project_memberships", :force => true do |t|
+    t.integer "user_id"
+    t.integer "project_id"
+  end
+
+  add_index "project_memberships", ["project_id"], :name => "index_project_memberships_on_project_id"
+  add_index "project_memberships", ["user_id"], :name => "index_project_memberships_on_user_id"
+
   create_table "projects", :force => true do |t|
     t.string   "name"
-    t.string   "description"
-    t.integer  "planned_iterations"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "projects_users", :id => false, :force => true do |t|
-    t.integer "project_id"
-    t.integer "user_id"
-  end
-
-  create_table "releases", :force => true do |t|
-    t.string   "name"
-    t.date     "date"
-    t.integer  "project_id"
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "planned_iterations"
+  end
+
+  create_table "releases", :force => true do |t|
+    t.date    "date"
+    t.integer "project_id"
+    t.string  "name"
+    t.text    "description"
+    t.date    "created_at"
+    t.date    "updated_at"
   end
 
   add_index "releases", ["project_id"], :name => "index_releases_on_project_id"
@@ -121,14 +116,14 @@ ActiveRecord::Schema.define(:version => 20101216190927) do
     t.integer  "value"
     t.integer  "risk"
     t.text     "description"
+    t.integer  "initiative_id"
     t.integer  "position"
     t.string   "customer"
-    t.integer  "initiative_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "creator_id"
     t.integer  "updater_id"
     t.integer  "release_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   add_index "stories", ["initiative_id"], :name => "index_stories_on_initiative_id"
@@ -138,39 +133,39 @@ ActiveRecord::Schema.define(:version => 20101216190927) do
   add_index "stories", ["user_id"], :name => "index_stories_on_user_id"
 
   create_table "tasks", :force => true do |t|
-    t.string   "name"
-    t.text     "description"
-    t.boolean  "complete",    :default => false
-    t.integer  "story_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string  "name"
+    t.text    "description"
+    t.boolean "complete",    :default => false
+    t.integer "story_id"
+    t.integer "user_id"
   end
 
-  add_index "tasks", ["story_id"], :name => "index_tasks_on_story_id"
+  add_index "tasks", ["story_id", "user_id"], :name => "index_tasks_on_story_id_and_user_id"
   add_index "tasks", ["user_id"], :name => "index_tasks_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "login"
-    t.string   "email"
     t.string   "crypted_password"
+    t.string   "email"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.boolean  "admin"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "team"
     t.string   "salt"
+    t.datetime "last_login_at"
     t.string   "persistence_token"
     t.string   "single_access_token"
     t.string   "perishable_token"
-    t.integer  "login_count",         :default => 0,     :null => false
-    t.integer  "failed_login_count",  :default => 0,     :null => false
-    t.datetime "last_request_at"
+    t.integer  "login_count",         :default => 0, :null => false
+    t.integer  "failed_login_count",  :default => 0, :null => false
     t.datetime "current_login_at"
-    t.datetime "last_login_at"
-    t.string   "current_login_ip"
-    t.string   "last_login_ip"
-    t.boolean  "is_admin",            :default => false, :null => false
-    t.string   "team"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "first_name"
-    t.string   "last_name"
   end
+
+  add_index "users", ["email"], :name => "index_users_on_email"
+  add_index "users", ["login"], :name => "index_users_on_login"
+  add_index "users", ["perishable_token"], :name => "index_users_on_perishable_token"
+  add_index "users", ["single_access_token"], :name => "index_users_on_single_access_token"
 
 end

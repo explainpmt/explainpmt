@@ -3,7 +3,8 @@ class Project < ActiveRecord::Base
   
   validates_numericality_of  :planned_iterations, :only_integer => true, :greater_than => 0, :allow_nil => true, :message => "must be a positive number"
   
-  has_and_belongs_to_many :users
+  has_many  :project_memberships
+  has_many  :users, :through => :project_memberships
   
   has_many :releases, :dependent => :destroy
   has_many :initiatives, :order => 'id DESC', :dependent => :destroy

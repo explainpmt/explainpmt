@@ -6,10 +6,11 @@ class User < ActiveRecord::Base
   end
   cattr_accessor :current_user
   
-  has_and_belongs_to_many :projects
+  has_many  :project_memberships
+  has_many  :projects,  :through => :project_memberships
   
-  has_many :stories, :include => [:initiative, :iteration, :project, :owner]
-  has_many :milestones, :through => :projects
+  has_many  :stories, :include => [:initiative, :iteration, :project, :owner]
+  has_many  :milestones, :through => :projects
   validates_presence_of :first_name, :last_name
   
   has_many  :tasks, :conditions => "story_id in (select id from stories where status not in (7,8))"
