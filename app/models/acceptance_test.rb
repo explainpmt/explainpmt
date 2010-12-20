@@ -1,15 +1,15 @@
 class AcceptanceTest < ActiveRecord::Base
   belongs_to  :project
   belongs_to  :story
-  
-  validates_presence_of :name
-  validates_length_of :name,  :maximum => 255
+
+  validates_length_of :name, :in => 1..255
+  scope :with_details, includes({:story => :iteration})
   
   def clone!
-    acceptance_test = self.clone
-    acceptance_test.name = "Clone: #{name}"
-    acceptance_test.save!
-    acceptance_test
+    self.clone.tap do |ac|
+      ac.name = "Clone: #{name}"
+      ac.save!
+    end
   end
   
   def self.assign_many_to_story(stor, acceptance_tests)
@@ -24,5 +24,4 @@ class AcceptanceTest < ActiveRecord::Base
     end
     { :successes => successes, :failures => failures }
   end
-  
 end

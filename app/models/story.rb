@@ -12,7 +12,6 @@ class Story < ActiveRecord::Base
   
   has_many :tasks, :dependent => :destroy
   has_many :acceptance_tests, :dependent => :destroy
-  
   has_many  :audits,  :as => :auditable
   
   ## CHANGED => included Position module for now to limit dependence on outdated plugins.
@@ -197,6 +196,16 @@ class Story < ActiveRecord::Base
     { :successes => successes, :failures => failures }
   end
 
+  scope :with_details, includes(:initiative, :project, :owner, :iteration, :release)
+  scope :backlog, where("stories.iteration_id is null")
+  scope :cancelled, lambda{ backlog.where("stories.status = ? and", Story::Status::Cancelled.order) }
+  scope :completed, lambda{ where("stories.status in (?)", [Story::Status::Complete.order, Story::Status::Accepted.order]) }
+  scope :incomplete, lambda{ where("stories.status not in (?)", [Story::Status::Complete.order, Story::Status::Accepted.order, Story::Status::Cancelled.order]) }
+  scope :not_cancelled, lambda{ where("stories.status <> ?", Story::Status::Cancelled.order) }
+  scope :not_estimated_and_not_cancelled, lambda{ not_cancelled.where("stories.points is null") }
+  scope :not_cancelled_and_not_assigned_to_an_iteration, lambda{ backlog.not_cancelled }
+  scope :last, order("position DESC").limit(1)
+  scope :for_user, lambda{|user| where("user_id = ?", user.id)}
   protected
 
   def after_initialize
@@ -206,7 +215,7 @@ class Story < ActiveRecord::Base
   end
 
   def set_scid
-    if last_story = project.stories.order('scid DESC').first
+    if last_story = project.stories.last
       self.scid = last_story.scid + 1
     else
       self.scid = 1

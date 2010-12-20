@@ -1,17 +1,10 @@
 class Milestone < ActiveRecord::Base
   belongs_to  :project
-  validates_presence_of :name,  :date
-  validates_length_of :name,  :maximum => 100
   
-  def future?
-    date >= Date.today
-  end
+  validates_presence_of :date
+  validates_length_of :name, :in => 1..100
   
-  def recent?
-    date < Date.today && date > Date.today - 15
-  end
-  
-  def past?
-    date < Date.today
-  end
+  scope :future, lambda{ where("milestones.date > ?", Date.today) }
+  scope :recent, lambda{ where("milestones.date < ? and milestones.date >", Date.today, Date.today - 15) }
+  scope :past, lambda{ where("milestones.date < ?", Date.today) }
 end

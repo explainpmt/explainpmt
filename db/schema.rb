@@ -25,7 +25,9 @@ ActiveRecord::Schema.define(:version => 20101220021208) do
   end
 
   add_index "acceptance_tests", ["project_id"], :name => "index_acceptance_tests_on_project_id"
+  add_index "acceptance_tests", ["project_id"], :name => "index_acceptancetests_on_project_id"
   add_index "acceptance_tests", ["story_id"], :name => "index_acceptance_tests_on_story_id"
+  add_index "acceptance_tests", ["story_id"], :name => "index_acceptancetests_on_story_id"
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"
@@ -66,6 +68,7 @@ ActiveRecord::Schema.define(:version => 20101220021208) do
   end
 
   add_index "iterations", ["project_id", "name"], :name => "index_iterations_on_project_id_and_name", :unique => true
+  add_index "iterations", ["start_date"], :name => "index_iterations_on_start_date"
 
   create_table "milestones", :force => true do |t|
     t.integer  "project_id"
@@ -105,20 +108,24 @@ ActiveRecord::Schema.define(:version => 20101220021208) do
 
   add_index "releases", ["project_id"], :name => "index_releases_on_project_id"
 
+  create_table "schema_info", :id => false, :force => true do |t|
+    t.integer "version"
+  end
+
   create_table "stories", :force => true do |t|
     t.integer  "scid"
     t.integer  "project_id"
     t.integer  "iteration_id"
     t.integer  "user_id"
     t.string   "title"
-    t.integer  "points"
-    t.integer  "status"
-    t.integer  "value"
-    t.integer  "risk"
     t.text     "description"
     t.integer  "initiative_id"
     t.integer  "position"
     t.string   "customer"
+    t.integer  "points"
+    t.integer  "status"
+    t.integer  "value"
+    t.integer  "risk"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "creator_id"

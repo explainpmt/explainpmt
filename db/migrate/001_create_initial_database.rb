@@ -59,8 +59,8 @@ class CreateInitialDatabase < ActiveRecord::Migration
     end
 
     # Create the initial admin user
-    User.create :username => 'admin', :password => 'admin', :email => 'admin@example.com', :first_name => 'admin',
-      :last_name => 'admin', :admin => true
+    # User.create :username => 'admin', :password => 'admin', :email => 'admin@example.com', :first_name => 'admin',
+    #   :last_name => 'admin', :admin => true
   end
 
   def self.down
