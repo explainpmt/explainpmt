@@ -9,12 +9,6 @@ class AcceptanceTestsController < ApplicationController
     @acceptance_test = AcceptanceTest.new
   end
 
-  def show
-  end
-
-  def edit
-  end
-
   def create
     @acceptance_test = AcceptanceTest.new params[:acceptance_test]
     @acceptance_test.project = @project

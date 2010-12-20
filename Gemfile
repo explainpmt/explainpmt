@@ -15,3 +15,8 @@ group :development do
   gem 'fastthread'
   gem 'mongrel_experimental'
 end
+
+group :test do
+  gem 'flexmock'
+  gem 'shoulda'
+end

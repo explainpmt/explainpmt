@@ -1,4 +1,4 @@
-Explainpmt::Application.routes.draw do |map|
+Explainpmt::Application.routes.draw do
   
   root :to => "dashboard#index"
   

@@ -1,11 +1,41 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+DEFAULTS: &DEFAULTS
+  crypted_password: <%= Authlogic::CryptoProviders::Sha512.encrypt("testing") %>
+  persistence_token: <%= Authlogic::Random.hex_token %>
+  single_access_token: <%= Authlogic::Random.friendly_token %>
+  perishable_token: <%= Authlogic::Random.friendly_token %>
 
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+admin:
+  <<: *DEFAULTS
+  id: 1
+  first_name: "Admin"
+  last_name: "Admin"
+  login: admin
+  email: admin@explain.pmt
+  admin: true
+  
+david:
+  <<: *DEFAULTS
+  id: 2
+  first_name: "David"
+  last_name: "Clevyr"
+  login: david
+  email: david@explain.pmt
+  admin: false
+
+janey:
+  <<: *DEFAULTS
+  id: 3
+  first_name: "Janey"
+  last_name: "Clevyr"
+  login: janey
+  email: janey@explain.pmt
+  admin: false
+
+rob:
+  <<: *DEFAULTS
+  id: 4
+  first_name: "Rob"
+  last_name: "Clevyr"
+  login: rob
+  email: rob@explain.pmt
+  admin: false
