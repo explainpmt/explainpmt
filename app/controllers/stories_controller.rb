@@ -139,7 +139,7 @@ class StoriesController < ApplicationController
     new_pos = params[:story][:position]
     render :update do |page|
       if (new_pos.index(/\D/).nil?)
-        last_story = @project.last_story
+        last_story = @project.stories.last
         if(new_pos.to_i <= last_story.position)
           @story.insert_at(new_pos)
           flash[:status] = 'The changes to the story card have been saved.'

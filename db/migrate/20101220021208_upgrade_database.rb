@@ -36,6 +36,7 @@ class UpgradeDatabase < ActiveRecord::Migration
     Audit.reset_column_information
     
     Audit.all.each do |audit|
+      next unless audit.before && audit.after
       before_old = audit.before.split("\n")
       before_new = {}
       before_old.each do |c|

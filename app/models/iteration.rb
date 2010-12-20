@@ -1,56 +1,37 @@
+require 'story_point_calc'
+
 class Iteration < ActiveRecord::Base
   belongs_to  :project
+  has_many :stories, :extend => StoryPointCalc, :dependent => :nullify
+  
   validates_inclusion_of :length, :in => 1..99, :message => 'must be a number between 1 and 99'
   validates_inclusion_of :budget, :in => 1..999, :allow_nil => true,
                          :message => 'must be a number between 1 and 999 (or blank)'
-  validates_presence_of :name
+  validates_length_of :name, :in => 1..100
   validates_uniqueness_of :name, :scope => :project_id
   validates_presence_of :start_date
-  has_many :stories, :include => [:initiative, :project, :owner, :iteration], :dependent => :nullify do
-
-    def total_points
-      self.inject(0){ |res,s| res + s.points }
-    end
-
-    def completed_points
-      completed_stories = self.select { |s| s.status.complete? }
-      completed_stories.inject(0) { |res,s| res + s.points }
-    end
-
-    def remaining_points
-      total_points - completed_points
-    end
-  end
+  validate :ensure_no_overlap
   
-  def stop_date
-    start_date + length.to_i - 1
-  end
+  scope :with_stop_date, select("date_add(iterations.start_date, INTERVAL iterations.length DAY) as 'stop_date', iterations.*")
+  scope :future, where("iterations.start_date > CURDATE()")
+  scope :past, with_stop_date.where("date_add(iterations.start_date, INTERVAL iterations.length DAY) < CURDATE()")  
+  scope :current, where("iterations.start_date <= CURDATE() and date_add(iterations.start_date, INTERVAL iterations.length DAY) > CURDATE()")
+  scope :previous, past.with_stop_date.order('stop_date DESC').limit(1)
+  scope :next, future.order("iterations.start_date ASC").limit(1)
 
-  def remaining_resources
-    (budget || 0) - stories.total_points
+  def available_resources
+    (budget || 0) - stories.points_total
   end
 
   def points_by_user
     stories.inject(Hash.new(0)){|hsh, story| (hsh[story.user_id] += story.points) && hsh}
   end
 
-  def current?
-    Time.now.at_midnight.between?(start_date.to_time, stop_date.to_time)
-  end
-
-  def future?
-    start_date.to_time >= Time.now.tomorrow.at_midnight
-  end
-
-  def past?
-    stop_date.to_time < Time.now.at_midnight
+  def stop_date
+    start_date + length - 1
   end
 
   protected
-
-  def validate
-    ensure_no_overlap
-  end
 
   def ensure_no_overlap
     project.iterations.each { |iteration|
