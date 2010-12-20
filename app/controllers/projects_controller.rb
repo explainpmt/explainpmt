@@ -38,9 +38,7 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    render :update do |page|
-      page.call 'showPopup', render(:partial => 'project_form', :locals => {:url => projects_path})
-    end
+    @project = Project.new
   end
 
   def create
@@ -57,9 +55,7 @@ class ProjectsController < ApplicationController
   end
 
   def edit
-    render :update do |page|
-      page.call 'showPopup', render(:partial => 'project_form', :locals => {:url => project_path(@project)})
-    end
+    @project = Project.find(params[:id])
   end
 
   def update

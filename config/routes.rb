@@ -1,4 +1,4 @@
-Explainpmt::Application.routes.draw do |map|
+Explainpmt::Application.routes.draw do
   
   root :to => "dashboard#index"
   
@@ -96,6 +96,13 @@ Explainpmt::Application.routes.draw do |map|
       resources :stories
     end
   end
-  resources :users
+  resources :users do
+    collection do
+      get :forgot_password
+      post :forgot_password
+      get :reset_password
+      put :reset_password
+    end
+  end
   
 end

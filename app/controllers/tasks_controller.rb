@@ -5,8 +5,9 @@ class TasksController < ApplicationController
     @story = Story.find params[:story_id]
     @task = Task.new
   end
-
+  
   def edit
+    @story = @task.story
   end
 
   def create

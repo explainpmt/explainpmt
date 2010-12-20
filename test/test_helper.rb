@@ -1,13 +1,25 @@
 ENV["RAILS_ENV"] = "test"
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'rails/test_help'
+require 'flexmock/test_unit'
+require 'authlogic/test_case'
 
 class ActiveSupport::TestCase
-  # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
-  #
-  # Note: You'll currently still have to declare fixtures explicitly in integration tests
-  # -- they do not yet inherit this setting
+  setup :activate_authlogic
+  
+  # This extension prints to the log before each test.  Makes it easier to find the test you're looking for when looking through a long test log.
+  setup :log_test
+  
+  self.use_transactional_fixtures = true
+  self.use_instantiated_fixtures  = false
   fixtures :all
-
-  # Add more helper methods to be used by all tests here...
+  
+  def login_as(user)
+    UserSession.create(users(user))
+  end
+  
+  private
+  def log_test
+    puts "\n\n>> Starting #{self.name}\n#{'-' * 130}"
+  end
 end

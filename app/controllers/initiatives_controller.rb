@@ -9,9 +9,6 @@ class InitiativesController < ApplicationController
     @initiative = Initiative.new
   end
 
-  def edit
-  end
-
   def create
     @initiative = Initiative.new params[:initiative]
     @initiative.project = @project
