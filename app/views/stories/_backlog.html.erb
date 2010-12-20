@@ -1,11 +1,11 @@
 <% if @stories.present? %>
 	<%= form_tag move_stories_project_iterations_path(@project) %>
-		<%= render :partial => 'stories/move_stories_form', :locals => {:default => "Not Assigned", :selected_id => 'select1'} %>
-		<%= render :partial => 'stories/stories' , :locals => {:hide_cols => [:project]}%>
+		<%= render :partial => 'stories/move_stories_form', :locals => { :default => "Not Assigned", :selected_id => 'select1' } %>
+		<%= render :partial => 'stories/stories' , :locals => { :hide_cols => [:project] } %>
 		<% if @stories.size > 10 %>
 			<br />
 			<%= render :partial => 'stories/story_links' %>
-			<%= render :partial => 'stories/move_stories_form', :locals => {:default => "Not Assigned", :selected_id => 'select2'} %>
+			<%= render :partial => 'stories/move_stories_form', :locals => { :default => "Not Assigned", :selected_id => 'select2' } %>
 		<% end %>
 	</form>
 <% end %>

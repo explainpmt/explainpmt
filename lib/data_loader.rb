@@ -15,7 +15,7 @@ class DataLoader
   def initialize
     @config = Rails.configuration.database_configuration[Rails.env]
     @path_to_files = File.join(Rails.root, "db")
-    connect
+    connect(config.merge("database" => "explainpmt"))
   end
   
   def run
@@ -32,12 +32,12 @@ class DataLoader
       end
     end
     
-    # reset, re-seed the db first...
+    # reset the db first... unfortunately reset calls seed as well so if there are any seeds they get run first which is no bueno :(
     Rake::Task['db:reset'].invoke
-    Rake::Task['db:seed'].invoke
     
     # re-establish connection :( , thanks Rake.
-    connect
+    
+    connect(config.merge("database" => "explainpmt_dev"))
     
     ## import the easy ones first
     easy = tables - %w(users acceptancetests project_memberships audits)
@@ -49,9 +49,8 @@ class DataLoader
       
       data = FCSV.read(file, :headers => true).to_a
       keys = data.shift
-      col_count = keys.size
       
-      stmt = raw_conn.prepare(prepared_sql(table, col_count))
+      stmt = prepared_sql(table, keys)
       
       data.each do |row|
         stmt.execute(*row)
@@ -62,10 +61,10 @@ class DataLoader
     # # DO NOT do any creates here... we want our old associations, passwords, etc. so this is simply a migration of data.
     
     user_sql = raw_conn.prepare(
-    <<-EOF
-      INSERT INTO users (id,login,email,crypted_password,salt,persistence_token,single_access_token,perishable_token,is_admin,team,first_name,last_name,last_login_at,created_at,updated_at)
-      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-    EOF
+      <<-EOF
+        INSERT INTO users (id,login,email,crypted_password,salt,persistence_token,single_access_token,perishable_token,is_admin,team,first_name,last_name,last_login_at,created_at,updated_at)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+      EOF
     )
     
     run_section(:users) do |user|
@@ -73,10 +72,10 @@ class DataLoader
     end
     
     at_sql = raw_conn.prepare(
-    <<-EOF
-      INSERT INTO acceptance_tests (id,name,automated,project_id,pre_condition,post_condition,expected_result,description,story_id,pass,created_at,updated_at)
-      VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
-    EOF
+      <<-EOF
+        INSERT INTO acceptance_tests (id,name,automated,project_id,pre_condition,post_condition,expected_result,description,story_id,pass,created_at,updated_at)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
+      EOF
     )
     
     run_section(:acceptancetests) do |at|
@@ -84,10 +83,10 @@ class DataLoader
     end
     
     pm_sql = raw_conn.prepare(
-    <<-EOF
-      INSERT INTO projects_users (user_id,project_id)
-      VALUES (?,?)
-    EOF
+      <<-EOF
+        INSERT INTO projects_users (user_id,project_id)
+        VALUES (?,?)
+      EOF
     )
     
     run_section(:project_memberships) do |pm|
@@ -95,10 +94,10 @@ class DataLoader
     end
     
     audit_sql = raw_conn.prepare(
-    <<-EOF
-      INSERT INTO audits (id,auditable_id,auditable_type,project_id,user_id,action,auditable_changes,created_at)
-      VALUES (?,?,?,?,?,?,?,?)
-    EOF
+      <<-EOF
+        INSERT INTO audits (id,auditable_id,auditable_type,project_id,user_id,action,auditable_changes,created_at)
+        VALUES (?,?,?,?,?,?,?,?)
+      EOF
     )
     
     ## TODO => definitely some repetition, can it be dryed up?
@@ -122,6 +121,12 @@ class DataLoader
       audit_sql.execute(audit['id'], audit.audited_object_id, audit.object, audit.project_id, audit.user, "unknown", YAML.dump(changes), audit.created_at)
     end
     
+    ## DO NOT run this prior to importing existing data!!
+    
+    # lastly, delete the csv files..
+    tables.each do |table|
+      File.delete("#{path_to_files}/#{table}.csv")
+    end
   end
   
   def cleanse_row(row)
@@ -132,16 +137,24 @@ class DataLoader
     row
   end
   
-  def prepared_sql(table,col_count)
-    sql = "INSERT into #{table} VALUES ("
+  def prepared_sql(table,cols)
+    col_count = cols.size
+    sql = "INSERT into #{table} ("
+    cols.each do |col|
+      sql << "#{col},"
+    end
+    sql.chomp!(",")
+    sql << ") VALUES ("
     col_count.times do |i|
       sql << "?,"
     end
     sql.chomp!(",")
     sql << ")"
+    raw_conn.prepare(sql)
   end
 
   def run_section(section, &block)
+    p "importing #{section}"
     return unless File.exist?("#{path_to_files}/#{section}.csv")
     FCSV.foreach("#{path_to_files}/#{section}.csv", :headers => true) do |row|
       row = cleanse_row(row.to_hash)
@@ -151,7 +164,7 @@ class DataLoader
     raw_conn.commit
   end
   
-  def connect
+  def connect(config)
     ActiveRecord::Base.establish_connection(config)
     @conn = ActiveRecord::Base.connection
     @raw_conn = @conn.raw_connection

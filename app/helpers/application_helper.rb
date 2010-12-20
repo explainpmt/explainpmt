@@ -9,7 +9,8 @@ module ApplicationHelper
   end
   
   def column_content_for(cols, column, &block)
-    yield unless cols.include?(column)
+    # yield unless cols.include?(column)
+    with_output_buffer(&block) unless cols.include?(column)
   end
   
   def nav_item(text,url,current=false)
