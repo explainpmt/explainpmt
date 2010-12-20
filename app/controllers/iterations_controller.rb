@@ -92,8 +92,8 @@ class IterationsController < ApplicationController
 
   def select_stories
     @stories = @project.stories.backlog.select { |s|
-      s.status != Story::Status::New and
-      s.status != Story::Status::Cancelled
+      s.status != :new and
+      s.status != :cancelled
     }
     # render :update do |page|
     #   page.call 'showPopup', render(:partial => 'select_stories')

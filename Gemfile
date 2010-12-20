@@ -7,6 +7,7 @@ gem 'fastercsv'
 gem 'mysql'
 gem 'RedCloth'
 gem 'will_paginate'
+gem 'attribute_mapper'
 
 group :development do
   gem 'mongrel'

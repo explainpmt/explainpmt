@@ -2,9 +2,7 @@ class StoriesController < ApplicationController
   before_filter :find_story, :except => [:index, :new, :create, :audit, :export, :export_tasks, :bulk_create, :create_many, :cancelled, :all, :search]
 
   def index
-    @stories = @project.stories.backlog.select { |s|
-      s.status != Story::Status::Cancelled
-    }
+    @stories = @project.stories.backlog.not_cancelled
     respond_to do |format|
       format.html
       format.xml {
@@ -29,7 +27,6 @@ class StoriesController < ApplicationController
   end
 
   def edit
-    @story.return_ids_for_aggregations
   end
 
   def show
@@ -38,7 +35,6 @@ class StoriesController < ApplicationController
   end
 
   def create
-    modify_risk_status_and_value_params
     @story = Story.new params[:story]
     @story.project = @project
     @story.iteration = Iteration.find params[:iteration_id] if params[:iteration_id]
@@ -64,7 +60,6 @@ class StoriesController < ApplicationController
   end
 
   def update
-    modify_risk_status_and_value_params
     @story.attributes = params[:story]
     @story.updater_id = current_user.id
     
@@ -139,7 +134,7 @@ class StoriesController < ApplicationController
     new_pos = params[:story][:position]
     render :update do |page|
       if (new_pos.index(/\D/).nil?)
-        last_story = @project.stories.last
+        last_story = @project.stories.last_position
         if(new_pos.to_i <= last_story.position)
           @story.insert_at(new_pos)
           flash[:status] = 'The changes to the story card have been saved.'
@@ -203,9 +198,7 @@ class StoriesController < ApplicationController
     unless query.blank?
       @stories = @project.stories.find(:all, :conditions => "stories.scid = '#{query[2..-1]}' or stories.title like '%#{query}%' or stories.description like '%#{query}%'")
     else
-      @stories = @project.stories.backlog.select { |s|
-        s.status != Story::Status::Cancelled
-      }
+      @stories = @project.stories.backlog.not_cancelled
     end
     render :partial => 'backlog'
   end
@@ -214,23 +207,6 @@ class StoriesController < ApplicationController
 
   def find_story
     @story = Story.find params[:id]
-  end
-
-  def modify_risk_status_and_value_params
-    if params[:story]
-      if params[:story][:status]
-        params[:story][:status] =
-          Story::Status.new(params[:story][:status].to_i)
-      end
-      if params[:story][:value]
-        params[:story][:value] =
-          Story::Value.new(params[:story][:value].to_i)
-      end
-      if params[:story][:risk]
-        params[:story][:risk] =
-          Story::Risk.new(params[:story][:risk].to_i)
-      end
-    end
   end
 
 end
