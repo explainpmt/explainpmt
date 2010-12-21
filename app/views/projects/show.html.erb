@@ -14,7 +14,7 @@
 </div>
 <% end %>
 
-<% if @tasks.present? do %>
+<% if @tasks.present? %>
 <div>
 	<h3>My Tasks:</h3>
 	<%= render :partial => 'tasks/tasks', :locals => {:hide_cols => [ :project, :owner ]} %>

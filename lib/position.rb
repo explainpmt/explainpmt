@@ -7,8 +7,8 @@ module Position
     model.class_eval do
       after_destroy :update_positions
       after_create :set_initial_position
-      # allow specifying custom ordering with scope :ordered ... if exists, use, otherwise default to position
-      # default_scope (respond_to?(:ordered) ? ordered : order("position"))
+      # allow specifying custom ordering with: scope :ordered ... if exists, use, otherwise default to position
+      default_scope (respond_to?(:ordered) ? ordered : order("position"))
     end
   end
   
@@ -20,7 +20,8 @@ module Position
   
   module InstanceMethods
     def select_ids
-      connection.select_values("select id from #{self.class.table_name} order by position").map(&:to_i)
+      ## CHANGED => project_id is hard-coded for now, but we can pull it out into something better if needed...
+      connection.select_values("select id from #{self.class.table_name} where project_id=#{project_id} order by position").map(&:to_i)
     end
     
     def set_initial_position
@@ -43,7 +44,7 @@ module Position
       ids.delete(self.id)
       ids.insert(index, self.id)
       self.class.update_positions!(ids)
-      self.position = index
+      self.position = index+1
     end
     
     def update_positions
