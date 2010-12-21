@@ -12,7 +12,7 @@ class AcceptanceTest < ActiveRecord::Base
     end
   end
   
-  def self.assign_many_to_story(stor, acceptance_tests)
+  def self.assign_many_to_story(story, acceptance_tests)
     successes, failures = [], []
     acceptance_tests.each do |acceptance_test|
       acceptance_test.story = story
