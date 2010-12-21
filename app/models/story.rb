@@ -40,7 +40,6 @@ class Story < ActiveRecord::Base
   
   before_create :set_scid
   before_save   :before_save_reset_status
-  after_update  :audit_story
   
   def complete?
     [:accepted, :complete].include?(self.status)
@@ -48,10 +47,6 @@ class Story < ActiveRecord::Base
   
   def closed?
     [:accepted, :complete, :cancelled].include?(self.status)    
-  end
-
-  def audit_story
-    Audit.create!(self, :update)
   end
 
   def assign_to!(new_owner)
@@ -109,15 +104,11 @@ class Story < ActiveRecord::Base
 
   private
 
-  def is_defined?
-    !self.points.nil?
-  end
-
   def before_save_reset_status
     self.iteration = nil if status == :cancelled    
     self.owner = nil if self.iteration.nil?
     self.status = :in_progress if status == :defined and owner
-    self.status = :defined if status == :new and is_defined?
+    self.status = :defined if status == :new and self.points
   end
   
 end
