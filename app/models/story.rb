@@ -28,7 +28,7 @@ class Story < ActiveRecord::Base
   
   scope :with_details, includes(:initiative, :project, :owner, :iteration, :release)
   scope :backlog, where("stories.iteration_id is null")
-  scope :cancelled, lambda{ backlog.where("stories.status = ? and", Story.statuses[:cancelled]) }
+  scope :cancelled, lambda{ backlog.where("stories.status = ?", Story.statuses[:cancelled]) }
   scope :completed, lambda{ where("stories.status in (?)", [Story.statuses[:complete], Story.statuses[:accepted]]) }
   scope :incomplete, lambda{ where("stories.status not in (?)", [Story.statuses[:complete], Story.statuses[:accepted], Story.statuses[:cancelled]]) }
   scope :not_cancelled, lambda{ where("stories.status <> ?", Story.statuses[:cancelled]) }
