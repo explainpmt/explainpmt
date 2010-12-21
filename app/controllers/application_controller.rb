@@ -6,12 +6,12 @@ class ApplicationController < ActionController::Base
 
 
   before_filter :require_user
-  before_filter :correct_safari_and_ie_accept_headers, :set_selected_project
+  before_filter :correct_safari_and_ie_accept_headers#, :set_selected_project
   
   before_filter { |c| User.current_user = c.current_user if c.current_user }
   before_filter { |c| (c.action_has_layout = false) if c.request.xhr? }
   
-  helper_method :is_admin?
+  helper_method :is_admin?, :current_project
   
   def correct_safari_and_ie_accept_headers
     ajax_request_types = ['text/javascript', 'application/json', 'text/xml']
@@ -44,10 +44,13 @@ class ApplicationController < ActionController::Base
     redirect_to(session[:return_to] || default)
     session[:return_to] = nil
   end
-  
-  def set_selected_project
-    return unless logged_in?
-    @project = params[:project_id] ? Project.find_by_id(params[:project_id]) : current_user.projects.first
+
+  def current_project
+    if self.is_a?(ProjectsController)
+      Project.find_by_id(params[:id])
+    else
+      params[:project_id] ? Project.find_by_id(params[:project_id]) : current_user.projects.first
+    end
   end
   
   def set_status_and_error_for(results)

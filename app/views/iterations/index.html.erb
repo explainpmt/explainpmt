@@ -35,7 +35,7 @@
 
 	<h3>Story Cards</h3>
 	<%= link_to_new_iteration_story(@iteration) %>&nbsp;
-	<% if @project.stories.backlog.present? && @iteration.stop_date + 1 > Date.today %>
+	<% if current_project.stories.backlog.present? && @iteration.stop_date + 1 > Date.today %>
 		<%= link_to_assign_stories(@iteration) %>
 	<% end %>
 	<%= link_to_export_iteration_stories(@iteration) %>&nbsp;&nbsp;

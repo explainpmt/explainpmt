@@ -1,11 +1,13 @@
+<% if current_project %>
 <ul>
 	<%= nav_item 'Dashboard', root_path %>
-	<%= nav_item 'Releases', project_releases_path(@project) %>
-	<%= nav_item 'Iterations', project_iterations_path(@project) %>
-	<%= nav_item 'Backlog', project_stories_path(@project) %>
-	<%= nav_item 'Initiatives', project_initiatives_path(@project) %>
-	<%= nav_item 'Acceptance Tests', project_acceptance_tests_path(@project) %>
-	<%= nav_item 'Milestones', project_milestones_path(@project) %>
-	<%#= nav_item 'Team', team_project_path(@project) %>
-	<%#= nav_item 'Stats', project_stats_path(@project) %>
+	<%= nav_item 'Releases', project_releases_path(current_project) %>
+	<%= nav_item 'Iterations', project_iterations_path(current_project) %>
+	<%= nav_item 'Backlog', project_stories_path(current_project) %>
+	<%= nav_item 'Initiatives', project_initiatives_path(current_project) %>
+	<%= nav_item 'Acceptance Tests', project_acceptance_tests_path(current_project) %>
+	<%= nav_item 'Milestones', project_milestones_path(current_project) %>
+	<%#= nav_item 'Team', team_project_path(current_project) %>
+	<%#= nav_item 'Stats', project_stats_path(current_project) %>
 </ul>
+<% end %>

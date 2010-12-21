@@ -2,7 +2,7 @@ class IterationsController < ApplicationController
   before_filter :find_iteration, :except => [:index, :new, :create, :move_stories]
 
   def index
-    @project_iterations = @project.iterations
+    @project_iterations = current_project.iterations
     @iteration = @project_iterations.current.first || @project_iterations.previous.first || @project_iterations.next.first
     @stories = @iteration.stories if @iteration
     respond_to do |format|
@@ -15,7 +15,7 @@ class IterationsController < ApplicationController
 
   def show
     @stories = @iteration.stories
-    @project_iterations = @project.iterations
+    @project_iterations = current_project.iterations
     respond_to do |format|
       format.html {
         render :index
@@ -32,13 +32,13 @@ class IterationsController < ApplicationController
 
   def create
     @iteration = Iteration.new params[:iteration]
-    @iteration.project = @project
+    @iteration.project = current_project
     respond_to do |format|
       if @iteration.save
         msg = "New Release \"#{@iteration.name}\" has been created."
         format.html {
           flash[:success] = msg
-          redirect_to project_iteration_path(@project, @iteration)
+          redirect_to project_iteration_path(current_project, @iteration)
         }
         format.js { render :json => { :message => msg } }
       else
@@ -58,7 +58,7 @@ class IterationsController < ApplicationController
         msg = "Iteration \"#{@iteration.name}\" has been updated."
         format.html {
           flash[:success] = msg
-          redirect_to project_iteration_path(@project, @iteration)
+          redirect_to project_iteration_path(current_project, @iteration)
         }
         format.js { render :json => { :message => msg } }
       else
@@ -75,12 +75,12 @@ class IterationsController < ApplicationController
   def destroy
     @iteration.destroy
     flash[:success] = "#{@iteration.name} has been deleted."
-    redirect_to project_iterations_path(@project)
+    redirect_to project_iterations_path(current_project)
   end
 
   def allocation
     @allocations = @iteration.points_by_user
-    @users = @project.users
+    @users = current_project.users
     # render :update do |page|
     #   page.call 'showPopup', render(:partial => 'allocation_popup')
     #   page.call 'sortAllocation'
@@ -88,7 +88,7 @@ class IterationsController < ApplicationController
   end
 
   def select_stories
-    @stories = @project.stories.backlog.select { |s|
+    @stories = current_project.stories.backlog.select { |s|
       s.status != :new and
       s.status != :cancelled
     }
@@ -99,7 +99,7 @@ class IterationsController < ApplicationController
 
   def assign_stories
     change_story_assignment
-    redirect_to project_iteration_path(@project, @iteration)
+    redirect_to project_iteration_path(current_project, @iteration)
   end
 
   def move_stories

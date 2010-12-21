@@ -31,10 +31,10 @@ module ProjectsHelper
   end
 
   def link_to_remove_user(user)
-    link_to "Remove From Project", remove_from_project_project_user_path(@project, user), :method => :put
+    link_to "Remove From Project", remove_from_project_project_user_path(current_project, user), :method => :put
   end
 
   def link_to_add_users
-    link_to "Add Users to Project", add_users_project_path(@project)
+    link_to "Add Users to Project", add_users_project_path(current_project)
   end
 end

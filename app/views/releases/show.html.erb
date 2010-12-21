@@ -13,7 +13,7 @@
 	<br/>
 	(<%= link_to_assign_release_stories(@release) %>)
 	<% if @stories.present? %>
-	<%= form_tag remove_stories_project_release_path(@project) %>
+	<%= form_tag remove_stories_project_release_path(current_project) %>
 		<div class="move_to">Remove Selected Stories from Release? <%= submit_tag "Remove" %></div>
 		<%= render :partial => 'stories/stories', :locals => { :hide_cols => [ :project, :release] } %>
 	</form>

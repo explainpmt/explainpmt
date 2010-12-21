@@ -17,7 +17,7 @@
 						<ul>
 						<% day[:milestones].each do |milestone| %>
 							<li>
-								<% milestone_popup_name = @project ? milestone.name : "#{milestone.project.name}: #{milestone.name}"  -%>
+								<% milestone_popup_name = current_project ? milestone.name : "#{milestone.project.name}: #{milestone.name}"  -%>
 								<%= link_to_show_milestone(milestone, :text => milestone_popup_name) %>
 							</li>
 						<% end %>

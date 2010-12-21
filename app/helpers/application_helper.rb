@@ -26,10 +26,6 @@ module ApplicationHelper
     date.strftime('%a %b %d, %y')
   end
 
-  def relative_date(date)
-    'about ' + time_ago_in_words(date) + ' ago'
-  end
-
   def numeric_date(date)
     date.strftime('%m/%d/%Y')
   end

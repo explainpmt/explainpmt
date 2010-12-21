@@ -1,4 +1,4 @@
-<%= form_for [@project, @story, @task] do |f| %>
+<%= form_for [current_project, @story, @task] do |f| %>
 	<%= render :partial => f %>
 	<%= f.submit %>
 <% end %>

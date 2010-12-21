@@ -4,27 +4,27 @@ module ReleasesHelper
   end
 
   def link_to_new_release
-    link_to 'Add a Release', new_project_release_path(@project)
+    link_to 'Add a Release', new_project_release_path(current_project)
   end
 
   def link_to_edit_release(release, options={})
-    link_to (options[:text] || release.name), edit_project_release_path(@project, release)
+    link_to (options[:text] || release.name), edit_project_release_path(current_project, release)
   end
   
   def link_to_assign_release_stories(release)
-    link_to 'Assign Story Cards', select_stories_project_release_path(@project, release)
+    link_to 'Assign Story Cards', select_stories_project_release_path(current_project, release)
   end
 
   def option_to_edit_release(release)
-    create_action_option("Edit", edit_project_release_path(@project, release))
+    create_action_option("Edit", edit_project_release_path(current_project, release))
   end
 
   def option_to_delete_release(release)
-    create_action_option("Delete", project_release_path(@project, release), :method => :delete, :confirm => 'Are you sure you want to delete?\r\nAll associated data will also be deleted. This action can not be undone.')
+    create_action_option("Delete", project_release_path(current_project, release), :method => :delete, :confirm => 'Are you sure you want to delete?\r\nAll associated data will also be deleted. This action can not be undone.')
   end
   
   def link_to_release(release)
-    link_to release.name, project_release_path(@project, release)
+    link_to release.name, project_release_path(current_project, release)
   end
   
   def show_formatted_pending_stories

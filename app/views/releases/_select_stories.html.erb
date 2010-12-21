@@ -1,5 +1,5 @@
 <h3>Select the stories that you want to add to the release.</h3><br />
-<%= form_tag assign_stories_project_release_path(@project, @release) %>
+<%= form_tag assign_stories_project_release_path(current_project, @release) %>
 	<%= hidden_field_tag :move_to, @release.id %>
 	<%= render :partial => 'stories/stories', :locals => { :hide_cols => [ :owner, :action, :project, :release ] } %>
 	<div class="submit"><%= submit_tag "Add Selected Stories to Release" %></div>

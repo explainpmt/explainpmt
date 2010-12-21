@@ -2,7 +2,7 @@ class AcceptanceTestsController < ApplicationController
   before_filter :find_acceptance, :except => [:index, :new, :create, :export, :assign]
 
   def index
-    @acceptance_tests = @project.acceptance_tests
+    @acceptance_tests = current_project.acceptance_tests
   end
 
   def new
@@ -11,7 +11,7 @@ class AcceptanceTestsController < ApplicationController
 
   def create
     @acceptance_test = AcceptanceTest.new params[:acceptance_test]
-    @acceptance_test.project = @project
+    @acceptance_test.project = current_project
     @acceptance_test.story_id = params[:story_id] if params[:story_id]
     
     respond_to do |format|
@@ -19,7 +19,7 @@ class AcceptanceTestsController < ApplicationController
         msg = "New Acceptance Test \"#{@acceptance_test.name}\" has been created."
         format.html { 
           flash[:success] = msg
-          redirect_to project_acceptance_tests_path(@project)
+          redirect_to project_acceptance_tests_path(current_project)
         }
         format.js { render :json => { :message => msg } }
       else
@@ -36,7 +36,7 @@ class AcceptanceTestsController < ApplicationController
   def update
     if @acceptance_test.update_attributes(params[:acceptance_test])
       flash[:status] = "Acceptance Test \"#{@acceptance_test.name}\" has been updated."
-      redirect_to project_acceptance_tests_path(@project)
+      redirect_to project_acceptance_tests_path(current_project)
     else
       render :text => @acceptance_test.errors.full_messages.to_sentence
     end
@@ -49,7 +49,7 @@ class AcceptanceTestsController < ApplicationController
 
   def clone_acceptance
     @acceptance_test.clone!
-    redirect_to project_acceptance_tests_path(@project)
+    redirect_to project_acceptance_tests_path(current_project)
   end
 
   def export
@@ -61,7 +61,7 @@ class AcceptanceTestsController < ApplicationController
     story = Story.find_by_id(params[:move_to])
     acceptance_tests = AcceptanceTest.find(params[:selected_acceptance_tests] || [])
     set_status_and_error_for(AcceptanceTest.assign_many_to_story(story, acceptance_tests))
-    redirect_to project_acceptance_tests_path(@project)
+    redirect_to project_acceptance_tests_path(current_project)
   end
 
   protected

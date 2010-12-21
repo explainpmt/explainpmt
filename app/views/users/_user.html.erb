@@ -2,14 +2,14 @@
 	<h3 <%= "class='admin'" if user.admin? %>><%= truncate(user.full_name, :length => 22) %></h3>
 	<ul>
 		<li><%= mail_to user.email, "Email" %></li>
-		<% if @project %> 
-			&ndash; <li><%= link_to_remove_user(user) if @project %></li>
+		<% if current_project %> 
+			&ndash; <li><%= link_to_remove_user(user) if current_project %></li>
 		<% elsif is_admin? %>
 			&ndash; <li><%= link_to_edit_user(user) %></li>
 			&ndash; <li><%= link_to_delete_user(user) %></li>
 		<% end %>
 	</ul>
 	<% if is_admin? %>
-		<i>Last Login:</i><%= user.last_login_at ? relative_date(user.last_login_at) : 'never' %>
+		<i>Last Login:</i><%= user.last_login_at ? "#{time_ago_in_words(last_login_at)} ago" : 'never' %>
 	<% end %>
 </div>

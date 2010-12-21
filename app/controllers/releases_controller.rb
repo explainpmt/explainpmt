@@ -2,7 +2,7 @@ class ReleasesController < ApplicationController
   before_filter :find_release, :except => [:index, :create, :new]
 
   def index
-    @releases = @project.releases
+    @releases = current_project.releases
   end
   
   def show
@@ -18,13 +18,13 @@ class ReleasesController < ApplicationController
   end
 
   def create
-    @release = @project.releases.new params[:release]
+    @release = current_project.releases.new params[:release]
     respond_to do |format|
       if @release.save
         msg = "New Release \"#{@release.name}\" has been created."
         format.html {
           flash[:success] = msg
-          redirect_to project_releases_path(@project)
+          redirect_to project_releases_path(current_project)
         }
         format.js { render :json => { :message => msg } }
       else
@@ -44,7 +44,7 @@ class ReleasesController < ApplicationController
         msg = "Release \"#{@release.name}\" has been updated."
         format.html {
           flash[:success] = msg
-          redirect_to project_releases_path(@project)
+          redirect_to project_releases_path(current_project)
         }
         format.js { render :json => { :message => msg } }
       else
@@ -61,7 +61,7 @@ class ReleasesController < ApplicationController
   def destroy
     @release.destroy
     flash[:success] = "#{@release.name} has been deleted."
-    redirect_to project_releases_path(@project)
+    redirect_to project_releases_path(current_project)
   end
   
   def select_stories
@@ -72,12 +72,12 @@ class ReleasesController < ApplicationController
 
   def assign_stories
     change_story_release(Release.find_by_id(params[:id]))
-    redirect_to project_release_path(@project, @release)
+    redirect_to project_release_path(current_project, @release)
   end
   
   def remove_stories
     change_story_release(nil)
-    redirect_to project_release_path(@project, @release)
+    redirect_to project_release_path(current_project, @release)
   end
 
   protected
@@ -87,7 +87,7 @@ class ReleasesController < ApplicationController
   end
   
   def find_stories_not_in_release
-    @other_stories = @project.stories.select { |s| s.release_id.nil? }
+    @other_stories = current_project.stories.select { |s| s.release_id.nil? }
   end
   
   def change_story_release(release)

@@ -1,7 +1,7 @@
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 	<thead>
 		<tr>
-			<th colspan="9"><big>Project: <%= @project.name %></big></th>
+			<th colspan="9"><big>Project: <%= current_project.name %></big></th>
 		</tr>
 		<tr>
 			<th>Test Name</th>
@@ -16,7 +16,7 @@
 		</tr>
 	</thead>
 	<tbody>
-	<% @project.acceptance_tests.each do |at| %>
+	<% current_project.acceptance_tests.each do |at| %>
 		<tr>
 			<td><%= at.name %></td>
 			<td><%= at.story_id ? "#{at.story.scid}(#{truncate(at.story.title, :length => 50)})" : "Not Assigned" %></td>

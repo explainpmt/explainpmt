@@ -2,7 +2,7 @@ class StoriesController < ApplicationController
   before_filter :find_story, :except => [:index, :new, :create, :audit, :export, :export_tasks, :bulk_create, :cancelled, :all, :search]
 
   def index
-    @stories = @project.stories.backlog.not_cancelled
+    @stories = current_project.stories.backlog.not_cancelled
     respond_to do |format|
       format.html
       format.xml { render :xml => @stories }
@@ -11,12 +11,12 @@ class StoriesController < ApplicationController
   
   ## TODO => make these specialized routes which pass a param or something to get into the real index method instead..
   def cancelled
-    @stories = @project.stories.cancelled
+    @stories = current_project.stories.cancelled
     render :index
   end
 
   def all
-    @stories = @project.stories
+    @stories = current_project.stories
     render :index
   end
 
@@ -31,12 +31,12 @@ class StoriesController < ApplicationController
 
   def create
     @story = Story.new params[:story]
-    @story.project = @project
+    @story.project = current_project
     @story.iteration = Iteration.find params[:iteration_id] if params[:iteration_id]
     @story.creator_id = current_user.id
     
     if @story.save
-      render_success('The new story card has been saved.') { redirect_to project_stories_path(@project) }
+      render_success('The new story card has been saved.') { redirect_to project_stories_path(current_project) }
     else
       render_errors(@story.errors.full_messages.to_sentence) { render :new }
     end
@@ -47,7 +47,7 @@ class StoriesController < ApplicationController
     @story.updater_id = current_user.id
     
     if @story.save
-      render_success('The changes to the story card have been saved.') { redirect_to project_stories_path(@project) }
+      render_success('The changes to the story card have been saved.') { redirect_to project_stories_path(current_project) }
     else
       render_errors(@story.errors.full_messages.to_sentence) { render :edit }
     end
@@ -64,7 +64,7 @@ class StoriesController < ApplicationController
   end
 
   def assign_ownership
-    @users = @project.users
+    @users = current_project.users
     render :partial => "assign_owner_form"
   end
 
@@ -95,7 +95,7 @@ class StoriesController < ApplicationController
     new_pos = params[:story][:position]
     render :update do |page|
       if (new_pos.index(/\D/).nil?)
-        last_story = @project.stories.last_position
+        last_story = current_project.stories.last_position
         if(new_pos.to_i <= last_story.position)
           @story.insert_at(new_pos)
           flash[:status] = 'The changes to the story card have been saved.'
@@ -120,7 +120,7 @@ class StoriesController < ApplicationController
 
   def export
     headers['Content-Type'] = "application/vnd.ms-excel"
-    @stories = @project.stories
+    @stories = current_project.stories
     render :layout => false
   end
   alias :export_tasks :export
@@ -132,14 +132,14 @@ class StoriesController < ApplicationController
       st = params[:story][:titles]
       if st.present?
         params[:story][:titles].each_line do |title|
-          @project.stories.create(:title => title, :creator_id => current_user.id)
+          current_project.stories.create(:title => title, :creator_id => current_user.id)
         end
         render_success("New story cards created.") do
-          redirect_to project_stories_path(@project)
+          redirect_to project_stories_path(current_project)
         end
       else
         render_errors("Please enter at least one story card title.") do
-          redirect_to project_stories_path(@project)
+          redirect_to project_stories_path(current_project)
         end
       end
     end
@@ -148,9 +148,9 @@ class StoriesController < ApplicationController
   def search
     query = params[:query_stories]
     unless query.blank?
-      @stories = @project.stories.find(:all, :conditions => "stories.scid = '#{query[2..-1]}' or stories.title like '%#{query}%' or stories.description like '%#{query}%'")
+      @stories = current_project.stories.find(:all, :conditions => "stories.scid = '#{query[2..-1]}' or stories.title like '%#{query}%' or stories.description like '%#{query}%'")
     else
-      @stories = @project.stories.backlog.not_cancelled
+      @stories = current_project.stories.backlog.not_cancelled
     end
     render :partial => 'backlog'
   end

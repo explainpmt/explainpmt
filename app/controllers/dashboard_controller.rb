@@ -8,7 +8,7 @@ class DashboardController < ApplicationController
   end
   
   def show
-    @stories = @project.stories.incomplete.for_user(current_user)
-    @tasks = @project.tasks.incomplete.for_user(current_user)
+    @stories = current_project.stories.incomplete.for_user(current_user)
+    @tasks = current_project.tasks.incomplete.for_user(current_user)
   end
 end

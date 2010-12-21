@@ -1,5 +1,5 @@
-<%= form_for :users, update_users_project_path(@project), :method => :post do |f| %>
-	<h1>Add users to <%= @project.name %></h1>
+<%= form_for :users, update_users_project_path(current_project), :method => :post do |f| %>
+	<h1>Add users to <%= current_project.name %></h1>
 	<table width="100%" cellspacing="0" cellpadding="3">
 		<tr>
 			<th>Available</th>

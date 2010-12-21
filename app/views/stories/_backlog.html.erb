@@ -1,5 +1,5 @@
 <% if @stories.present? %>
-	<%= form_tag move_stories_project_iterations_path(@project) %>
+	<%= form_tag move_stories_project_iterations_path(current_project) %>
 		<%= render :partial => 'stories/move_stories_form', :locals => { :default => "Not Assigned", :selected_id => 'select1' } %>
 		<%= render :partial => 'stories/stories' , :locals => { :hide_cols => [:project] } %>
 		<% if @stories.size > 10 %>

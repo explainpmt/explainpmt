@@ -5,7 +5,7 @@
 	<%= form.label :description %>
 	<%= form.text_area :description %>
 	<%= form.label :owner %>
-	<%= form.select :user_id, @project.users.collect {|u| [ u.full_name, u.id ] }, {:include_blank => true} %>
+	<%= form.select :user_id, current_project.users.collect {|u| [ u.full_name, u.id ] }, {:include_blank => true} %>
 </fieldset>
 <fieldset>
 	<%= form.radio_button :complete, true %>

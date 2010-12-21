@@ -2,8 +2,8 @@ class MilestonesController < ApplicationController
   before_filter :find_milestone, :only => [:edit, :update, :show, :destroy]
 
   def index
-    @future = @project.milestones.future
-    @recent = @project.milestones.recent
+    @future = current_project.milestones.future
+    @recent = current_project.milestones.recent
   end
 
   def new
@@ -12,14 +12,14 @@ class MilestonesController < ApplicationController
 
   def create
     @milestone = Milestone.new params[:milestone]
-    @milestone.project = @project
+    @milestone.project = current_project
     
     respond_to do |format|
       if @milestone.save
         msg = "New Milestone \"#{@milestone.name}\" has been created."
         format.html { 
           flash[:success] = msg
-          redirect_to project_milestones_path(@project)
+          redirect_to project_milestones_path(current_project)
         }
         format.js { render :json => { :message => msg } }
       else
@@ -39,7 +39,7 @@ class MilestonesController < ApplicationController
         msg = "Milestone \"#{@milestone.name}\" has been updated."
         format.html { 
           flash[:success] = msg
-          redirect_to project_milestones_path(@project)
+          redirect_to project_milestones_path(current_project)
         }
         format.js { render :json => { :message => msg } }
       else
@@ -56,7 +56,7 @@ class MilestonesController < ApplicationController
   def destroy
     @milestone.destroy
     flash[:success] = "#{@milestone.name} has been deleted."
-    redirect_to project_milestones_path(@project)
+    redirect_to project_milestones_path(current_project)
   end
 
   def show_all

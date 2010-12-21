@@ -19,7 +19,7 @@ class TasksController < ApplicationController
         msg = "New Task \"#{@task.name}\" has been created."
         format.html {
           flash[:success] = msg
-          redirect_to project_story_tasks_path(@project, @story)
+          redirect_to project_story_tasks_path(current_project, @story)
         }
         format.js { render :json => { :message => msg } }
       else
@@ -39,7 +39,7 @@ class TasksController < ApplicationController
         msg = "Task \"#{@task.name}\" has been updated."
         format.html {
           flash[:success] = msg
-          redirect_to project_story_tasks_path(@project, @story)
+          redirect_to project_story_tasks_path(current_project, @story)
         }
         format.js { render :json => { :message => msg } }
       else
@@ -70,7 +70,7 @@ class TasksController < ApplicationController
   end
 
   def assign_ownership
-    @users = @project.users
+    @users = current_project.users
     render :partial => "assign_owner_form"
   end
 

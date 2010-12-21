@@ -1,7 +1,7 @@
-<% if @project.description? %>
+<% if current_project.description? %>
 	<div id="project_description">
 		<strong>Description:</strong>
-		<%= textilize(@project.description) %>
+		<%= textilize(current_project.description) %>
 	</div>
 <% end %>
 

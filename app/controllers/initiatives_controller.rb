@@ -2,7 +2,7 @@ class InitiativesController < ApplicationController
   before_filter :find_initiative, :except => [:index, :create, :new]
 
   def index
-    @initiatives = @project.initiatives
+    @initiatives = current_project.initiatives
   end
 
   def new
@@ -11,13 +11,13 @@ class InitiativesController < ApplicationController
 
   def create
     @initiative = Initiative.new params[:initiative]
-    @initiative.project = @project
+    @initiative.project = current_project
     respond_to do |format|
       if @initiative.save
         msg = "New initiative \"#{@initiative.name}\" has been created."
         format.html {
           flash[:success] = msg
-          redirect_to project_initiatives_path(@project)
+          redirect_to project_initiatives_path(current_project)
         }
         format.js { render :json => { :message => msg } }
       else
@@ -34,7 +34,7 @@ class InitiativesController < ApplicationController
   def update
     if @initiative.update_attributes(params[:initiative])
       flash[:success] = "initiative \"#{@initiative.name}\" has been updated."
-      redirect_to project_initiatives_path(@project)
+      redirect_to project_initiatives_path(current_project)
     else
       flash[:error] = @initiative.errors.full_messages.to_sentence
     end
@@ -43,7 +43,7 @@ class InitiativesController < ApplicationController
   def destroy
     @initiative.destroy
     flash[:success] = "#{@initiative.name} has been deleted."
-    redirect_to project_initiatives_path(@project)
+    redirect_to project_initiatives_path(current_project)
   end
 
   protected

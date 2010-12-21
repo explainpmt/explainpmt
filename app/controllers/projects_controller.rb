@@ -1,7 +1,5 @@
 class ProjectsController < ApplicationController
-  skip_before_filter :check_authentication, :only => :audits
-  skip_before_filter :require_current_project
-  before_filter :find_project, :except => [:index, :new, :create]
+  skip_before_filter :require_user, :only => :audits
 
   def index
     respond_to do |format|
@@ -18,20 +16,20 @@ class ProjectsController < ApplicationController
   def show
     respond_to do |format|
       format.html {
-        redirect_to project_dashboard_path(@project)
+        redirect_to project_dashboard_path(current_project)
       }
       format.xml {
-        render :xml => @project.to_xml(:include => :iterations)
+        render :xml => current_project.to_xml(:include => :iterations)
       }
     end
   end
 
   def team
     respond_to do |format|
-      format.html {@users = @project.users}
+      format.html {@users = current_project.users}
       format.js {
         render :update do |page|
-          page.redirect_to team_project_path(@project)
+          page.redirect_to team_project_path(current_project)
         end
       }
     end
@@ -56,25 +54,25 @@ class ProjectsController < ApplicationController
 
   def update
     render :update do |page|
-      if @project.update_attributes(params[:project])
-        flash[:status] = "Project \"#{@project.name}\" has been updated."
+      if current_project.update_attributes(params[:project])
+        flash[:status] = "Project \"#{current_project.name}\" has been updated."
         page.redirect_to projects_path
       else
-        page[:flash_notice].replace_html :inline => "<%= error_container(@project.errors.full_messages[0]) %>"
+        page[:flash_notice].replace_html :inline => "<%= error_container(current_project.errors.full_messages[0]) %>"
       end
     end
   end
 
   def destroy
     render :update do |page|
-      @project.destroy
-      flash[:status] = "#{@project.name} has been deleted."
+      current_project.destroy
+      flash[:status] = "#{current_project.name} has been deleted."
       page.redirect_to projects_path
     end
   end
 
   def add_users
-    @available_users = @project.users_available_for_addition
+    @available_users = current_project.users_available_for_addition
     render :update do |page|
       page.call 'showPopup', render(:partial => 'add_users')
     end
@@ -85,12 +83,12 @@ class ProjectsController < ApplicationController
     (params[:selected_users] || []).each do |uid|
       user = User.find_by_id(uid)
       if user
-        @project.users << user
+        current_project.users << user
         users_added << user.full_name
       end
     end
     flash[:status] = "The following users were added to the project: " + users_added.join(', ') unless users_added.empty?
-    redirect_to team_project_path(@project)
+    redirect_to team_project_path(current_project)
   end
 
   def audits
@@ -102,18 +100,12 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.js{
         render :update do |page|
-         page.redirect_to formatted_xml_export_project_path(@project, :xml)
+         page.redirect_to formatted_xml_export_project_path(current_project, :xml)
         end
       }
-      format.html{redirect_to formatted_xml_export_project_path(@project, :xml)}
-      format.xml{render :xml => @project.to_xml(:include => { :iterations => { :include => { :stories => { :include => [:tasks, :acceptance_tests] } } } })  }
+      format.html{redirect_to formatted_xml_export_project_path(current_project, :xml)}
+      format.xml{render :xml => current_project.to_xml(:include => { :iterations => { :include => { :stories => { :include => [:tasks, :acceptance_tests] } } } })  }
     end
-  end
-
-  protected
-
-  def find_project
-    @project = Project.find(params[:id])
   end
 
 end

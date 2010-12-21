@@ -1,5 +1,5 @@
-<% if @project.description? %>
-<div id="ProjectDescription"><strong>Description:</strong><%= textilize(@project.description) %></div>
+<% if current_project.description? %>
+<div id="ProjectDescription"><strong>Description:</strong><%= textilize(current_project.description) %></div>
 <% end %>
 <%= milestones_calendar %>
 <% if(@stories.present?) %>
