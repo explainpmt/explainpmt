@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html {
         flash[:success] = msg
-        with_output_buffer(&block)
+        yield
       }
       format.js { render :json => { :message => msg } }
     end
@@ -69,7 +69,7 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html {
         flash[:errors] = msg
-        with_output_buffer(&block)
+        yield
       }
       format.js { render :json => { :errors => msg } }
     end
