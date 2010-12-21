@@ -1,0 +1,8 @@
+<h3>Select the stories that you want to add to the iteration.</h3>
+<%= form_tag assign_stories_project_iteration_path(@project, @iteration) %>
+	<%= hidden_field_tag :move_to, @iteration.id %>
+	<%= render :partial => 'stories/stories', :locals => { :hide_cols => [:owner, :action, :project, :iteration] } %>
+	<div class="submit">
+		<%= submit_tag "Add Selected Stories to Iteration" %>
+	</div>
+</form>
