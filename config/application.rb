@@ -9,7 +9,7 @@ Bundler.require(:default, Rails.env) if defined?(Bundler)
 module Explainpmt
   class Application < Rails::Application
     config.encoding = "utf-8"
-
+    config.active_record.observers = :audit_observer
     config.filter_parameters += [:password, :password_confirmation]
   end
 end

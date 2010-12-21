@@ -40,7 +40,6 @@ class Story < ActiveRecord::Base
   
   before_create :set_scid
   before_save   :before_save_reset_status
-  after_update  :audit_story
   
   def complete?
     [:accepted, :complete].include?(self.status)
@@ -48,10 +47,6 @@ class Story < ActiveRecord::Base
   
   def closed?
     [:accepted, :complete, :cancelled].include?(self.status)    
-  end
-
-  def audit_story
-    Audit.create!(self, :update)
   end
 
   def assign_to!(new_owner)
