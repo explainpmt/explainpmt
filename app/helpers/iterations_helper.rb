@@ -8,15 +8,15 @@ module IterationsHelper
   end
   
   def link_to_current_iteration_in(iterations)
-    link_to_unless_current 'Current Iteration', project_iteration_path(@project, iterations.current) if iterations.current
+    link_to_unless_current 'Current Iteration', project_iteration_path(@project, iterations.current.first) if iterations.current.present?
   end
 
   def link_to_previous_iteration_in(iterations)
-    link_to_unless_current 'Previous Iteration', project_iteration_path(@project, iterations.previous) if iterations.previous
+    link_to_unless_current 'Previous Iteration', project_iteration_path(@project, iterations.previous.first) if iterations.previous.present?
   end
 
   def link_to_next_iteration_in(iterations)
-    link_to_unless_current 'Next Iteration', project_iteration_path(@project, iterations.next) if iterations.next
+    link_to_unless_current 'Next Iteration', project_iteration_path(@project, iterations.next.first) if iterations.next.present?
   end
   
   def link_to_edit_iteration(iteration, options={})

@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   skip_before_filter :check_authentication, :only => :audits
   skip_before_filter :require_current_project
-  before_filter :find_project, :except => [:index, :new, :create,]
+  before_filter :find_project, :except => [:index, :new, :create]
 
   def index
     respond_to do |format|
@@ -52,10 +52,6 @@ class ProjectsController < ApplicationController
         page[:flash_notice].replace_html :inline => "<%= error_container(@project.errors.full_messages[0]) %>"
       end
     end
-  end
-
-  def edit
-    @project = Project.find(params[:id])
   end
 
   def update

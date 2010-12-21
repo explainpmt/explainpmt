@@ -10,14 +10,11 @@ class ReleasesController < ApplicationController
     find_stories_not_in_release
     @num_non_estimated_stories = (@release.stories.not_estimated_and_not_cancelled).size
     @release_points_completed = @release.stories.points_completed
-    @release_points_non_completed = @release.stories.points_not_completed
+    @release_points_non_completed = @release.stories.points_remaining
   end
 
   def new
     @release = Release.new
-  end
-
-  def edit
   end
 
   def create

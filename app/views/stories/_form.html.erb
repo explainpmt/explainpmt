@@ -11,11 +11,11 @@
 </fieldset>
 <fieldset>
 	<%= form.label :status %>
-	<%= form.select :status, Story.statuses.collect{|k,v|[k.to_s.titleize.name, v] }%>
+	<%= form.select :status, Story.statuses.collect{|k,v|[k.to_s.titleize, v] }%>
 	<%= form.label :value %>
-	<%= form.select :value, Story.values.collect{|k,v|[k.to_s.titleize.name, v] }%>
+	<%= form.select :value, Story.values.collect{|k,v|[k.to_s.titleize, v] }%>
 	<%= form.label :risk %>
-	<%= form.select :risk, Story.risks.collect{|k,v|[k.to_s.titleize.name, v] }%>
+	<%= form.select :risk, Story.risks.collect{|k,v|[k.to_s.titleize, v] }%>
 </fieldset>
 <fieldset>
 	<%= form.label :points %>

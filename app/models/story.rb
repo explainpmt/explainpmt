@@ -2,7 +2,7 @@ require 'position'
 class Story < ActiveRecord::Base
   include Position
   include AttributeMapper
-
+  
   map_attribute :status, :to => {:new => 1, :defined => 2, :in_progress => 3, 
     :rejected => 4, :blocked => 5, :complete => 6, :accepted => 7, :cancelled => 8, :obstacle => 9}
     
@@ -41,7 +41,7 @@ class Story < ActiveRecord::Base
   before_create :set_scid
   before_save   :before_save_reset_status
   after_update  :audit_story
-
+  
   def complete?
     [:accepted, :complete].include?(self.status)
   end

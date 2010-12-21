@@ -1,13 +1,11 @@
 class StoriesController < ApplicationController
-  before_filter :find_story, :except => [:index, :new, :create, :audit, :export, :export_tasks, :bulk_create, :create_many, :cancelled, :all, :search]
+  before_filter :find_story, :except => [:index, :new, :create, :audit, :export, :export_tasks, :bulk_create, :cancelled, :all, :search]
 
   def index
     @stories = @project.stories.backlog.not_cancelled
     respond_to do |format|
       format.html
-      format.xml {
-        render :xml => @stories.to_xml
-      }
+      format.xml { render :xml => @stories }
     end
   end
   
@@ -26,9 +24,6 @@ class StoriesController < ApplicationController
     @story = Story.new
   end
 
-  def edit
-  end
-
   def show
     @tasks = @story.tasks
     @acceptance_tests = @story.acceptance_tests
@@ -40,22 +35,10 @@ class StoriesController < ApplicationController
     @story.iteration = Iteration.find params[:iteration_id] if params[:iteration_id]
     @story.creator_id = current_user.id
     
-    respond_to do |format|
-      if @story.save
-        msg = 'The new story card has been saved.'
-        format.html {
-          flash[:success] = msg
-          redirect_to project_stories_path(@project)
-        }
-        format.js { render :json => { :message => msg } }
-      else
-        msg = @story.errors.full_messages.to_sentence
-        format.html {
-          flash[:errors] = msg
-          render :new
-        }
-        format.js { render :json => { :errors => msg } }
-      end
+    if @story.save
+      render_success('The new story card has been saved.') { redirect_to project_stories_path(@project) }
+    else
+      render_errors(@story.errors.full_messages.to_sentence) { render :new }
     end
   end
 
@@ -63,22 +46,10 @@ class StoriesController < ApplicationController
     @story.attributes = params[:story]
     @story.updater_id = current_user.id
     
-    respond_to do |format|
-      if @story.save
-        msg = 'The changes to the story card have been saved.'
-        format.html {
-          flash[:success] = msg
-          redirect_to project_stories_path(@project)
-        }
-        format.js { render :json => { :message => msg } }
-      else
-        msg = @story.errors.full_messages.to_sentence
-        format.html {
-          flash[:errors] = msg
-          render :edit
-        }
-        format.js { render :json => { :errors => msg } }
-      end
+    if @story.save
+      render_success('The changes to the story card have been saved.') { redirect_to project_stories_path(@project) }
+    else
+      render_errors(@story.errors.full_messages.to_sentence) { render :edit }
     end
   end
 
@@ -110,16 +81,6 @@ class StoriesController < ApplicationController
   def destroy
     @story.destroy
     flash[:status] = "Story \"#{@story.title}\" has been deleted."
-    redirect_to request.referer
-  end
-
-  def move_up
-    @story.move_higher
-    redirect_to request.referer
-  end
-
-  def move_down
-    @story.move_lower
     redirect_to request.referer
   end
 
@@ -165,31 +126,22 @@ class StoriesController < ApplicationController
   alias :export_tasks :export
 
   def bulk_create
-    render :partial => 'bulk_create_form'
-  end
-
-  def create_many
-    st = params[:story][:titles]
-    respond_to do |format|
+    if request.get?
+      render :partial => 'bulk_create_form'
+    else
+      st = params[:story][:titles]
       if st.present?
         params[:story][:titles].each_line do |title|
           @project.stories.create(:title => title, :creator_id => current_user.id)
         end
-        msg = "New story cards created."
-        format.html {
-          flash[:success] = msg
+        render_success("New story cards created.") do
           redirect_to project_stories_path(@project)
-        }
-        format.js { render :json => { :message => msg } }
+        end
       else
-        msg = "Please enter at least one story card title."
-        format.html {
-          flash[:error] = msg
+        render_errors("Please enter at least one story card title.") do
           redirect_to project_stories_path(@project)
-        }
-        format.js { render :json => { :errors => msg } }
+        end
       end
-      
     end
   end
 

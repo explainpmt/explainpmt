@@ -27,6 +27,17 @@ module Position
       insert_at(0)
     end
     
+    def move_up
+      return if self.position == 0
+      position = self.position -= 1
+      insert_at(position)
+    end
+    
+    def move_down
+      position = self.position += 1
+      insert_at(position)
+    end
+    
     def insert_at(index)
       ids = select_ids
       ids.delete(self.id)

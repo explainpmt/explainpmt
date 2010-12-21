@@ -3,7 +3,7 @@ class IterationsController < ApplicationController
 
   def index
     @project_iterations = @project.iterations
-    @iteration = @project_iterations.current || @project_iterations.previous || @project_iterations.next
+    @iteration = @project_iterations.current.first || @project_iterations.previous.first || @project_iterations.next.first
     @stories = @iteration.stories if @iteration
     respond_to do |format|
       format.html
@@ -28,9 +28,6 @@ class IterationsController < ApplicationController
 
   def new
     @iteration = Iteration.new
-  end
-
-  def edit
   end
 
   def create

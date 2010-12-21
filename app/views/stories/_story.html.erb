@@ -16,9 +16,9 @@
 	<td><%= story.release_id? ? link_to_release(story.release) : "Not Assigned" %></td>
 	<%end%>
 	<td><%= story.points %></td>
-	<td><%= story.value.name %></td>
-	<td><%= story.risk.name %></td>
-	<td><%= story.status.name %></td>
+	<td><%= story.value %></td>
+	<td><%= story.risk %></td>
+	<td><%= story.status %></td>
 	<% unless hide_cols.include?( :owner ) %>
 	<td>
 	<%if story.owner%>

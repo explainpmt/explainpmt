@@ -54,4 +54,24 @@ class ApplicationController < ActionController::Base
     flash[:success] = results[:successes].join("\n\n") unless results[:successes].empty?
     flash[:error] = results[:failures].join("\n\n") unless results[:failures].empty?
   end
+  
+  def render_success(msg, &block)
+    respond_to do |format|
+      format.html {
+        flash[:success] = msg
+        with_output_buffer(&block)
+      }
+      format.js { render :json => { :message => msg } }
+    end
+  end
+  
+  def render_errors(msg, &block)
+    respond_to do |format|
+      format.html {
+        flash[:errors] = msg
+        with_output_buffer(&block)
+      }
+      format.js { render :json => { :errors => msg } }
+    end
+  end
 end

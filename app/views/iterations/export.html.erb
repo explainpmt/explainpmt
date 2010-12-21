@@ -24,9 +24,9 @@
 			<td><%= story.description%></td>
 			<td><%=  story.initiative_id? ? story.initiative.name : "Not Assigned" %></td>
 			<td><%= story.points %></td>
-			<td><%= story.value.name %></td>
-			<td><%= story.risk.name %></td>
-			<td><%= story.status.name %></td>
+			<td><%= story.value %></td>
+			<td><%= story.risk %></td>
+			<td><%= story.status %></td>
 			<td><%= story.customer %></td>
 			<td><%= story.owner.full_name if story.owner%></td>
 		</tr>

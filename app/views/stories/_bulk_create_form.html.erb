@@ -1,4 +1,4 @@
-<%= form_for :story, :url => create_many_project_stories_path(@project) do |f| %>
+<%= form_for :story, :url => bulk_create_project_stories_path(@project) do |f| %>
 	<h2>Bulk Story Card Creation</h2>
 	<fieldset>
 		<%= label_tag :titles, "Enter titles of new storycards, one per line:" %>

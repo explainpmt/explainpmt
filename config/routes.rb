@@ -50,8 +50,8 @@ Explainpmt::Application.routes.draw do
         get :assign_ownership
         post :assign
         put :clone_story
-        put :move_up
-        put :move_down
+        put :move_up # Get ready to remove this
+        put :move_down # Get ready to remove this
         get :edit_numeric_priority
         put :set_numeric_priority
       end
@@ -63,7 +63,7 @@ Explainpmt::Application.routes.draw do
         get :export
         get :export_tasks
         get :bulk_create
-        post :create_many
+        post :bulk_create
       end
       
       resources :tasks do
