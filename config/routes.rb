@@ -17,7 +17,7 @@ Explainpmt::Application.routes.draw do
       post :update_users
     end
     
-    resource :dashboard
+    resource :dashboard, :controller => 'dashboard'
     
     resources :acceptance_tests do
       member do
