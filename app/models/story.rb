@@ -38,7 +38,7 @@ class Story < ActiveRecord::Base
   scope :last_scid, order("scid DESC").limit(1)  
   scope :for_user, lambda{|user| where("user_id = ?", user.id)}  
   
-  before_create :set_scid
+  before_validation :set_scid, :on => :create
   before_save   :before_save_reset_status
   
   def complete?

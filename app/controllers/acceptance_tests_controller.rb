@@ -14,37 +14,25 @@ class AcceptanceTestsController < ApplicationController
     @acceptance_test.project = current_project
     @acceptance_test.story_id = params[:story_id] if params[:story_id]
     
-    respond_to do |format|
-      if @acceptance_test.save
-        msg = "New Acceptance Test \"#{@acceptance_test.name}\" has been created."
-        format.html { 
-          flash[:success] = msg
-          redirect_to project_acceptance_tests_path(current_project)
-        }
-        format.js { render :json => { :message => msg } }
-      else
-        msg = @acceptance_test.errors.full_messages.to_sentence
-        format.html {
-          flash[:error] = msg
-          render :new
-        }
-        format.js { render :json => { :errors => msg }}
-      end
+    if @acceptance_test.save
+      render_success("New Acceptance Test \"#{@acceptance_test.name}\" has been created.") { redirect_to project_acceptance_tests_path(current_project) }
+    else
+      render_errors(@acceptance_test.errors.full_messages.to_sentence) { render :new }
     end
   end
 
   def update
     if @acceptance_test.update_attributes(params[:acceptance_test])
-      flash[:status] = "Acceptance Test \"#{@acceptance_test.name}\" has been updated."
-      redirect_to project_acceptance_tests_path(current_project)
+      render_success("Acceptance Test \"#{@acceptance_test.name}\" has been updated.") { redirect_to project_acceptance_tests_path(current_project) }
     else
-      render :text => @acceptance_test.errors.full_messages.to_sentence
+      render_errors(@acceptance_test.errors.full_messages.to_sentence) { render :edit }
     end
   end
 
   def destroy
     @acceptance_test.destroy
     flash[:status] = "Acceptance Test \"#{@acceptance_test.name}\" has been deleted."
+    redirect_to project_acceptance_tests_path(current_project)
   end
 
   def clone_acceptance

@@ -3,8 +3,26 @@ body { font-size: 12px; font-family: Arial, Helvetica, sans-serif; }
 h1 { font-size: 20px; }
 h2 { font-size: 16px; }
 
-form label { font-weight: bold; display: block; }
+form div.field { margin: 7px 0; clear: both; }
+form label { font-weight: bold; display: block; margin: 0 0 2px; }
   form label.inline { display: inline; }
+  form input[type=text],
+  form input[type=password] { padding: 3px; border: 1px solid #ccc; border-radius: 2px; }
 form textarea { width: 300px; height: 100px; }
 
+.clear { clear: both; float: none; margin: 0; height: 0; padding: 0; }
 .align_right { text-align: right; }
+
+div#header h1 { width: 208px; height: 56px; }
+  div#header h1 a { display: block; width: 208px; height: 56px; text-indent: -9999px; background: url(/images/logo2.png) no-repeat; }
+    
+/** LOGIN **/
+#login,
+#register { float: left; width: 420px; }
+#login { margin-right: 20px; }
+  #login h2,
+  #register h2 { font-family: Rockwell; background: #0ad; padding: 10px; font-size: 24px; color: #fff; }
+  #login form,
+  #register form { border: 1px solid #ccc; padding: 20px 40px; }
+  
+#register:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }

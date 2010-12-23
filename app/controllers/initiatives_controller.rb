@@ -12,32 +12,21 @@ class InitiativesController < ApplicationController
   def create
     @initiative = Initiative.new params[:initiative]
     @initiative.project = current_project
-    respond_to do |format|
-      if @initiative.save
-        msg = "New initiative \"#{@initiative.name}\" has been created."
-        format.html {
-          flash[:success] = msg
-          redirect_to project_initiatives_path(current_project)
-        }
-        format.js { render :json => { :message => msg } }
-      else
-        msg = @initiative.errors.full_messages.to_sentence
-        format.html {
-          flash[:error] = msg
-          render :new
-        }
-        format.js { render :json => { :errors => msg } }
-      end
+    
+    if @initiative.save
+      render_success("New initiative \"#{@initiative.name}\" has been created.") { redirect_to project_initiatives_path(current_project) }
+    else
+      render_errors(@initiative.errors.full_messages.to_sentence) { render :new }
     end
   end
 
   def update
     if @initiative.update_attributes(params[:initiative])
-      flash[:success] = "initiative \"#{@initiative.name}\" has been updated."
-      redirect_to project_initiatives_path(current_project)
+      render_success("Initiative \"#{@initiative.name}\" has been updated.") { redirect_to project_initiatives_path(current_project) }
     else
-      flash[:error] = @initiative.errors.full_messages.to_sentence
+      render_errors(@initiative.errors.full_messages.to_sentence) { render :edit }
     end
+    
   end
 
   def destroy

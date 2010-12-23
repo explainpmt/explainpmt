@@ -1,4 +1,4 @@
-<%= form_for :owner, :url => assign_project_story_path(current_project, @story) do |f| %>
+<%= form_for :owner, :url => assign_project_story_task_path(@project, @task.story, @task) do |f| %>
 	<% @users.each do |m| %>
 		<%= f.radio_button :id, m.id %>
 		<%= f.label :id, m.full_name, :value => m.id, :class => "inline" %>

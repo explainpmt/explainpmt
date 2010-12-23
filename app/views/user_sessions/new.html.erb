@@ -1,15 +1,48 @@
 <div id="login">
+	<h2>Sign In</h2>
 	<%= form_for @user_session, :url => user_session_path do |f| %>
 		<fieldset>
-		<%= f.label :login %>
-		<%= f.text_field :login %>
-		<%= f.label :password %>
-		<%= f.password_field :password %>
+			<div class="field">
+				<%= f.label :login %>
+				<%= f.text_field :login %>
+			</div>
+			<div class="field">
+				<%= f.label :password %>
+				<%= f.password_field :password %>
+			</div>
+			<div class="field">
+				<%= f.check_box :remember_me %>
+				<%= f.label :remember_me, "Remember Me", :class => "inline" %>
+			</div>
 		</fieldset>
-		<%= f.submit 'Login', :class => "button" %>
+		<%= f.submit 'Login' %>
+		<div>
+			<span><%= link_to_forgot %></span>
+		</div>
 	<% end %>
-	<div>
-		<span><%= link_to_new_user('Register New User') %></span>
-		<span><%= link_to_forgot %></span>
-	</div>
 </div>
+<div id="register">
+	<h2>Register</h2>
+	<%= form_for User.new do |f| %>
+		<fieldset>
+			<div class="field">
+				<%= f.label :login, "Username" %>
+				<%= f.text_field :login, :value => "" %>
+			</div>
+			<div class="field">
+				<%= f.label :password %>
+				<%= f.password_field :password, :value => "" %>
+			</div>
+			<div class="field">
+				<%= f.label :password_confirmation, "Password Confirmation" %>
+				<%= f.password_field :password_confirmation %>
+			</div>
+			<div class="field">
+				<%= f.label :email %>
+				<%= f.text_field :email %>
+			</div>
+		</fieldset>
+		<%= f.submit 'Register' %>
+	<% end %>
+</div>
+<br class="clear" />

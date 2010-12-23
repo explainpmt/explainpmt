@@ -51,7 +51,7 @@ class ReleasesController < ApplicationController
         msg = @release.errors.full_messages.to_sentence
         format.html {
           flash[:errors] = msg
-          render :new
+          render :edit
         }
         format.js { render :json => { :errors => msg } }
       end

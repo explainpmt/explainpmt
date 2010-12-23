@@ -1,6 +1,8 @@
 big_initiative:
   id: 1
+  name: Big one
   start_date: <%= Date.today %>
   end_date: <%= Date.today+1.month %>
   customer: No one
   product_owner: Who knows
+  project_id: 1

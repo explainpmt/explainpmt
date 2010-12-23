@@ -45,8 +45,8 @@ Explainpmt::Application.routes.draw do
     resources :stories do
       member do
         get :audit
-        put :take_ownership
-        put :release_ownership
+        get :take_ownership
+        get :release_ownership
         get :assign_ownership
         post :assign
         put :clone_story
@@ -68,7 +68,10 @@ Explainpmt::Application.routes.draw do
       
       resources :tasks do
         member do
+          get :take_ownership
           get :release_ownership
+          get :assign_ownership
+          post :assign
         end
       end
       resources :acceptance_tests

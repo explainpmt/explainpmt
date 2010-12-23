@@ -1,6 +1,12 @@
-do_something:
+assigned:
   id: 1
   name: Do something
   description: how about now
   user_id: 1
+  story_id: 1
+  
+unassigned:
+  id: 2
+  name: do something else
+  description: you know what to do
   story_id: 1

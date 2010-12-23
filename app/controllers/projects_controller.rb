@@ -41,34 +41,33 @@ class ProjectsController < ApplicationController
 
   def create
     @project = Project.new params[:project]
-    render :update do |page|
-      if @project.save
-        current_user.projects << @project if params[:add_me] == '1'
-        flash[:status] = "New project \"#{@project.name}\" has been created."
-        page.redirect_to projects_path
-      else
-        page[:flash_notice].replace_html :inline => "<%= error_container(@project.errors.full_messages[0]) %>"
-      end
+    
+    if @project.save
+      current_user.projects << @project if params[:add_me] == '1'
+      render_success("New project \"#{@project.name}\" has been created.") { redirect_to projects_path }
+    else
+      render_errors(@project.errors.full_messages.to_sentence) { render :new }
     end
+  end
+  
+  def edit
+    @project = Project.find(params[:id])
   end
 
   def update
-    render :update do |page|
-      if current_project.update_attributes(params[:project])
-        flash[:status] = "Project \"#{current_project.name}\" has been updated."
-        page.redirect_to projects_path
-      else
-        page[:flash_notice].replace_html :inline => "<%= error_container(current_project.errors.full_messages[0]) %>"
-      end
+    @project = Project.find(params[:id])
+    if @project.update_attributes(params[:project])
+      render_success("Project \"#{current_project.name}\" has been updated.") { redirect_to projects_path }
+    else
+      render_errors(@project.errors.full_messages.to_sentence) { render :edit }
     end
   end
 
   def destroy
-    render :update do |page|
-      current_project.destroy
-      flash[:status] = "#{current_project.name} has been deleted."
-      page.redirect_to projects_path
-    end
+    @project = Project.find(params[:id])
+    @project.destroy
+    flash[:status] = "#{@project.name} has been deleted."
+    redirect_to projects_path
   end
 
   def add_users

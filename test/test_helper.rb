@@ -18,6 +18,17 @@ class ActiveSupport::TestCase
     UserSession.create(users(user))
   end
   
+  def valid_user_params(opts={})
+    opts.reverse_merge({ 
+      :first_name => "Bob", 
+      :last_name => "Lawblaw", 
+      :email => "bob.lawblaw@test.invalid.bla", 
+      :login => "boblawblaw", 
+      :password => "testing", 
+      :password_confirmation => "testing"
+    })
+  end
+  
   private
   def log_test
     puts "\n\n>> Starting #{self.name}\n#{'-' * 130}"

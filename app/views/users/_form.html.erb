@@ -15,7 +15,7 @@
 	<%= form.label :last_name, "Last Name" %>
 	<%= form.text_field :last_name %>
 	<% if is_admin? %>
-		<%= f.check_box :admin %>
-		<%= f.label :admin, "Admin", :class => "inline" %>
+		<%= form.check_box :admin %>
+		<%= form.label :admin, "Admin", :class => "inline" %>
 	<% end %>
 </fieldset>

@@ -54,12 +54,12 @@ class StoriesController < ApplicationController
   end
 
   def take_ownership
-    @story.assign_to(current_user)
+    @story.assign_to!(current_user)
     redirect_to request.referer
   end
 
   def release_ownership
-    @story.release_ownership
+    @story.release_ownership!
     redirect_to request.referer
   end
 
@@ -69,8 +69,8 @@ class StoriesController < ApplicationController
   end
 
   def assign
-    @story.assign_to(User.find params[:owner][:id])
-    redirect_to request.referer
+    @story.assign_to!(User.find params[:owner][:id])
+    redirect_to project_story_path(current_project, @story)
   end
 
   def clone_story

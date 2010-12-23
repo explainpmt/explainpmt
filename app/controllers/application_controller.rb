@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   layout 'application'
 
-
   before_filter :require_user
   before_filter :correct_safari_and_ie_accept_headers#, :set_selected_project
   
@@ -19,7 +18,7 @@ class ApplicationController < ActionController::Base
   end
   
   def local_request?
-    %w(staging).include?(Rails.env) || super
+    %w(staging trunk).include?(Rails.env) || super
   end
   
   def default_paging
@@ -37,7 +36,7 @@ class ApplicationController < ActionController::Base
   end
 
   def store_location
-    session[:return_to] = request.request_uri
+    session[:return_to] = request.fullpath
   end
 
   def redirect_back_or_default(default)
@@ -47,9 +46,9 @@ class ApplicationController < ActionController::Base
 
   def current_project
     if self.is_a?(ProjectsController)
-      Project.find_by_id(params[:id])
+      @current_project ||= Project.find_by_id(params[:id])
     else
-      params[:project_id] ? Project.find_by_id(params[:project_id]) : current_user.projects.first
+      @current_project ||= params[:project_id] ? Project.find_by_id(params[:project_id]) : current_user.projects.first
     end
   end
   

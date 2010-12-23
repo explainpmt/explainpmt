@@ -8,8 +8,8 @@
 	</head>
 	<body>
 		<div id="header">
-			<h1><%= link_to 'ExplainPMT', root_path %></h1>
-			<% if logged_in? %>
+			<h1><%= link_to 'eXPlainPMT', root_path %></h1>
+			<% if logged_in? && current_project %>
 			<div id="primary_nav">
 				<%= render :partial => 'shared/primary_nav' %>
 			</div>
@@ -21,9 +21,9 @@
 				<p><%= v %></p>
 			</div>
 			<% end %>
-			
+		
 			<%= yield %>
-			
+		
 		</div>
 		<div id="footer">
 			<p><strong><a href="http://code.google.com/p/explainpmt/issues/list" title="Issues? Requests? Submit them here" rel="external">eXPlain Project Management Tool</a></strong> - <%= ApplicationHelper::VERSION %> (<a href="/user_guide.doc">User Guide</a>)</p>

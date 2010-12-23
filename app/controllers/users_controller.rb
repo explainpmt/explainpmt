@@ -26,31 +26,21 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-
-    respond_to do |format|
-      if @user.save
-        format.html
-        format.xml { render :xml => @user, :status => 200 }
-      else
-        format.html { render :new }
-        format.js { render :new, :layout => false }
-        format.xml { render :xml => @user.errors, :status => 406 }
-      end
+    
+    if @user.save
+      render_success("User successfully created.") { redirect_to users_path }
+    else
+      render_errors(@user.errors.full_messages.to_sentence) { render :new }
     end
   end
 
   def update
     @user = User.find(params[:id])
-
-    respond_to do |format|
-      if @user.update_attributes(params[:user])
-        format.html
-        format.xml { render :xml => @user, :status => 200 }
-      else
-        format.html { render :edit }
-        format.js { render :edit, :layout => false }
-        format.xml { render :xml => @user.errors, :status => 406 }
-      end
+    
+    if @user.update_attributes(params[:user])
+      render_success("User successfully updated.") { redirect_to users_path }
+    else
+      render_errors(@user.errors.full_messages.to_sentence) { render :edit }
     end
   end
 
