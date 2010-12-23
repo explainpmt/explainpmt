@@ -4,13 +4,12 @@ class Audit < ActiveRecord::Base
   
   belongs_to :auditable, :polymorphic => true
   belongs_to :user
-  belongs_to :admin
   
   serialize :auditable_changes
   
   scope :for, lambda { |x| { :conditions => ["auditable_type = ? and auditable_id = ?", x.class.name, x.id] } }
   
-  before_create :set_readonly
+  after_initialize :set_readonly
   before_destroy :stop_destroy
   
   @@skip_fields = { 

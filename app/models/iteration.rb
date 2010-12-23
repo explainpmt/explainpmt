@@ -34,6 +34,7 @@ class Iteration < ActiveRecord::Base
   protected
 
   def ensure_no_overlap
+    return unless project
     project.iterations.each { |iteration|
         errors.add(:start_date, "causes an overlap with #{iteration.length}-day iteration starting on " +
                    "#{iteration.start_date.strftime('%m/%d/%Y')}.") unless id==iteration.id or (stop_date<iteration.start_date or start_date>iteration.stop_date)
