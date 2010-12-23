@@ -11,45 +11,19 @@ class MilestonesController < ApplicationController
   end
 
   def create
-    @milestone = Milestone.new params[:milestone]
-    @milestone.project = current_project
-    
-    respond_to do |format|
-      if @milestone.save
-        msg = "New Milestone \"#{@milestone.name}\" has been created."
-        format.html { 
-          flash[:success] = msg
-          redirect_to project_milestones_path(current_project)
-        }
-        format.js { render :json => { :message => msg } }
-      else
-        msg = @milestone.errors.full_messages.to_sentence
-        format.html {
-          flash[:error] = msg
-          render :new
-        }
-        format.js { render :json => { :errors => msg }}
-      end
+    @milestone = current_project.milestones.new(params[:milestone])
+    if @milestone.save
+      render_success("New Milestone \"#{@milestone.name}\" has been created.") { redirect_to project_milestones_path(current_project) }
+    else
+      render_errors(@milestone.errors.full_messages.to_sentence) { render :new }
     end
   end
 
   def update
-    respond_to do |format|
-      if @milestone.update_attributes(params[:milestone])
-        msg = "Milestone \"#{@milestone.name}\" has been updated."
-        format.html { 
-          flash[:success] = msg
-          redirect_to project_milestones_path(current_project)
-        }
-        format.js { render :json => { :message => msg } }
-      else
-        msg = @milestone.errors.full_messages.to_sentence
-        format.html {
-          flash[:error] = msg
-          render :edit
-        }
-        format.js { render :json => { :errors => msg }}
-      end
+    if @milestone.update_attributes(params[:milestone])
+      render_success("Milestone \"#{@milestone.name}\" has been updated.") { redirect_to project_milestones_path(current_project) }
+    else
+      render_errors(@milestone.errors.full_messages.to_sentence) { render :edit }
     end
   end
 

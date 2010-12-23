@@ -17,9 +17,7 @@ class IterationsController < ApplicationController
     @stories = @iteration.stories
     @project_iterations = current_project.iterations
     respond_to do |format|
-      format.html {
-        render :index
-      }
+      format.html { render :index }
       format.xml {
         render :xml => @iteration.to_xml(:include => { :stories => { :include => [:tasks, :acceptance_tests] } } )
       }
@@ -31,44 +29,19 @@ class IterationsController < ApplicationController
   end
 
   def create
-    @iteration = Iteration.new params[:iteration]
-    @iteration.project = current_project
-    respond_to do |format|
-      if @iteration.save
-        msg = "New Release \"#{@iteration.name}\" has been created."
-        format.html {
-          flash[:success] = msg
-          redirect_to project_iteration_path(current_project, @iteration)
-        }
-        format.js { render :json => { :message => msg } }
-      else
-        msg = @iteration.errors.full_messages.to_sentence
-        format.html {
-          flash[:errors] = msg
-          render :new
-        }
-        format.js { render :json => { :errors => msg }}
-      end
+    @iteration = current_project.iterations.new(params[:iteration])
+    if @iteration.save
+      render_success("New Release \"#{@iteration.name}\" has been created.") { redirect_to project_iteration_path(current_project, @iteration) }
+    else
+      render_errors(@iteration.errors.full_messages.to_sentence) { render :new }
     end
   end
 
   def update
-    respond_to do |format|
-      if @iteration.update_attributes(params[:iteration])
-        msg = "Iteration \"#{@iteration.name}\" has been updated."
-        format.html {
-          flash[:success] = msg
-          redirect_to project_iteration_path(current_project, @iteration)
-        }
-        format.js { render :json => { :message => msg } }
-      else
-        msg = @iteration.errors.full_messages.to_sentence
-        format.html {
-          flash[:errors] = msg
-          render :edit
-        }
-        format.js { render :json => { :errors => msg }}
-      end
+    if @iteration.update_attributes(params[:iteration])
+      render_success("Iteration \"#{@iteration.name}\" has been updated.") { redirect_to project_iteration_path(current_project, @iteration) }
+    else
+      render_errors(@iteration.errors.full_messages.to_sentence) { render :edit }
     end
   end
 

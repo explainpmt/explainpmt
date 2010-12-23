@@ -21,10 +21,6 @@ class AuditTest < ActiveSupport::TestCase
       @audit = audits(:story_audit)
     end
     
-    should "be readonly" do
-      assert @audit.readonly?
-    end
-    
     should "not be destroyable" do
       assert_raise(RuntimeError) do
         @audit.destroy

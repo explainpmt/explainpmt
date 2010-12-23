@@ -1,7 +1,7 @@
 module UsersHelper
   
   def link_to_new_project_user
-    link_to 'Create New User', new_project_user_path(current_project)
+    link_to 'Create New User', new_user_project_path(current_project)
   end
 
   def link_to_new_user(value)

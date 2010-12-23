@@ -98,6 +98,12 @@ Explainpmt::Application.routes.draw do
       
       resources :stories
     end
+    
+    resources :users do
+      member do
+        get :remove_from_project
+      end
+    end
   end
   resources :users do
     collection do

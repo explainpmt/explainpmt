@@ -18,43 +18,19 @@ class ReleasesController < ApplicationController
   end
 
   def create
-    @release = current_project.releases.new params[:release]
-    respond_to do |format|
-      if @release.save
-        msg = "New Release \"#{@release.name}\" has been created."
-        format.html {
-          flash[:success] = msg
-          redirect_to project_releases_path(current_project)
-        }
-        format.js { render :json => { :message => msg } }
-      else
-        msg = @release.errors.full_messages.to_sentence
-        format.html {
-          flash[:errors] = msg
-          render :new
-        }
-        format.js { render :json => { :errors => msg } }
-      end
+    @release = current_project.releases.new(params[:release])
+    if @release.save
+      render_success("New Release \"#{@release.name}\" has been created.") { redirect_to project_releases_path(current_project) }
+    else
+      render_errors(@release.errors.full_messages.to_sentence) { render :new }
     end
   end
 
   def update
-    respond_to do |format|
-      if @release.update_attributes(params[:release])
-        msg = "Release \"#{@release.name}\" has been updated."
-        format.html {
-          flash[:success] = msg
-          redirect_to project_releases_path(current_project)
-        }
-        format.js { render :json => { :message => msg } }
-      else
-        msg = @release.errors.full_messages.to_sentence
-        format.html {
-          flash[:errors] = msg
-          render :edit
-        }
-        format.js { render :json => { :errors => msg } }
-      end
+    if @release.update_attributes(params[:release])
+      render_success("Release \"#{@release.name}\" has been updated.") { redirect_to project_releases_path(current_project) }
+    else
+      render_errors(@release.errors.full_messages.to_sentence) { render :edit }
     end
   end
 

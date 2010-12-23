@@ -9,7 +9,8 @@ class Audit < ActiveRecord::Base
   
   scope :for, lambda { |x| { :conditions => ["auditable_type = ? and auditable_id = ?", x.class.name, x.id] } }
   
-  after_initialize :set_readonly
+  before_create :set_readonly
+  
   before_destroy :stop_destroy
   
   @@skip_fields = { 
