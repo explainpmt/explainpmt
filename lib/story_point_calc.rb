@@ -1,11 +1,11 @@
 module StoryPointCalc
 
   def points_completed
-    completed.select("SUM(points) as amount").first.amount.to_i
+    completed.points_total
   end
 
   def points_total
-    select("SUM(points) as amount").first.amount.to_i
+    sum(:points)
   end
 
   def points_remaining

@@ -27,16 +27,16 @@ class Story < ActiveRecord::Base
   validates_numericality_of :points, :only_integer => true, :greater_than_or_equal_to => 0, :message => "must be a positive integer", :if => proc{|x| x.iteration}
   
   scope :with_details, includes(:initiative, :project, :owner, :iteration, :release)
-  scope :backlog, where("stories.iteration_id is null")
-  scope :cancelled, lambda{ backlog.where("stories.status = ?", Story.statuses[:cancelled]) }
-  scope :completed, lambda{ where("stories.status in (?)", [Story.statuses[:complete], Story.statuses[:accepted]]) }
+  scope :backlog, where(:iteration_id => nil)
+  scope :cancelled, lambda{ backlog.where(:status => Story.statuses[:cancelled]) }
+  scope :completed, lambda{ where(:status => [Story.statuses[:complete], Story.statuses[:accepted]]) }
   scope :incomplete, lambda{ where("stories.status not in (?)", [Story.statuses[:complete], Story.statuses[:accepted], Story.statuses[:cancelled]]) }
   scope :not_cancelled, lambda{ where("stories.status <> ?", Story.statuses[:cancelled]) }
-  scope :not_estimated_and_not_cancelled, lambda{ not_cancelled.where("stories.points is null") }
+  scope :not_estimated_and_not_cancelled, lambda{ not_cancelled.where(:points => nil) }
   scope :not_cancelled_and_not_assigned_to_an_iteration, lambda{ backlog.not_cancelled }
-  scope :last_position, order("position DESC").limit(1)
-  scope :last_scid, order("scid DESC").limit(1)  
-  scope :for_user, lambda{|user| where("user_id = ?", user.id)}  
+  scope :last_position, order("stories.position DESC").limit(1)
+  scope :last_scid, order("stories.scid DESC").limit(1)  
+  scope :for_user, lambda{|user| where(:user_id => user.id) }  
   
   before_validation :set_scid, :on => :create
   before_save   :before_save_reset_status

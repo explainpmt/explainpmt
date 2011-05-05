@@ -4,7 +4,7 @@ class Task < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :story_id
   
-  scope :for_user, lambda{ |user| where("tasks.user_id = ?", user.id)}
+  scope :for_user, lambda{ |user| where(:user_id => user.id) }
   scope :complete, where(:complete => true)
   scope :incomplete, where(:complete => false)
   
