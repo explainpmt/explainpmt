@@ -2,6 +2,7 @@
 <% table_id ||= "milestones" %>
 
 <% if milestones.present? %>
+<div class="box_content">
 	<table class="sort-table" width="100%" id="<%= table_id %>" cellspacing="0" cellpadding="3" border="0">
 		<thead>
 			<tr>
@@ -14,6 +15,9 @@
 			<%= render :partial => milestones %>
 		</tbody>
 	</table>
+</div>
 <% else %>
+<div class="box_content padding">
 	<p>Nothing to Show</p>
+</div>
 <% end %>

@@ -8,9 +8,7 @@
 			<li><%= link_to_new_milestone %></li>
 		</ul>
 	</div>
-	<div class="box_content">
-		<%= milestone_list_for @future, "future_milestones" %>
-	</div>
+	<%= milestone_list_for @future, "future_milestones" %>
 </div>
 
 <div class="grid_12 milestone_list">
@@ -20,7 +18,5 @@
 			<li><%= link_to_show_all_milestones %></li>
 		</ul>
 	</div>
-	<div class="box_content">
-		<%= milestone_list_for @recent, "past_milestones" %>
-	</div>
+	<%= milestone_list_for @recent, "past_milestones" %>
 </div>
