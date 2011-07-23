@@ -1,41 +1,18 @@
 <h3>Summary</h3>
-<table cellspacing="0" cellpadding="3" border="0">
-	<tr class="even_row">
-		<td><strong>Length</strong></td>
-		<td align="right"><%= @iteration.length %> days</td>
-	</tr>
-	<tr class="odd_row">
-		<td><strong>Velocity:</strong></td>
-		<td class="align_right"><%=@iteration.budget %> points</td>
-	</tr>
+<ul style="float: left; width: 50%;">
+	<li><strong>Length</strong> <%= @iteration.length %> days</li>
+	<li><strong>Velocity</strong> <%= @iteration.budget %> points</li>
 	<% if @iteration.stop_date + 1 > Date.today %>
-	<tr class="even_row">
-		<td><strong>Planned:</strong></td>
-		<td class="align_right"><%= @iteration.stories.points_total %> points</td>
-	</tr>
-	<tr class="odd_row">
-		<td><strong>Available:</strong></td>
-		<td class="align_right"><%= @iteration.available_resources %> points</td>
-	</tr>
+	<li><strong>Planned</strong> <%#= @iteration.stories.points_total %> points</li>
+	<li><strong>Available</strong> <%= @iteration.available_resources %> points</li>
 	<% end %>
-</table>
+</ul>
 <% if @iteration.start_date <= Date.today %>
-	<table cellspacing="0" cellpadding="3" border="0">
-		<tr class="odd_row">
-			<td><strong>Completed:</strong></td>
-			<td class="align_right"><%= @iteration.stories.points_completed %> points</td>
-		</tr>
-		<% if (@iteration.stop_date + 1) > Date.today %>
-		<tr class="even_row">
-			<td><strong>Remaining:</strong></td>
-			<td class="align_right"><%= @iteration.stories.points_remaining %> points</td>
-		</tr>
-		<tr class="odd_row">
-			<td><strong>Time Remaining:</strong></td>
-			<td class="align_right">
-			<%= distance_of_time_in_words(Time.now, Time.parse((@iteration.stop_date + 1).to_s)) %>
-		</td>
-	</tr>
+<ul style="float: left;">
+	<li><strong>Completed</strong> <%#= @iteration.stories.points_completed %> points</li>
+	<% if (@iteration.stop_date + 1) > Date.today %>
+	<li><strong>Remaining</strong> <%#= @iteration.stories.points_remaining %> points</li>
+	<li><strong>Time Remaining</strong> <%= distance_of_time_in_words(Time.now, Time.parse((@iteration.stop_date + 1).to_s)) %></li>
 	<% end %>
-</table>
+</ul>
 <% end %>

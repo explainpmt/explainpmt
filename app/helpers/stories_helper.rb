@@ -13,7 +13,7 @@ module StoriesHelper
   end
 
   def link_to_new_iteration_story(iteration)
-    link_to 'Create Story Card', new_project_iteration_story_path(current_project, iteration)
+    link_to 'Create Story Card', new_project_iteration_story_path(current_project, iteration), :class => "form popup"
   end
 
   def link_to_new_stories

@@ -5,8 +5,8 @@
 		<li><%= link_to_new_release %></li>
 	</ul>
 </div>
+<% if @releases.present? %>
 <div class="box_content">
-	<% if @releases.present? %>
 	<table class="sorting">
 		<thead>
 			<tr>
@@ -30,7 +30,9 @@
 		<% end %>
 		</tbody>
 	</table>
-	<% else %>
-	<p>This project does not have any Releases yet.</p>
-	<% end %>
 </div>
+<% else %>
+<div class="box_content padding">
+	<p>This project does not have any Releases yet.</p>
+</div>
+<% end %>
