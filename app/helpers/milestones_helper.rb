@@ -1,18 +1,14 @@
 module MilestonesHelper
   def link_to_new_milestone
-    link_to 'Add Milestone', new_project_milestone_path(current_project)
+    link_to 'Add Milestone', new_project_milestone_path(current_project), :class => "form popup"
   end
 
   def link_to_edit_milestone(milestone, options={})
-    link_to (options[:text] || milestone.name), edit_project_milestone_path(current_project, milestone)
+    link_to (options[:text] || milestone.name), edit_project_milestone_path(current_project, milestone), :class => "form popup"
   end
 
-  def option_to_edit_milestone(milestone)
-    create_action_option("Edit", edit_project_milestone_path(current_project, milestone))
-  end
-
-  def option_to_delete_milestone(milestone)
-    create_action_option("Delete", project_milestone_path(current_project, milestone), :method => :delete, :confirm => "Are you sure you want to delete?")
+  def link_to_delete_milestone(milestone)
+    link_to "Delete", project_milestone_path(current_project, milestone), :class => "delete popup", "data-message" => "Are you sure you want to delete this milestone?"
   end
 
   def link_to_show_all_milestones

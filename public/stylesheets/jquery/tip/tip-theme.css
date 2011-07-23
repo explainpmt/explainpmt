@@ -1,0 +1,61 @@
+.tip-theme {
+	z-index:1000;
+	text-align:center;
+	max-width:200px;
+	color:#212121;
+	text-shadow: #d7dfe2 1px 1px;
+	/**
+	 * - If you set a background-image, border/padding/background-color will be ingnored.
+	 *   You can set any padding to .tip-inner instead if you need.
+	 * - If you want a tiled background-image and border/padding for the tip,
+	 *   set the background-image to .tip-inner instead.
+	 */
+}
+.tip-theme .tip-inner {
+	font:bold 1.1em Tahoma,sans-serif;
+	background:url('bg.png') repeat-x;
+	background-color:#fff;
+	padding:3px 12px 5px 12px;
+	box-shadow:1px 1px 0px 0px rgba(0, 0, 0, 0.35);
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+
+/* Configure an arrow image - the script will automatically position it on the correct side of the tip */
+.tip-theme .tip-arrow-top {
+	margin-top:-8px;
+	margin-left:-7px; /* approx. half the width to center it */
+	top:0;
+	left:50%;
+	width:15px;
+	height:9px;
+	background:url('arrows.png') no-repeat;
+}
+.tip-theme .tip-arrow-right {
+	margin-top:-4px; /* approx. half the height to center it */
+	margin-left:0;
+	top:50%;
+	left:100%;
+	width:9px;
+	height:15px;
+	background:url('arrows.png') no-repeat -9px 0;
+}
+.tip-theme .tip-arrow-bottom {
+	margin-top:0;
+	margin-left:-7px; /* approx. half the width to center it */
+	top:100%;
+	left:50%;
+	width:15px;
+	height:9px;
+	background:url('arrows.png') no-repeat -23px 0;
+}
+.tip-theme .tip-arrow-left {
+	margin-top:-4px; /* approx. half the height to center it */
+	margin-left:-5px;
+	top:50%;
+	left:0;
+	width:9px;
+	height:15px;
+	background:url('arrows.png') no-repeat -27px 0;
+}

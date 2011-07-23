@@ -2,10 +2,9 @@ module ApplicationHelper
   
   VERSION = 'dev trunk'
   
-  def create_action_option(text, href, options={})
+  def create_action_option(text, value, options={})
     options[:method] = :get unless options[:method]
-    qParams = options.to_a.collect!{|k,v| "#{k}=#{v}"}.join("&")
-    content_tag("option", text, :value => "#{href}?#{qParams}")
+    content_tag("option", text, :value => "#{href}?#{options.to_query}")
   end
   
   def column_content_for(cols, column, &block)
@@ -15,7 +14,7 @@ module ApplicationHelper
   
   def nav_item(text,url,current=false)
     current ||= current_page?(url)
-    "<li>"+link_to(text, url, :class => (current ? 'current' : ''))+"</li>"
+    "<li>"+link_to(text, url, :class => (current ? 'active' : ''))+"</li>"
   end
   
   def long_date(date)

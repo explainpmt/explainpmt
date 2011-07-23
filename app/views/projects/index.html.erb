@@ -18,13 +18,10 @@
 					<%= textilize(project.description) %>
 				</td>
 				<td class="actions">
-					<select>
-						<option value="" selected="selected">&nbsp;</option>
-						<%= option_to_view_team(project) %>
-						<%= option_to_edit_project(project) %>
-						<%= option_to_delete_project(project) %>
-						<%= option_to_export_project(project) %>
-					</select>
+					<%= link_to_view_team(project) %>
+					<%= link_to_edit_project(project) %>
+					<%= link_to_delete_project(project) %>
+					<%= link_to_export_project(project) %>
 				</td>
 			</tr>
 		<% end %>

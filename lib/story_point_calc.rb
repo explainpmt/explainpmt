@@ -11,5 +11,5 @@ module StoryPointCalc
   def points_remaining
     points_total.to_i - points_completed.to_i
   end
-
+  
 end

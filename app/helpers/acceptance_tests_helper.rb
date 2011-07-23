@@ -1,28 +1,23 @@
 module AcceptanceTestsHelper
   
   def link_to_new_acceptance_test
-    link_to 'New Acceptance Test', new_project_acceptance_test_path(current_project)
+    link_to 'New Acceptance Test', new_project_acceptance_test_path(current_project), :class => "form popup"
   end
 
-  def link_to_edit_acceptance_test(acceptance_test, options={})
-    link_to (options[:text] || acceptance_test.name), edit_project_acceptance_test_path(current_project, acceptance_test)
+  def link_to_edit_acceptance_test(acceptance_test)
+    link_to "Edit", edit_project_acceptance_test_path(current_project, acceptance_test), :class => "form popup edit tip", :title => "edit"
   end
 
-  def option_to_edit_acceptance_test(acceptance_test)
-    create_action_option("Edit", edit_project_acceptance_test_path(current_project, acceptance_test))
+  def link_to_delete_acceptance_test(acceptance_test)
+    link_to "Delete", project_acceptance_test_path(current_project, acceptance_test), :class => "delete popup tip", :title => "delete"
   end
 
-  ## TODO => make this non-remote.
-  def option_to_delete_acceptance_test(acceptance_test)
-    create_action_option("Delete", project_acceptance_test_path(current_project, acceptance_test), :method => :delete, :confirm => "Are you sure you want to delete?")
-  end
-
-  def option_to_clone_acceptance_test(acceptance_test)
-    create_action_option("Clone", clone_acceptance_project_acceptance_test_path(current_project, acceptance_test)) unless acceptance_test.story_id.blank?
+  def link_to_clone_acceptance_test(acceptance_test)
+    link_to "Clone", clone_acceptance_project_acceptance_test_path(current_project, acceptance_test), :class => "view popup tip", :title => "clone" unless acceptance_test.story_id.blank?
   end
 
   def link_to_acceptance_test(acceptance_test, options={})
-    link_to (options[:text] || acceptance_test.name), project_acceptance_test_path(current_project, acceptance_test)
+    link_to (options[:text] || acceptance_test.name), project_acceptance_test_path(current_project, acceptance_test), :class => "show popup"
   end
 
   def link_to_export_acceptance

@@ -73,15 +73,20 @@ class StoriesController < ApplicationController
     redirect_to project_story_path(current_project, @story)
   end
 
-  def clone_story
-    @story.clone!
-    redirect_to request.referer
+  def clone
+    if story = @story.clone!
+      render_success("New story \"#{story.title}\" has been created.") { redirect_to request.referer }
+    else
+      render_errors(@story.errors.full_messages.to_sentence) { redirect_to request.referer }
+    end
   end
 
   def destroy
-    @story.destroy
-    flash[:status] = "Story \"#{@story.title}\" has been deleted."
-    redirect_to request.referer
+    if @story.destroy
+      render_success("Story \"#{@story.title}\" has been deleted.") { redirect_to request.referer }
+    else
+      render_errors(@story.errors.full_messages.to_sentence) { redirect_to request.referer }
+    end
   end
 
   def edit_numeric_priority
@@ -90,29 +95,8 @@ class StoriesController < ApplicationController
     end
   end
 
-  ## TODO => refactor this... I have no idea what's going on here.
-  def set_numeric_priority
-    new_pos = params[:story][:position]
-    render :update do |page|
-      if (new_pos.index(/\D/).nil?)
-        last_story = current_project.stories.last_position
-        if(new_pos.to_i <= last_story.position)
-          @story.insert_at(new_pos)
-          flash[:status] = 'The changes to the story card have been saved.'
-          page.call 'location.reload'
-        else
-          @error = 'Position was not updated.  Value can not be greater than last position.'
-          page[:flash_notice].replace_html :inline => "<%= error_container(@error) %>"
-        end
-      else
-        @error = 'Position was not updated.  You must specify a numeric value.'
-        page[:flash_notice].replace_html :inline => "<%= error_container(@error) %>"
-      end
-    end
-  end
-
   def audit
-    @changes = Story.find(params[:id]).audits
+    @changes = Story.find(params[:id]).audits.updates.includes(:user)
     respond_to do |format|
       format.js { render :partial => "stories/audit" }
     end

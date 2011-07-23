@@ -1,0 +1,335 @@
+/*
+ * Simplpan Admin Panel
+ *
+ * Copyright (c) 2011 Kasper Kismul
+ *
+ * http://themeforest.net/user/Kaasper/profile
+ *
+ * This file sets general Form Elements Style.
+ *
+ */
+
+/* Labels, Fieldset and Legend
+-------------------------------------------------------------- */
+
+label       { font-weight: bold; display:block; font-size:1.3em; margin:10px; color:#676D6F; }
+fieldset    { padding:0 1.4em 1.4em 1.4em; margin: 0 0 1.5em 0; border: 1px solid #ccc; }
+legend      { font-weight: bold; font-size:1.2em; margin-top:-0.2em; margin-bottom:1em; }
+
+fieldset, #IE8#HACK { padding-top:1.4em; } 
+legend, #IE8#HACK { margin-top:0; margin-bottom:0; }
+
+/* Form fields
+-------------------------------------------------------------- */
+ 
+/* General input styling */
+input[type=text], input[type=password],
+textarea {
+	padding:0.5em 0.8em;
+	font-family: Helvetica, Verdana, Arial, Helvetica, sans-serif;
+	font-size:1.2em;
+	width: 162px;
+	background-color:#f1f1f1;
+	border:solid 1px #dcdcdc;
+	color:#858a8e;
+	
+	/* CSS3 */
+	-webkit-text-shadow:#fff 1px 1px;
+	   -moz-text-shadow:#fff 1px 1px;
+			text-shadow:#fff 1px 1px;
+	-webkit-border-radius: 5px;
+	   -moz-border-radius: 5px;
+		    border-radius: 5px;
+}
+
+/* Form Focus (Selected) */
+input[type=text]:focus, input[type=password]:focus,
+textarea:focus {
+	color: #a3abad;
+	background-color:#fcfcfc;
+}
+
+/* General input styling inside box */
+.box_content input[type=text], 
+.box_content input[type=password],
+.box_content textarea {
+	padding:11px 20px;
+	font-size:12px;
+	width: 162px;
+	background-color:#f1f1f1;
+	border:solid 1px #dcdcdc;
+	color:#858a8e;	
+	
+	/* CSS3 */
+	-webkit-text-shadow:#fff 1px 1px;
+	   -moz-text-shadow:#fff 1px 1px;
+		    text-shadow:#fff 1px 1px;
+	-webkit-border-box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.03) inset;
+	   -moz-border-box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.03) inset;
+				   box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.03) inset;
+	-webkit-border-radius: 5px;
+	   -moz-border-radius: 5px;
+		    border-radius: 5px;
+}
+
+.box_content input[type=text].small, 
+.box_content input[type=password].small { width: 100px; }
+
+.box_content input[type=text].medium, 
+.box_content input[type=password].medium { width: 200px; }
+
+.box_content input[type=text].big, 
+.box_content input[type=password].big { width: 300px; }
+
+.box_content textarea { 
+	width: 88.4%; 
+	margin-right:20px;
+	padding:15px 20px; 
+}
+
+.box_content textarea .small { width: 162px; }
+
+/* Form Focus (Selected) */
+.box_content input[type=text]:focus, 
+.box_content input[type=password]:focus,
+.box_content textarea:focus {
+	color: #66696c;
+	background-color:#fcfcfc;
+}
+
+/* Login Special Form fields
+-------------------------------------------------------------- */
+
+/* Label for login (Icons) */
+form#login label.label_username, form#login label.label_password {
+	background-repeat:no-repeat;
+	background-position: center 0px;
+    display:inline-block;
+    text-indent:-9999px;
+	border:none;
+	width:20px;
+    height:20px;
+    margin:0 8px;
+    padding:0 0 0 0;
+    line-height:24px;
+    font-size:10px;
+}
+
+form#login label.label_username {background-image:url(/images/icon_user.png);}
+form#login label.label_password {background-image:url(/images/icon_key.png); width:11px;}
+
+/* Login Form Styling */
+form#login {
+	margin:0 0 0 10px;
+	display: inline;
+    float: left;
+}
+
+form#login input[type=text], 
+form#login input[type=password] {
+  width: 120px;
+  padding-right:30px;
+  
+  /* CSS3 */
+  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.8) inset;
+     -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.8) inset;
+  	      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.8) inset;
+}
+
+/* Login Form Button Styling */
+form#login input[type=submit] {
+	background-repeat:no-repeat, repeat-x;
+	background-position:center center;
+    background-image:url(/images/icon_unlock.png), url(/images/bg_button.png);
+    display: inline-block;
+    height: 32px;
+    text-indent: -9999px;
+    width: 45px;
+    cursor:pointer;
+    margin-left:10px;
+    border:1px solid #2f2f2f;
+    
+    /* CSS3 */
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    -webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+    	    border-radius: 5px;
+	-webkit-box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.15) inset, 
+						0 0 8px 0px rgba(0, 0, 0, 0.1) inset, 
+						0px 1px 0px 0px rgba(0, 0, 0, 0.2);
+	   -moz-box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.15) inset, 
+						0 0 8px 0px rgba(0, 0, 0, 0.1) inset, 
+						0px 1px 0px 0px rgba(0, 0, 0, 0.2);			
+		    box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.15) inset, 
+						0 0 8px 0px rgba(0, 0, 0, 0.1) inset, 
+						0px 1px 0px 0px rgba(0, 0, 0, 0.2);
+}
+
+form#login input[type=submit]:hover {
+	/* CSS3 */
+	-webkit-box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.2) inset, 
+						0 0 8px 0px rgba(0, 0, 0, 0.3) inset, 
+						0 0 25px 0px rgba(255, 255, 255, 0.1) inset, 
+						0px 1px 0px 0px rgba(0, 0, 0, 0.2);
+	   -moz-box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.2) inset, 
+						0 0 8px 0px rgba(0, 0, 0, 0.3) inset, 
+						0 0 25px 0px rgba(255, 255, 255, 0.1) inset, 
+						0px 1px 0px 0px rgba(0, 0, 0, 0.2);
+		    box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.2) inset, 
+						0 0 8px 0px rgba(0, 0, 0, 0.3) inset, 
+						0 0 25px 0px rgba(255, 255, 255, 0.1) inset, 
+						0px 1px 0px 0px rgba(0, 0, 0, 0.2);
+}
+
+/* Login Form Colors */
+form#login input[type=text], 
+form#login input[type=password] {
+  background: #1d2427;
+  color: #515d60;
+  
+  /* CSS3 */
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  border-left: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.17);
+  border-right: 1px solid rgba(255, 255, 255, 0.17);
+  text-shadow: -1px -1px rgba(0, 0, 0, 0.7);
+}
+
+/* Login Form Focus (Selected) */
+form#login input[type=text]:focus, 
+form#login input[type=password]:focus {
+	color: #a3abad;
+}
+
+/* 
+  This is to be used on forms where a variety of elements are 
+  placed side-by-side. Use the p tag to denote a line. 
+ */
+form.inline { line-height:3; }
+form.inline p { margin-bottom:0; }
+
+
+/* Link Buttons
+-------------------------------------------------------------- */
+
+a.button {
+  background: #ffffff;
+  color: #818586;
+  border:#b5b5b5 1px solid;
+  text-align:center;
+  font-size:10px;
+  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:bold;
+  text-transform:uppercase;
+  padding:5px 15px;
+  
+  /* CSS3 */
+  -webkit-border-radius:5px;
+     -moz-border-radius:5px;
+  		  border-radius:5px;
+  -webkit-text-shadow:1px 1px #FFFFFF;
+     -moz-text-shadow:1px 1px #FFFFFF;
+  		  text-shadow:1px 1px #FFFFFF;
+  -webkit-box-shadow: 0 1px 0 0 rgba(255, 255, 255, 1) inset, 
+					  0 -9px 4px 0px rgba(0, 0, 0, 0.1) inset, 
+					  0px 3px 3px 0px rgba(0, 0, 0, 0.1);
+     -moz-box-shadow: 0 1px 0 0 rgba(255, 255, 255, 1) inset, 
+					  0 -9px 4px 0px rgba(0, 0, 0, 0.1) inset, 
+					  0px 3px 3px 0px rgba(0, 0, 0, 0.1);
+  		  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 1) inset, 
+					  0 -9px 4px 0px rgba(0, 0, 0, 0.1) inset, 
+					  0px 3px 3px 0px rgba(0, 0, 0, 0.1);
+}
+
+a.button:hover {
+  -webkit-box-shadow: 0 1px 0 0 rgba(255, 255, 255, 1) inset, 
+					  0 -9px 4px 0px rgba(0, 0, 0, 0.1) inset, 
+					  0px 3px 3px 0px rgba(0, 0, 0, 0.15);
+     -moz-box-shadow: 0 1px 0 0 rgba(255, 255, 255, 1) inset, 
+					  0 -9px 4px 0px rgba(0, 0, 0, 0.1) inset, 
+					  0px 3px 3px 0px rgba(0, 0, 0, 0.15);
+  		  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 1) inset, 
+					  0 -9px 4px 0px rgba(0, 0, 0, 0.1) inset, 
+					  0px 3px 3px 0px rgba(0, 0, 0, 0.15);
+}
+
+/* WYSIWYG
+-------------------------------------------------------------- */
+
+div.wysiwyg { 
+	border: 1px solid #cccccc; 
+	padding: 10px; 
+	width: 97.5% !important;
+	font-family: Helvetica, Verdana, Arial, Helvetica, sans-serif;
+	background-color:#f1f1f1;
+	border:solid 1px #dcdcdc;
+	color:#858a8e;
+	font-size:12px;
+	
+	/* CSS3 */
+	-webkit-text-shadow:#fff 1px 1px;
+	   -moz-text-shadow:#fff 1px 1px;
+			text-shadow:#fff 1px 1px;
+	-webkit-border-radius:5px;
+	   -moz-border-radius:5px;
+			border-radius:5px;
+	-webkit-box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.03) inset;
+	   -moz-box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.03) inset;
+			box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.03) inset;
+}	
+
+div.wysiwyg * { margin: 0; padding: 0; }
+
+div.wysiwyg ul.panel { border-bottom: 1px solid #cccccc; float: left; width: 100%; padding: 0 0 5px 0; }
+div.wysiwyg ul.panel li { list-style-type: none; float: left; margin: 5px 2px; padding: 0 !important; background-image: none !important;}
+div.wysiwyg ul.panel li.separator { height: 16px; margin: 5px 4px; border-left: 1px solid #cccccc; }
+div.wysiwyg ul.panel li a { display: block; padding: 0 !important; width: 16px; height: 16px; background: url('jquery/wysiwyg.gif') no-repeat -64px -80px; border: 0; cursor: pointer; padding: 1px; }
+div.wysiwyg ul.panel li a:hover, div.wysiwyg ul.panel li a.active {  }
+div.wysiwyg ul.panel li a.active { background-color: #f9f9f9; border: 1px solid #cccccc; border-left-color: #aaaaaa; border-top-color: #aaaaaa; padding: 0; }
+
+div.wysiwyg ul.panel li a.bold { background-position: 0 -16px; }
+div.wysiwyg ul.panel li a.italic { background-position: -16px -16px; }
+div.wysiwyg ul.panel li a.strikeThrough { background-position: -32px -16px; }
+div.wysiwyg ul.panel li a.underline { background-position: -48px -16px; }
+
+div.wysiwyg ul.panel li a.justifyLeft { background-position: 0 0; }
+div.wysiwyg ul.panel li a.justifyCenter { background-position: -16px 0; }
+div.wysiwyg ul.panel li a.justifyRight { background-position: -32px 0; }
+div.wysiwyg ul.panel li a.justifyFull { background-position: -48px 0; }
+
+div.wysiwyg ul.panel li a.indent { background-position: -64px 0; }
+div.wysiwyg ul.panel li a.outdent { background-position: -80px 0; }
+
+div.wysiwyg ul.panel li a.subscript { background-position: -64px -16px; }
+div.wysiwyg ul.panel li a.superscript { background-position: -80px -16px; }
+
+div.wysiwyg ul.panel li a.undo { background-position: 0 -64px; }
+div.wysiwyg ul.panel li a.redo { background-position: -16px -64px; }
+
+div.wysiwyg ul.panel li a.insertOrderedList { background-position: -32px -48px; }
+div.wysiwyg ul.panel li a.insertUnorderedList { background-position: -16px -48px; }
+div.wysiwyg ul.panel li a.insertHorizontalRule { background-position: 0 -48px; }
+
+div.wysiwyg ul.panel li a.h1 { background-position: 0 -32px; }
+div.wysiwyg ul.panel li a.h2 { background-position: -16px -32px; }
+div.wysiwyg ul.panel li a.h3 { background-position: -32px -32px; }
+div.wysiwyg ul.panel li a.h4 { background-position: -48px -32px; }
+div.wysiwyg ul.panel li a.h5 { background-position: -64px -32px; }
+div.wysiwyg ul.panel li a.h6 { background-position: -80px -32px; }
+
+div.wysiwyg ul.panel li a.cut { background-position: -32px -64px; }
+div.wysiwyg ul.panel li a.copy { background-position: -48px -64px; }
+div.wysiwyg ul.panel li a.paste { background-position: -64px -64px; }
+
+div.wysiwyg ul.panel li a.increaseFontSize { background-position: -16px -80px; }
+div.wysiwyg ul.panel li a.decreaseFontSize { background-position: -32px -80px; }
+
+div.wysiwyg ul.panel li a.createLink { background-position: -80px -48px; }
+div.wysiwyg ul.panel li a.insertImage { background-position: -80px -80px; }
+
+div.wysiwyg ul.panel li a.html { background-position: -48px -48px; }
+div.wysiwyg ul.panel li a.removeFormat { background-position: -80px -64px; }
+
+div.wysiwyg ul.panel li a.empty { background-position: -64px -80px; }
+
+div.wysiwyg iframe { border: 0; margin: 5px 0 0 0; clear: left; width: 97.5% !important;  }

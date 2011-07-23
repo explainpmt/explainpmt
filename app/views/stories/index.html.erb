@@ -1,13 +1,21 @@
-<h2>Backlog</h2>
+<div class="box_top">
+	<h2>Backlog</h2>
+	
+	<ul class="sorting">
+		<%= render :partial => "story_links" %>
+		<%= link_to_show_cancelled %>
+		<%= link_to_show_all %>
+	</ul>
+</div>
+
 <%= content_for(:story_search_form, '') %>
 
-<%= render :partial => "story_links" %>
-<%= link_to_show_cancelled %>&nbsp;&nbsp;&nbsp;
-<%= link_to_show_all %>&nbsp;&nbsp;&nbsp;
-
 <% if @stories.blank? %>
-	<p>No active stories are in the project backlog.</p>
+	<div class="notice info">
+		<p>No active stories are in the project backlog.</p>
+	</div>
+<% else %>
+	<div class="box_content" id="story_backlog">
+		<%= render :partial => 'backlog' %>
+	</div>
 <% end %>
-<div id="story_backlog">
-	<%= render :partial => 'backlog' %>
-</div>

@@ -1,6 +1,6 @@
 module DashboardHelper
   def milestones_calendar(days_to_render=14)
-    title_prefix = 'Upcoming Milestones:'
+    title_prefix = 'Upcoming Milestones'
     @calendar_title = current_project ? title_prefix : title_prefix.gsub(':', ' (all projects):')
     milestones = (current_project ? current_project.milestones : current_user.milestones).select { |m|
       m.date >= Date.today && m.date < Date.today + days_to_render

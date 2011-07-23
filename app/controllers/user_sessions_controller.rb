@@ -1,4 +1,5 @@
 class UserSessionsController < ApplicationController
+  layout 'login'
   
   skip_before_filter :require_user, :only => [:new, :create]
 

@@ -1,5 +1,4 @@
 <% if current_project %>
-<ul>
 	<%= nav_item 'Dashboard', root_path %>
 	<%= nav_item 'Releases', project_releases_path(current_project) %>
 	<%= nav_item 'Iterations', project_iterations_path(current_project) %>
@@ -9,5 +8,4 @@
 	<%= nav_item 'Milestones', project_milestones_path(current_project) %>
 	<%#= nav_item 'Team', team_project_path(current_project) %>
 	<%#= nav_item 'Stats', project_stats_path(current_project) %>
-</ul>
 <% end %>

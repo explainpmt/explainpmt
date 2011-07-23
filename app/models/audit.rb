@@ -8,13 +8,17 @@ class Audit < ActiveRecord::Base
   serialize :auditable_changes
   
   scope :for, lambda { |x| { :conditions => ["auditable_type = ? and auditable_id = ?", x.class.name, x.id] } }
+  scope :updates, where(:action => "update")
+  scope :creates, where(:action => "create")
+  scope :deletes, where(:action => "delete")
   
   before_create :set_readonly
   
   before_destroy :stop_destroy
   
   @@skip_fields = { 
-    "User" => [:last_request_at, :perishable_token, :failed_login_count, :current_login_at, :login_count, :last_login_at, :current_login_ip, :last_login_ip, :single_access_token, :persistence_token]
+    "User" => [:last_request_at, :perishable_token, :failed_login_count, :current_login_at, :login_count, :last_login_at, :current_login_ip, :last_login_ip, :single_access_token, :persistence_token],
+    "Story" => [:updater_id, :creator_id]
   }
   
   def self.create!(model, action)

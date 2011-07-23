@@ -1,48 +1,52 @@
-<div id="login">
-	<h2>Sign In</h2>
-	<%= form_for @user_session, :url => user_session_path do |f| %>
-		<fieldset>
-			<div class="field">
-				<%= f.label :login %>
-				<%= f.text_field :login %>
-			</div>
-			<div class="field">
-				<%= f.label :password %>
-				<%= f.password_field :password %>
-			</div>
-			<div class="field">
-				<%= f.check_box :remember_me %>
-				<%= f.label :remember_me, "Remember Me", :class => "inline" %>
-			</div>
-		</fieldset>
-		<%= f.submit 'Login' %>
-		<div>
-			<span><%= link_to_forgot %></span>
-		</div>
-	<% end %>
-</div>
-<div id="register">
+<form action="/user_session" method="post" id="login">
+	
+	<!-- Username Input: Start -->
+	<label for="username" class="label_username">Login</label>
+	<input type="text" name="user_session[login]" id="username" class="password tip-stay validate" title="Enter your username" />
+	<!-- Username Input: End -->
+	
+	<!-- Password Input: Start -->
+	<label for="password" class="label_password">Password</label>
+	<input type="password" name="user_session[password]" id="password" class="password tip-stay validate" title="Enter your password" />
+	<!-- Password Input: End -->
+	
+	<!-- Login Button: Start -->
+	<input type="submit" value="login" class="tip" title="Login" />
+	<!-- Login Button: End -->
+	
+</form>
+
+<%#= form_for @user_session, :url => user_session_path, :id => "login" do |f| %>
+	<%#= f.label :login, "Username", :class => "label_username" %>
+	<%#= f.text_field :login, :class => "password tip-stay validate", :title => "Enter your username" %>
+	<%#= f.label :password, "Password", :class => "label_password" %>
+	<%#= f.password_field :password, :class => "password tip-stay validate", :title => "Enter your password" %>
+	<%#= f.check_box :remember_me %>
+	<%#= f.label :remember_me, "Remember Me", :class => "inline" %>
+	<%#= f.submit 'Login', :class => "tip" %>
+<%# end %>
+<!-- <div id="register">
 	<h2>Register</h2>
-	<%= form_for User.new do |f| %>
+	<%#= form_for User.new do |f| %>
 		<fieldset>
 			<div class="field">
-				<%= f.label :login, "Username" %>
-				<%= f.text_field :login, :value => "" %>
+				<%#= f.label :login, "Username" %>
+				<%#= f.text_field :login, :value => "" %>
 			</div>
 			<div class="field">
-				<%= f.label :password %>
-				<%= f.password_field :password, :value => "" %>
+				<%#= f.label :password %>
+				<%#= f.password_field :password, :value => "" %>
 			</div>
 			<div class="field">
-				<%= f.label :password_confirmation, "Password Confirmation" %>
-				<%= f.password_field :password_confirmation %>
+				<%#= f.label :password_confirmation, "Password Confirmation" %>
+				<%#= f.password_field :password_confirmation %>
 			</div>
 			<div class="field">
-				<%= f.label :email %>
-				<%= f.text_field :email %>
+				<%#= f.label :email %>
+				<%#= f.text_field :email %>
 			</div>
 		</fieldset>
-		<%= f.submit 'Register' %>
-	<% end %>
+		<%#= f.submit 'Register' %>
+	<%# end %>
 </div>
-<br class="clear" />
+<br class="clear" /> -->

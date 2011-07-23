@@ -12,6 +12,8 @@
 		<% @changes.each do |change| %>
 			<tr class="<%= cycle("even_row", "odd_row") %>">
 				<td><%= change.created_at %></td>
+				<% logger.debug '*'*90 %>
+				<% logger.debug change.auditable_changes.inspect %>
 				<td><%#= text_area_tag "body", change.before, :size => "30x3", :readonly => "true", :style => "background:#E6E6E6" %></td>
 				<td><%#= text_area_tag "body", change.after, :size => "30x3", :readonly => "true", :style => "background:#E6E6E6" %></td>
 				<td><%= change.user.full_name %></td>

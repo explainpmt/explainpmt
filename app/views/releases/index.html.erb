@@ -1,28 +1,30 @@
-<div>
+<div class="box_top">
 	<h2>Releases</h2>
-	<strong><%= link_to_new_release %></strong>
+	
+	<ul class="sorting">
+		<li><%= link_to_new_release %></li>
+	</ul>
 </div>
-<div>
+<div class="box_content">
 	<% if @releases.present? %>
-	<table class="sort-table" width="100%" id="releasesTable" cellspacing="0" cellpadding="3" border="0">
+	<table class="sorting">
 		<thead>
 			<tr>
-				<td>Name</td>
-				<td>Date</td>
-				<td>Action</td>
+				<th class="checkers"><input type="checkbox" class="checkall" /></th>
+				<th class="align_left">Name</th>
+				<th class="align_left center">Date</th>
+				<th class="align_left center tools">Action</th>
 			</tr>
 		</thead>
 		<tbody>
 		<% @releases.each do |release| %>
-			<tr class="<%= cycle("even_row", "odd_row") %>">
-				<td><%= link_to_release(release) %><br /><%= textilize(release.description) %></td>
-				<td><strong><%= numeric_date(release.date) %></strong></td>
-				<td class="actions">
-					<select>
-						<option value="" selected="selected">&nbsp;</option>
-						<%= option_to_edit_release(release)%>
-						<%= option_to_delete_release(release)%>
-					</select>
+			<tr>
+				<th class="checkers"><input type="checkbox" /></th>
+				<td class="align_left"><%= link_to_release(release) %><br /><%= textilize(release.description) %></td>
+				<td class="align_left center"><%= numeric_date(release.date) %></td>
+				<td class="align_left tools center">
+					<%= link_to_edit_release(release) %>
+					<%= link_to_delete_release(release) %>
 				</td>
 			</tr>
 		<% end %>

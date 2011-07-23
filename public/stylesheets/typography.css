@@ -1,0 +1,169 @@
+/*
+ * Simplpan Admin Panel
+ *
+ * Copyright (c) 2011 Kasper Kismul
+ *
+ * http://themeforest.net/user/Kaasper/profile
+ *
+ * This file sets up some sensible default typography.
+ *
+ */
+
+/* Default font settings.
+   Font Percentage: This will make 1.0 em the same as 10px.  So if you wanted 12 px. would be 1.2em, nice and easy.   */
+
+body {
+  font-size: 62.5%;
+  color: #656B6D;
+  /* font-family: "Century Gothic", Verdana, Helvetica, sans-serif; */
+  font-family: Helvetica, "Century Gothic", Arial, sans-serif;
+  
+  /* CSS3 */
+  -webkit-text-shadow: #f4f4f5 1px 1px;
+     -moz-text-shadow: #f4f4f5 1px 1px;
+  		  text-shadow: #f4f4f5 1px 1px;
+}
+
+/* Headings
+-------------------------------------------------------------- */
+
+h1, h2 	{ font-size: 1.5em; margin-bottom: 1.5em; }
+h3 		{ font-size: 1.4em; margin-bottom: 1em; }
+h4 		{ font-size: 0.9em; margin-bottom: 0; }
+h5 		{ font-size: 1em; margin-bottom: 1.5em; }
+h6 		{ font-size: 1em; margin-bottom: 1.5em;  }
+
+h1 img, h2 img, h3 img,
+h4 img, h5 img, h6 img {
+  margin: 0;
+}
+
+.box_content h1,.box_content h2, 
+.box_content h3,.box_content h4, 
+.box_content h5,.box_content h6 {
+	padding:10px 0;
+	margin:0;
+	font-weight:bold;
+	color:#333E40;
+	background:url(/images/line.png) repeat-x bottom left;
+}
+
+.box_content h1.center,.box_content h2.center, 
+.box_content h3.center,.box_content h4.center, 
+.box_content h5.center,.box_content h6.center { text-align:center; }
+
+.box_content h1.right,.box_content h2.right, 
+.box_content h3.right,.box_content h4.right, 
+.box_content h5.right,.box_content h6.right { text-align:right; float:none !important; }
+
+.box_content h1 { font-size:2.4em; padding:0px 0 12px 0; margin:0px 0 18px 0; }
+.box_content h2 { font-size:1.7em; padding:0px 0 12px 0; margin:0px 0 16px 0; }
+.box_content h3 { font-size:1.5em; padding:0px 0 12px 0; margin:0px 0 14px 0; }
+.box_content h4 { font-size:1.4em; padding:0px 0 12px 0; margin:0px 0 12px 0; }
+.box_content h5 { font-size:1.3em; padding:0px 0 10px 0; margin:0px 0 10px 0; }
+.box_content h6 { font-size:1.2em; padding:0px 0 8px 0; margin:0px 0 10px 0; }
+
+.box_content h1.noline,.box_content h2.noline, 
+.box_content h3.noline,.box_content h4.noline, 
+.box_content h5.noline,.box_content h6.noline { background:none; padding-bottom:0; }
+
+
+/* Text elements
+-------------------------------------------------------------- */
+
+p   		{ margin: 1em; font-size: 1.3em; }
+.left  		{ float: left !important; }
+p .left		{ margin: 1.5em 1.5em 1.5em 0; padding: 0; }
+.right 		{ float: right !important; }
+p .right 	{ margin: 1.5em 0 1.5em 1.5em; padding: 0; }
+
+a:focus,
+a:hover     { text-decoration: none;}
+a           { text-decoration: none;}
+
+blockquote  { margin: 1.5em; color: #666; font-style: italic; }
+strong,dfn	{ font-weight: bold; }
+em,dfn      { font-style: italic; }
+sup, sub    { line-height: 0; }
+
+abbr,
+acronym     { border-bottom: 1px dotted #666; }
+address     { margin: 0 0 1.5em; font-style: italic; }
+del         { color:#666; }
+
+pre         { margin: 1.5em 0; white-space: pre; }
+pre,code,tt { font: 1em 'andale mono', 'lucida console', monospace; line-height: 1.5; }
+
+.nobold { font-weight:normal; }
+
+/* Lists
+-------------------------------------------------------------- */
+
+li ul,
+li ol       { margin: 0; }
+ul, ol      { margin: 1.5em 1.5em; padding-left: 1.5em; }
+
+ul          { list-style-type: disc; }
+ol          { list-style-type:circle; }
+
+dl          { margin: 0 0 1.5em 0; }
+dl dt       { font-weight: bold; }
+dd          { margin-left: 1.5em;}
+
+/* Tables
+-------------------------------------------------------------- */
+
+table       	{ width:100%; font-size:1.2em; color:#7b858a; border-bottom:1px solid #f7f7f7; }
+th          	{ font-weight: bold; }
+thead tr    	{ background:url(/images/bg_table_top.png) repeat-x #d0d0d0; color:#515151; font-size:10px; font-family: verdana; }
+th,td,caption 	{ padding: 15px 40px; border-bottom:1px solid #c9c9c9; }
+th.center, td.center, caption.center { text-align:center; }
+
+/* Zebra-stripes for tables - First ones are the light, second are the dark uneven ones */
+tr 				{ background:url(/images/bg_table_light.png) repeat-x #ececec; }
+tbody tr:nth-child(even), 
+tbody tr.even  	{ background:url(/images/bg_table_dark.png) repeat-x #e3e4e5; }
+
+tfoot       	{ font-style: italic; }
+caption     	{ background: #eee; }
+
+th.right_end, td.right_end, th.right_end, 
+caption.right_end 		{ text-align:right; padding-left:0; }
+
+th.checkers, td.checkers, th.checkers, 
+caption.checkers 		{ text-align:left; padding-right:0; width:30px; background:none !important; cursor:default !important; }
+
+th.right_end.small, td.right_end.small, 
+caption.right_end.small { font-size:0.8em; }
+
+th.align_left, td.align_left,
+caption.align_left		{ padding: 15px 40px 15px 10px; }
+
+/* Misc classes
+-------------------------------------------------------------- */
+
+.small      { font-size: 1em; font-family: Verdana, "MS Trebuchet", sans-serif; }
+.large      { font-size: 1.5em; line-height: 2.5em; margin-bottom: 1.25em; }
+.hide       { display: none; }
+
+.quiet      { color: #666; }
+.loud       { color: #000; }
+.highlight  { background:#ff0; }
+.added      { background:#060; color: #fff; }
+.removed    { background:#900; color: #fff; }
+
+.first      { margin-left:0; padding-left:0; }
+.last       { margin-right:0; padding-right:0; }
+.top        { margin-top:0; padding-top:0; }
+.bottom     { margin-bottom:0; padding-bottom:0; }
+
+.white		{ color:#fff; }
+.blue		{ color:#00a8ff; }
+.pink		{ color:#ff00e4; }
+.green		{ color:#8b9c71; }
+.orange		{ color:#ff7e00; }
+.grey		{ color:#818789; }
+
+span.underline	{ text-decoration: underline; }
+
+.selected	{ color:#000000; cursor:default; }

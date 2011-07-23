@@ -2,32 +2,174 @@
 	<html>
 	<head>
 		<title>eXPlainPMT</title>
-		<%= stylesheet_link_tag "yui-reset", "screen" %>
- 		<%= javascript_include_tag "jquery.min", "jquery-ui.min" %>
 		<%= csrf_meta_tag %>
+
+		<!-- Imports General CSS and jQuery CSS -->
+		<link href="/stylesheets/screen.css" rel="stylesheet" media="screen" type="text/css" />
+
+		<!-- CSS for Fluid and Fixed Widths - Double to prevent flickering on change -->
+		<link href="/stylesheets/fluid.css" rel="stylesheet" media="screen" type="text/css" />
+		<link href="/stylesheets/fluid.css" rel="stylesheet" media="screen" type="text/css" class="width" />
+
+		<!-- IE Stylesheet ie8 - Added in 1.1 -->
+		<!--[if IE 8 ]> <html lang="en" class="ie8"> <![endif]-->
+
+		<!-- CSS for Theme Styles - Double to prevent flickering on change -->
+		<link href="/stylesheets/theme/green.css" rel="stylesheet" media="screen" type="text/css" />
+		<link href="/stylesheets/theme/green.css" rel="stylesheet" media="screen" type="text/css" class="theme" />
+
+		<!-- IE Canvas Fix for Visualize Charts - Added in 1.1 -->
+		<!--[if IE]><script type="text/javascript" src="js/excanvas.js"></script><![endif]-->
+
+		<!-- jQuery thats loaded before document ready to prevent flickering - Rest are found at the bottom -->
+		<script type="text/javascript" src="/javascripts/jquery-1.4.1.min.js"></script>
+		<script type="text/javascript" src="/javascripts/jquery.cookie.js"></script>
+		<script type="text/javascript" src="/javascripts/jquery.styleswitcher.js"></script>
+		<script type="text/javascript" src="/javascripts/jquery.visualize.js"></script>
 	</head>
 	<body>
-		<div id="header">
-			<h1><%= link_to 'eXPlainPMT', root_path %></h1>
-			<% if logged_in? && current_project %>
-			<div id="primary_nav">
-				<%= render :partial => 'shared/primary_nav' %>
+		<div id="wrap" class="container_24">
+			<div class="grid_24">
+				<!-- User Panel: Start -->
+				<div id="userpanel">
+					<!-- User: Start -->
+					<ul id="user" class="dropdown">
+						<li class="topnav">
+							<!-- User Name -->
+							<a href="#" class="top icon user">Administrator</a>
+							<!-- User Dropdown Content: Start -->
+							<ul class="subnav">
+								<li><a href="#" class="icon settings">Settings</a></li>
+								<li><a href="/users">Users</a></li>
+								<li><a href="/logout" class="icon lock">Log out</a></li>
+							</ul>
+							<!-- User Dropdown Content: End -->
+						</li>
+					</ul>
+					<!-- User: End -->
+				</div>
+				<!-- User Panel: End -->
+
+				<!-- Header: Start -->
+				<div id="header">
+
+					<!-- Logo: Start -->
+					<a href="/" id="logo">eXPlainPMT</a>
+					<!-- Logo: End -->
+
+					<!-- Navigation: Start -->
+					<ul id="navigation" class="dropdown">
+						<li><a class="dashboard" href="/">Dashboard</a></li>
+
+						<!-- Navigation Dropdown Menu Item: Start -->
+						<li class="topnav">
+							<a class="list" href="#">Menu</a>
+
+							<!-- Navigation Dropdown Menu Item Content: Start -->
+							<ul class="subnav">
+								<% if current_project %>
+								<%= nav_item 'Releases', project_releases_path(current_project) %>
+								<%= nav_item 'Iterations', project_iterations_path(current_project) %>
+								<%= nav_item 'Backlog', project_stories_path(current_project) %>
+								<%= nav_item 'Initiatives', project_initiatives_path(current_project) %>
+								<%= nav_item 'Acceptance Tests', project_acceptance_tests_path(current_project) %>
+								<%= nav_item 'Milestones', project_milestones_path(current_project) %>
+								<% end %>
+							</ul>
+							<!-- Navigation Dropdown Menu Item Content: End -->
+						</li>
+						<!-- Navigation Dropdown Menu Item: End -->
+						<li class="topnav">
+							<a class="pages">My Projects</a>
+							<ul class="subnav">
+								<% current_user.projects.each do |project| %>
+								<li><a href="<%= project_path(project) %>" class="icon typography"><%= project.name %></a></li> 
+								<% end %>
+							</ul>
+						</li>
+					</ul>
+					<!-- Navigation: End -->
+				</div>
+				<!-- Header: End -->
+				<!-- Breadcrumb Bar: Start -->
+				<div id="breadcrumb">
+
+					<!-- Breadcrumb: Start -->
+					<ul class="left">
+						<li class="icon dashboard"><a href="dashboard.html">Dashboard</a></li>
+						<li class="icon point_right"><a href="#">Elements</a></li>
+						<li class="icon point_right active"><a href="code.html">Code</a></li>
+					</ul>
+					<!-- Breadcrumb: End -->
+
+					<!-- Breadcrumb Icon Links: Start -->
+					<ul class="right">
+						<li><a href="#" class="icon support tip" title="FAQ">FAQ</a></li>
+						<li><a href="#" class="icon home tip" title="Home">Home</a></li>
+					</ul>
+					<!-- Breadcrumb Icon Links: End -->
+
+				</div>
+				<!-- Breadcrumb Bar: End -->
 			</div>
+			<!-- Header Grid Container: End -->
+			
+			
+			
+			<% if flash.present? %>
+				<% flash.each do |k,v| %>
+				<div class="notice <%= k %>">
+					<p><%= v %></p>
+				</div>
+				<% end %>
 			<% end %>
-		</div>
-		<div id="main">
-			<% flash.each do |k,v| %>
-			<div class="flash <%= k %>">
-				<p><%= v %></p>
+			
+			<div class="grid_24">
+				<%= yield %>
 			</div>
-			<% end %>
-		
-			<%= yield %>
-		
+			
+			
+			<!-- Footer Grid: Start -->
+			<div class="grid_24">
+				<!-- Footer: Start -->
+				<div id="footer">
+					<p><strong><a href="http://code.google.com/p/explainpmt/issues/list" title="Issues? Requests? Submit them here" rel="external">eXPlain Project Management Tool</a></strong> - <%= ApplicationHelper::VERSION %> (<a href="/user_guide.doc">User Guide</a>)</p>
+					<p>This software is licensed under the <a href="http://www.gnu.org/copyleft/gpl.html">terms of the GPL.</a></p>
+
+					<!-- Footer Icon Navigation: Start -->
+					<ul class="right">
+						<li><a href="#" class="icon dashboard tip active" title="Dashboard">Dashboard</a></li>
+						<li><a href="#" class="icon pages tip" title="Pages">Pages</a></li>
+						<li><a href="#" class="icon users tip" title="Users">Users</a></li>
+						<li><a href="#" class="icon settings tip" title="Settings">Settings</a></li>
+						<li><a href="#" class="icon support tip" title="Support">Support</a></li>
+						<li><a href="#" class="icon home tip" title="Home">Home</a></li>
+					</ul>
+					<!--Footer Icon Navigation: End -->
+
+				</div>
+				<!-- Footer: End -->
+			</div>
+			<!-- Footer Grid: End -->
 		</div>
-		<div id="footer">
-			<p><strong><a href="http://code.google.com/p/explainpmt/issues/list" title="Issues? Requests? Submit them here" rel="external">eXPlain Project Management Tool</a></strong> - <%= ApplicationHelper::VERSION %> (<a href="/user_guide.doc">User Guide</a>)</p>
-			<p>This software is licensed under the <a href="http://www.gnu.org/copyleft/gpl.html">terms of the GPL.</a></p>
-		</div>
+
+		<!-- jQuery libs - Rest are found in the head section (at top) -->
+		<script type="text/javascript" src="/javascripts/jquery.visualize-tooltip.js"></script>
+		<script type="text/javascript" src="/javascripts/jquery-animate-css-rotate-scale.js"></script>
+		<script type="text/javascript" src="/javascripts/jquery-ui-1.8.13.custom.min.js"></script>
+		<script type="text/javascript" src="/javascripts/jquery.poshytip.min.js"></script>
+		<script type="text/javascript" src="/javascripts/jquery.quicksand.js"></script>
+		<script type="text/javascript" src="/javascripts/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="/javascripts/jquery.facebox.js"></script>
+		<script type="text/javascript" src="/javascripts/jquery.uniform.min.js"></script>
+		<script type="text/javascript" src="/javascripts/jquery.wysiwyg.js"></script>
+		<script type="text/javascript" src="/javascripts/syntaxHighlighter/shCore.js"></script>
+		<script type="text/javascript" src="/javascripts/syntaxHighlighter/shBrushXml.js"></script>
+		<script type="text/javascript" src="/javascripts/syntaxHighlighter/shBrushJScript.js"></script>
+		<script type="text/javascript" src="/javascripts/syntaxHighlighter/shBrushCss.js"></script>
+		<script type="text/javascript" src="/javascripts/syntaxHighlighter/shBrushPhp.js"></script>
+
+		<!-- jQuery Customization -->
+		<script type="text/javascript" src="/javascripts/custom.js"></script>
 	</body>
 </html>

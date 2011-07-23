@@ -1,11 +1,8 @@
 <tr class="<%= cycle("even_row", "odd_row") %>">
 	<td><strong><%= numeric_date(milestone.date) %></strong></td>
-	<td><%= link_to_edit_milestone(milestone) %><br /><%= textilize(milestone.description)%></td>
+	<td><%= link_to_edit_milestone(milestone) %><br /><%= textilize(milestone.description) %></td>
 	<td class="actions">
-		<select>
-			<option value="" selected="selected">&nbsp;</option>
-			<%= option_to_edit_milestone(milestone)%>
-			<%= option_to_delete_milestone(milestone)%>
-		</select>
+		<%= link_to_edit_milestone(milestone, :text => "Edit") %>
+		<%= link_to_delete_milestone(milestone) %>
 	</td>
 </tr>

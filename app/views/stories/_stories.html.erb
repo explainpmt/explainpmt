@@ -1,24 +1,35 @@
 <% hide_cols ||= [] %>
-<table class="sort-table" width="100%" id="backlog_stories" cellspacing="0" cellpadding="0" border="0">
+<table class="sorting" id="backlog_stories">
 	<thead>
 		<tr>
-			<td>SCID</td>
-			<%= column_content_for(hide_cols, :project) do %><td>Project</td><%end%>
-			<td>Title</td>
-			<td>Initiative</td>
-			<%= column_content_for(hide_cols, :release) do %><td>Release</td><%end%>
-			<td>Points</td>
-			<td>Value</td>
-			<td>Risk</td>
-			<td>Status</td>
-			<%= column_content_for(hide_cols, :owner) do %><td>Owner</td><%end%>
-			<%= column_content_for(hide_cols, :iteration) do %><td>Iteration</td><%end%>
-			<td>Customer</td>
-			<td>#</td>
-			<%= column_content_for(hide_cols, :action) do %><td>Action</td><%end%>
+			<th class="checkers"><input type="checkbox" class="checkall" /></th>
+			<th class="align_left">SCID</th>
+			<%= column_content_for(hide_cols, :project) do %><th class="align_left center">Project</th><% end %>
+			<th class="align_left center">Title</th>
+			<th class="align_left center">Initiative</th>
+			<%= column_content_for(hide_cols, :release) do %><th class="align_left center">Release</th><% end %>
+			<th class="align_left center">Points</th>
+			<th class="align_left center">Value</th>
+			<th class="align_left center">Risk</th>
+			<th class="align_left center">Status</th>
+			<%= column_content_for(hide_cols, :owner) do %><th class="align_left center">Owner</th><% end %>
+			<%= column_content_for(hide_cols, :iteration) do %><th class="align_left center">Iteration</th><% end %>
+			<th class="align_left center">Customer</th>
+			<th class="align_left center">#</th>
+			<%= column_content_for(hide_cols, :action) do %><th class="align_left center tools">Action</th><% end %>
 		</tr>
 	</thead>
 	<tbody>
 		<%= render :partial => @stories, :locals => { :hide_cols => hide_cols } %>
 	</tbody>
 </table>
+<div class="table_actions">
+	<input type="checkbox" class="checkall" />
+	
+	<select>
+		<option>Choose action</option>
+		<option>Delete</option>
+	</select>
+	
+	<button class="left">Apply to Selected</button>
+</div>

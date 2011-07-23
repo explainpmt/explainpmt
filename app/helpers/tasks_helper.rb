@@ -1,20 +1,15 @@
 module TasksHelper
   def link_to_new_task(story)
-    link_to "Add Task", new_project_story_task_path(current_project, story)
+    link_to "Add Task", new_project_story_task_path(current_project, story), :class => "form popup"
   end
 
   def link_to_edit_task(task, options={})
     story = task.story
-    link_to (options[:text] || task.name), edit_project_story_task_path(story.project, story, task)
+    link_to (options[:text] || task.name), edit_project_story_task_path(story.project, story, task), :class => "form popup edit tip", :title => "edit"
   end
 
-  def option_to_edit_task(task)
-    story = task.story
-    create_action_option("Edit", edit_project_story_task_path(story.project, story, task))
-  end
-
-  def option_to_delete_task(task)
-    create_action_option("Delete", project_story_task_path(current_project, task.story, task), :method => :delete, :confirm => "Are you sure you want to delete?")
+  def link_to_delete_task(task)
+    link_to "Delete", project_story_task_path(current_project, task.story, task), :class => "delete popup tip", "data-message" => "Are you sure you want to delete?", :title => "delete"
   end
 
   def link_to_task(task, options={})
@@ -26,7 +21,7 @@ module TasksHelper
   end
 
   def link_to_assign_task_ownership(task)
-    link_to 'assign', assign_ownership_project_story_task_path(current_project, task.story, task)
+    link_to 'assign', assign_ownership_project_story_task_path(current_project, task.story, task), :class => "form popup"
   end
 
   def link_to_release_task_ownership(task)

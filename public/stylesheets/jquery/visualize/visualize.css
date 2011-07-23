@@ -1,0 +1,51 @@
+/*plugin styles*/
+.visualize { border: 1px solid #888; position: relative; background: #fafafa; margin:50px auto; font-family: Verdana, "MS Trebuchet", sans-serif; }
+.visualize canvas { float:left; position:relative; } /* Position and Float changed in 1.1 */
+.visualize ul,.visualize li { list-style: none;margin: 0; padding: 0;font-size: 1em; }
+
+/*table title, key elements*/
+.visualize .visualize-info { padding: 7px 10px 10px 20px; background: #fafafa; border: 1px solid #888; position: absolute; top: -23px; right: 10px; opacity: 1; border-radius:5px; }
+.visualize .visualize-title { display: block; color: #333; margin-bottom: 3px;  font-size: 1.4em; font-weight:bold;  }
+.visualize ul.visualize-key { padding:0; margin:0; list-style: none; font-size:1.2em;  }
+.visualize ul.visualize-key li { padding:0; margin:0; list-style: none; float: left; margin-right: 10px; padding-left: 10px; position: relative;}
+.visualize ul.visualize-key .visualize-key-color { width: 6px; height: 6px; left: 0; position: absolute; top: 50%; margin-top: -3px;  }
+.visualize ul.visualize-key .visualize-key-label { color: #000; }
+
+/*pie labels*/
+.visualize-pie .visualize-labels { list-style: none;text-shadow:none; }
+.visualize-pie .visualize-label-pos, .visualize-pie .visualize-label { position: absolute;  margin: 0; padding:0; }
+.visualize-pie .visualize-label { display: block; color: #fff; font-weight: bold; font-size: 1em; }
+.visualize-pie-outside .visualize-label { color: #000; font-weight: normal; }
+
+/*line,bar, area labels*/
+.visualize-labels-x,.visualize-labels-y { position: absolute; left: 0; top: 0; list-style: none; max-width:846px; }
+.visualize-labels-x li, .visualize-labels-y li { margin: 0 !important; padding: 0 !important; position: absolute; bottom: 0; }
+.visualize-labels-x li span.label, .visualize-labels-y li span.label { position: absolute; color: #555;  }
+.visualize-labels-x li span.line, .visualize-labels-y li span.line {  position: absolute; border: 0 solid #ccc; }
+.visualize-labels-x li { margin: 0 !important; padding: 0 !important; height: 100%; }
+.visualize-labels-x li span.label { top: 100%; margin-top: 12px; }
+.visualize-labels-x li span.line { border-left-width: 1px; height: 100%; display: block; }
+.visualize-labels-x li span.line { border: 0;} /*hide vertical lines on area, line, bar*/
+.visualize-labels-y li { width: 100%;  }
+.visualize-labels-y li span.label { right: 100%; margin-right: 12px; display: block; width: 100px; text-align: right; }
+.visualize-labels-y li span.line { border-top-width: 1px; width: 100%; }
+.visualize-bar .visualize-labels-x li span.label { width: 100%; text-align: center; }
+
+/*tooltips*/
+.visualize .stats_tooltip {
+	padding: 6px 10px;
+	background-color: #000;
+	margin: 3px 4px 0;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	color: #fff;
+	font-size: 10px;
+	line-height: normal;
+	text-shadow:none;
+	text-align:center;
+	}
+
+.visualize-interaction-tracker:hover { cursor: help; }
+
+.ie8 .visualize-interaction-tracker { top:240px; } /* IE hover Fixes - Added in 1.1 */

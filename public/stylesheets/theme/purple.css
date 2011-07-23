@@ -1,0 +1,34 @@
+/*
+ * Simplpan Admin Panel
+ *
+ * Copyright (c) 2011 Kasper Kismul
+ *
+ * http://themeforest.net/user/Kaasper/profile
+ *
+ * This file is for the 'Purple' Style Theme.
+ *
+ */
+
+/* Background Color */
+body { background-color:#221223; }
+
+/* Dark Backgrounds */
+#header, #footer, .box_top, ul#navigation li ul.subnav, .box_top .sorting ul li a.active,
+.box_top .sorting ul li a:hover, .ui-dialog-titlebar { 
+	background-color:#1D0922; 
+}
+
+/* Lighter Backgrounds */
+#breadcrumb, #userpanel ul, #userpanel ul li ul.subnav, form#login input[type=submit] { 
+	background-color:#4B224E; 
+}
+
+/* Border Colors */
+#header, #breadcrumb, #footer, .box_top, #userpanel ul, #userpanel ul li ul.subnav, 
+ul#navigation li ul.subnav, .ui-dialog-titlebar { 
+	border-color:#16071A; 
+}
+
+/* Links and Hovers */
+a, .dataTables_wrapper .paginate_button { color: #A64AA2; } /* Links */
+a:focus, a:hover, a.big_button:hover 	{ color: #9A2196; } /* Hovers */

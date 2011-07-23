@@ -49,7 +49,8 @@ Explainpmt::Application.routes.draw do
         get :release_ownership
         get :assign_ownership
         post :assign
-        put :clone_story
+        # put :clone
+        get :clone
         put :move_up # Get ready to remove this
         put :move_down # Get ready to remove this
         get :edit_numeric_priority

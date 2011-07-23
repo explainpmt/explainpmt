@@ -7,6 +7,7 @@ module Position
     model.class_eval do
       after_destroy :update_positions
       after_create :set_initial_position
+      after_update :insert_at_new_position
       # allow specifying custom ordering with: scope :ordered ... if exists, use, otherwise default to position
       default_scope (respond_to?(:ordered) ? ordered : order("position"))
     end
@@ -45,6 +46,11 @@ module Position
       ids.insert(index, self.id)
       self.class.update_positions!(ids)
       self.position = index+1
+    end
+    
+    def insert_at_new_position
+      return unless position_changed?
+      insert_at(position-1)
     end
     
     def update_positions

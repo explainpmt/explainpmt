@@ -1,6 +1,6 @@
 module IterationsHelper
   def link_to_new_iteration
-    link_to 'New Iteration', new_project_iteration_path(current_project)
+    link_to 'New Iteration', new_project_iteration_path(current_project), :class => "form popup"
   end
   
   def link_to_iteration(iteration)
@@ -20,11 +20,11 @@ module IterationsHelper
   end
   
   def link_to_edit_iteration(iteration, options={})
-    link_to (options[:text] || iteration.name), edit_project_iteration_path(current_project, iteration)
+    link_to (options[:text] || iteration.name), edit_project_iteration_path(current_project, iteration), :class => "form popup"
   end
   
   def link_to_delete_iteration(iteration)
-    link_to "Delete", project_iteration_path(current_project, iteration), :method => :delete, :confirm => "Are you sure you want to delete?\r\nAll associated data will also be deleted. This action can not be undone."
+    link_to "Delete", project_iteration_path(current_project, iteration), :class => "delete", "data-message" => "Are you sure you want to delete?<br />All associated data will also be deleted. This action can not be undone."
   end
   
   def link_to_export_iteration_stories(iteration)

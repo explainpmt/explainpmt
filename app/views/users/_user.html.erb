@@ -1,15 +1,15 @@
-<div class="contact_card">
-	<h3 <%= "class='admin'" if user.admin? %>><%= truncate(user.full_name, :length => 22) %></h3>
-	<ul>
-		<li><%= mail_to user.email, "Email" %></li>
-		<% if current_project %> 
-			&ndash; <li><%= link_to_remove_user(user) if current_project %></li>
-		<% elsif is_admin? %>
-			&ndash; <li><%= link_to_edit_user(user) %></li>
-			&ndash; <li><%= link_to_delete_user(user) %></li>
+<tr>
+	<td class="align_left"><%= user.full_name %></td>
+	<td class="align_left center"><%= user.team %></td>
+	<td class="align_left center"><%= user.login %></td>
+	<td class="align_left center"><%= user.email %></td>
+	<td class="align_left center"><%= user.last_login_at %></td>
+	<td class="align_left center tools">
+		<% if is_admin? %> 
+			<%= link_to_edit_user(user) %>
+			<%= link_to_delete_user(user) %>
+		<% elsif current_project %>
+			<%= link_to_remove_user(user) if current_project %>
 		<% end %>
-	</ul>
-	<% if is_admin? %>
-		<i>Last Login:</i><%= user.last_login_at ? "#{time_ago_in_words(last_login_at)} ago" : 'never' %>
-	<% end %>
-</div>
+	</td>
+</tr>

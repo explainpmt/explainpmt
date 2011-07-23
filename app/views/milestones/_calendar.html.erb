@@ -1,33 +1,36 @@
 <div id="milestones_calendar">
-	<h3><%= @calendar_title %></h3><br />
-	<h4 style="margin:0 0 3px 0;padding:0 0 3px 0;border-bottom:1px solid black;">
-	<%= Date::MONTHNAMES[@days.first[:date].mon] %></h4>
-	<table class="calendar" width="100%" cellspacing="0" cellpadding="3">
-		<tr>
-		<% @days[0..6].each do |day| %>
-			<th><%= day[:name] %></th>
-		<% end %>
-		</tr>
-		<% @days.each_slice(7) do |week| %>
+	<div class="box_top">
+		<h2><%= @calendar_title %></h2>
+	</div>
+	<div class="box_content">
+		<h4 style="margin:0 0 3px 0;padding:0 0 3px 0;border-bottom:1px solid black;"><%= Date::MONTHNAMES[@days.first[:date].mon] %></h4>
+		<table class="calendar" width="100%" cellspacing="0" cellpadding="3">
 			<tr>
-				<% week.each do |day| %>
-					<td style="<%= (day[:date] == Date.today) ? 'background-color:#FFCCCC;' : '' %>">
-						<strong><%= day[:date].day %></strong>
-						<% unless day[:milestones].empty? %>
-						<ul>
-						<% day[:milestones].each do |milestone| %>
-							<li>
-								<% milestone_popup_name = current_project ? milestone.name : "#{milestone.project.name}: #{milestone.name}"  -%>
-								<%= link_to_show_milestone(milestone, :text => milestone_popup_name) %>
-							</li>
-						<% end %>
-						</ul>
-						<% end %>
-					</td>
-				<% end %>
+			<% @days[0..6].each do |day| %>
+				<th><%= day[:name] %></th>
+			<% end %>
 			</tr>
-		<% end %>
-	</table>
+			<% @days.each_slice(7) do |week| %>
+				<tr>
+					<% week.each do |day| %>
+						<td style="<%= (day[:date] == Date.today) ? 'background-color:#FFCCCC;' : '' %>">
+							<strong><%= day[:date].day %></strong>
+							<% unless day[:milestones].empty? %>
+							<ul>
+							<% day[:milestones].each do |milestone| %>
+								<li>
+									<% milestone_popup_name = current_project ? milestone.name : "#{milestone.project.name}: #{milestone.name}"  -%>
+									<%= link_to_show_milestone(milestone, :text => milestone_popup_name) %>
+								</li>
+							<% end %>
+							</ul>
+							<% end %>
+						</td>
+					<% end %>
+				</tr>
+			<% end %>
+		</table>
+	</div>
 </div>
 
 

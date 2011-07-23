@@ -16,7 +16,7 @@ class Iteration < ActiveRecord::Base
   scope :future, where("iterations.start_date > CURDATE()")
   scope :past, with_stop_date.where("date_add(iterations.start_date, INTERVAL iterations.length DAY) < CURDATE()")  
   scope :current, where("iterations.start_date <= CURDATE() and date_add(iterations.start_date, INTERVAL iterations.length DAY) > CURDATE()")
-  scope :previous, past.with_stop_date.order('iterations.stop_date DESC').limit(1)
+  scope :previous, past.with_stop_date.order('stop_date DESC').limit(1)
   scope :next, future.order("iterations.start_date ASC").limit(1)
 
   def available_resources

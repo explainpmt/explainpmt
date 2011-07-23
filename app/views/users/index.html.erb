@@ -1,11 +1,28 @@
-<div>
+<div class="notice info">
+	<p>This screen lists all of the user accounts that have been created. Admin accounts are marked with <%= image_tag('admin_dot.gif') %></p>
+</div>
+<div class="box_top">
 	<h2>System Users</h2>
-	<p>This screen lists all of the user accounts that have been created.</p>
-	<p>Admin accounts are marked with <%= image_tag('admin_dot.gif') %></p>
 	<% if is_admin? %>
-		<p><strong><%= link_to_new_user('Create New User')  %></strong></p>
+	<ul class="sorting">
+		<li><%= link_to_new_user('Create New User')  %></li>
+	</ul>
 	<% end %>
 </div>
-<div>
-	<%= render :partial => @users %>
+<div class="box_content">
+	<table class="sorting">
+		<thead>
+			<tr>
+				<th class="align_left">Name</th>
+				<th class="align_left center">Team</th>
+				<th class="align_left center">Login</th>
+				<th class="align_left center">Email</th>
+				<th class="align_left center">Last Login</th>
+				<th class="align_left center tools">Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<%= render :partial => @users %>
+		</tbody>
+	</table>
 </div>

@@ -1,13 +1,15 @@
 module StoriesHelper
+  
   def link_to_new_story
-    link_to 'Create Story Card', new_project_story_path(current_project)
+    link_to 'Create Story Card', new_project_story_path(current_project), :class => "form popup"
   end
 
   def link_to_show_cancelled
-    link_to_unless_current 'Show Cancelled', cancelled_project_stories_path(current_project)
+    nav_item 'Show Cancelled', cancelled_project_stories_path(current_project)
   end
+  
   def link_to_show_all
-    link_to_unless_current 'Show All', all_project_stories_path(current_project)
+    nav_item 'Show All', all_project_stories_path(current_project)
   end
 
   def link_to_new_iteration_story(iteration)
@@ -39,7 +41,7 @@ module StoriesHelper
   end
 
   def link_to_new_acceptance_for(story)
-    link_to 'Add Acceptance', new_project_story_acceptance_test_path(current_project, story)
+    link_to 'Add Acceptance', new_project_story_acceptance_test_path(current_project, story), :class => "form popup"
   end
 
   def link_to_export_stories
@@ -54,39 +56,36 @@ module StoriesHelper
     stories.inject(""){|options, story| options << "<option value='#{story.id}'>SC#{story.scid}  (#{truncate(story.title, :length => 30)})</option>"}
   end
 
-  def link_to_edit_story(story, options={})
-    link_to (options[:text] || story.title), edit_project_story_path(current_project, story)
-  end
-
   def link_to_audit_story(story)
     link_to "View History", audit_project_story_path(current_project, story)
   end
 
-  def option_to_edit_story(story)
-    create_action_option("Edit", edit_project_story_path(current_project, story))
+  def link_to_edit_story(story)
+    link_to "Edit", edit_project_story_path(current_project, story), :class => "form popup edit tip", :title => "edit"
   end
 
-  def option_to_clone_story(story)
-    create_action_option("Clone", clone_story_project_story_path(current_project, story), :method => :put)
+  def link_to_clone_story(story)
+    link_to "Clone", clone_project_story_path(current_project, story)
   end
 
-  def option_to_move_story_up(story)
-    create_action_option("Move Up", move_up_project_story_path(current_project, story), :method => :put)
+  def link_to_move_story_up(story)
+    link_to "Move Up", move_up_project_story_path(current_project, story)
   end
 
-  def option_to_move_story_down(story)
-    create_action_option("Move Down", move_down_project_story_path(current_project, story), :method => :put)
+  def link_to_move_story_down(story)
+    link_to "Move Down", move_down_project_story_path(current_project, story)
   end
 
-  def option_to_edit_story_position(story)
-    create_action_option("Insert At", edit_numeric_priority_project_story_path(current_project, story))
+  def link_to_edit_story_position(story)
+    link_to "Insert At", edit_numeric_priority_project_story_path(current_project, story), :class => "form popup"
   end
 
-  def option_to_delete_story(story)
-    create_action_option("Delete", project_story_path(current_project, story), :method => :delete, :confirm => 'Are you sure you want to delete?\r\nAll associated data will also be deleted. This action can not be undone.')
+  def link_to_delete_story(story)
+    link_to "Delete", project_story_path(current_project, story), :class => "delete popup tip", "data-message" => 'Are you sure you want to delete?<br />All associated data will also be deleted. This action can not be undone.', :title => "delete"
   end
 
-  def option_to_audit_story(story)
-    create_action_option("View History", audit_project_story_path(current_project, story))
+  def link_to_audit_story(story)
+    link_to "View History", audit_project_story_path(current_project, story), :class => "view popup tip", :title => "view"
   end
+  
 end

@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+
+<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>eXPlainPMT</title>
+	
+	<!-- Imports General CSS and jQuery CSS -->
+	<link href="/stylesheets/screen.css" rel="stylesheet" media="screen" type="text/css" />
+	
+	<!-- CSS for Fluid and Fixed Widths - Double to prevent flickering on change -->
+	<link href="/stylesheets/fixed.css" rel="stylesheet" media="screen" type="text/css" />
+	<link href="/stylesheets/fixed.css" rel="stylesheet" media="screen" type="text/css" class="width" />
+	
+	<!-- IE Stylesheet ie8 - Added in 1.1 -->
+	<!--[if IE 8 ]> <html lang="en" class="ie8"> <![endif]-->
+	
+	<!-- CSS for Theme Styles - Double to prevent flickering on change -->
+	<link href="/stylesheets/theme/green.css" rel="stylesheet" media="screen" type="text/css" />
+	<link href="/stylesheets/theme/green.css" rel="stylesheet" media="screen" type="text/css" class="theme" />
+	
+	<!-- IE Canvas Fix for Visualize Charts - Added in 1.1 -->
+	<!--[if IE]><script type="text/javascript" src="/javascripts/excanvas.js"></script><![endif]-->
+	
+	<!-- jQuery thats loaded before document ready to prevent flickering - Rest are found at the bottom -->
+	<script type="text/javascript" src="/javascripts/jquery-1.4.1.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.cookie.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.styleswitcher.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.visualize.js"></script>
+	
+</head>
+
+<body>
+
+<!-- Start: Page Wrap -->
+<div id="wrap" class="container_24">
+
+	<!-- Header Grid Container: Start -->
+	<div class="login">
+		
+		<!-- Header: Start -->
+		<div id="header">
+				
+			<!-- Logo: Start -->
+			<a href="#" id="logo">eXPlainPMT</a>
+			<!-- Logo: End -->
+			
+			<!-- Login: Start -->
+			<%= yield %>
+			<!-- Login: End -->
+			
+		</div>
+		<!-- Header: End -->
+		
+		<!-- Breadcrumb Bar: Start -->
+		<div id="breadcrumb">
+			
+			<!-- Breadcrumb: Start -->
+			<ul class="left">
+				<li class="icon key"><a href="#">Forgot password?</a></li>
+			</ul>
+			<!-- Breadcrumb: End -->
+			
+			<!-- Breadcrumb Icon Links: Start -->
+			<ul class="right">
+				<li><a href="#" class="icon home tip" title="Home">Home</a></li>
+			</ul>
+			<!-- Breadcrumb Icon Links: End -->
+			
+		</div>
+		<!-- Breadcrumb Bar: End -->
+		
+	</div>
+	<!-- Header Grid Container: End -->
+
+</div>
+<!-- End: Page Wrap -->
+
+	<!-- jQuery libs - Rest are found in the head section (at top) -->
+	<script type="text/javascript" src="/javascripts/jquery.visualize-tooltip.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery-animate-css-rotate-scale.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery-ui-1.8.13.custom.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.poshytip.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.quicksand.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.facebox.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.uniform.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.wysiwyg.js"></script>
+	<script type="text/javascript" src="/javascripts/syntaxHighlighter/shCore.js"></script>
+	<script type="text/javascript" src="/javascripts/syntaxHighlighter/shBrushXml.js"></script>
+	<script type="text/javascript" src="/javascripts/syntaxHighlighter/shBrushJScript.js"></script>
+	<script type="text/javascript" src="/javascripts/syntaxHighlighter/shBrushCss.js"></script>
+	<script type="text/javascript" src="/javascripts/syntaxHighlighter/shBrushPhp.js"></script>
+	
+	<!-- jQuery Customization -->
+	<script type="text/javascript" src="/javascripts/custom.js"></script>
+
+</body>
+</html>

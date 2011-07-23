@@ -1,64 +1,64 @@
 <br />
-(<%= link_to_edit_story(@story, :text => "Edit") %>)
+(<%= link_to_edit_story(@story) %>)
 (<%= link_to_new_task(@story) %>)
 (<%= link_to_new_acceptance_for(@story) %>)
 (<%= link_to_audit_story(@story) %>)<br /><br />
 <h3><%= "SC#{@story.scid} #{@story.title}" %></h3>
 <table cellspacing="0" cellpadding="3" border="0" style="float: left; margin-right: 20px;">
-  <tr class="even_row">
-    <td><strong>Created</strong></td>
-    <td align="right"><%= short_date(@story.created_at) if @story.created_at%> <%= "(#{@story.creator.full_name})" if @story.creator %></td>
-  </tr>
-  <tr class="odd_row">
-    <td><strong>Updated</strong></td>
-    <td align="right"><%= short_date(@story.updated_at) if @story.updated_at%> <%= "(#{@story.updater.full_name})" if @story.updater %></td>
-  </tr>
-  <tr class="even_row">
-    <td><strong>Initiative</strong></td>
-    <td align="right"><%= @story.initiative.name  if @story.initiative %></td>
-  </tr>
+	<tr class="even_row">
+		<td><strong>Created</strong></td>
+		<td class="align_right"><%= short_date(@story.created_at) if @story.created_at%> <%= "(#{@story.creator.full_name})" if @story.creator %></td>
+	</tr>
+	<tr class="odd_row">
+		<td><strong>Updated</strong></td>
+		<td class="align_right"><%= short_date(@story.updated_at) if @story.updated_at%> <%= "(#{@story.updater.full_name})" if @story.updater %></td>
+	</tr>
+	<tr class="even_row">
+		<td><strong>Initiative</strong></td>
+		<td class="align_right"><%= @story.initiative.name  if @story.initiative %></td>
+	</tr>
 </table>
 
 <table cellspacing="0" cellpadding="3" border="0" style="float: left; margin-right: 20px;">
-  <tr class="even_row">
-    <td><strong>Value</strong></td>
-    <td align="right"><%= @story.value %></td>
-  </tr>
-  <tr class="odd_row">
-    <td><strong>Risk</strong></td>
-    <td align="right"><%= @story.risk %></td>
-  </tr>
-  <tr class="even_row">
-    <td><strong>Status</strong></td>
-    <td align="right"><%= @story.status %></td>
-  </tr>
+	<tr class="even_row">
+		<td><strong>Value</strong></td>
+		<td class="align_right"><%= @story.value %></td>
+	</tr>
+	<tr class="odd_row">
+		<td><strong>Risk</strong></td>
+		<td class="align_right"><%= @story.risk %></td>
+	</tr>
+	<tr class="even_row">
+		<td><strong>Status</strong></td>
+		<td class="align_right"><%= @story.status %></td>
+	</tr>
 </table>
 
 <table cellspacing="0" cellpadding="3" border="0" style="float: left; margin-right: 20px;">
-  <tr class="even_row">
-    <td><strong>Owner</strong></td>
-    <td align="right">
-     <%if @story.owner%>
-        <%= @story.owner.full_name %><%= '- ' + @story.owner.team if @story.owner.team? %>
-        <%= '(' + link_to_release_story_ownership(@story) + ')' %>
-      <% elsif @story.iteration %>
-        <%='None (' + link_to_take_story_ownership(@story) + '/' + link_to_assign_story_ownership(@story) + ')'%>
-      <% end %>
-    </td>
-  </tr>
-  <tr class="odd_row">
-    <td><strong>Estimate</strong></td>
-    <td align="right"><%= @story.points if @story.points %></td>
-  </tr>
-  <tr class="even_row">
-    <td><strong>Release</strong></td>
-    <td align="right"><%= @story.release.name  if @story.release %></td>
-  </tr>
+	<tr class="even_row">
+		<td><strong>Owner</strong></td>
+		<td class="align_right">
+		<% if @story.owner %>
+			<%= @story.owner.full_name %><%= '- ' + @story.owner.team if @story.owner.team? %>
+			<%= '(' + link_to_release_story_ownership(@story) + ')' %>
+		<% elsif @story.iteration %>
+			<%='None (' + link_to_take_story_ownership(@story) + '/' + link_to_assign_story_ownership(@story) + ')'%>
+		<% end %>
+		</td>
+	</tr>
+	<tr class="odd_row">
+		<td><strong>Estimate</strong></td>
+		<td class="align_right"><%= @story.points if @story.points %></td>
+	</tr>
+	<tr class="even_row">
+		<td><strong>Release</strong></td>
+		<td class="align_right"><%= @story.release.name  if @story.release %></td>
+	</tr>
 </table>
 <div style="clear:both;"></div>
 <% unless @story.description.blank? %>
-  <label><strong>Description</label></strong>
-  <%= textilize(@story.description) %>
+	<label><strong>Description</label></strong>
+	<%= textilize(@story.description) %>
 <% end %><br />
 <h3>Tasks</h3>
 <% if @tasks.present? %>

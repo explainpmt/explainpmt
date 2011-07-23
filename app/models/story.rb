@@ -59,7 +59,7 @@ class Story < ActiveRecord::Base
 
   def clone!
     self.clone.tap do |ac|
-      ac.title = "Clone: #{name}"
+      ac.title = "Clone: #{title}"
       ac.save!
     end
   end
@@ -89,7 +89,7 @@ class Story < ActiveRecord::Base
     end
     { :successes => successes, :failures => failures }
   end
-
+  
   protected
 
   def after_initialize
